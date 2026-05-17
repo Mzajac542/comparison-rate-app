@@ -1,4 +1,4 @@
-function MatchesList({ matches, onSelect }) {
+function MatchesList({ matches, selectedMatch, onSelect }) {
   if (!matches || matches.length === 0) {
     return <p>Brak meczów</p>;
   }
@@ -10,7 +10,7 @@ function MatchesList({ matches, onSelect }) {
         {matches.map((match) => (
           <li
             key={match.id}
-            style={{ cursor: "pointer" }}
+            className={selectedMatch?.id === match.id ? "active" : ""}
             onClick={() => onSelect(match)}
           >
             {match.home} vs {match.away}

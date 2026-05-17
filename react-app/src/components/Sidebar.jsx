@@ -1,4 +1,4 @@
-function Sidebar({ sports, onSelectSport }) {
+function Sidebar({ sports, selectedSport, onSelectSport }) {
   return (
     <div>
       <h3>Sporty</h3>
@@ -6,7 +6,7 @@ function Sidebar({ sports, onSelectSport }) {
         {sports.map((sport) => (
           <li
             key={sport}
-            style={{ cursor: "pointer" }}
+            className={sport === selectedSport ? "active" : ""}
             onClick={() => onSelectSport(sport)}
           >
             {sport}

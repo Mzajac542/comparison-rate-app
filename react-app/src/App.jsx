@@ -3,6 +3,9 @@ import Sidebar from "./components/Sidebar";
 import MatchesList from "./components/MatchesList";
 import MatchDetails from "./components/MatchDetails";
 import OddsPanel from "./components/OddsPanel";
+import { calculateTop5 } from "./utils/top5";
+import Top5 from "./components/Top5";
+
 
 function App() {
   const [selectedSport, setSelectedSport] = useState(null);
@@ -42,26 +45,56 @@ function App() {
   const filteredMatches = selectedSport
     ? matches.filter(m => m.sport === selectedSport)
     : [];
+  const top5 = calculateTop5(matches);
 
   return (
-    <div>
-      <h1>Odds Comparison App (React)</h1>
+    <div className="app">
+      <header className="header">
+        <h1>Odds Comparison App (React)</h1>
+      </header>
 
-      <Sidebar
-        sports={sports}
-        onSelectSport={(sport) => {
-          setSelectedSport(sport);
-          setSelectedMatch(null); // ✅ reset
-        }}
-      />
+      <div className="layout">
+        <aside className="sidebar">
+          <Sidebar
+            sports={sports}
+            selectedSport={selectedSport}
+            onSelectSport={(sport) => {
+              setSelectedSport(sport);
+              setSelectedMatch(null);
+            }}
+          />
+        </aside>
 
-      <MatchesList
-        matches={filteredMatches}
-        onSelect={setSelectedMatch}
-      />
+        <main className="content">
+          <div className="card">
+            <MatchesList
+              matches={filteredMatches}
+              selectedMatch={selectedMatch}
+              onSelect={setSelectedMatch}
+            />
+          </div>
 
-      <MatchDetails match={selectedMatch} />
-      <OddsPanel odds={selectedMatch?.odds} />
+          <div className="card">
+            <MatchDetails match={selectedMatch} />
+          </div>
+
+          <div className="card">
+            <OddsPanel odds={selectedMatch?.odds} />
+          </div>
+
+          <div className="card">
+            <Top5
+              items={top5}
+              onSelect={(item) => {
+                setSelectedSport(item.sport);
+                setSelectedMatch(
+                  matches.find(m => m.id === item.id) || null
+                );
+              }}
+            />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
