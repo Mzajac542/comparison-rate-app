@@ -1,51 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import MatchesList from "./components/MatchesList";
 import MatchDetails from "./components/MatchDetails";
 import OddsPanel from "./components/OddsPanel";
 import { calculateTop5 } from "./utils/top5";
 import Top5 from "./components/Top5";
-
+import { mapRawMatch } from "./utils/mapper";
 
 function App() {
   const [selectedSport, setSelectedSport] = useState(null);
   const [selectedMatch, setSelectedMatch] = useState(null);
 
+  const [matches, setMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const sports = ["Football", "Basketball"];
 
-  const matches = [
-    {
-      id: 1,
-      sport: "Football",
-      sportName: "Football",
-      tournamentName: "Premier League",
-      categoryName: "England",
-      startTime: "2026-05-17 18:00",
-      home: "Arsenal",
-      away: "Chelsea",
-      odds: [
-        { bookmaker: "Bet365", home: 1.8, away: 2.1 },
-        { bookmaker: "Unibet", home: 1.9, away: 2.0 }
-      ]
-    },
-    {
-      id: 2,
-      sport: "Basketball",
-      sportName: "Basketball",
-      tournamentName: "NBA",
-      categoryName: "USA",
-      startTime: "2026-05-18 02:00",
-      home: "Lakers",
-      away: "Heat",
-      odds: []
-    }
-  ];
+  
+  useEffect(() => {
+    const files = [
+      "/data/fixtures_2026-05-17.json",
+      "/data/fixtures_2026-05-19.json",
+      "/data/fixtures_2026-05-21.json",
+      "/data/fixtures_2026-05-23.json"
+    ];
 
-  // ✅ LOGIKA POCHODNA (ETAP 3)
+    Promise.all(files.map(url =>
+      fetch(url).then(res => {
+        if (!res.ok) throw new Error("Błąd pobierania " + url);
+        return res.json();
+      })
+    ))
+      .then(results => {
+        // ✅ SCALANIE DANYCH
+        const allRawMatches = results.flat();
+        const mapped = allRawMatches.map(mapRawMatch);
+
+        setMatches(mapped);
+        setSelectedSport(null);
+        setSelectedMatch(null);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+
   const filteredMatches = selectedSport
     ? matches.filter(m => m.sport === selectedSport)
     : [];
   const top5 = calculateTop5(matches);
+
+  if (loading) {
+    return <p style={{ padding: "20px" }}>Ładowanie danych…</p>;
+  }
+
+  if (error) {
+    return <p style={{ padding: "20px", color: "red" }}>Błąd: {error}</p>;
+  }
 
   return (
     <div className="app">
