@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MatchDetails from "./components/MatchDetails";
 import MatchesList from "./components/MatchesList";
+import OddsPanel from "./components/OddsPanel";
 
 function App() {
   const [selectedMatch, setSelectedMatch] = useState(null);
@@ -13,7 +14,11 @@ function App() {
       categoryName: "England",
       startTime: "2026-05-17 18:00",
       home: "Arsenal",
-      away: "Chelsea"
+      away: "Chelsea",
+      odds: [
+        { bookmaker: "Bet365", home: 1.8, away: 2.1 },
+        { bookmaker: "Unibet", home: 1.9, away: 2.0 }
+      ]
     },
     {
       id: 2,
@@ -22,7 +27,8 @@ function App() {
       categoryName: "Spain",
       startTime: "2026-05-18 20:00",
       home: "Real Madrid",
-      away: "Barcelona"
+      away: "Barcelona",
+      odds: []
     }
   ];
 
@@ -36,6 +42,8 @@ function App() {
       />
 
       <MatchDetails match={selectedMatch} />
+
+      <OddsPanel odds={selectedMatch?.odds} />
     </div>
   );
 }
