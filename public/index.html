@@ -76,9 +76,27 @@
 let allMatches = [];
 let currentMatchId = null;
 
-/* ✅ STAN SORTOWANIA */
-let currentSort = "home";      // "home" | "away"
-let sortDirection = "desc";    // "desc" | "asc"
+let currentSort = "home";
+let sortDirection = "desc";
+
+/* =======================
+   ✅ KROK 2 – CZYTELNE ALIASY
+   (NIC NIE ZMIENIAJĄ, TYLKO NAZYWAJĄ)
+======================= */
+
+// DATA / FETCH (mentalnie)
+const fetchSports = () => loadSports();
+const fetchMatchesBySport = (sport) => loadMatches(sport);
+const fetchMatchDetails = (id) => loadMatchDetails(id);
+
+// UI / RENDER (mentalnie)
+const renderMatchesView = (sport) => loadMatches(sport);
+const renderMatchDetailsView = (id) => loadMatchDetails(id);
+const renderTop5View = () => renderTopMatches();
+
+// FLOW (mentalnie)
+const openSport = (sport) => loadMatches(sport);
+const openMatch = (id) => loadMatchDetails(id);
 
 /* =======================
    HELPERS
@@ -96,10 +114,12 @@ function getMatchTitleById(fixtureId) {
   return "Mecz";
 }
 
+/* =======================
+   TABS
+======================= */
 function showTab(tab) {
   document.getElementById("tab-matches").classList.add("hidden");
   document.getElementById("tab-top").classList.add("hidden");
-
   document.getElementById(`tab-${tab}`).classList.remove("hidden");
 
   if (tab === "top") {
@@ -107,6 +127,9 @@ function showTab(tab) {
   }
 }
 
+/* =======================
+   TOP 5
+======================= */
 async function renderTopMatches() {
   const container = document.getElementById("topMatches");
   container.innerHTML = "Ładowanie TOP 5...";
@@ -115,18 +138,14 @@ async function renderTopMatches() {
   let all = [];
 
   for (const sport of sports) {
-    const matches = await fetch(`/api/matches?sport=${encodeURIComponent(sport)}`)
-      .then(r => r.json());
+    const matches = await fetch(`/api/matches?sport=${encodeURIComponent(sport)}`).then(r => r.json());
 
     for (const m of matches) {
-      const details = await fetch(`/api/match/${m.fixtureId}`)
-        .then(r => r.json());
-
+      const details = await fetch(`/api/match/${m.fixtureId}`).then(r => r.json());
       const odds = details.odds || [];
       if (!odds.length) continue;
 
       const analysis = analyzeOdds(odds);
-
       const spread =
         (analysis.home.max.value - analysis.home.min.value) +
         (analysis.away.max.value - analysis.away.min.value);
@@ -134,36 +153,29 @@ async function renderTopMatches() {
       const matchTitle =
         (m.participant1Name && m.participant2Name)
           ? `${m.participant1Name} vs ${m.participant2Name}`
-          : (m.home && m.away)
-            ? `${m.home} vs ${m.away}`
-            : "Mecz";
+          : "Mecz";
 
-      
-        all.push({
-          id: m.fixtureId,
-          name: matchTitle,
-          spread,
-          sport: m.sportName   // 👈 TO JEST KLUCZ
-        });
+      all.push({
+        id: m.fixtureId,
+        name: matchTitle,
+        spread,
+        sport: m.sportName
+      });
     }
   }
 
   all.sort((a, b) => b.spread - a.spread);
-
   container.innerHTML = "";
 
   all.slice(0, 5).forEach((m, i) => {
     const div = document.createElement("div");
     div.className = "top-row";
     div.textContent = `${i + 1}. ${m.name} (różnica: ${m.spread.toFixed(2)})`;
-   div.onclick = async () => {
+    div.onclick = async () => {
       showTab("matches");
       await loadMatches(m.sport);
       loadMatchDetails(m.id);
-
-      setTimeout(() => {
-        highlightMatchAndLeague(m.id);
-      }, 0);
+      setTimeout(() => highlightMatchAndLeague(m.id), 0);
     };
     container.appendChild(div);
   });
@@ -173,16 +185,9 @@ async function renderTopMatches() {
   }
 }
 
-function groupMatchesByLeague(matches) {
-  const grouped = {};
-  matches.forEach(match => {
-    const league = match.tournamentName || "Inne";
-    if (!grouped[league]) grouped[league] = [];
-    grouped[league].push(match);
-  });
-  return grouped;
-}
-
+/* =======================
+   ANALIZA KURSÓW (CZYSTA LOGIKA)
+======================= */
 function analyzeOdds(odds) {
   const home = odds.map(o => ({ bookmaker: o.bookmaker, value: o.home }));
   const away = odds.map(o => ({ bookmaker: o.bookmaker, value: o.away }));
@@ -199,7 +204,7 @@ function analyzeOdds(odds) {
 }
 
 /* =======================
-   SORTOWANIE (✅ DODANE)
+   SORTOWANIE
 ======================= */
 function setSort(type) {
   if (currentSort === type) {
@@ -252,20 +257,27 @@ async function loadSports() {
    MECZE → LIGI → MECZE
 ======================= */
 async function loadMatches(sport) {
+  const matchDetailsEl = document.getElementById("matchDetails");
+  if (matchDetailsEl) {
+    matchDetailsEl.innerHTML = "";
+  }
+  const oddsPanel = document.getElementById("odds")?.closest(".panel");
+  const analysisEl = document.getElementById("analysis");
+
+  if (oddsPanel) oddsPanel.style.display = "none";
+  if (analysisEl) {
+    analysisEl.innerHTML = "";
+    analysisEl.classList.add("hidden");
+  }
+
   const matches = await fetch(`/api/matches?sport=${encodeURIComponent(sport)}`).then(r => r.json());
   allMatches = matches;
 
   const container = document.getElementById("matches");
   const msg = document.getElementById("noMatchesMessage");
-  const matchDetailsEl = document.getElementById("matchDetails");
-  const oddsEl = document.getElementById("odds");
-  const analysisEl = document.getElementById("analysis");
 
   container.innerHTML = "";
   msg.classList.add("hidden");
-  matchDetailsEl.innerHTML = "";
-  oddsEl.innerHTML = "";
-  analysisEl.classList.add("hidden");
   currentMatchId = null;
 
   if (!matches.length) {
@@ -274,9 +286,13 @@ async function loadMatches(sport) {
     return;
   }
 
-  const leagues = groupMatchesByLeague(matches);
+  const grouped = {};
+  matches.forEach(match => {
+    const league = match.tournamentName || "Inne";
+    (grouped[league] ||= []).push(match);
+  });
 
-  for (const league in leagues) {
+  for (const league in grouped) {
     const header = document.createElement("div");
     header.className = "league-header";
     header.textContent = league;
@@ -284,14 +300,12 @@ async function loadMatches(sport) {
     const list = document.createElement("div");
     list.className = "league-matches hidden";
 
-    leagues[league].forEach(match => {
+    grouped[league].forEach(match => {
       const row = document.createElement("div");
       row.className = "match-row";
       row.textContent = getMatchTitleById(match.fixtureId);
       row.onclick = () => {
-        document.querySelectorAll(".match-row")
-          .forEach(r => r.classList.remove("active"));
-
+        document.querySelectorAll(".match-row").forEach(r => r.classList.remove("active"));
         row.classList.add("active");
         loadMatchDetails(match.fixtureId);
       };
@@ -299,9 +313,7 @@ async function loadMatches(sport) {
     });
 
     header.onclick = () => {
-      document.querySelectorAll(".league-header")
-        .forEach(h => h.classList.remove("active"));
-
+      document.querySelectorAll(".league-header").forEach(h => h.classList.remove("active"));
       header.classList.add("active");
       list.classList.toggle("hidden");
     };
@@ -312,32 +324,36 @@ async function loadMatches(sport) {
 }
 
 /* =======================
-   SZCZEGÓŁY + KURSY + ANALIZA
+   SZCZEGÓŁY MECZU
 ======================= */
 async function loadMatchDetails(id) {
   currentMatchId = id;
   const match = await fetch(`/api/match/${id}`).then(r => r.json());
 
-  document.getElementById("matchDetails").innerHTML = `
-    <p><strong>Sport:</strong> ${match.sportName}</p>
-    <p><strong>Liga:</strong> ${match.tournamentName}</p>
-    <p><strong>Kraj:</strong> ${match.categoryName}</p>
-    <p><strong>Start:</strong> ${match.startTime}</p>
-    <p><strong>Mecz:</strong> ${getMatchTitleById(id)}</p>
-  `;
+  const matchDetailsEl = document.getElementById("matchDetails");
+  matchDetailsEl.innerHTML = renderMatchDetails(match, id);
 
   const oddsEl = document.getElementById("odds");
   const analysisEl = document.getElementById("analysis");
+  const oddsPanel = oddsEl.closest(".panel");
+
   oddsEl.innerHTML = "";
+  analysisEl.innerHTML = "";
   analysisEl.classList.add("hidden");
+
+  // ✅ domyślnie chowamy
+  oddsPanel.style.display = "none";
 
   const odds = match.odds || [];
   if (!odds.length) {
-    oddsEl.innerHTML = "<p>Brak kursów dla tego meczu.</p>";
     return;
   }
 
-  /* ✅ SORTOWANIE */
+  // ✅ są kursy → pokazujemy panel
+  oddsPanel.style.display = "block";
+
+
+
   odds.sort((a,b) => {
     const A = currentSort === "home" ? a.home : a.away;
     const B = currentSort === "home" ? b.home : b.away;
@@ -346,54 +362,53 @@ async function loadMatchDetails(id) {
 
   const analysis = analyzeOdds(odds);
 
-  odds.forEach(o => {
-    const homeClass =
-      o.home === analysis.home.max.value ? "max-odd" :
-      o.home === analysis.home.min.value ? "min-odd" : "";
-
-    const awayClass =
-      o.away === analysis.away.max.value ? "max-odd" :
-      o.away === analysis.away.min.value ? "min-odd" : "";
-
-    const row = document.createElement("div");
-    row.className = "odds-row";
-    row.innerHTML = `
-      <span>${o.bookmaker}</span>
-      <span class="${homeClass}">${o.home}</span>
-      <span class="${awayClass}">${o.away}</span>
-    `;
-    oddsEl.appendChild(row);
-  });
-
   analysisEl.innerHTML = `
-    <h4>Analiza kursów</h4>
-    <div class="analysis-block">
-      <strong>HOME</strong><br>
-      Najwyższy: ${analysis.home.max.bookmaker} (${analysis.home.max.value})<br>
-      Najniższy: ${analysis.home.min.bookmaker} (${analysis.home.min.value})
-    </div>
-    <div class="analysis-block">
-      <strong>AWAY</strong><br>
-      Najwyższy: ${analysis.away.max.bookmaker} (${analysis.away.max.value})<br>
-      Najniższy: ${analysis.away.min.bookmaker} (${analysis.away.min.value})
-    </div>
-  `;
+  <h4>Analiza kursów</h4>
+
+  <div class="analysis-block">
+    <strong>HOME</strong><br>
+    Najwyższy: ${analysis.home.max.bookmaker} (${analysis.home.max.value})<br>
+    Najniższy: ${analysis.home.min.bookmaker} (${analysis.home.min.value})
+  </div>
+
+  <div class="analysis-block">
+    <strong>AWAY</strong><br>
+    Najwyższy: ${analysis.away.max.bookmaker} (${analysis.away.max.value})<br>
+    Najniższy: ${analysis.away.min.bookmaker} (${analysis.away.min.value})
+  </div>
+`;
+
+analysisEl.classList.remove("hidden");
+
+  odds.forEach(o => {
+      const homeClass =
+        o.home === analysis.home.max.value ? "max-odd" :
+        o.home === analysis.home.min.value ? "min-odd" : "";
+
+      const awayClass =
+        o.away === analysis.away.max.value ? "max-odd" :
+        o.away === analysis.away.min.value ? "min-odd" : "";
+
+      const row = document.createElement("div");
+      row.className = "odds-row";
+      row.innerHTML = `
+        <span>${o.bookmaker}</span>
+        <span class="${homeClass}">${o.home}</span>
+        <span class="${awayClass}">${o.away}</span>
+      `;
+      oddsEl.appendChild(row);
+    });
   analysisEl.classList.remove("hidden");
 }
+
 /* =======================
-   FILTROWANIE MECZÓW
+   FILTROWANIE
 ======================= */
 function filterMatches() {
-  const query = document
-    .getElementById("searchInput")
-    .value
-    .toLowerCase();
-
-  // filtrujemy tylko po nazwach meczów
+  const query = document.getElementById("searchInput").value.toLowerCase();
   const filtered = allMatches.filter(m =>
     getMatchTitleById(m.fixtureId).toLowerCase().includes(query)
   );
-
   renderFilteredMatches(filtered);
 }
 
@@ -401,14 +416,13 @@ function renderFilteredMatches(matches) {
   const container = document.getElementById("matches");
   container.innerHTML = "";
 
-  if (!matches.length) {
-    container.innerHTML = "<p>Brak meczów spełniających kryteria.</p>";
-    return;
-  }
+  const grouped = {};
+  matches.forEach(match => {
+    const league = match.tournamentName || "Inne";
+    (grouped[league] ||= []).push(match);
+  });
 
-  const leagues = groupMatchesByLeague(matches);
-
-  for (const league in leagues) {
+  for (const league in grouped) {
     const header = document.createElement("div");
     header.className = "league-header";
     header.textContent = league;
@@ -416,17 +430,11 @@ function renderFilteredMatches(matches) {
     const list = document.createElement("div");
     list.className = "league-matches";
 
-    leagues[league].forEach(match => {
+    grouped[league].forEach(match => {
       const row = document.createElement("div");
       row.className = "match-row";
       row.textContent = getMatchTitleById(match.fixtureId);
-      row.onclick = () => {
-        document.querySelectorAll(".match-row")
-          .forEach(r => r.classList.remove("active"));
-
-        row.classList.add("active");
-        loadMatchDetails(match.fixtureId);
-      };
+      row.onclick = () => loadMatchDetails(match.fixtureId);
       list.appendChild(row);
     });
 
@@ -436,32 +444,31 @@ function renderFilteredMatches(matches) {
 }
 
 function highlightMatchAndLeague(matchId) {
-  // wyczyść stare podświetlenia
-  document.querySelectorAll(".match-row")
-    .forEach(r => r.classList.remove("active"));
+  document.querySelectorAll(".match-row").forEach(r => r.classList.remove("active"));
+  document.querySelectorAll(".league-header").forEach(h => h.classList.remove("active"));
 
-  document.querySelectorAll(".league-header")
-    .forEach(h => h.classList.remove("active"));
+  const row = [...document.querySelectorAll(".match-row")]
+    .find(r => r.textContent.includes(getMatchTitleById(matchId)));
 
-  // znajdź wiersz meczu
-  const matchRow = [...document.querySelectorAll(".match-row")]
-    .find(r => r.onclick && r.onclick.toString().includes(matchId));
+  if (!row) return;
 
-  if (!matchRow) return;
-
-  matchRow.classList.add("active");
-
-  // znajdź ligę (rodzica)
-  const leagueList = matchRow.closest(".league-matches");
-  if (!leagueList) return;
-
-  leagueList.classList.remove("hidden");
-
-  const leagueHeader = leagueList.previousElementSibling;
-  if (leagueHeader && leagueHeader.classList.contains("league-header")) {
-    leagueHeader.classList.add("active");
-  }
+  row.classList.add("active");
+  const list = row.closest(".league-matches");
+  list?.classList.remove("hidden");
+  list?.previousElementSibling?.classList.add("active");
 }
+
+
+function renderMatchDetails(match, matchId) {
+  return `
+    <p><strong>Sport:</strong> ${match.sportName}</p>
+    <p><strong>Liga:</strong> ${match.tournamentName}</p>
+    <p><strong>Kraj:</strong> ${match.categoryName}</p>
+    <p><strong>Data:</strong> ${match.startTime}</p>
+    <p><strong>Mecz:</strong> ${getMatchTitleById(matchId)}</p>
+  `;
+}
+
 
 /* =======================
    START
