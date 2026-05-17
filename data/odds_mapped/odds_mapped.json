@@ -1,0 +1,6121 @@
+[
+  {
+    "fixtureId": "id2102432771482370",
+    "home": "Davis, Keon",
+    "away": "Humaine Jr, Edwine",
+    "sport": "Boxing",
+    "tournament": "International Matchups",
+    "markets": {
+      "h2h": {
+        "kto": {
+          "home": 1.16,
+          "away": 19
+        },
+        "paf": {
+          "home": 1.16,
+          "away": 19
+        },
+        "vave": {
+          "home": 1.1,
+          "away": 6
+        },
+        "1xbet": {
+          "home": 1.117,
+          "away": 6.11
+        },
+        "22bet": {
+          "home": 1.117,
+          "away": 33
+        },
+        "blaze": {
+          "home": 1.08,
+          "away": 6.6
+        },
+        "stake": {
+          "home": 1.11,
+          "away": 6.6
+        },
+        "atg.se": {
+          "home": 1.16,
+          "away": 19
+        },
+        "bcgame": {
+          "home": 1.08,
+          "away": 6.6
+        },
+        "betika": {
+          "home": 1.11,
+          "away": 6.4
+        },
+        "betmgm": {
+          "home": 1.15,
+          "away": 5
+        },
+        "paf.es": {
+          "home": 1.16,
+          "away": 15
+        },
+        "roobet": {
+          "home": 1.08,
+          "away": 6.6
+        },
+        "unibet": {
+          "home": 1.16,
+          "away": 19
+        },
+        "betplay": {
+          "home": 1.16,
+          "away": 15
+        },
+        "borgata": {
+          "home": 1.15,
+          "away": 5
+        },
+        "bwin.be": {
+          "home": 1.15,
+          "away": 5
+        },
+        "bwin.es": {
+          "home": 1.15,
+          "away": 5
+        },
+        "rollbit": {
+          "home": 1.08,
+          "away": 6.6
+        },
+        "yesplay": {
+          "home": 1.1,
+          "away": 6.2
+        },
+        "duelbits": {
+          "home": 1.1,
+          "away": 6.1
+        },
+        "leovegas": {
+          "home": 1.16,
+          "away": 15
+        },
+        "tiptorro": {
+          "home": 1.09,
+          "away": 5.4
+        },
+        "betway.es": {
+          "home": 1.083,
+          "away": 9
+        },
+        "lottoland": {
+          "home": 1.111,
+          "away": 6
+        },
+        "sportybet": {
+          "home": 1.1,
+          "away": 6.14
+        },
+        "unibet.be": {
+          "home": 1.16,
+          "away": 19
+        },
+        "unibet.dk": {
+          "home": 1.16,
+          "away": 19
+        },
+        "unibet.ie": {
+          "home": 1.16,
+          "away": 19
+        },
+        "unibet.se": {
+          "home": 1.16,
+          "away": 19
+        },
+        "bingoal.be": {
+          "home": 1.16,
+          "away": 19
+        },
+        "draftkings": {
+          "home": 1.1,
+          "away": 7
+        },
+        "estrelabet": {
+          "home": 1.111,
+          "away": 6
+        },
+        "goldbet.it": {
+          "home": 1.09,
+          "away": 5.7
+        },
+        "rushbet.co": {
+          "home": 1.16,
+          "away": 15
+        },
+        "scooore.be": {
+          "home": 1.16,
+          "away": 19
+        },
+        "888sport.it": {
+          "home": 1.16,
+          "away": 15
+        },
+        "betnacional": {
+          "home": 1.1,
+          "away": 5.5
+        },
+        "leovegas.es": {
+          "home": 1.16,
+          "away": 19
+        },
+        "leovegas.it": {
+          "home": 1.16,
+          "away": 19
+        },
+        "quigioco.it": {
+          "home": 1.09,
+          "away": 5.6
+        },
+        "svenskaspel": {
+          "home": 1.16,
+          "away": 19
+        },
+        "apuestatotal": {
+          "home": 1.111,
+          "away": 6
+        },
+        "betmgm.co.uk": {
+          "home": 1.16,
+          "away": 19
+        },
+        "stake.bet.br": {
+          "home": 1.16,
+          "away": 19
+        },
+        "admiralbet.it": {
+          "home": 1.1,
+          "away": 6
+        },
+        "unibet.com.au": {
+          "home": 1.16,
+          "away": 19
+        },
+        "sesamesport.bg": {
+          "home": 1.1,
+          "away": 6.4
+        },
+        "pamestoixima.gr": {
+          "home": 1.09,
+          "away": 6.15
+        },
+        "sportingbet.bet.br": {
+          "home": 1.15,
+          "away": 5
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id2503634971523506",
+    "home": "Louda, Jiri",
+    "away": "Brozik, Karel",
+    "sport": "Table Tennis",
+    "tournament": "Czech Liga Pro",
+    "markets": {
+      "h2h": {
+        "kto": {
+          "home": 1.58,
+          "away": 2.02
+        },
+        "paf": {
+          "home": 1.64,
+          "away": 2.08
+        },
+        "vave": {
+          "home": 1.62,
+          "away": 1.98
+        },
+        "inbet": {
+          "home": 1.65,
+          "away": 2.1
+        },
+        "atg.se": {
+          "home": 1.65,
+          "away": 2.1
+        },
+        "betika": {
+          "home": 1.66,
+          "away": 2.04
+        },
+        "paf.es": {
+          "home": 1.61,
+          "away": 2.05
+        },
+        "unibet": {
+          "home": 1.63,
+          "away": 2.07
+        },
+        "betparx": {
+          "home": 1.64,
+          "away": 2.08
+        },
+        "betplay": {
+          "home": 1.63,
+          "away": 2.08
+        },
+        "dafabet": {
+          "home": 1.68,
+          "away": 2.07
+        },
+        "yesplay": {
+          "home": 1.66,
+          "away": 2.04
+        },
+        "ballybet": {
+          "home": 1.64,
+          "away": 2.08
+        },
+        "leovegas": {
+          "home": 1.63,
+          "away": 2.08
+        },
+        "sisal.it": {
+          "home": 1.62,
+          "away": 2
+        },
+        "tabtouch": {
+          "home": 1.64,
+          "away": 2.08
+        },
+        "betrivers": {
+          "home": 1.63,
+          "away": 2.08
+        },
+        "lottoland": {
+          "home": 1.556,
+          "away": 1.933
+        },
+        "unibet.be": {
+          "home": 1.63,
+          "away": 2.07
+        },
+        "unibet.dk": {
+          "home": 1.63,
+          "away": 2.07
+        },
+        "unibet.ie": {
+          "home": 1.63,
+          "away": 2.07
+        },
+        "unibet.se": {
+          "home": 1.63,
+          "away": 2.07
+        },
+        "winbet.bg": {
+          "home": 1.66,
+          "away": 2.1
+        },
+        "winbet.ro": {
+          "home": 1.65,
+          "away": 2.1
+        },
+        "bingoal.be": {
+          "home": 1.57,
+          "away": 2
+        },
+        "draftkings": {
+          "home": 1.66,
+          "away": 2.05
+        },
+        "rushbet.co": {
+          "home": 1.61,
+          "away": 2.05
+        },
+        "scooore.be": {
+          "home": 1.64,
+          "away": 2.08
+        },
+        "888sport.it": {
+          "home": 1.63,
+          "away": 2.08
+        },
+        "leovegas.es": {
+          "home": 1.56,
+          "away": 1.98
+        },
+        "leovegas.it": {
+          "home": 1.58,
+          "away": 2.02
+        },
+        "betmgm.co.uk": {
+          "home": 1.61,
+          "away": 2.05
+        },
+        "stake.bet.br": {
+          "home": 1.64,
+          "away": 2.08
+        },
+        "pokerstars.it": {
+          "home": 1.62,
+          "away": 2
+        },
+        "unibet.com.au": {
+          "home": 1.65,
+          "away": 2.1
+        },
+        "sesamesport.bg": {
+          "home": 1.61,
+          "away": 2.04
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1005105271523514",
+    "home": "R.K.S.V. Scherpenheuvel",
+    "away": "C.R.K.S.V. Jong Holland",
+    "sport": "Soccer",
+    "tournament": "Prome Divishon",
+    "markets": {
+      "h2h": {
+        "1xbet": {
+          "home": 2.45,
+          "away": 3.26
+        },
+        "22bet": {
+          "home": 2.45,
+          "away": 3.26
+        },
+        "bet365": {
+          "home": 2.35,
+          "away": 3.6
+        },
+        "betway": {
+          "home": 2.5,
+          "away": 3.3
+        },
+        "mystake": {
+          "home": 2.49,
+          "away": 3.56
+        },
+        "bet365.de": {
+          "home": 2.35,
+          "away": 3.6
+        },
+        "betway.es": {
+          "home": 2.5,
+          "away": 3.3
+        },
+        "lottoland": {
+          "home": 2.364,
+          "away": 3.333
+        },
+        "estrelabet": {
+          "home": 2.364,
+          "away": 3.333
+        },
+        "apuestatotal": {
+          "home": 2.429,
+          "away": 3.4
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1303424269060272",
+    "home": "Midland Rockhounds",
+    "away": "Frisco RoughRiders",
+    "sport": "Baseball",
+    "tournament": "Double-A Texas League",
+    "markets": {
+      "h2h": {
+        "vave": {
+          "home": 1.88,
+          "away": 1.79
+        },
+        "blaze": {
+          "home": 1.88,
+          "away": 1.8
+        },
+        "stake": {
+          "home": 1.9,
+          "away": 1.8
+        },
+        "bcgame": {
+          "home": 1.88,
+          "away": 1.8
+        },
+        "betika": {
+          "home": 1.9,
+          "away": 1.8
+        },
+        "netbet": {
+          "home": 1.88,
+          "away": 1.8
+        },
+        "dafabet": {
+          "home": 1.9,
+          "away": 1.8
+        },
+        "mystake": {
+          "home": 1.92,
+          "away": 1.82
+        },
+        "rollbit": {
+          "home": 1.88,
+          "away": 1.8
+        },
+        "cloudbet": {
+          "home": 1.9,
+          "away": 1.8
+        },
+        "duelbits": {
+          "home": 1.9,
+          "away": 1.8
+        },
+        "sportybet": {
+          "home": 1.9,
+          "away": 1.8
+        },
+        "eurobet.it": {
+          "home": 1.88,
+          "away": 1.79
+        },
+        "admiralbet.it": {
+          "home": 1.9,
+          "away": 1.8
+        },
+        "pamestoixima.gr": {
+          "home": 1.92,
+          "away": 1.82
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1000032566886784",
+    "home": "SE Palmeiras SP",
+    "away": "Cruzeiro EC MG",
+    "sport": "Soccer",
+    "tournament": "Brasileiro Serie A",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 1.79,
+          "away": 3.55
+        },
+        "kto": {
+          "home": 1.75,
+          "away": 3.7
+        },
+        "paf": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "bwin": {
+          "home": 1.78,
+          "away": 3.5
+        },
+        "vave": {
+          "home": 1.81,
+          "away": 3.55
+        },
+        "1xbet": {
+          "home": 1.813,
+          "away": 3.58
+        },
+        "22bet": {
+          "home": 1.792,
+          "away": 3.54
+        },
+        "blaze": {
+          "home": 1.77,
+          "away": 3.45
+        },
+        "coral": {
+          "home": 1.8,
+          "away": 3.5
+        },
+        "fliff": {
+          "home": 1.69,
+          "away": 3.35
+        },
+        "inbet": {
+          "home": 1.77,
+          "away": 3.55
+        },
+        "stake": {
+          "home": 1.8,
+          "away": 3.5
+        },
+        "198bet": {
+          "home": 1.79,
+          "away": 3.55
+        },
+        "atg.se": {
+          "home": 1.77,
+          "away": 3.75
+        },
+        "bcgame": {
+          "home": 1.77,
+          "away": 3.45
+        },
+        "bet365": {
+          "home": 1.8,
+          "away": 3.6
+        },
+        "betano": {
+          "home": 1.82,
+          "away": 3.45
+        },
+        "betika": {
+          "home": 1.8,
+          "away": 3.45
+        },
+        "betmgm": {
+          "home": 1.78,
+          "away": 3.5
+        },
+        "betway": {
+          "home": 1.775,
+          "away": 3.5
+        },
+        "casumo": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "kaiyun": {
+          "home": 1.79,
+          "away": 3.6
+        },
+        "kalshi": {
+          "home": 1.818,
+          "away": 3.704
+        },
+        "netbet": {
+          "home": 1.77,
+          "away": 3.45
+        },
+        "oddset": {
+          "home": 1.75,
+          "away": 3.4
+        },
+        "paf.es": {
+          "home": 1.73,
+          "away": 3.65
+        },
+        "roobet": {
+          "home": 1.77,
+          "away": 3.45
+        },
+        "sbobet": {
+          "home": 1.79,
+          "away": 3.41
+        },
+        "sx.bet": {
+          "home": 1.843,
+          "away": 3.604
+        },
+        "tipico": {
+          "home": 1.72,
+          "away": 3.4
+        },
+        "unibet": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "vertex": {
+          "home": 1.826,
+          "away": 4.994
+        },
+        "betparx": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "betplay": {
+          "home": 1.75,
+          "away": 3.7
+        },
+        "betsson": {
+          "home": 1.78,
+          "away": 3.35
+        },
+        "borgata": {
+          "home": 1.78,
+          "away": 3.5
+        },
+        "bwin.be": {
+          "home": 1.77,
+          "away": 3.5
+        },
+        "bwin.de": {
+          "home": 1.78,
+          "away": 3.5
+        },
+        "bwin.es": {
+          "home": 1.98,
+          "away": 1.72
+        },
+        "bwin.fr": {
+          "home": 1.63,
+          "away": 3.1
+        },
+        "bwin.pt": {
+          "home": 1.93,
+          "away": 1.68
+        },
+        "caesars": {
+          "home": 1.769,
+          "away": 3.3
+        },
+        "dafabet": {
+          "home": 1.81,
+          "away": 3.55
+        },
+        "fanduel": {
+          "home": 1.71,
+          "away": 3.5
+        },
+        "mrgreen": {
+          "home": 1.75,
+          "away": 3.3
+        },
+        "mystake": {
+          "home": 1.8,
+          "away": 3.49
+        },
+        "rollbit": {
+          "home": 1.8,
+          "away": 3.5
+        },
+        "singbet": {
+          "home": 1.81,
+          "away": 3.35
+        },
+        "yesplay": {
+          "home": 1.76,
+          "away": 3.4
+        },
+        "4casters": {
+          "home": 1.714,
+          "away": 3.65
+        },
+        "888sport": {
+          "home": 1.75,
+          "away": 3.3
+        },
+        "ballybet": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "cloudbet": {
+          "home": 1.79,
+          "away": 3.5
+        },
+        "duelbits": {
+          "home": 1.79,
+          "away": 3.5
+        },
+        "jacks.nl": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "leovegas": {
+          "home": 1.75,
+          "away": 3.7
+        },
+        "pinnacle": {
+          "home": 1.826,
+          "away": 3.6
+        },
+        "prophetx": {
+          "home": 2.16,
+          "away": 1.826
+        },
+        "sharpbet": {
+          "home": 1.817,
+          "away": 3.578
+        },
+        "sisal.it": {
+          "home": 1.75,
+          "away": 3.4
+        },
+        "tabtouch": {
+          "home": 1.66,
+          "away": 3.5
+        },
+        "thescore": {
+          "home": 1.741,
+          "away": 3.6
+        },
+        "tiptorro": {
+          "home": 1.75,
+          "away": 3.45
+        },
+        "bet365.de": {
+          "home": 1.77,
+          "away": 3.6
+        },
+        "betrivers": {
+          "home": 1.71,
+          "away": 3.6
+        },
+        "betway.de": {
+          "home": 1.775,
+          "away": 3.5
+        },
+        "betway.es": {
+          "home": 1.775,
+          "away": 3.5
+        },
+        "bovada.lv": {
+          "home": 1.758,
+          "away": 3.5
+        },
+        "cashpoint": {
+          "home": 1.7,
+          "away": 3.65
+        },
+        "fourwinds": {
+          "home": 1.709,
+          "away": 3.6
+        },
+        "ladbrokes": {
+          "home": 1.75,
+          "away": 3.5
+        },
+        "lottoland": {
+          "home": 1.75,
+          "away": 3.6
+        },
+        "sportybet": {
+          "home": 1.8,
+          "away": 3.5
+        },
+        "unibet.be": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "unibet.dk": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "unibet.ie": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "unibet.nl": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "unibet.se": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "virginbet": {
+          "home": 1.64,
+          "away": 3.45
+        },
+        "winbet.bg": {
+          "home": 1.78,
+          "away": 3.6
+        },
+        "winbet.ro": {
+          "home": 1.75,
+          "away": 3.5
+        },
+        "betfair-ex": {
+          "home": 1.83,
+          "away": 3.7
+        },
+        "bingoal.be": {
+          "home": 1.74,
+          "away": 3.7
+        },
+        "estrelabet": {
+          "home": 1.733,
+          "away": 3.6
+        },
+        "eurobet.it": {
+          "home": 1.75,
+          "away": 3.35
+        },
+        "goldbet.it": {
+          "home": 1.77,
+          "away": 3.45
+        },
+        "paddypower": {
+          "home": 1.85,
+          "away": 1.85
+        },
+        "partypoker": {
+          "home": 1.78,
+          "away": 3.5
+        },
+        "pokerstars": {
+          "home": 1.75,
+          "away": 4.75
+        },
+        "polymarket": {
+          "home": 1.818,
+          "away": 3.704
+        },
+        "rushbet.co": {
+          "home": 1.73,
+          "away": 3.65
+        },
+        "scooore.be": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "winamax.de": {
+          "home": 1.56,
+          "away": 3.45
+        },
+        "winamax.es": {
+          "home": 1.62,
+          "away": 3.4
+        },
+        "winamax.fr": {
+          "home": 1.52,
+          "away": 3.25
+        },
+        "888sport.it": {
+          "home": 1.75,
+          "away": 3.7
+        },
+        "leovegas.es": {
+          "home": 1.62,
+          "away": 3.45
+        },
+        "leovegas.it": {
+          "home": 1.71,
+          "away": 3.6
+        },
+        "quigioco.it": {
+          "home": 1.75,
+          "away": 3.35
+        },
+        "sportingbet": {
+          "home": 1.78,
+          "away": 3.5
+        },
+        "superbet.ro": {
+          "home": 1.82,
+          "away": 3.45
+        },
+        "svenskaspel": {
+          "home": 1.77,
+          "away": 3.75
+        },
+        "williamhill": {
+          "home": 1.769,
+          "away": 3.3
+        },
+        "apuestatotal": {
+          "home": 1.786,
+          "away": 3.6
+        },
+        "balkanbet.rs": {
+          "home": 1.78,
+          "away": 3.5
+        },
+        "betmgm.co.uk": {
+          "home": 1.7,
+          "away": 3.6
+        },
+        "stake.bet.br": {
+          "home": 1.73,
+          "away": 3.65
+        },
+        "admiralbet.it": {
+          "home": 1.77,
+          "away": 3.45
+        },
+        "paradisewager": {
+          "home": 1.8,
+          "away": 3.5
+        },
+        "pokerstars.es": {
+          "home": 1.75,
+          "away": 4.75
+        },
+        "pokerstars.it": {
+          "home": 1.75,
+          "away": 3.4
+        },
+        "pokerstars.uk": {
+          "home": 1.75,
+          "away": 4.75
+        },
+        "unibet.com.au": {
+          "home": 1.72,
+          "away": 3.65
+        },
+        "sesamesport.bg": {
+          "home": 1.75,
+          "away": 3.4
+        },
+        "pamestoixima.gr": {
+          "home": 1.75,
+          "away": 3.5
+        },
+        "pointsbet.com.au": {
+          "home": 1.75,
+          "away": 3.5
+        },
+        "sportsinteraction": {
+          "home": 1.98,
+          "away": 1.72
+        },
+        "sportingbet.bet.br": {
+          "home": 1.98,
+          "away": 1.73
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1101445771490946",
+    "home": "CD Las Animas",
+    "away": "CD Atletico Puerto Varas",
+    "sport": "Basketball",
+    "tournament": "Liga Nacional",
+    "markets": {
+      "h2h": {
+        "vave": {
+          "home": 1.25,
+          "away": 3.3
+        },
+        "1xbet": {
+          "home": 1.241,
+          "away": 14.9
+        },
+        "22bet": {
+          "home": 1.241,
+          "away": 14.9
+        },
+        "inbet": {
+          "home": 1.33,
+          "away": 15
+        },
+        "stake": {
+          "home": 1.27,
+          "away": 3.45
+        },
+        "bet365": {
+          "home": 2.85,
+          "away": 1.37
+        },
+        "betano": {
+          "home": 1.75,
+          "away": 1.88
+        },
+        "betika": {
+          "home": 1.28,
+          "away": 3.45
+        },
+        "betway": {
+          "home": 1.8,
+          "away": 1.909
+        },
+        "netbet": {
+          "home": 3.5,
+          "away": 1.23
+        },
+        "sbobet": {
+          "home": 1.855,
+          "away": 1.855
+        },
+        "tipico": {
+          "home": 1.22,
+          "away": 3.6
+        },
+        "betsson": {
+          "home": 1.26,
+          "away": 3.3
+        },
+        "dafabet": {
+          "home": 1.28,
+          "away": 3.5
+        },
+        "mystake": {
+          "home": 1.27,
+          "away": 3.39
+        },
+        "yesplay": {
+          "home": 1.25,
+          "away": 3.25
+        },
+        "cloudbet": {
+          "home": 1.19,
+          "away": 3.1
+        },
+        "duelbits": {
+          "home": 1.28,
+          "away": 3.5
+        },
+        "pinnacle": {
+          "home": 1.215,
+          "away": 3.17
+        },
+        "sisal.it": {
+          "home": 1.25,
+          "away": 3.25
+        },
+        "tiptorro": {
+          "home": 1.26,
+          "away": 3.25
+        },
+        "bet365.de": {
+          "home": 2.85,
+          "away": 1.34
+        },
+        "betway.de": {
+          "home": 1.8,
+          "away": 1.909
+        },
+        "betway.es": {
+          "home": 1.8,
+          "away": 1.909
+        },
+        "lottoland": {
+          "home": 1.273,
+          "away": 3.2
+        },
+        "sportybet": {
+          "home": 1.27,
+          "away": 3.4
+        },
+        "winbet.bg": {
+          "home": 1.33,
+          "away": 15
+        },
+        "winbet.ro": {
+          "home": 1.3,
+          "away": 15
+        },
+        "estrelabet": {
+          "home": 1.286,
+          "away": 3.4
+        },
+        "eurobet.it": {
+          "home": 1.28,
+          "away": 3.1
+        },
+        "goldbet.it": {
+          "home": 1.28,
+          "away": 3.1
+        },
+        "winamax.de": {
+          "home": 1.27,
+          "away": 3.45
+        },
+        "winamax.es": {
+          "home": 1.28,
+          "away": 3.5
+        },
+        "quigioco.it": {
+          "home": 1.25,
+          "away": 3.35
+        },
+        "superbet.ro": {
+          "home": 2.07,
+          "away": 1.63
+        },
+        "apuestatotal": {
+          "home": 1.286,
+          "away": 3.4
+        },
+        "admiralbet.it": {
+          "home": 1.27,
+          "away": 3.35
+        },
+        "pokerstars.it": {
+          "home": 1.25,
+          "away": 3.25
+        },
+        "sesamesport.bg": {
+          "home": 1.32,
+          "away": 14.5
+        },
+        "pamestoixima.gr": {
+          "home": 1.27,
+          "away": 3.5
+        },
+        "pointsbet.com.au": {
+          "home": 1.286,
+          "away": 3.5
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1000059469463272",
+    "home": "Coastal Spirit FC",
+    "away": "Cashmere Technical",
+    "sport": "Soccer",
+    "tournament": "National League",
+    "markets": {
+      "h2h": {
+        "kto": {
+          "home": 8,
+          "away": 5.4
+        },
+        "paf": {
+          "home": 8,
+          "away": 5.4
+        },
+        "bwin": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "vave": {
+          "home": 8.4,
+          "away": 5.4
+        },
+        "1xbet": {
+          "home": 9.15,
+          "away": 5.55
+        },
+        "22bet": {
+          "home": 9.15,
+          "away": 5.55
+        },
+        "blaze": {
+          "home": 8.6,
+          "away": 5.4
+        },
+        "coral": {
+          "home": 7.5,
+          "away": 5.25
+        },
+        "inbet": {
+          "home": 8.25,
+          "away": 5.5
+        },
+        "stake": {
+          "home": 8,
+          "away": 5.2
+        },
+        "198bet": {
+          "home": 6.8,
+          "away": 5.2
+        },
+        "bcgame": {
+          "home": 8.6,
+          "away": 5.4
+        },
+        "bet365": {
+          "home": 7.5,
+          "away": 5
+        },
+        "betika": {
+          "home": 7,
+          "away": 5.4
+        },
+        "betway": {
+          "home": 7.5,
+          "away": 6.5
+        },
+        "netbet": {
+          "home": 7.8,
+          "away": 5.8
+        },
+        "oddset": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "paf.es": {
+          "home": 7.5,
+          "away": 5.3
+        },
+        "tipico": {
+          "home": 9,
+          "away": 5.7
+        },
+        "unibet": {
+          "home": 8,
+          "away": 5.4
+        },
+        "betplay": {
+          "home": 7.5,
+          "away": 5.4
+        },
+        "bwin.be": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "bwin.de": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "bwin.es": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "dafabet": {
+          "home": 8.4,
+          "away": 5.4
+        },
+        "mystake": {
+          "home": 7.81,
+          "away": 5.19
+        },
+        "rollbit": {
+          "home": 8.6,
+          "away": 5.4
+        },
+        "yesplay": {
+          "home": 8.2,
+          "away": 5.4
+        },
+        "cloudbet": {
+          "home": 7.1,
+          "away": 5.25
+        },
+        "duelbits": {
+          "home": 8.3,
+          "away": 5.5
+        },
+        "pinnacle": {
+          "home": 7.27,
+          "away": 5.4
+        },
+        "sisal.it": {
+          "home": 8.5,
+          "away": 5.75
+        },
+        "tabtouch": {
+          "home": 8,
+          "away": 5.4
+        },
+        "bet365.de": {
+          "home": 7.5,
+          "away": 5
+        },
+        "betway.es": {
+          "home": 7.5,
+          "away": 6.5
+        },
+        "bovada.lv": {
+          "home": 7.75,
+          "away": 5.4
+        },
+        "ladbrokes": {
+          "home": 7.5,
+          "away": 5.25
+        },
+        "lottoland": {
+          "home": 7,
+          "away": 5.333
+        },
+        "sportybet": {
+          "home": 7.8,
+          "away": 5.2
+        },
+        "unibet.be": {
+          "home": 8,
+          "away": 5.4
+        },
+        "unibet.dk": {
+          "home": 8,
+          "away": 5.4
+        },
+        "unibet.ie": {
+          "home": 8,
+          "away": 5.4
+        },
+        "virginbet": {
+          "home": 8,
+          "away": 5.4
+        },
+        "winbet.bg": {
+          "home": 8,
+          "away": 5.5
+        },
+        "winbet.ro": {
+          "home": 8.25,
+          "away": 5.5
+        },
+        "bingoal.be": {
+          "home": 8,
+          "away": 5.4
+        },
+        "estrelabet": {
+          "home": 7.5,
+          "away": 5.667
+        },
+        "eurobet.it": {
+          "home": 7.6,
+          "away": 5.4
+        },
+        "goldbet.it": {
+          "home": 8,
+          "away": 5.75
+        },
+        "partypoker": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "rushbet.co": {
+          "home": 7.5,
+          "away": 5.3
+        },
+        "scooore.be": {
+          "home": 8,
+          "away": 5.4
+        },
+        "winamax.de": {
+          "home": 4.3,
+          "away": 4.2
+        },
+        "winamax.es": {
+          "home": 2.2,
+          "away": 1.6
+        },
+        "888sport.it": {
+          "home": 7.5,
+          "away": 5.4
+        },
+        "leovegas.es": {
+          "home": 8,
+          "away": 5.4
+        },
+        "leovegas.it": {
+          "home": 8,
+          "away": 5.4
+        },
+        "quigioco.it": {
+          "home": 7.8,
+          "away": 5.2
+        },
+        "sportingbet": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "apuestatotal": {
+          "home": 7.5,
+          "away": 5.333
+        },
+        "betmgm.co.uk": {
+          "home": 8,
+          "away": 5.4
+        },
+        "stake.bet.br": {
+          "home": 8,
+          "away": 5.4
+        },
+        "admiralbet.it": {
+          "home": 8,
+          "away": 5.25
+        },
+        "pokerstars.it": {
+          "home": 8.5,
+          "away": 5.75
+        },
+        "unibet.com.au": {
+          "home": 8,
+          "away": 5.4
+        },
+        "sesamesport.bg": {
+          "home": 8.15,
+          "away": 5.45
+        },
+        "sportsinteraction": {
+          "home": 7.75,
+          "away": 5.5
+        },
+        "sportingbet.bet.br": {
+          "home": 7.75,
+          "away": 5.5
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1002739871456452",
+    "home": "CSD Municipal",
+    "away": "CSD Xelaju MC",
+    "sport": "Soccer",
+    "tournament": "Liga Nacional. Clausura",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 1.62,
+          "away": 3
+        },
+        "kto": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "paf": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "bwin": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "vave": {
+          "home": 1.55,
+          "away": 3.45
+        },
+        "1xbet": {
+          "home": 1.56,
+          "away": 3.24
+        },
+        "22bet": {
+          "home": 1.56,
+          "away": 3.24
+        },
+        "blaze": {
+          "home": 1.55,
+          "away": 3.4
+        },
+        "coral": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "stake": {
+          "home": 1.53,
+          "away": 3.35
+        },
+        "198bet": {
+          "home": 1.56,
+          "away": 3
+        },
+        "bcgame": {
+          "home": 1.55,
+          "away": 3.4
+        },
+        "bet365": {
+          "home": 1.57,
+          "away": 3.7
+        },
+        "betano": {
+          "home": 1.57,
+          "away": 3.25
+        },
+        "betika": {
+          "home": 1.56,
+          "away": 3.5
+        },
+        "betmgm": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "betway": {
+          "home": 1.571,
+          "away": 3.25
+        },
+        "casumo": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "netbet": {
+          "home": 1.56,
+          "away": 2.99
+        },
+        "oddset": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "paf.es": {
+          "home": 1.4,
+          "away": 3.85
+        },
+        "tipico": {
+          "home": 1.45,
+          "away": 3.4
+        },
+        "unibet": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "betplay": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "borgata": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "bwin.be": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "bwin.de": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "bwin.es": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "bwin.pt": {
+          "home": 1.52,
+          "away": 3.3
+        },
+        "dafabet": {
+          "home": 1.57,
+          "away": 3.5
+        },
+        "mystake": {
+          "home": 1.55,
+          "away": 3.45
+        },
+        "rollbit": {
+          "home": 1.55,
+          "away": 3.4
+        },
+        "yesplay": {
+          "home": 1.54,
+          "away": 3.4
+        },
+        "ballybet": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "cloudbet": {
+          "home": 1.55,
+          "away": 3
+        },
+        "duelbits": {
+          "home": 1.54,
+          "away": 3.4
+        },
+        "jacks.nl": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "leovegas": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "pinnacle": {
+          "home": 1.581,
+          "away": 3.12
+        },
+        "sisal.it": {
+          "home": 1.52,
+          "away": 3.6
+        },
+        "tabtouch": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "thescore": {
+          "home": 1.5,
+          "away": 3.7
+        },
+        "tiptorro": {
+          "home": 1.58,
+          "away": 3.45
+        },
+        "bet365.de": {
+          "home": 1.54,
+          "away": 3.7
+        },
+        "betrivers": {
+          "home": 1.41,
+          "away": 3.85
+        },
+        "betway.de": {
+          "home": 1.571,
+          "away": 3.25
+        },
+        "betway.es": {
+          "home": 1.571,
+          "away": 3.25
+        },
+        "bovada.lv": {
+          "home": 1.568,
+          "away": 3.45
+        },
+        "ladbrokes": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "lottoland": {
+          "home": 1.556,
+          "away": 3.1
+        },
+        "sportybet": {
+          "home": 1.55,
+          "away": 3.4
+        },
+        "unibet.be": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "unibet.dk": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "unibet.ie": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "unibet.nl": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "unibet.se": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "virginbet": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "betfair-ex": {
+          "home": 1.62,
+          "away": 3.8
+        },
+        "bingoal.be": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "estrelabet": {
+          "home": 1.556,
+          "away": 3
+        },
+        "eurobet.it": {
+          "home": 1.53,
+          "away": 3.15
+        },
+        "goldbet.it": {
+          "home": 1.55,
+          "away": 3
+        },
+        "paddypower": {
+          "home": 2,
+          "away": 1.73
+        },
+        "partypoker": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "pokerstars": {
+          "home": 1.5,
+          "away": 5.5
+        },
+        "polymarket": {
+          "home": 1.639,
+          "away": 3.704
+        },
+        "rushbet.co": {
+          "home": 1.4,
+          "away": 3.85
+        },
+        "scooore.be": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "888sport.it": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "leovegas.es": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "leovegas.it": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "quigioco.it": {
+          "home": 1.52,
+          "away": 3.3
+        },
+        "sportingbet": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "superbet.ro": {
+          "home": 1.56,
+          "away": 3.15
+        },
+        "svenskaspel": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "apuestatotal": {
+          "home": 1.572,
+          "away": 3.143
+        },
+        "balkanbet.rs": {
+          "home": 1.53,
+          "away": 3.35
+        },
+        "betmgm.co.uk": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "stake.bet.br": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "admiralbet.it": {
+          "home": 1.55,
+          "away": 3.4
+        },
+        "pokerstars.es": {
+          "home": 1.5,
+          "away": 5.5
+        },
+        "pokerstars.it": {
+          "home": 1.52,
+          "away": 3.6
+        },
+        "pokerstars.uk": {
+          "home": 1.5,
+          "away": 5.5
+        },
+        "unibet.com.au": {
+          "home": 1.42,
+          "away": 3.9
+        },
+        "sportsinteraction": {
+          "home": 1.55,
+          "away": 3.5
+        },
+        "sportingbet.bet.br": {
+          "home": 1.55,
+          "away": 3.5
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1003647968156618",
+    "home": "Huntsville City FC",
+    "away": "Atlanta United 2",
+    "sport": "Soccer",
+    "tournament": "MLS Next Pro",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 2.02,
+          "away": 3.55
+        },
+        "kto": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "paf": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "bwin": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "vave": {
+          "home": 2.12,
+          "away": 3.65
+        },
+        "1xbet": {
+          "home": 2.07,
+          "away": 3.64
+        },
+        "22bet": {
+          "home": 2.08,
+          "away": 3.64
+        },
+        "coral": {
+          "home": 2.15,
+          "away": 3.6
+        },
+        "inbet": {
+          "home": 2.15,
+          "away": 3.7
+        },
+        "stake": {
+          "home": 2.12,
+          "away": 3.65
+        },
+        "198bet": {
+          "home": 2.12,
+          "away": 3.8
+        },
+        "atg.se": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "bet365": {
+          "home": 2.15,
+          "away": 3.7
+        },
+        "betika": {
+          "home": 2.15,
+          "away": 3.7
+        },
+        "betmgm": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "betway": {
+          "home": 2.05,
+          "away": 4
+        },
+        "casumo": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "netbet": {
+          "home": 2.05,
+          "away": 3.7
+        },
+        "unibet": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "betplay": {
+          "home": 2.3,
+          "away": 3.5
+        },
+        "borgata": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "bwin.be": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "bwin.es": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "bwin.pt": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "dafabet": {
+          "home": 2.17,
+          "away": 3.75
+        },
+        "mystake": {
+          "home": 2.12,
+          "away": 3.63
+        },
+        "yesplay": {
+          "home": 2.13,
+          "away": 3.65
+        },
+        "cloudbet": {
+          "home": 2.01,
+          "away": 3.65
+        },
+        "duelbits": {
+          "home": 2.12,
+          "away": 3.65
+        },
+        "leovegas": {
+          "home": 2.3,
+          "away": 3.5
+        },
+        "pinnacle": {
+          "home": 2.06,
+          "away": 3.77
+        },
+        "sisal.it": {
+          "home": 2.15,
+          "away": 3.6
+        },
+        "bet365.de": {
+          "home": 2.15,
+          "away": 3.7
+        },
+        "betway.es": {
+          "home": 2.05,
+          "away": 4
+        },
+        "bovada.lv": {
+          "home": 2.15,
+          "away": 3.7
+        },
+        "ladbrokes": {
+          "home": 2.15,
+          "away": 3.6
+        },
+        "lottoland": {
+          "home": 2.05,
+          "away": 3.6
+        },
+        "sportybet": {
+          "home": 2.15,
+          "away": 3.7
+        },
+        "unibet.be": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "unibet.ie": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "unibet.se": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "virginbet": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "winbet.bg": {
+          "home": 2.15,
+          "away": 3.75
+        },
+        "winbet.ro": {
+          "home": 2.13,
+          "away": 3.65
+        },
+        "bingoal.be": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "eurobet.it": {
+          "home": 2.05,
+          "away": 3.55
+        },
+        "goldbet.it": {
+          "home": 2.05,
+          "away": 3.7
+        },
+        "partypoker": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "rushbet.co": {
+          "home": 2.28,
+          "away": 3.45
+        },
+        "scooore.be": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "888sport.it": {
+          "home": 2.3,
+          "away": 3.5
+        },
+        "leovegas.it": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "quigioco.it": {
+          "home": 2.07,
+          "away": 3.5
+        },
+        "sportingbet": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "svenskaspel": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "betmgm.co.uk": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "stake.bet.br": {
+          "home": 2.32,
+          "away": 3.5
+        },
+        "pokerstars.it": {
+          "home": 2.15,
+          "away": 3.6
+        },
+        "pamestoixima.gr": {
+          "home": 2.15,
+          "away": 3.55
+        },
+        "pointsbet.com.au": {
+          "home": 2.2,
+          "away": 3.6
+        },
+        "sportsinteraction": {
+          "home": 2.15,
+          "away": 3.5
+        },
+        "sportingbet.bet.br": {
+          "home": 2.15,
+          "away": 3.5
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1002766567681852",
+    "home": "Deportes Limache",
+    "away": "CD Universidad Catolica",
+    "sport": "Soccer",
+    "tournament": "Primera Division",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 2.68,
+          "away": 3.5
+        },
+        "kto": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "paf": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "bwin": {
+          "home": 2.65,
+          "away": 3.4
+        },
+        "vave": {
+          "home": 2.65,
+          "away": 3.55
+        },
+        "1xbet": {
+          "home": 2.6,
+          "away": 3.45
+        },
+        "22bet": {
+          "home": 2.61,
+          "away": 3.45
+        },
+        "blaze": {
+          "home": 2.64,
+          "away": 3.35
+        },
+        "coral": {
+          "home": 2.6,
+          "away": 3.25
+        },
+        "fliff": {
+          "home": 2.5,
+          "away": 3.25
+        },
+        "inbet": {
+          "home": 2.55,
+          "away": 3.45
+        },
+        "stake": {
+          "home": 2.55,
+          "away": 3.35
+        },
+        "198bet": {
+          "home": 2.62,
+          "away": 3.5
+        },
+        "atg.se": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "bcgame": {
+          "home": 2.6,
+          "away": 3.45
+        },
+        "bet365": {
+          "home": 2.87,
+          "away": 3.5
+        },
+        "betano": {
+          "home": 2.7,
+          "away": 3.45
+        },
+        "betika": {
+          "home": 2.65,
+          "away": 3.55
+        },
+        "betmgm": {
+          "home": 2.65,
+          "away": 3.4
+        },
+        "betway": {
+          "home": 2.6,
+          "away": 3.75
+        },
+        "casumo": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "kaiyun": {
+          "home": 2.58,
+          "away": 3.6
+        },
+        "kalshi": {
+          "home": 2.703,
+          "away": 3.846
+        },
+        "netbet": {
+          "home": 2.54,
+          "away": 3.39
+        },
+        "oddset": {
+          "home": 2.6,
+          "away": 3.3
+        },
+        "paf.es": {
+          "home": 2.5,
+          "away": 3.35
+        },
+        "roobet": {
+          "home": 2.64,
+          "away": 3.35
+        },
+        "sbobet": {
+          "home": 2.6,
+          "away": 3.21
+        },
+        "tipico": {
+          "home": 2.65,
+          "away": 3
+        },
+        "unibet": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "vertex": {
+          "home": 2.573,
+          "away": 2.675
+        },
+        "betparx": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "betplay": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "betsson": {
+          "home": 2.62,
+          "away": 3.35
+        },
+        "bwin.be": {
+          "home": 1.61,
+          "away": 2.15
+        },
+        "bwin.de": {
+          "home": 2.65,
+          "away": 3.4
+        },
+        "bwin.es": {
+          "home": 1.61,
+          "away": 2.15
+        },
+        "bwin.fr": {
+          "home": 2.4,
+          "away": 3
+        },
+        "bwin.pt": {
+          "home": 1.58,
+          "away": 2.1
+        },
+        "dafabet": {
+          "home": 2.7,
+          "away": 3.6
+        },
+        "fanduel": {
+          "home": 2.55,
+          "away": 3.5
+        },
+        "mrgreen": {
+          "home": 2.5,
+          "away": 3.2
+        },
+        "mystake": {
+          "home": 2.57,
+          "away": 3.34
+        },
+        "rollbit": {
+          "home": 2.64,
+          "away": 3.35
+        },
+        "singbet": {
+          "home": 2.61,
+          "away": 3.45
+        },
+        "yesplay": {
+          "home": 2.65,
+          "away": 3.5
+        },
+        "888sport": {
+          "home": 2.5,
+          "away": 3.2
+        },
+        "ballybet": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "cloudbet": {
+          "home": 2.6,
+          "away": 3.45
+        },
+        "duelbits": {
+          "home": 2.65,
+          "away": 3.55
+        },
+        "jacks.nl": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "leovegas": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "pinnacle": {
+          "home": 2.7,
+          "away": 3.56
+        },
+        "sharpbet": {
+          "home": 2.695,
+          "away": 3.534
+        },
+        "sisal.it": {
+          "home": 2.5,
+          "away": 3.6
+        },
+        "tabtouch": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "thescore": {
+          "home": 2.5,
+          "away": 3.6
+        },
+        "tiptorro": {
+          "home": 2.6,
+          "away": 3.4
+        },
+        "bet365.de": {
+          "home": 2.87,
+          "away": 3.5
+        },
+        "betrivers": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "betway.de": {
+          "home": 2.6,
+          "away": 3.75
+        },
+        "betway.es": {
+          "home": 2.6,
+          "away": 3.75
+        },
+        "bovada.lv": {
+          "home": 2.55,
+          "away": 3.55
+        },
+        "cashpoint": {
+          "home": 2.62,
+          "away": 3.65
+        },
+        "fourwinds": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "ladbrokes": {
+          "home": 2.6,
+          "away": 3.25
+        },
+        "lottoland": {
+          "home": 2.6,
+          "away": 3.4
+        },
+        "sportybet": {
+          "home": 2.65,
+          "away": 3.5
+        },
+        "unibet.be": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "unibet.dk": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "unibet.ie": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "unibet.nl": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "unibet.se": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "virginbet": {
+          "home": 2.5,
+          "away": 3.3
+        },
+        "winbet.bg": {
+          "home": 2.6,
+          "away": 3.55
+        },
+        "winbet.ro": {
+          "home": 2.55,
+          "away": 3.45
+        },
+        "betfair-ex": {
+          "home": 2.74,
+          "away": 3.6
+        },
+        "bingoal.be": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "estrelabet": {
+          "home": 2.6,
+          "away": 3.667
+        },
+        "eurobet.it": {
+          "home": 2.55,
+          "away": 3.45
+        },
+        "goldbet.it": {
+          "home": 2.6,
+          "away": 3.35
+        },
+        "paddypower": {
+          "home": 1.57,
+          "away": 2.25
+        },
+        "partypoker": {
+          "home": 2.65,
+          "away": 3.4
+        },
+        "polymarket": {
+          "home": 2.703,
+          "away": 3.704
+        },
+        "rushbet.co": {
+          "home": 2.5,
+          "away": 3.35
+        },
+        "scooore.be": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "winamax.de": {
+          "home": 2.95,
+          "away": 3.4
+        },
+        "winamax.es": {
+          "home": 2.95,
+          "away": 3.4
+        },
+        "winamax.fr": {
+          "home": 2.85,
+          "away": 3.25
+        },
+        "888sport.it": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "leovegas.es": {
+          "home": 2.5,
+          "away": 3.3
+        },
+        "leovegas.it": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "quigioco.it": {
+          "home": 2.58,
+          "away": 3.45
+        },
+        "sportingbet": {
+          "home": 2.65,
+          "away": 3.4
+        },
+        "superbet.ro": {
+          "home": 2.62,
+          "away": 3.3
+        },
+        "svenskaspel": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "apuestatotal": {
+          "home": 2.667,
+          "away": 3.5
+        },
+        "balkanbet.rs": {
+          "home": 2.7,
+          "away": 3.35
+        },
+        "betmgm.co.uk": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "stake.bet.br": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "admiralbet.it": {
+          "home": 2.55,
+          "away": 3.35
+        },
+        "pokerstars.it": {
+          "home": 2.5,
+          "away": 3.5
+        },
+        "unibet.com.au": {
+          "home": 2.55,
+          "away": 3.4
+        },
+        "sesamesport.bg": {
+          "home": 2.5,
+          "away": 3.45
+        },
+        "pamestoixima.gr": {
+          "home": 2.62,
+          "away": 3.35
+        },
+        "pointsbet.com.au": {
+          "home": 2.55,
+          "away": 3.5
+        },
+        "sportsinteraction": {
+          "home": 1.61,
+          "away": 2.15
+        },
+        "sportingbet.bet.br": {
+          "home": 1.61,
+          "away": 2.15
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1004269571307982",
+    "home": "Oakland Roots SC",
+    "away": "Sacramento Republic FC",
+    "sport": "Soccer",
+    "tournament": "USL League One Cup",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 2.9,
+          "away": 2.74
+        },
+        "kto": {
+          "home": 2.65,
+          "away": 3
+        },
+        "paf": {
+          "home": 2.65,
+          "away": 3
+        },
+        "bwin": {
+          "home": 2.75,
+          "away": 2.9
+        },
+        "vave": {
+          "home": 2.85,
+          "away": 3
+        },
+        "1xbet": {
+          "home": 2.971,
+          "away": 2.8
+        },
+        "22bet": {
+          "home": 2.971,
+          "away": 2.8
+        },
+        "blaze": {
+          "home": 2.86,
+          "away": 2.92
+        },
+        "coral": {
+          "home": 2.8,
+          "away": 2.9
+        },
+        "inbet": {
+          "home": 2.85,
+          "away": 3
+        },
+        "stake": {
+          "home": 2.75,
+          "away": 2.95
+        },
+        "atg.se": {
+          "home": 2.65,
+          "away": 3
+        },
+        "bcgame": {
+          "home": 2.86,
+          "away": 2.92
+        },
+        "bet365": {
+          "home": 2.8,
+          "away": 3.1
+        },
+        "betika": {
+          "home": 2.85,
+          "away": 3.05
+        },
+        "betway": {
+          "home": 2.875,
+          "away": 2.875
+        },
+        "kalshi": {
+          "home": 2.941,
+          "away": 2.778
+        },
+        "netbet": {
+          "home": 2.99,
+          "away": 2.78
+        },
+        "paf.es": {
+          "home": 2.6,
+          "away": 2.95
+        },
+        "unibet": {
+          "home": 2.65,
+          "away": 3
+        },
+        "betparx": {
+          "home": 2.65,
+          "away": 3
+        },
+        "betplay": {
+          "home": 2.63,
+          "away": 3
+        },
+        "bwin.be": {
+          "home": 2.75,
+          "away": 2.9
+        },
+        "bwin.es": {
+          "home": 2.75,
+          "away": 2.9
+        },
+        "dafabet": {
+          "home": 2.9,
+          "away": 3.1
+        },
+        "mystake": {
+          "home": 2.85,
+          "away": 3
+        },
+        "rollbit": {
+          "home": 2.86,
+          "away": 2.92
+        },
+        "yesplay": {
+          "home": 2.8,
+          "away": 3
+        },
+        "ballybet": {
+          "home": 2.65,
+          "away": 3
+        },
+        "cloudbet": {
+          "home": 2.9,
+          "away": 2.7
+        },
+        "duelbits": {
+          "home": 2.85,
+          "away": 3
+        },
+        "jacks.nl": {
+          "home": 2.65,
+          "away": 3
+        },
+        "leovegas": {
+          "home": 2.63,
+          "away": 3
+        },
+        "pinnacle": {
+          "home": 2.98,
+          "away": 2.77
+        },
+        "sharpbet": {
+          "home": 2.895,
+          "away": 2.831
+        },
+        "tabtouch": {
+          "home": 2.65,
+          "away": 3
+        },
+        "bet365.de": {
+          "home": 2.8,
+          "away": 3.1
+        },
+        "betrivers": {
+          "home": 2.65,
+          "away": 3
+        },
+        "betway.es": {
+          "home": 2.9,
+          "away": 2.8
+        },
+        "bovada.lv": {
+          "home": 2.85,
+          "away": 2.85
+        },
+        "ladbrokes": {
+          "home": 2.8,
+          "away": 2.9
+        },
+        "lottoland": {
+          "home": 2.9,
+          "away": 2.75
+        },
+        "sportybet": {
+          "home": 2.9,
+          "away": 3.1
+        },
+        "unibet.be": {
+          "home": 2.65,
+          "away": 3
+        },
+        "unibet.dk": {
+          "home": 2.65,
+          "away": 3
+        },
+        "unibet.ie": {
+          "home": 2.65,
+          "away": 3
+        },
+        "unibet.nl": {
+          "home": 2.65,
+          "away": 3
+        },
+        "unibet.se": {
+          "home": 2.65,
+          "away": 3
+        },
+        "virginbet": {
+          "home": 2.65,
+          "away": 3
+        },
+        "winbet.bg": {
+          "home": 2.85,
+          "away": 3
+        },
+        "winbet.ro": {
+          "home": 2.85,
+          "away": 3
+        },
+        "bingoal.be": {
+          "home": 2.65,
+          "away": 3
+        },
+        "estrelabet": {
+          "home": 3,
+          "away": 2.8
+        },
+        "eurobet.it": {
+          "home": 2.85,
+          "away": 2.85
+        },
+        "partypoker": {
+          "home": 2.75,
+          "away": 2.9
+        },
+        "rushbet.co": {
+          "home": 2.6,
+          "away": 2.95
+        },
+        "scooore.be": {
+          "home": 2.65,
+          "away": 3
+        },
+        "winamax.es": {
+          "home": 2.45,
+          "away": 3.15
+        },
+        "888sport.it": {
+          "home": 2.63,
+          "away": 3
+        },
+        "leovegas.es": {
+          "home": 2.65,
+          "away": 3
+        },
+        "leovegas.it": {
+          "home": 2.65,
+          "away": 3
+        },
+        "sportingbet": {
+          "home": 2.75,
+          "away": 2.9
+        },
+        "svenskaspel": {
+          "home": 2.65,
+          "away": 3
+        },
+        "apuestatotal": {
+          "home": 3,
+          "away": 2.833
+        },
+        "betmgm.co.uk": {
+          "home": 2.65,
+          "away": 3
+        },
+        "stake.bet.br": {
+          "home": 2.65,
+          "away": 3
+        },
+        "unibet.com.au": {
+          "home": 2.65,
+          "away": 3
+        },
+        "sportsinteraction": {
+          "home": 2.75,
+          "away": 2.9
+        },
+        "sportingbet.bet.br": {
+          "home": 2.75,
+          "away": 2.9
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id2005119671464886",
+    "home": "Veretennikov, Nikolay",
+    "away": "Williams, Khaos",
+    "sport": "MMA",
+    "tournament": "UFC Fight Night: Allen vs. Costa",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 1.98,
+          "away": 1.8
+        },
+        "bwin": {
+          "home": 2,
+          "away": 1.83
+        },
+        "blaze": {
+          "home": 2,
+          "away": 1.75
+        },
+        "inbet": {
+          "home": 1.95,
+          "away": 1.77
+        },
+        "stake": {
+          "home": 1.93,
+          "away": 1.91
+        },
+        "bcgame": {
+          "home": 2,
+          "away": 1.75
+        },
+        "betika": {
+          "home": 1.88,
+          "away": 1.86
+        },
+        "betmgm": {
+          "home": 2,
+          "away": 1.83
+        },
+        "kalshi": {
+          "home": 2.083,
+          "away": 1.852
+        },
+        "roobet": {
+          "home": 2,
+          "away": 1.75
+        },
+        "sx.bet": {
+          "home": 2.03,
+          "away": 1.909
+        },
+        "vertex": {
+          "home": 1.985,
+          "away": 1.882
+        },
+        "borgata": {
+          "home": 2,
+          "away": 1.83
+        },
+        "bwin.be": {
+          "home": 2,
+          "away": 1.83
+        },
+        "bwin.dk": {
+          "home": 2,
+          "away": 1.83
+        },
+        "bwin.es": {
+          "home": 2,
+          "away": 1.83
+        },
+        "fanduel": {
+          "home": 2,
+          "away": 1.85
+        },
+        "rollbit": {
+          "home": 2,
+          "away": 1.75
+        },
+        "yesplay": {
+          "home": 1.89,
+          "away": 1.88
+        },
+        "4casters": {
+          "home": 2.02,
+          "away": 1.909
+        },
+        "duelbits": {
+          "home": 1.99,
+          "away": 1.86
+        },
+        "pinnacle": {
+          "home": 2,
+          "away": 1.884
+        },
+        "prophetx": {
+          "home": 2.07,
+          "away": 1.885
+        },
+        "lottoland": {
+          "home": 1.933,
+          "away": 1.778
+        },
+        "sportybet": {
+          "home": 1.89,
+          "away": 1.88
+        },
+        "winbet.bg": {
+          "home": 1.94,
+          "away": 1.77
+        },
+        "winbet.ro": {
+          "home": 1.98,
+          "away": 1.8
+        },
+        "betamapola": {
+          "home": 1.926,
+          "away": 1.893
+        },
+        "betfair-ex": {
+          "home": 2.06,
+          "away": 1.92
+        },
+        "draftkings": {
+          "home": 1.95,
+          "away": 1.86
+        },
+        "estrelabet": {
+          "home": 1.933,
+          "away": 1.778
+        },
+        "paddypower": {
+          "home": 2,
+          "away": 1.8
+        },
+        "partypoker": {
+          "home": 2,
+          "away": 1.83
+        },
+        "pokerstars": {
+          "home": 2,
+          "away": 1.73
+        },
+        "polymarket": {
+          "home": 2.041,
+          "away": 1.923
+        },
+        "sportingbet": {
+          "home": 2,
+          "away": 1.83
+        },
+        "apuestatotal": {
+          "home": 1.933,
+          "away": 1.778
+        },
+        "betonline.ag": {
+          "home": 1.91,
+          "away": 1.91
+        },
+        "pokerstars.es": {
+          "home": 1.87,
+          "away": 1.8
+        },
+        "pokerstars.uk": {
+          "home": 1.87,
+          "away": 1.8
+        },
+        "sesamesport.bg": {
+          "home": 1.97,
+          "away": 1.8
+        },
+        "pamestoixima.gr": {
+          "home": 1.85,
+          "away": 1.84
+        },
+        "sportsinteraction": {
+          "home": 2,
+          "away": 1.83
+        },
+        "sportingbet.bet.br": {
+          "home": 2,
+          "away": 1.83
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1103681771463804",
+    "home": "Villa Alemana Basquet",
+    "away": "CD Municipal Chillan",
+    "sport": "Basketball",
+    "tournament": "Liga Dos",
+    "markets": {
+      "h2h": {
+        "vave": {
+          "home": 1.02,
+          "away": 8.6
+        },
+        "1xbet": {
+          "home": 1.013,
+          "away": 18.5
+        },
+        "22bet": {
+          "home": 1.013,
+          "away": 18.5
+        },
+        "coral": {
+          "home": 1.01,
+          "away": 15
+        },
+        "inbet": {
+          "home": 1.05,
+          "away": 34
+        },
+        "bet365": {
+          "home": 13,
+          "away": 1.01
+        },
+        "betika": {
+          "home": 1.02,
+          "away": 9.2
+        },
+        "kaiyun": {
+          "home": 1.01,
+          "away": 8.3
+        },
+        "dafabet": {
+          "home": 1.02,
+          "away": 11
+        },
+        "mystake": {
+          "home": 1.02,
+          "away": 10.04
+        },
+        "yesplay": {
+          "home": 1.02,
+          "away": 8
+        },
+        "cloudbet": {
+          "home": 1.69,
+          "away": 1.84
+        },
+        "duelbits": {
+          "home": 1.02,
+          "away": 8.6
+        },
+        "pinnacle": {
+          "home": 1.01,
+          "away": 6.78
+        },
+        "bovada.lv": {
+          "home": 1.04,
+          "away": 9
+        },
+        "ladbrokes": {
+          "home": 1.01,
+          "away": 15
+        },
+        "lottoland": {
+          "home": 1.03,
+          "away": 7.5
+        },
+        "sportybet": {
+          "home": 1.02,
+          "away": 9.25
+        },
+        "winbet.bg": {
+          "home": 1.05,
+          "away": 34
+        },
+        "winbet.ro": {
+          "home": 1.04,
+          "away": 35
+        },
+        "estrelabet": {
+          "home": 1.04,
+          "away": 9
+        },
+        "eurobet.it": {
+          "home": 1,
+          "away": 15
+        },
+        "winamax.es": {
+          "home": 1.02,
+          "away": 12.5
+        },
+        "superbet.ro": {
+          "home": 1.005,
+          "away": 13
+        },
+        "apuestatotal": {
+          "home": 1.04,
+          "away": 9
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1103681771463800",
+    "home": "CD Illapel Basquetbol",
+    "away": "CD Humboldt",
+    "sport": "Basketball",
+    "tournament": "Liga Dos",
+    "markets": {
+      "h2h": {
+        "vave": {
+          "home": 1.15,
+          "away": 4.4
+        },
+        "1xbet": {
+          "home": 1.199,
+          "away": 16.5
+        },
+        "22bet": {
+          "home": 1.199,
+          "away": 16.5
+        },
+        "coral": {
+          "home": 1.22,
+          "away": 3.8
+        },
+        "inbet": {
+          "home": 1.16,
+          "away": 4.75
+        },
+        "bet365": {
+          "home": 3.9,
+          "away": 1.22
+        },
+        "betika": {
+          "home": 1.15,
+          "away": 4.5
+        },
+        "kaiyun": {
+          "home": 1.23,
+          "away": 3.35
+        },
+        "dafabet": {
+          "home": 1.16,
+          "away": 4.7
+        },
+        "mystake": {
+          "home": 1.16,
+          "away": 4.62
+        },
+        "yesplay": {
+          "home": 1.14,
+          "away": 4.3
+        },
+        "duelbits": {
+          "home": 1.15,
+          "away": 4.35
+        },
+        "pinnacle": {
+          "home": 1.122,
+          "away": 3.9
+        },
+        "bet365.de": {
+          "home": 3.9,
+          "away": 1.19
+        },
+        "ladbrokes": {
+          "home": 1.22,
+          "away": 3.8
+        },
+        "lottoland": {
+          "home": 1.222,
+          "away": 3.5
+        },
+        "sportybet": {
+          "home": 1.15,
+          "away": 4.5
+        },
+        "winbet.bg": {
+          "home": 1.16,
+          "away": 4.5
+        },
+        "winbet.ro": {
+          "home": 1.16,
+          "away": 4.5
+        },
+        "estrelabet": {
+          "home": 1.235,
+          "away": 3.75
+        },
+        "winamax.es": {
+          "home": 1.16,
+          "away": 4.8
+        },
+        "superbet.ro": {
+          "home": 1.12,
+          "away": 4.6
+        },
+        "apuestatotal": {
+          "home": 1.235,
+          "away": 3.75
+        },
+        "pamestoixima.gr": {
+          "home": 1.16,
+          "away": 4.85
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1103681771463802",
+    "home": "Stadio Italiano",
+    "away": "CD Arturo Prat San Felipe",
+    "sport": "Basketball",
+    "tournament": "Liga Dos",
+    "markets": {
+      "h2h": {
+        "vave": {
+          "home": 1.02,
+          "away": 8.6
+        },
+        "1xbet": {
+          "home": 1.013,
+          "away": 18.5
+        },
+        "22bet": {
+          "home": 1.013,
+          "away": 18.5
+        },
+        "coral": {
+          "home": 1.03,
+          "away": 11
+        },
+        "bet365": {
+          "home": 11,
+          "away": 1.02
+        },
+        "betika": {
+          "home": 1.02,
+          "away": 9.2
+        },
+        "kaiyun": {
+          "home": 1.01,
+          "away": 8.3
+        },
+        "dafabet": {
+          "home": 1.02,
+          "away": 11
+        },
+        "mystake": {
+          "home": 1.02,
+          "away": 9.94
+        },
+        "cloudbet": {
+          "home": 1.012,
+          "away": 6.515
+        },
+        "duelbits": {
+          "home": 1.02,
+          "away": 8.5
+        },
+        "pinnacle": {
+          "home": 1.012,
+          "away": 6.63
+        },
+        "bovada.lv": {
+          "home": 1.04,
+          "away": 9
+        },
+        "ladbrokes": {
+          "home": 1.03,
+          "away": 11
+        },
+        "lottoland": {
+          "home": 1.03,
+          "away": 7.5
+        },
+        "sportybet": {
+          "home": 1.02,
+          "away": 9.2
+        },
+        "estrelabet": {
+          "home": 1.04,
+          "away": 9
+        },
+        "eurobet.it": {
+          "home": 1,
+          "away": 11
+        },
+        "winamax.es": {
+          "home": 1.02,
+          "away": 11.5
+        },
+        "superbet.ro": {
+          "home": 1.005,
+          "away": 12
+        },
+        "apuestatotal": {
+          "home": 1.04,
+          "away": 9
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1303424269060278",
+    "home": "San Antonio Missions",
+    "away": "Wichita Wind Surge",
+    "sport": "Baseball",
+    "tournament": "Double-A Texas League",
+    "markets": {
+      "h2h": {
+        "vave": {
+          "home": 1.79,
+          "away": 1.88
+        },
+        "blaze": {
+          "home": 1.79,
+          "away": 1.89
+        },
+        "stake": {
+          "home": 1.8,
+          "away": 1.9
+        },
+        "bcgame": {
+          "home": 1.79,
+          "away": 1.89
+        },
+        "betika": {
+          "home": 1.8,
+          "away": 1.9
+        },
+        "netbet": {
+          "home": 1.8,
+          "away": 1.88
+        },
+        "dafabet": {
+          "home": 1.8,
+          "away": 1.9
+        },
+        "mystake": {
+          "home": 1.82,
+          "away": 1.92
+        },
+        "rollbit": {
+          "home": 1.79,
+          "away": 1.89
+        },
+        "cloudbet": {
+          "home": 1.8,
+          "away": 1.9
+        },
+        "duelbits": {
+          "home": 1.8,
+          "away": 1.9
+        },
+        "sportybet": {
+          "home": 1.8,
+          "away": 1.9
+        },
+        "eurobet.it": {
+          "home": 1.79,
+          "away": 1.88
+        },
+        "admiralbet.it": {
+          "home": 1.8,
+          "away": 1.9
+        },
+        "pamestoixima.gr": {
+          "home": 1.82,
+          "away": 1.92
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1502989871231058",
+    "home": "Allen Americans",
+    "away": "Kansas City Mavericks",
+    "sport": "Ice Hockey",
+    "tournament": "ECHL",
+    "markets": {
+      "h2h": {
+        "vave": {
+          "home": 2.65,
+          "away": 1.44
+        },
+        "blaze": {
+          "home": 2.82,
+          "away": 1.34
+        },
+        "inbet": {
+          "home": 3.8,
+          "away": 4.33
+        },
+        "stake": {
+          "home": 2.65,
+          "away": 1.43
+        },
+        "bcgame": {
+          "home": 2.82,
+          "away": 1.34
+        },
+        "sbobet": {
+          "home": 3.68,
+          "away": 4.4
+        },
+        "betsson": {
+          "home": 2.75,
+          "away": 1.39
+        },
+        "dafabet": {
+          "home": 2.65,
+          "away": 1.44
+        },
+        "mystake": {
+          "home": 3.69,
+          "away": 4.22
+        },
+        "rollbit": {
+          "home": 2.82,
+          "away": 1.34
+        },
+        "yesplay": {
+          "home": 2.65,
+          "away": 1.43
+        },
+        "duelbits": {
+          "home": 2.55,
+          "away": 1.41
+        },
+        "sisal.it": {
+          "home": 3.8,
+          "away": 4.25
+        },
+        "bovada.lv": {
+          "home": 2.85,
+          "away": 1.4
+        },
+        "lottoland": {
+          "home": 2.8,
+          "away": 1.35
+        },
+        "sportybet": {
+          "home": 2.55,
+          "away": 1.41
+        },
+        "winbet.bg": {
+          "home": 3.8,
+          "away": 4.33
+        },
+        "winbet.ro": {
+          "home": 3.75,
+          "away": 4.25
+        },
+        "estrelabet": {
+          "home": 2.8,
+          "away": 1.385
+        },
+        "eurobet.it": {
+          "home": 2.6,
+          "away": 1.42
+        },
+        "winamax.es": {
+          "home": 3.6,
+          "away": 4.3
+        },
+        "apuestatotal": {
+          "home": 2.8,
+          "away": 1.385
+        },
+        "admiralbet.it": {
+          "home": 2.55,
+          "away": 1.4
+        },
+        "pokerstars.it": {
+          "home": 3.8,
+          "away": 4.25
+        },
+        "sesamesport.bg": {
+          "home": 3.65,
+          "away": 4.15
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1204756671535308",
+    "home": "Praveen Nair, Kamya",
+    "away": "Goldberg, Sonya",
+    "sport": "Tennis",
+    "tournament": "UTR PTT Newport Beach Women 11",
+    "markets": {
+      "h2h": {
+        "1xbet": {
+          "home": 5.5,
+          "away": 1.125
+        },
+        "22bet": {
+          "home": 5.5,
+          "away": 1.125
+        },
+        "inbet": {
+          "home": 5,
+          "away": 1.11
+        },
+        "bet365": {
+          "home": 5.5,
+          "away": 1.12
+        },
+        "betika": {
+          "home": 5,
+          "away": 1.11
+        },
+        "betway": {
+          "home": 4.75,
+          "away": 1.1
+        },
+        "betsson": {
+          "home": 5.2,
+          "away": 1.12
+        },
+        "dafabet": {
+          "home": 5.6,
+          "away": 1.13
+        },
+        "mystake": {
+          "home": 5.16,
+          "away": 1.12
+        },
+        "bet365.de": {
+          "home": 5.5,
+          "away": 1.09
+        },
+        "betway.es": {
+          "home": 4.75,
+          "away": 1.1
+        },
+        "lottoland": {
+          "home": 4.75,
+          "away": 1.111
+        },
+        "sportybet": {
+          "home": 5.2,
+          "away": 1.12
+        },
+        "winbet.bg": {
+          "home": 5.25,
+          "away": 1.12
+        },
+        "winbet.ro": {
+          "home": 5.25,
+          "away": 1.12
+        },
+        "draftkings": {
+          "home": 5.5,
+          "away": 1.12
+        },
+        "superbet.ro": {
+          "home": 3.25,
+          "away": 1.3
+        },
+        "apuestatotal": {
+          "home": 5,
+          "away": 1.111
+        },
+        "sesamesport.bg": {
+          "home": 5.15,
+          "away": 1.11
+        },
+        "pamestoixima.gr": {
+          "home": 5,
+          "away": 1.1
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "pn619022591630764139",
+    "home": "100 Thieves",
+    "away": "LOUD",
+    "sport": "ESport Valorant",
+    "tournament": "Champions Tour: Americas",
+    "markets": {
+      "h2h": {
+        "paf": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "blaze": {
+          "home": 2.18,
+          "away": 1.63
+        },
+        "stake": {
+          "home": 2.15,
+          "away": 1.62
+        },
+        "atg.se": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "bcgame": {
+          "home": 2.18,
+          "away": 1.63
+        },
+        "casumo": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "paf.es": {
+          "home": 1.57,
+          "away": 2.12
+        },
+        "roobet": {
+          "home": 2.22,
+          "away": 1.66
+        },
+        "unibet": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "betplay": {
+          "home": 1.6,
+          "away": 2.14
+        },
+        "rollbit": {
+          "home": 2.18,
+          "away": 1.63
+        },
+        "leovegas": {
+          "home": 1.6,
+          "away": 2.14
+        },
+        "pinnacle": {
+          "home": 1.649,
+          "away": 2.27
+        },
+        "betrivers": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "unibet.be": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "unibet.dk": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "unibet.ie": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "unibet.se": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "bingoal.be": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "draftkings": {
+          "home": 1.8,
+          "away": 1.95
+        },
+        "polymarket": {
+          "home": 1.754,
+          "away": 2.273
+        },
+        "rushbet.co": {
+          "home": 1.57,
+          "away": 2.12
+        },
+        "scooore.be": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "svenskaspel": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "betmgm.co.uk": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "stake.bet.br": {
+          "home": 1.63,
+          "away": 2.14
+        },
+        "unibet.com.au": {
+          "home": 1.63,
+          "away": 2.14
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id2005119670812934",
+    "home": "Cuamba, Timothy Angel",
+    "away": "Sopaj, Bernardo",
+    "sport": "MMA",
+    "tournament": "UFC Fight Night: Allen vs. Costa",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 2.14,
+          "away": 1.69
+        },
+        "bwin": {
+          "home": 2.1,
+          "away": 1.75
+        },
+        "blaze": {
+          "home": 2.1,
+          "away": 1.67
+        },
+        "inbet": {
+          "home": 2,
+          "away": 1.73
+        },
+        "stake": {
+          "home": 2.07,
+          "away": 1.8
+        },
+        "bcgame": {
+          "home": 2.1,
+          "away": 1.67
+        },
+        "betika": {
+          "home": 2.01,
+          "away": 1.75
+        },
+        "roobet": {
+          "home": 2.1,
+          "away": 1.67
+        },
+        "sx.bet": {
+          "home": 2.036,
+          "away": 1.81
+        },
+        "vertex": {
+          "home": 2.038,
+          "away": 1.836
+        },
+        "rollbit": {
+          "home": 2.1,
+          "away": 1.67
+        },
+        "yesplay": {
+          "home": 2.03,
+          "away": 1.77
+        },
+        "4casters": {
+          "home": 2.165,
+          "away": 1.855
+        },
+        "duelbits": {
+          "home": 2.18,
+          "away": 1.72
+        },
+        "pinnacle": {
+          "home": 2.09,
+          "away": 1.819
+        },
+        "prophetx": {
+          "home": 2.14,
+          "away": 1.813
+        },
+        "lottoland": {
+          "home": 1.96,
+          "away": 1.75
+        },
+        "sportybet": {
+          "home": 2.03,
+          "away": 1.77
+        },
+        "winbet.bg": {
+          "home": 1.99,
+          "away": 1.74
+        },
+        "winbet.ro": {
+          "home": 2.03,
+          "away": 1.78
+        },
+        "betamapola": {
+          "home": 2.04,
+          "away": 1.806
+        },
+        "draftkings": {
+          "home": 2.05,
+          "away": 1.8
+        },
+        "estrelabet": {
+          "home": 1.96,
+          "away": 1.75
+        },
+        "polymarket": {
+          "home": 2.083,
+          "away": 1.887
+        },
+        "apuestatotal": {
+          "home": 1.96,
+          "away": 1.75
+        },
+        "betonline.ag": {
+          "home": 2.05,
+          "away": 1.8
+        },
+        "sesamesport.bg": {
+          "home": 2.02,
+          "away": 1.76
+        },
+        "pamestoixima.gr": {
+          "home": 1.98,
+          "away": 1.74
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id2005090470064148",
+    "home": "Ngannou, Francis",
+    "away": "Lins, Philipe",
+    "sport": "MMA",
+    "tournament": "MVP: Rousey vs Carano",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 1.06,
+          "away": 10
+        },
+        "bwin": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "blaze": {
+          "home": 8,
+          "away": 1.05
+        },
+        "coral": {
+          "home": 1.07,
+          "away": 8.5
+        },
+        "stake": {
+          "home": 1.07,
+          "away": 6.8
+        },
+        "bcgame": {
+          "home": 8,
+          "away": 1.05
+        },
+        "betika": {
+          "home": 1.07,
+          "away": 6.4
+        },
+        "betmgm": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "roobet": {
+          "home": 8,
+          "away": 1.05
+        },
+        "borgata": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "bwin.be": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "bwin.dk": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "bwin.es": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "fanduel": {
+          "home": 1.05,
+          "away": 9.3
+        },
+        "rollbit": {
+          "home": 8,
+          "away": 1.05
+        },
+        "duelbits": {
+          "home": 1.08,
+          "away": 7.3
+        },
+        "pinnacle": {
+          "home": 1.081,
+          "away": 8.76
+        },
+        "ladbrokes": {
+          "home": 1.07,
+          "away": 8.5
+        },
+        "lottoland": {
+          "home": 1.067,
+          "away": 7
+        },
+        "sportybet": {
+          "home": 1.09,
+          "away": 8.06
+        },
+        "betfair-ex": {
+          "home": 1.11,
+          "away": 9.8
+        },
+        "draftkings": {
+          "home": 1.07,
+          "away": 9
+        },
+        "estrelabet": {
+          "home": 1.067,
+          "away": 7
+        },
+        "paddypower": {
+          "home": 1.05,
+          "away": 8
+        },
+        "partypoker": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "pokerstars": {
+          "home": 1.04,
+          "away": 8
+        },
+        "hardrockbet": {
+          "home": 1.071,
+          "away": 9
+        },
+        "sportingbet": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "apuestatotal": {
+          "home": 1.067,
+          "away": 7
+        },
+        "betonline.ag": {
+          "home": 1.1,
+          "away": 8.25
+        },
+        "bookmaker.eu": {
+          "home": 1.067,
+          "away": 8.89
+        },
+        "pokerstars.es": {
+          "home": 1.04,
+          "away": 8
+        },
+        "pokerstars.uk": {
+          "home": 1.04,
+          "away": 8
+        },
+        "pamestoixima.gr": {
+          "home": 1.07,
+          "away": 7
+        },
+        "sportsinteraction": {
+          "home": 1.04,
+          "away": 11.5
+        },
+        "sportingbet.bet.br": {
+          "home": 1.04,
+          "away": 11.5
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1000059469462624",
+    "home": "FC Western",
+    "away": "Upper Hutt City FC",
+    "sport": "Soccer",
+    "tournament": "National League",
+    "markets": {
+      "h2h": {
+        "kto": {
+          "home": 3.85,
+          "away": 4
+        },
+        "paf": {
+          "home": 3.85,
+          "away": 4
+        },
+        "bwin": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "vave": {
+          "home": 4.5,
+          "away": 4.5
+        },
+        "1xbet": {
+          "home": 5.06,
+          "away": 4.4
+        },
+        "22bet": {
+          "home": 4.91,
+          "away": 4.4
+        },
+        "blaze": {
+          "home": 4.3,
+          "away": 4.6
+        },
+        "coral": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "inbet": {
+          "home": 5,
+          "away": 4.5
+        },
+        "stake": {
+          "home": 4.4,
+          "away": 4.4
+        },
+        "198bet": {
+          "home": 4.4,
+          "away": 4.2
+        },
+        "bcgame": {
+          "home": 4.3,
+          "away": 4.6
+        },
+        "bet365": {
+          "home": 3.5,
+          "away": 4.5
+        },
+        "betika": {
+          "home": 4.5,
+          "away": 4.5
+        },
+        "betway": {
+          "home": 4.333,
+          "away": 4.75
+        },
+        "netbet": {
+          "home": 4.5,
+          "away": 4.5
+        },
+        "oddset": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "paf.es": {
+          "home": 3.75,
+          "away": 3.9
+        },
+        "roobet": {
+          "home": 4.3,
+          "away": 4.6
+        },
+        "tipico": {
+          "home": 4.7,
+          "away": 4.5
+        },
+        "unibet": {
+          "home": 3.85,
+          "away": 4
+        },
+        "betplay": {
+          "home": 3.8,
+          "away": 3.95
+        },
+        "bwin.be": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "bwin.de": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "bwin.es": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "dafabet": {
+          "home": 4.5,
+          "away": 4.5
+        },
+        "mystake": {
+          "home": 4.35,
+          "away": 4.33
+        },
+        "rollbit": {
+          "home": 4.3,
+          "away": 4.6
+        },
+        "yesplay": {
+          "home": 4.5,
+          "away": 4.4
+        },
+        "cloudbet": {
+          "home": 4.4,
+          "away": 4.35
+        },
+        "duelbits": {
+          "home": 4.55,
+          "away": 4.5
+        },
+        "pinnacle": {
+          "home": 4.34,
+          "away": 4.3
+        },
+        "sisal.it": {
+          "home": 4.25,
+          "away": 4.25
+        },
+        "tabtouch": {
+          "home": 3.85,
+          "away": 4
+        },
+        "bet365.de": {
+          "home": 3.5,
+          "away": 4.5
+        },
+        "betway.es": {
+          "home": 4.333,
+          "away": 4.75
+        },
+        "bovada.lv": {
+          "home": 3.4,
+          "away": 4.1
+        },
+        "ladbrokes": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "lottoland": {
+          "home": 4.2,
+          "away": 4.5
+        },
+        "sportybet": {
+          "home": 4.5,
+          "away": 4.5
+        },
+        "unibet.be": {
+          "home": 3.85,
+          "away": 4
+        },
+        "unibet.dk": {
+          "home": 3.85,
+          "away": 4
+        },
+        "unibet.ie": {
+          "home": 3.85,
+          "away": 4
+        },
+        "virginbet": {
+          "home": 3.85,
+          "away": 4
+        },
+        "winbet.bg": {
+          "home": 5,
+          "away": 4.5
+        },
+        "winbet.ro": {
+          "home": 5,
+          "away": 4.5
+        },
+        "bingoal.be": {
+          "home": 3.85,
+          "away": 4
+        },
+        "estrelabet": {
+          "home": 4.333,
+          "away": 4.75
+        },
+        "eurobet.it": {
+          "home": 3.3,
+          "away": 3.95
+        },
+        "goldbet.it": {
+          "home": 3.35,
+          "away": 4
+        },
+        "partypoker": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "rushbet.co": {
+          "home": 3.75,
+          "away": 3.9
+        },
+        "scooore.be": {
+          "home": 3.85,
+          "away": 4
+        },
+        "winamax.de": {
+          "home": 2.85,
+          "away": 3.9
+        },
+        "888sport.it": {
+          "home": 3.8,
+          "away": 3.95
+        },
+        "leovegas.es": {
+          "home": 3.85,
+          "away": 4
+        },
+        "leovegas.it": {
+          "home": 3.85,
+          "away": 4
+        },
+        "quigioco.it": {
+          "home": 3.3,
+          "away": 3.95
+        },
+        "sportingbet": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "apuestatotal": {
+          "home": 4.25,
+          "away": 4.75
+        },
+        "betmgm.co.uk": {
+          "home": 3.85,
+          "away": 4
+        },
+        "stake.bet.br": {
+          "home": 3.85,
+          "away": 4
+        },
+        "admiralbet.it": {
+          "home": 4.4,
+          "away": 4.4
+        },
+        "pokerstars.it": {
+          "home": 4.25,
+          "away": 4.25
+        },
+        "unibet.com.au": {
+          "home": 3.85,
+          "away": 4
+        },
+        "sesamesport.bg": {
+          "home": 4.95,
+          "away": 4.5
+        },
+        "sportsinteraction": {
+          "home": 4.2,
+          "away": 4.2
+        },
+        "sportingbet.bet.br": {
+          "home": 4.2,
+          "away": 4.2
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1004269567844012",
+    "home": "Corpus Christi FC",
+    "away": "FC Tulsa",
+    "sport": "Soccer",
+    "tournament": "USL League One Cup",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 3.35,
+          "away": 3.5
+        },
+        "kto": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "bwin": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "vave": {
+          "home": 3.6,
+          "away": 3.55
+        },
+        "1xbet": {
+          "home": 3.645,
+          "away": 3.64
+        },
+        "22bet": {
+          "home": 3.645,
+          "away": 3.64
+        },
+        "blaze": {
+          "home": 3.45,
+          "away": 3.65
+        },
+        "coral": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "inbet": {
+          "home": 3.6,
+          "away": 3.55
+        },
+        "stake": {
+          "home": 3.55,
+          "away": 3.45
+        },
+        "bcgame": {
+          "home": 3.45,
+          "away": 3.65
+        },
+        "bet365": {
+          "home": 3.6,
+          "away": 3.7
+        },
+        "betika": {
+          "home": 3.65,
+          "away": 3.6
+        },
+        "betway": {
+          "home": 3.5,
+          "away": 3.5
+        },
+        "kalshi": {
+          "home": 3.125,
+          "away": 3.704
+        },
+        "netbet": {
+          "home": 3.18,
+          "away": 3.78
+        },
+        "bwin.be": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "bwin.es": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "dafabet": {
+          "home": 3.75,
+          "away": 3.65
+        },
+        "mystake": {
+          "home": 3.6,
+          "away": 3.55
+        },
+        "rollbit": {
+          "home": 3.45,
+          "away": 3.65
+        },
+        "yesplay": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "ballybet": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "cloudbet": {
+          "home": 3.05,
+          "away": 3.7
+        },
+        "duelbits": {
+          "home": 3.6,
+          "away": 3.55
+        },
+        "jacks.nl": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "pinnacle": {
+          "home": 3.16,
+          "away": 3.78
+        },
+        "tabtouch": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "bet365.de": {
+          "home": 3.6,
+          "away": 3.7
+        },
+        "betrivers": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "betway.es": {
+          "home": 3.5,
+          "away": 3.5
+        },
+        "bovada.lv": {
+          "home": 3.6,
+          "away": 3.55
+        },
+        "ladbrokes": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "lottoland": {
+          "home": 3,
+          "away": 3.75
+        },
+        "sportybet": {
+          "home": 3.7,
+          "away": 3.6
+        },
+        "unibet.be": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "unibet.dk": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "unibet.ie": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "unibet.nl": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "unibet.se": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "virginbet": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "winbet.bg": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "winbet.ro": {
+          "home": 3.6,
+          "away": 3.55
+        },
+        "estrelabet": {
+          "home": 3.2,
+          "away": 3.8
+        },
+        "eurobet.it": {
+          "home": 3.3,
+          "away": 3.55
+        },
+        "partypoker": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "winamax.es": {
+          "home": 4.1,
+          "away": 3.85
+        },
+        "888sport.it": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "sportingbet": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "svenskaspel": {
+          "home": 3.35,
+          "away": 3.7
+        },
+        "apuestatotal": {
+          "home": 3.2,
+          "away": 3.8
+        },
+        "sportsinteraction": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "sportingbet.bet.br": {
+          "home": 3.6,
+          "away": 3.5
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1103449671502214",
+    "home": "CA San Isidro",
+    "away": "La Union Colon Entre Rios",
+    "sport": "Basketball",
+    "tournament": "Liga Argentina",
+    "markets": {
+      "h2h": {
+        "bwin": {
+          "home": 1.3,
+          "away": 3.1
+        },
+        "vave": {
+          "home": 1.25,
+          "away": 3.55
+        },
+        "1xbet": {
+          "home": 1.316,
+          "away": 14.9
+        },
+        "22bet": {
+          "home": 1.316,
+          "away": 14.9
+        },
+        "inbet": {
+          "home": 1.25,
+          "away": 3.6
+        },
+        "bet365": {
+          "home": 3.2,
+          "away": 1.31
+        },
+        "betika": {
+          "home": 1.26,
+          "away": 3.65
+        },
+        "betway": {
+          "home": 1.85,
+          "away": 1.85
+        },
+        "sbobet": {
+          "home": 1.895,
+          "away": 1.815
+        },
+        "bwin.be": {
+          "home": 1.3,
+          "away": 3.1
+        },
+        "dafabet": {
+          "home": 1.26,
+          "away": 3.65
+        },
+        "mystake": {
+          "home": 1.26,
+          "away": 3.63
+        },
+        "cloudbet": {
+          "home": 1.2,
+          "away": 3.25
+        },
+        "duelbits": {
+          "home": 1.26,
+          "away": 3.65
+        },
+        "pinnacle": {
+          "home": 1.228,
+          "away": 3.33
+        },
+        "bet365.de": {
+          "home": 3.2,
+          "away": 1.28
+        },
+        "betway.es": {
+          "home": 1.85,
+          "away": 1.85
+        },
+        "bovada.lv": {
+          "home": 1.256,
+          "away": 3.5
+        },
+        "lottoland": {
+          "home": 1.25,
+          "away": 3.333
+        },
+        "sportybet": {
+          "home": 1.25,
+          "away": 3.6
+        },
+        "winbet.bg": {
+          "home": 1.25,
+          "away": 3.5
+        },
+        "winbet.ro": {
+          "home": 1.25,
+          "away": 3.55
+        },
+        "estrelabet": {
+          "home": 1.286,
+          "away": 3.4
+        },
+        "goldbet.it": {
+          "home": 1.27,
+          "away": 3.2
+        },
+        "partypoker": {
+          "home": 1.3,
+          "away": 3.1
+        },
+        "winamax.es": {
+          "home": 1.26,
+          "away": 3.65
+        },
+        "quigioco.it": {
+          "home": 1.23,
+          "away": 3.45
+        },
+        "sportingbet": {
+          "home": 1.3,
+          "away": 3.1
+        },
+        "superbet.ro": {
+          "home": 1.22,
+          "away": 3.5
+        },
+        "apuestatotal": {
+          "home": 1.286,
+          "away": 3.4
+        },
+        "admiralbet.it": {
+          "home": 1.25,
+          "away": 3.5
+        },
+        "sesamesport.bg": {
+          "home": 1.24,
+          "away": 3.5
+        },
+        "pamestoixima.gr": {
+          "home": 1.25,
+          "away": 3.65
+        },
+        "sportsinteraction": {
+          "home": 1.3,
+          "away": 3.1
+        },
+        "sportingbet.bet.br": {
+          "home": 1.3,
+          "away": 3.1
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id2503634971523446",
+    "home": "Urbaniec, Radim",
+    "away": "Svacha, Ondrej",
+    "sport": "Table Tennis",
+    "tournament": "Czech Liga Pro",
+    "markets": {
+      "h2h": {
+        "kto": {
+          "home": 1.77,
+          "away": 1.77
+        },
+        "paf": {
+          "home": 1.84,
+          "away": 1.84
+        },
+        "vave": {
+          "home": 1.77,
+          "away": 1.8
+        },
+        "coral": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "inbet": {
+          "home": 1.85,
+          "away": 1.85
+        },
+        "atg.se": {
+          "home": 1.85,
+          "away": 1.85
+        },
+        "betika": {
+          "home": 1.82,
+          "away": 1.85
+        },
+        "paf.es": {
+          "home": 1.81,
+          "away": 1.81
+        },
+        "unibet": {
+          "home": 1.82,
+          "away": 1.82
+        },
+        "betparx": {
+          "home": 1.84,
+          "away": 1.84
+        },
+        "betplay": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "dafabet": {
+          "home": 1.84,
+          "away": 1.86
+        },
+        "yesplay": {
+          "home": 1.82,
+          "away": 1.85
+        },
+        "ballybet": {
+          "home": 1.84,
+          "away": 1.84
+        },
+        "leovegas": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "sisal.it": {
+          "home": 1.8,
+          "away": 1.8
+        },
+        "tabtouch": {
+          "home": 1.84,
+          "away": 1.84
+        },
+        "betrivers": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "ladbrokes": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "lottoland": {
+          "home": 1.727,
+          "away": 1.714
+        },
+        "unibet.be": {
+          "home": 1.82,
+          "away": 1.82
+        },
+        "unibet.dk": {
+          "home": 1.82,
+          "away": 1.82
+        },
+        "unibet.ie": {
+          "home": 1.82,
+          "away": 1.82
+        },
+        "unibet.se": {
+          "home": 1.82,
+          "away": 1.82
+        },
+        "winbet.bg": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "winbet.ro": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "bingoal.be": {
+          "home": 1.76,
+          "away": 1.76
+        },
+        "draftkings": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "rushbet.co": {
+          "home": 1.81,
+          "away": 1.81
+        },
+        "scooore.be": {
+          "home": 1.84,
+          "away": 1.84
+        },
+        "888sport.it": {
+          "home": 1.83,
+          "away": 1.83
+        },
+        "leovegas.es": {
+          "home": 1.74,
+          "away": 1.74
+        },
+        "leovegas.it": {
+          "home": 1.78,
+          "away": 1.78
+        },
+        "apuestatotal": {
+          "home": 1.833,
+          "away": 1.833
+        },
+        "betmgm.co.uk": {
+          "home": 1.8,
+          "away": 1.8
+        },
+        "stake.bet.br": {
+          "home": 1.84,
+          "away": 1.84
+        },
+        "pokerstars.it": {
+          "home": 1.8,
+          "away": 1.8
+        },
+        "unibet.com.au": {
+          "home": 1.85,
+          "away": 1.85
+        },
+        "sesamesport.bg": {
+          "home": 1.8,
+          "away": 1.8
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id2503634971523426",
+    "home": "Tuma, Daniel",
+    "away": "Kasnik, Sebastian",
+    "sport": "Table Tennis",
+    "tournament": "Czech Liga Pro",
+    "markets": {
+      "h2h": {
+        "kto": {
+          "home": 1.92,
+          "away": 1.65
+        },
+        "paf": {
+          "home": 2,
+          "away": 1.71
+        },
+        "vave": {
+          "home": 1.92,
+          "away": 1.67
+        },
+        "coral": {
+          "home": 1.95,
+          "away": 1.73
+        },
+        "inbet": {
+          "home": 2,
+          "away": 1.73
+        },
+        "atg.se": {
+          "home": 2,
+          "away": 1.72
+        },
+        "betika": {
+          "home": 1.98,
+          "away": 1.71
+        },
+        "paf.es": {
+          "home": 1.96,
+          "away": 1.68
+        },
+        "unibet": {
+          "home": 1.97,
+          "away": 1.7
+        },
+        "betparx": {
+          "home": 2,
+          "away": 1.71
+        },
+        "betplay": {
+          "home": 1.98,
+          "away": 1.7
+        },
+        "dafabet": {
+          "home": 2,
+          "away": 1.72
+        },
+        "yesplay": {
+          "home": 1.98,
+          "away": 1.71
+        },
+        "ballybet": {
+          "home": 2,
+          "away": 1.71
+        },
+        "leovegas": {
+          "home": 1.98,
+          "away": 1.7
+        },
+        "sisal.it": {
+          "home": 1.95,
+          "away": 1.65
+        },
+        "tabtouch": {
+          "home": 2,
+          "away": 1.71
+        },
+        "betrivers": {
+          "home": 1.98,
+          "away": 1.7
+        },
+        "ladbrokes": {
+          "home": 1.95,
+          "away": 1.73
+        },
+        "lottoland": {
+          "home": 1.85,
+          "away": 1.615
+        },
+        "unibet.be": {
+          "home": 1.97,
+          "away": 1.7
+        },
+        "unibet.dk": {
+          "home": 1.97,
+          "away": 1.7
+        },
+        "unibet.ie": {
+          "home": 1.97,
+          "away": 1.7
+        },
+        "unibet.se": {
+          "home": 1.97,
+          "away": 1.7
+        },
+        "winbet.bg": {
+          "home": 2,
+          "away": 1.72
+        },
+        "winbet.ro": {
+          "home": 2,
+          "away": 1.72
+        },
+        "bingoal.be": {
+          "home": 1.91,
+          "away": 1.64
+        },
+        "draftkings": {
+          "home": 2,
+          "away": 1.71
+        },
+        "rushbet.co": {
+          "home": 1.96,
+          "away": 1.68
+        },
+        "scooore.be": {
+          "home": 2,
+          "away": 1.71
+        },
+        "888sport.it": {
+          "home": 1.98,
+          "away": 1.7
+        },
+        "leovegas.es": {
+          "home": 1.88,
+          "away": 1.62
+        },
+        "leovegas.it": {
+          "home": 1.93,
+          "away": 1.66
+        },
+        "betmgm.co.uk": {
+          "home": 1.95,
+          "away": 1.67
+        },
+        "stake.bet.br": {
+          "home": 2,
+          "away": 1.71
+        },
+        "pokerstars.it": {
+          "home": 1.95,
+          "away": 1.65
+        },
+        "unibet.com.au": {
+          "home": 2,
+          "away": 1.72
+        },
+        "sesamesport.bg": {
+          "home": 1.94,
+          "away": 1.67
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1000024266299192",
+    "home": "Houston Dynamo",
+    "away": "Vancouver Whitecaps FC",
+    "sport": "Soccer",
+    "tournament": "MLS",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 3.65,
+          "away": 3.7
+        },
+        "kto": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "paf": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "bwin": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "vave": {
+          "home": 3.5,
+          "away": 3.75
+        },
+        "1xbet": {
+          "home": 3.72,
+          "away": 3.785
+        },
+        "22bet": {
+          "home": 3.64,
+          "away": 3.7
+        },
+        "blaze": {
+          "home": 3.5,
+          "away": 3.65
+        },
+        "coral": {
+          "home": 3.5,
+          "away": 3.6
+        },
+        "fliff": {
+          "home": 3.5,
+          "away": 3.6
+        },
+        "inbet": {
+          "home": 3.55,
+          "away": 3.75
+        },
+        "stake": {
+          "home": 3.6,
+          "away": 3.75
+        },
+        "198bet": {
+          "home": 3.55,
+          "away": 3.65
+        },
+        "atg.se": {
+          "home": 3.6,
+          "away": 3.9
+        },
+        "bcgame": {
+          "home": 3.5,
+          "away": 3.65
+        },
+        "bet365": {
+          "home": 3.8,
+          "away": 3.8
+        },
+        "betano": {
+          "home": 3.6,
+          "away": 3.7
+        },
+        "betika": {
+          "home": 3.6,
+          "away": 3.75
+        },
+        "betmgm": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "betway": {
+          "home": 3.4,
+          "away": 3.6
+        },
+        "casumo": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "kaiyun": {
+          "home": 3.45,
+          "away": 3.8
+        },
+        "kalshi": {
+          "home": 3.846,
+          "away": 3.846
+        },
+        "netbet": {
+          "home": 3.53,
+          "away": 3.65
+        },
+        "oddset": {
+          "home": 3.5,
+          "away": 3.6
+        },
+        "paf.es": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "roobet": {
+          "home": 3.5,
+          "away": 3.65
+        },
+        "sbobet": {
+          "home": 3.47,
+          "away": 3.64
+        },
+        "sx.bet": {
+          "home": 3.774,
+          "away": 3.828
+        },
+        "tipico": {
+          "home": 3.6,
+          "away": 3.5
+        },
+        "unibet": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "vertex": {
+          "home": 3.884,
+          "away": 1.978
+        },
+        "betparx": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "betplay": {
+          "home": 3.55,
+          "away": 3.85
+        },
+        "betsson": {
+          "home": 3.55,
+          "away": 3.7
+        },
+        "borgata": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "bwin.be": {
+          "home": 3.6,
+          "away": 3.7
+        },
+        "bwin.de": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "bwin.es": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "bwin.fr": {
+          "home": 3.2,
+          "away": 3.3
+        },
+        "bwin.pt": {
+          "home": 3.3,
+          "away": 3.4
+        },
+        "caesars": {
+          "home": 3.7,
+          "away": 3.6
+        },
+        "dafabet": {
+          "home": 3.65,
+          "away": 3.8
+        },
+        "fanduel": {
+          "home": 3.7,
+          "away": 3.7
+        },
+        "mystake": {
+          "home": 3.56,
+          "away": 3.65
+        },
+        "rollbit": {
+          "home": 3.55,
+          "away": 3.7
+        },
+        "yesplay": {
+          "home": 3.55,
+          "away": 3.7
+        },
+        "4casters": {
+          "home": 3.71,
+          "away": 3.94
+        },
+        "ballybet": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "cloudbet": {
+          "home": 3.6,
+          "away": 3.7
+        },
+        "duelbits": {
+          "home": 3.55,
+          "away": 3.7
+        },
+        "jacks.nl": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "leovegas": {
+          "home": 3.55,
+          "away": 3.85
+        },
+        "pinnacle": {
+          "home": 3.71,
+          "away": 3.78
+        },
+        "prophetx": {
+          "home": 1.233,
+          "away": 5
+        },
+        "sharpbet": {
+          "home": 3.669,
+          "away": 3.808
+        },
+        "sisal.it": {
+          "home": 3.75,
+          "away": 3.75
+        },
+        "tabtouch": {
+          "home": 3.45,
+          "away": 3.7
+        },
+        "thescore": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "tiptorro": {
+          "home": 3.45,
+          "away": 3.7
+        },
+        "bet365.de": {
+          "home": 3.8,
+          "away": 3.8
+        },
+        "betrivers": {
+          "home": 3.5,
+          "away": 3.75
+        },
+        "betway.de": {
+          "home": 3.4,
+          "away": 3.6
+        },
+        "betway.es": {
+          "home": 3.4,
+          "away": 3.6
+        },
+        "bovada.lv": {
+          "home": 3.65,
+          "away": 3.65
+        },
+        "cashpoint": {
+          "home": 3.6,
+          "away": 3.85
+        },
+        "fourwinds": {
+          "home": 3.55,
+          "away": 3.6
+        },
+        "ladbrokes": {
+          "home": 3.5,
+          "away": 3.6
+        },
+        "lottoland": {
+          "home": 3.5,
+          "away": 3.667
+        },
+        "sportybet": {
+          "home": 3.71,
+          "away": 3.87
+        },
+        "unibet.be": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "unibet.dk": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "unibet.ie": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "unibet.nl": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "unibet.se": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "virginbet": {
+          "home": 3.35,
+          "away": 3.65
+        },
+        "winbet.bg": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "winbet.ro": {
+          "home": 3.45,
+          "away": 3.7
+        },
+        "betfair-ex": {
+          "home": 3.9,
+          "away": 3.9
+        },
+        "bingoal.be": {
+          "home": 3.55,
+          "away": 3.85
+        },
+        "estrelabet": {
+          "home": 3.6,
+          "away": 3.75
+        },
+        "eurobet.it": {
+          "home": 3.45,
+          "away": 3.6
+        },
+        "goldbet.it": {
+          "home": 3.6,
+          "away": 3.45
+        },
+        "paddypower": {
+          "home": 1.5,
+          "away": 2.4
+        },
+        "partypoker": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "pokerstars": {
+          "home": 3.7,
+          "away": 1.91
+        },
+        "polymarket": {
+          "home": 3.846,
+          "away": 3.846
+        },
+        "rushbet.co": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "scooore.be": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "winamax.de": {
+          "home": 3.3,
+          "away": 3.7
+        },
+        "winamax.es": {
+          "home": 3.4,
+          "away": 3.7
+        },
+        "winamax.fr": {
+          "home": 3.15,
+          "away": 3.55
+        },
+        "888sport.it": {
+          "home": 3.55,
+          "away": 3.85
+        },
+        "leovegas.es": {
+          "home": 3.4,
+          "away": 3.65
+        },
+        "leovegas.it": {
+          "home": 3.45,
+          "away": 3.75
+        },
+        "quigioco.it": {
+          "home": 3.5,
+          "away": 3.65
+        },
+        "sportingbet": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "superbet.ro": {
+          "home": 3.6,
+          "away": 3.6
+        },
+        "svenskaspel": {
+          "home": 3.6,
+          "away": 3.9
+        },
+        "williamhill": {
+          "home": 3.7,
+          "away": 3.6
+        },
+        "apuestatotal": {
+          "home": 3.6,
+          "away": 3.667
+        },
+        "balkanbet.rs": {
+          "home": 3.55,
+          "away": 3.75
+        },
+        "betmgm.co.uk": {
+          "home": 3.45,
+          "away": 3.7
+        },
+        "stake.bet.br": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "admiralbet.it": {
+          "home": 3.45,
+          "away": 3.6
+        },
+        "paradisewager": {
+          "home": 3.7,
+          "away": 3.7
+        },
+        "pokerstars.es": {
+          "home": 3.7,
+          "away": 1.91
+        },
+        "pokerstars.it": {
+          "home": 3.75,
+          "away": 3.75
+        },
+        "pokerstars.uk": {
+          "home": 3.7,
+          "away": 1.91
+        },
+        "unibet.com.au": {
+          "home": 3.5,
+          "away": 3.8
+        },
+        "sesamesport.bg": {
+          "home": 3.45,
+          "away": 3.65
+        },
+        "pamestoixima.gr": {
+          "home": 3.65,
+          "away": 3.65
+        },
+        "pointsbet.com.au": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "sportsinteraction": {
+          "home": 3.6,
+          "away": 3.8
+        },
+        "sportingbet.bet.br": {
+          "home": 3.6,
+          "away": 3.8
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id1000024266299190",
+    "home": "Austin FC",
+    "away": "Sporting Kansas City",
+    "sport": "Soccer",
+    "tournament": "MLS",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 1.62,
+          "away": 4.4
+        },
+        "kto": {
+          "home": 1.53,
+          "away": 4.5
+        },
+        "paf": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "bwin": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "vave": {
+          "home": 1.44,
+          "away": 4.7
+        },
+        "1xbet": {
+          "home": 1.632,
+          "away": 4.465
+        },
+        "22bet": {
+          "home": 1.6,
+          "away": 4.36
+        },
+        "blaze": {
+          "home": 1.57,
+          "away": 4.3
+        },
+        "coral": {
+          "home": 1.57,
+          "away": 4
+        },
+        "fliff": {
+          "home": 1.541,
+          "away": 4.2
+        },
+        "inbet": {
+          "home": 1.6,
+          "away": 4.5
+        },
+        "stake": {
+          "home": 1.61,
+          "away": 4.4
+        },
+        "198bet": {
+          "home": 1.6,
+          "away": 4.4
+        },
+        "atg.se": {
+          "home": 1.56,
+          "away": 4.6
+        },
+        "bcgame": {
+          "home": 1.57,
+          "away": 4.3
+        },
+        "bet365": {
+          "home": 1.61,
+          "away": 4.2
+        },
+        "betano": {
+          "home": 1.62,
+          "away": 4.45
+        },
+        "betika": {
+          "home": 1.63,
+          "away": 4.4
+        },
+        "betmgm": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "betway": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "casumo": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "kaiyun": {
+          "home": 1.61,
+          "away": 4.55
+        },
+        "kalshi": {
+          "home": 1.587,
+          "away": 4.762
+        },
+        "netbet": {
+          "home": 1.57,
+          "away": 4.3
+        },
+        "oddset": {
+          "home": 1.57,
+          "away": 4
+        },
+        "paf.es": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "roobet": {
+          "home": 1.57,
+          "away": 4.3
+        },
+        "sbobet": {
+          "home": 1.6,
+          "away": 4.29
+        },
+        "sx.bet": {
+          "home": 1.643,
+          "away": 4.545
+        },
+        "tipico": {
+          "home": 1.55,
+          "away": 4.2
+        },
+        "unibet": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "vertex": {
+          "home": 1.608,
+          "away": 5.217
+        },
+        "betparx": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "betplay": {
+          "home": 1.54,
+          "away": 4.5
+        },
+        "betsson": {
+          "home": 1.62,
+          "away": 4.45
+        },
+        "borgata": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "bwin.be": {
+          "home": 1.58,
+          "away": 4.1
+        },
+        "bwin.de": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "bwin.es": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "bwin.fr": {
+          "home": 1.5,
+          "away": 3.6
+        },
+        "bwin.pt": {
+          "home": 1.53,
+          "away": 3.8
+        },
+        "caesars": {
+          "home": 1.606,
+          "away": 4.2
+        },
+        "dafabet": {
+          "home": 1.63,
+          "away": 4.5
+        },
+        "fanduel": {
+          "home": 1.53,
+          "away": 4.4
+        },
+        "mystake": {
+          "home": 1.6,
+          "away": 4.24
+        },
+        "rollbit": {
+          "home": 1.57,
+          "away": 4.3
+        },
+        "yesplay": {
+          "home": 1.6,
+          "away": 4.3
+        },
+        "4casters": {
+          "home": 1.524,
+          "away": 4.84
+        },
+        "ballybet": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "cloudbet": {
+          "home": 1.58,
+          "away": 4.45
+        },
+        "duelbits": {
+          "home": 1.6,
+          "away": 4.3
+        },
+        "jacks.nl": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "leovegas": {
+          "home": 1.54,
+          "away": 4.5
+        },
+        "pinnacle": {
+          "home": 1.617,
+          "away": 4.54
+        },
+        "prophetx": {
+          "home": 1.172,
+          "away": 6.2
+        },
+        "sharpbet": {
+          "home": 1.61,
+          "away": 4.39
+        },
+        "sisal.it": {
+          "home": 1.6,
+          "away": 4.5
+        },
+        "tabtouch": {
+          "home": 1.49,
+          "away": 4.4
+        },
+        "thescore": {
+          "home": 1.588,
+          "away": 4.5
+        },
+        "tiptorro": {
+          "home": 1.51,
+          "away": 4.5
+        },
+        "bet365.de": {
+          "home": 1.58,
+          "away": 4.2
+        },
+        "betrivers": {
+          "home": 1.52,
+          "away": 4.4
+        },
+        "betway.de": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "betway.es": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "bovada.lv": {
+          "home": 1.588,
+          "away": 4.4
+        },
+        "cashpoint": {
+          "home": 1.56,
+          "away": 4.5
+        },
+        "fourwinds": {
+          "home": 1.465,
+          "away": 4.5
+        },
+        "ladbrokes": {
+          "home": 1.57,
+          "away": 4
+        },
+        "lottoland": {
+          "home": 1.538,
+          "away": 4.2
+        },
+        "sportybet": {
+          "home": 1.61,
+          "away": 4.4
+        },
+        "unibet.be": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "unibet.dk": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "unibet.ie": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "unibet.nl": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "unibet.se": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "virginbet": {
+          "home": 1.46,
+          "away": 4.3
+        },
+        "winbet.bg": {
+          "home": 1.61,
+          "away": 4.5
+        },
+        "winbet.ro": {
+          "home": 1.58,
+          "away": 4.35
+        },
+        "betfair-ex": {
+          "home": 1.64,
+          "away": 4.6
+        },
+        "bingoal.be": {
+          "home": 1.54,
+          "away": 4.5
+        },
+        "estrelabet": {
+          "home": 1.556,
+          "away": 4.333
+        },
+        "eurobet.it": {
+          "home": 1.57,
+          "away": 4.2
+        },
+        "goldbet.it": {
+          "home": 1.58,
+          "away": 4.35
+        },
+        "paddypower": {
+          "home": 1.5,
+          "away": 2.4
+        },
+        "partypoker": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "pokerstars": {
+          "home": 1.57,
+          "away": 5
+        },
+        "polymarket": {
+          "home": 1.639,
+          "away": 4.545
+        },
+        "rushbet.co": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "scooore.be": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "winamax.de": {
+          "home": 1.41,
+          "away": 4.7
+        },
+        "winamax.es": {
+          "home": 1.39,
+          "away": 4.7
+        },
+        "winamax.fr": {
+          "home": 1.41,
+          "away": 4.3
+        },
+        "888sport.it": {
+          "home": 1.54,
+          "away": 4.5
+        },
+        "leovegas.es": {
+          "home": 1.47,
+          "away": 4.3
+        },
+        "leovegas.it": {
+          "home": 1.5,
+          "away": 4.4
+        },
+        "quigioco.it": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "sportingbet": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "superbet.ro": {
+          "home": 1.61,
+          "away": 4.4
+        },
+        "svenskaspel": {
+          "home": 1.56,
+          "away": 4.6
+        },
+        "williamhill": {
+          "home": 1.606,
+          "away": 4.2
+        },
+        "apuestatotal": {
+          "home": 1.615,
+          "away": 4.333
+        },
+        "balkanbet.rs": {
+          "home": 1.6,
+          "away": 4.25
+        },
+        "betmgm.co.uk": {
+          "home": 1.49,
+          "away": 4.4
+        },
+        "stake.bet.br": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "admiralbet.it": {
+          "home": 1.58,
+          "away": 4.2
+        },
+        "paradisewager": {
+          "home": 1.606,
+          "away": 4.5
+        },
+        "pokerstars.es": {
+          "home": 1.57,
+          "away": 5
+        },
+        "pokerstars.it": {
+          "home": 1.6,
+          "away": 4.5
+        },
+        "pokerstars.uk": {
+          "home": 1.57,
+          "away": 5
+        },
+        "unibet.com.au": {
+          "home": 1.52,
+          "away": 4.5
+        },
+        "sesamesport.bg": {
+          "home": 1.57,
+          "away": 4.3
+        },
+        "pamestoixima.gr": {
+          "home": 1.6,
+          "away": 4.15
+        },
+        "pointsbet.com.au": {
+          "home": 1.59,
+          "away": 4.5
+        },
+        "sportsinteraction": {
+          "home": 1.6,
+          "away": 4.2
+        },
+        "sportingbet.bet.br": {
+          "home": 1.6,
+          "away": 4.2
+        }
+      }
+    }
+  },
+  {
+    "fixtureId": "id2102432771482368",
+    "home": "Crocklem, Dedrick",
+    "away": "Howard, Eric",
+    "sport": "Boxing",
+    "tournament": "International Matchups",
+    "markets": {
+      "h2h": {
+        "3et": {
+          "home": 1.05,
+          "away": 11
+        },
+        "kto": {
+          "home": 1.06,
+          "away": 19
+        },
+        "paf": {
+          "home": 1.06,
+          "away": 19
+        },
+        "bwin": {
+          "home": 1.05,
+          "away": 9
+        },
+        "vave": {
+          "home": 1.02,
+          "away": 9.6
+        },
+        "1xbet": {
+          "home": 1.031,
+          "away": 11.4
+        },
+        "22bet": {
+          "home": 1.031,
+          "away": 11.4
+        },
+        "blaze": {
+          "home": 1.01,
+          "away": 12
+        },
+        "inbet": {
+          "home": 1.03,
+          "away": 11
+        },
+        "stake": {
+          "home": 1.03,
+          "away": 12
+        },
+        "atg.se": {
+          "home": 1.06,
+          "away": 19
+        },
+        "bcgame": {
+          "home": 1.01,
+          "away": 12
+        },
+        "betika": {
+          "home": 1.03,
+          "away": 11
+        },
+        "betmgm": {
+          "home": 1.05,
+          "away": 9
+        },
+        "paf.es": {
+          "home": 1.06,
+          "away": 15
+        },
+        "roobet": {
+          "home": 1.01,
+          "away": 12
+        },
+        "unibet": {
+          "home": 1.06,
+          "away": 19
+        },
+        "betplay": {
+          "home": 1.06,
+          "away": 16
+        },
+        "borgata": {
+          "home": 1.05,
+          "away": 9
+        },
+        "bwin.be": {
+          "home": 1.05,
+          "away": 9
+        },
+        "bwin.es": {
+          "home": 1.05,
+          "away": 9
+        },
+        "rollbit": {
+          "home": 1.01,
+          "away": 12
+        },
+        "yesplay": {
+          "home": 1.03,
+          "away": 10
+        },
+        "duelbits": {
+          "home": 1.03,
+          "away": 10.5
+        },
+        "leovegas": {
+          "home": 1.06,
+          "away": 16
+        },
+        "pinnacle": {
+          "home": 1.02,
+          "away": 14.86
+        },
+        "tiptorro": {
+          "home": 1.02,
+          "away": 8.4
+        },
+        "betway.es": {
+          "home": 1.063,
+          "away": 9.5
+        },
+        "lottoland": {
+          "home": 1.04,
+          "away": 9
+        },
+        "sportybet": {
+          "home": 1.03,
+          "away": 10.42
+        },
+        "unibet.be": {
+          "home": 1.06,
+          "away": 19
+        },
+        "unibet.dk": {
+          "home": 1.06,
+          "away": 19
+        },
+        "unibet.ie": {
+          "home": 1.06,
+          "away": 19
+        },
+        "unibet.se": {
+          "home": 1.06,
+          "away": 19
+        },
+        "winbet.bg": {
+          "home": 1.03,
+          "away": 11
+        },
+        "winbet.ro": {
+          "home": 1.03,
+          "away": 11
+        },
+        "bingoal.be": {
+          "home": 1.06,
+          "away": 19
+        },
+        "draftkings": {
+          "home": 1.01,
+          "away": 14
+        },
+        "estrelabet": {
+          "home": 1.04,
+          "away": 9
+        },
+        "goldbet.it": {
+          "home": 1.02,
+          "away": 8.93
+        },
+        "partypoker": {
+          "home": 1.05,
+          "away": 9
+        },
+        "scooore.be": {
+          "home": 1.06,
+          "away": 19
+        },
+        "winamax.es": {
+          "home": 1.03,
+          "away": 7.25
+        },
+        "888sport.it": {
+          "home": 1.06,
+          "away": 16
+        },
+        "betnacional": {
+          "home": 1.04,
+          "away": 7.93
+        },
+        "leovegas.es": {
+          "home": 1.06,
+          "away": 19
+        },
+        "leovegas.it": {
+          "home": 1.06,
+          "away": 19
+        },
+        "quigioco.it": {
+          "home": 1.01,
+          "away": 8.9
+        },
+        "sportingbet": {
+          "home": 1.05,
+          "away": 9
+        },
+        "svenskaspel": {
+          "home": 1.06,
+          "away": 19
+        },
+        "apuestatotal": {
+          "home": 1.04,
+          "away": 9
+        },
+        "betmgm.co.uk": {
+          "home": 1.06,
+          "away": 19
+        },
+        "stake.bet.br": {
+          "home": 1.06,
+          "away": 19
+        },
+        "admiralbet.it": {
+          "home": 1.02,
+          "away": 9.6
+        },
+        "unibet.com.au": {
+          "home": 1.06,
+          "away": 19
+        },
+        "sesamesport.bg": {
+          "home": 1.03,
+          "away": 11
+        },
+        "pamestoixima.gr": {
+          "home": 1.03,
+          "away": 9.25
+        },
+        "sportsinteraction": {
+          "home": 1.05,
+          "away": 9
+        },
+        "sportingbet.bet.br": {
+          "home": 1.05,
+          "away": 9
+        }
+      }
+    }
+  }
+]

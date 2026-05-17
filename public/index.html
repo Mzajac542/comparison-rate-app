@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Comparing rates</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+
+<header class="top-nav">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('matches')">Mecze</button>
+    <button class="tab" onclick="showTab('top')">Najlepsze okazje</button>
+  </div>
+  <input id="searchInput" placeholder="Szukaj meczu..." oninput="filterMatches()">
+</header>
+
+<aside class="sidebar">
+  <h3>Sporty</h3>
+  <ul id="sports" class="sports-list"></ul>
+</aside>
+
+<main class="main">
+
+<div id="tab-matches">
+
+<section class="panel">
+  <h3>Mecze</h3>
+  <div id="noMatchesMessage" class="empty-message hidden"></div>
+  <div id="matches"></div>
+</section>
+
+<section class="panel">
+  <h3>Szczegóły meczu</h3>
+  <div id="matchDetails"></div>
+</section>
+
+<section class="panel">
+  <h3>Kursy</h3>
+
+  <div class="sort-buttons">
+    <button id="sort-home" onclick="setSort('home')">HOME ↓</button>
+    <button id="sort-away" onclick="setSort('away')">AWAY</button>
+  </div>
+
+  <div class="odds-layout">
+    <div class="odds-list">
+      <div class="odds-header">
+        <span>Bukmacher</span>
+        <span>HOME</span>
+        <span>AWAY</span>
+      </div>
+      <div id="odds"></div>
+    </div>
+
+    <div id="analysis" class="analysis-box hidden"></div>
+  </div>
+</section>
+
+</div>
+
+<div id="tab-top" class="hidden">
+  <h3>TOP 5 najlepszych okazji</h3>
+  <div id="topMatches"></div>
+</div>
+
+</main>
+</div>
+
+<script>
+/* =======================
+   STAN
+======================= */
+let allMatches = [];
+let currentMatchId = null;
+
+/* ✅ STAN SORTOWANIA */
+let currentSort = "home";      // "home" | "away"
+let sortDirection = "desc";    // "desc" | "asc"
+
+/* =======================
+   HELPERS
+======================= */
+function getMatchTitleById(fixtureId) {
+  const m = allMatches.find(x => x.fixtureId === fixtureId);
+  if (!m) return "Mecz";
+
+  if (m.participant1Name && m.participant2Name)
+    return `${m.participant1Name} vs ${m.participant2Name}`;
+
+  if (m.home && m.away)
+    return `${m.home} vs ${m.away}`;
+
+  return "Mecz";
+}
+
+function showTab(tab) {
+  document.getElementById("tab-matches").classList.add("hidden");
+  document.getElementById("tab-top").classList.add("hidden");
+
+  document.getElementById(`tab-${tab}`).classList.remove("hidden");
+
+  if (tab === "top") {
+    renderTopMatches();
+  }
+}
+
+async function renderTopMatches() {
+  const container = document.getElementById("topMatches");
+  container.innerHTML = "Ładowanie TOP 5...";
+
+  const sports = await fetch("/api/sports").then(r => r.json());
+  let all = [];
+
+  for (const sport of sports) {
+    const matches = await fetch(`/api/matches?sport=${encodeURIComponent(sport)}`)
+      .then(r => r.json());
+
+    for (const m of matches) {
+      const details = await fetch(`/api/match/${m.fixtureId}`)
+        .then(r => r.json());
+
+      const odds = details.odds || [];
+      if (!odds.length) continue;
+
+      const analysis = analyzeOdds(odds);
+
+      const spread =
+        (analysis.home.max.value - analysis.home.min.value) +
+        (analysis.away.max.value - analysis.away.min.value);
+
+      const matchTitle =
+        (m.participant1Name && m.participant2Name)
+          ? `${m.participant1Name} vs ${m.participant2Name}`
+          : (m.home && m.away)
+            ? `${m.home} vs ${m.away}`
+            : "Mecz";
+
+      
+        all.push({
+          id: m.fixtureId,
+          name: matchTitle,
+          spread,
+          sport: m.sportName   // 👈 TO JEST KLUCZ
+        });
+    }
+  }
+
+  all.sort((a, b) => b.spread - a.spread);
+
+  container.innerHTML = "";
+
+  all.slice(0, 5).forEach((m, i) => {
+    const div = document.createElement("div");
+    div.className = "top-row";
+    div.textContent = `${i + 1}. ${m.name} (różnica: ${m.spread.toFixed(2)})`;
+   div.onclick = async () => {
+      showTab("matches");
+      await loadMatches(m.sport);
+      loadMatchDetails(m.id);
+
+      setTimeout(() => {
+        highlightMatchAndLeague(m.id);
+      }, 0);
+    };
+    container.appendChild(div);
+  });
+
+  if (!all.length) {
+    container.textContent = "Brak danych do wyliczenia TOP 5.";
+  }
+}
+
+function groupMatchesByLeague(matches) {
+  const grouped = {};
+  matches.forEach(match => {
+    const league = match.tournamentName || "Inne";
+    if (!grouped[league]) grouped[league] = [];
+    grouped[league].push(match);
+  });
+  return grouped;
+}
+
+function analyzeOdds(odds) {
+  const home = odds.map(o => ({ bookmaker: o.bookmaker, value: o.home }));
+  const away = odds.map(o => ({ bookmaker: o.bookmaker, value: o.away }));
+
+  const maxHome = home.reduce((a,b)=>b.value>a.value?b:a);
+  const minHome = home.reduce((a,b)=>b.value<a.value?b:a);
+  const maxAway = away.reduce((a,b)=>b.value>a.value?b:a);
+  const minAway = away.reduce((a,b)=>b.value<a.value?b:a);
+
+  return {
+    home: { max: maxHome, min: minHome },
+    away: { max: maxAway, min: minAway }
+  };
+}
+
+/* =======================
+   SORTOWANIE (✅ DODANE)
+======================= */
+function setSort(type) {
+  if (currentSort === type) {
+    sortDirection = sortDirection === "desc" ? "asc" : "desc";
+  } else {
+    currentSort = type;
+    sortDirection = "desc";
+  }
+
+  updateSortButtons();
+
+  if (currentMatchId) {
+    loadMatchDetails(currentMatchId);
+  }
+}
+
+function updateSortButtons() {
+  const homeBtn = document.getElementById("sort-home");
+  const awayBtn = document.getElementById("sort-away");
+
+  homeBtn.textContent = "HOME";
+  awayBtn.textContent = "AWAY";
+
+  if (currentSort === "home") {
+    homeBtn.textContent += sortDirection === "desc" ? " ↓" : " ↑";
+  }
+
+  if (currentSort === "away") {
+    awayBtn.textContent += sortDirection === "desc" ? " ↓" : " ↑";
+  }
+}
+
+/* =======================
+   SPORTY
+======================= */
+async function loadSports() {
+  const sports = await fetch("/api/sports").then(r => r.json());
+  const ul = document.getElementById("sports");
+  ul.innerHTML = "";
+
+  sports.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s;
+    li.onclick = () => loadMatches(s);
+    ul.appendChild(li);
+  });
+}
+
+/* =======================
+   MECZE → LIGI → MECZE
+======================= */
+async function loadMatches(sport) {
+  const matches = await fetch(`/api/matches?sport=${encodeURIComponent(sport)}`).then(r => r.json());
+  allMatches = matches;
+
+  const container = document.getElementById("matches");
+  const msg = document.getElementById("noMatchesMessage");
+  const matchDetailsEl = document.getElementById("matchDetails");
+  const oddsEl = document.getElementById("odds");
+  const analysisEl = document.getElementById("analysis");
+
+  container.innerHTML = "";
+  msg.classList.add("hidden");
+  matchDetailsEl.innerHTML = "";
+  oddsEl.innerHTML = "";
+  analysisEl.classList.add("hidden");
+  currentMatchId = null;
+
+  if (!matches.length) {
+    msg.textContent = "Ta dyscyplina nie ma aktualnie dostępnych meczów z kursami.";
+    msg.classList.remove("hidden");
+    return;
+  }
+
+  const leagues = groupMatchesByLeague(matches);
+
+  for (const league in leagues) {
+    const header = document.createElement("div");
+    header.className = "league-header";
+    header.textContent = league;
+
+    const list = document.createElement("div");
+    list.className = "league-matches hidden";
+
+    leagues[league].forEach(match => {
+      const row = document.createElement("div");
+      row.className = "match-row";
+      row.textContent = getMatchTitleById(match.fixtureId);
+      row.onclick = () => {
+        document.querySelectorAll(".match-row")
+          .forEach(r => r.classList.remove("active"));
+
+        row.classList.add("active");
+        loadMatchDetails(match.fixtureId);
+      };
+      list.appendChild(row);
+    });
+
+    header.onclick = () => {
+      document.querySelectorAll(".league-header")
+        .forEach(h => h.classList.remove("active"));
+
+      header.classList.add("active");
+      list.classList.toggle("hidden");
+    };
+
+    container.appendChild(header);
+    container.appendChild(list);
+  }
+}
+
+/* =======================
+   SZCZEGÓŁY + KURSY + ANALIZA
+======================= */
+async function loadMatchDetails(id) {
+  currentMatchId = id;
+  const match = await fetch(`/api/match/${id}`).then(r => r.json());
+
+  document.getElementById("matchDetails").innerHTML = `
+    <p><strong>Sport:</strong> ${match.sportName}</p>
+    <p><strong>Liga:</strong> ${match.tournamentName}</p>
+    <p><strong>Kraj:</strong> ${match.categoryName}</p>
+    <p><strong>Start:</strong> ${match.startTime}</p>
+    <p><strong>Mecz:</strong> ${getMatchTitleById(id)}</p>
+  `;
+
+  const oddsEl = document.getElementById("odds");
+  const analysisEl = document.getElementById("analysis");
+  oddsEl.innerHTML = "";
+  analysisEl.classList.add("hidden");
+
+  const odds = match.odds || [];
+  if (!odds.length) {
+    oddsEl.innerHTML = "<p>Brak kursów dla tego meczu.</p>";
+    return;
+  }
+
+  /* ✅ SORTOWANIE */
+  odds.sort((a,b) => {
+    const A = currentSort === "home" ? a.home : a.away;
+    const B = currentSort === "home" ? b.home : b.away;
+    return sortDirection === "desc" ? B - A : A - B;
+  });
+
+  const analysis = analyzeOdds(odds);
+
+  odds.forEach(o => {
+    const homeClass =
+      o.home === analysis.home.max.value ? "max-odd" :
+      o.home === analysis.home.min.value ? "min-odd" : "";
+
+    const awayClass =
+      o.away === analysis.away.max.value ? "max-odd" :
+      o.away === analysis.away.min.value ? "min-odd" : "";
+
+    const row = document.createElement("div");
+    row.className = "odds-row";
+    row.innerHTML = `
+      <span>${o.bookmaker}</span>
+      <span class="${homeClass}">${o.home}</span>
+      <span class="${awayClass}">${o.away}</span>
+    `;
+    oddsEl.appendChild(row);
+  });
+
+  analysisEl.innerHTML = `
+    <h4>Analiza kursów</h4>
+    <div class="analysis-block">
+      <strong>HOME</strong><br>
+      Najwyższy: ${analysis.home.max.bookmaker} (${analysis.home.max.value})<br>
+      Najniższy: ${analysis.home.min.bookmaker} (${analysis.home.min.value})
+    </div>
+    <div class="analysis-block">
+      <strong>AWAY</strong><br>
+      Najwyższy: ${analysis.away.max.bookmaker} (${analysis.away.max.value})<br>
+      Najniższy: ${analysis.away.min.bookmaker} (${analysis.away.min.value})
+    </div>
+  `;
+  analysisEl.classList.remove("hidden");
+}
+/* =======================
+   FILTROWANIE MECZÓW
+======================= */
+function filterMatches() {
+  const query = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+  // filtrujemy tylko po nazwach meczów
+  const filtered = allMatches.filter(m =>
+    getMatchTitleById(m.fixtureId).toLowerCase().includes(query)
+  );
+
+  renderFilteredMatches(filtered);
+}
+
+function renderFilteredMatches(matches) {
+  const container = document.getElementById("matches");
+  container.innerHTML = "";
+
+  if (!matches.length) {
+    container.innerHTML = "<p>Brak meczów spełniających kryteria.</p>";
+    return;
+  }
+
+  const leagues = groupMatchesByLeague(matches);
+
+  for (const league in leagues) {
+    const header = document.createElement("div");
+    header.className = "league-header";
+    header.textContent = league;
+
+    const list = document.createElement("div");
+    list.className = "league-matches";
+
+    leagues[league].forEach(match => {
+      const row = document.createElement("div");
+      row.className = "match-row";
+      row.textContent = getMatchTitleById(match.fixtureId);
+      row.onclick = () => {
+        document.querySelectorAll(".match-row")
+          .forEach(r => r.classList.remove("active"));
+
+        row.classList.add("active");
+        loadMatchDetails(match.fixtureId);
+      };
+      list.appendChild(row);
+    });
+
+    container.appendChild(header);
+    container.appendChild(list);
+  }
+}
+
+function highlightMatchAndLeague(matchId) {
+  // wyczyść stare podświetlenia
+  document.querySelectorAll(".match-row")
+    .forEach(r => r.classList.remove("active"));
+
+  document.querySelectorAll(".league-header")
+    .forEach(h => h.classList.remove("active"));
+
+  // znajdź wiersz meczu
+  const matchRow = [...document.querySelectorAll(".match-row")]
+    .find(r => r.onclick && r.onclick.toString().includes(matchId));
+
+  if (!matchRow) return;
+
+  matchRow.classList.add("active");
+
+  // znajdź ligę (rodzica)
+  const leagueList = matchRow.closest(".league-matches");
+  if (!leagueList) return;
+
+  leagueList.classList.remove("hidden");
+
+  const leagueHeader = leagueList.previousElementSibling;
+  if (leagueHeader && leagueHeader.classList.contains("league-header")) {
+    leagueHeader.classList.add("active");
+  }
+}
+
+/* =======================
+   START
+======================= */
+loadSports();
+updateSortButtons();
+</script>
+
+</body>
+</html>
