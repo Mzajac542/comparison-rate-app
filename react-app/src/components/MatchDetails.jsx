@@ -7,8 +7,13 @@ function MatchDetails({ match }) {
     <div>
       <p><strong>Sport:</strong> {match.sportName}</p>
       <p><strong>Liga:</strong> {match.tournamentName}</p>
-      <p><strong>Kraj:</strong> {match.categoryName}</p>
-      <p><strong>Data:</strong> {match.startTime}</p>
+      <p><strong>Kraj:</strong> {match.categoryName}</p> 
+      <p>
+        <strong>Data:</strong>{" "}
+        {match.startTime
+          ? new Date(match.startTime).toLocaleString("pl-PL")
+          : "—"}
+      </p>
       <p><strong>Mecz:</strong> {match.home} vs {match.away}</p>
     </div>
   );

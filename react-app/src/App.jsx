@@ -10,33 +10,23 @@ import { mapRawMatch } from "./utils/mapper";
 function App() {
   const [selectedSport, setSelectedSport] = useState(null);
   const [selectedMatch, setSelectedMatch] = useState(null);
+  const [activeTab, setActiveTab] = useState("matches"); // matches | top
 
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const sports = ["Football", "Basketball"];
-
-  
+  /* =========================
+     FETCH DANYCH
+  ========================= */
   useEffect(() => {
-    const files = [
-      "/data/fixtures_2026-05-17.json",
-      "/data/fixtures_2026-05-19.json",
-      "/data/fixtures_2026-05-21.json",
-      "/data/fixtures_2026-05-23.json"
-    ];
-
-    Promise.all(files.map(url =>
-      fetch(url).then(res => {
-        if (!res.ok) throw new Error("Błąd pobierania " + url);
+    fetch("/data/odds_mapped.json")
+      .then(res => {
+        if (!res.ok) throw new Error("Błąd pobierania danych");
         return res.json();
       })
-    ))
-      .then(results => {
-        // ✅ SCALANIE DANYCH
-        const allRawMatches = results.flat();
-        const mapped = allRawMatches.map(mapRawMatch);
-
+      .then(data => {
+        const mapped = data.map(mapRawMatch);
         setMatches(mapped);
         setSelectedSport(null);
         setSelectedMatch(null);
@@ -48,10 +38,29 @@ function App() {
       });
   }, []);
 
+  /* =========================
+     DYNAMICZNE SPORTY
+  ========================= */
+  const sports = Array.from(
+    new Set(
+      matches
+        .filter(m => m.odds && m.odds.length > 0)
+        .map(m => m.sport)
+    )
+  ).sort();
 
+  /* =========================
+     MECZE DLA SPORTU
+  ========================= */
   const filteredMatches = selectedSport
-    ? matches.filter(m => m.sport === selectedSport)
+    ? matches.filter(
+        m => m.sport === selectedSport && m.odds && m.odds.length > 0
+      )
     : [];
+
+  /* =========================
+     TOP 5 OKAZJI
+  ========================= */
   const top5 = calculateTop5(matches);
 
   if (loading) {
@@ -59,16 +68,21 @@ function App() {
   }
 
   if (error) {
-    return <p style={{ padding: "20px", color: "red" }}>Błąd: {error}</p>;
+    return (
+      <p style={{ padding: "20px", color: "red" }}>
+        Błąd: {error}
+      </p>
+    );
   }
 
   return (
     <div className="app">
       <header className="header">
-        <h1>Odds Comparison App (React)</h1>
+        <h1>Comparing rates</h1>
       </header>
 
       <div className="layout">
+        {/* SIDEBAR */}
         <aside className="sidebar">
           <Sidebar
             sports={sports}
@@ -76,37 +90,67 @@ function App() {
             onSelectSport={(sport) => {
               setSelectedSport(sport);
               setSelectedMatch(null);
+              setActiveTab("matches");
             }}
           />
         </aside>
 
+        {/* CONTENT */}
         <main className="content">
-          <div className="card">
-            <MatchesList
-              matches={filteredMatches}
-              selectedMatch={selectedMatch}
-              onSelect={setSelectedMatch}
-            />
-          </div>
+          <div className="content-layout">
+            {/* LEWA KOLUMNA */}
+            <div className="matches-column">
+              {/* ZAKŁADKI */}
+              <div className="tabs">
+                <button
+                  className={activeTab === "matches" ? "tab active" : "tab"}
+                  onClick={() => setActiveTab("matches")}
+                >
+                  Mecze
+                </button>
 
-          <div className="card">
-            <MatchDetails match={selectedMatch} />
-          </div>
+                <button
+                  className={activeTab === "top" ? "tab active" : "tab"}
+                  onClick={() => setActiveTab("top")}
+                >
+                  Najlepsze okazje
+                </button>
+              </div>
 
-          <div className="card">
-            <OddsPanel odds={selectedMatch?.odds} />
-          </div>
+              <div className="card">
+                {/* ===== MECZE ===== */}
+                {activeTab === "matches" && (
+                  <MatchesList
+                    matches={filteredMatches}
+                    selectedMatch={selectedMatch}
+                    onSelect={setSelectedMatch}
+                  />
+                )}
 
-          <div className="card">
-            <Top5
-              items={top5}
-              onSelect={(item) => {
-                setSelectedSport(item.sport);
-                setSelectedMatch(
-                  matches.find(m => m.id === item.id) || null
-                );
-              }}
-            />
+                {/* ===== TOP 5 ===== */}
+                {activeTab === "top" && (
+                  <Top5
+                    items={top5}
+                    onSelect={(match) => {
+                      setActiveTab("matches");
+                      setSelectedSport(match.sport);
+                      setSelectedMatch(match);
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* PRAWA KOLUMNA */}
+            <div className="details-column">
+              <div className="card">
+                <MatchDetails match={selectedMatch} />
+              </div>
+
+              <div className="card">
+                <OddsPanel odds={selectedMatch?.odds} />
+              </div>
+            </div>
           </div>
         </main>
       </div>

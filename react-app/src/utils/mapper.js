@@ -1,11 +1,14 @@
 const SPORT_MAP = {
   Soccer: "Football",
   Football: "Football",
-  Basketball: "Basketball"
+  Basketball: "Basketball",
+  Boxing: "Boxing",
+  Baseball: "Baseball"
 };
 
 export function mapRawMatch(raw) {
-  // ✅ wyciąganie kursów z markets.h2h
+  const normalizedSport = SPORT_MAP[raw.sport] || raw.sport;
+
   const odds = Object.entries(raw.markets?.h2h || {}).map(
     ([bookmaker, values]) => ({
       bookmaker,
@@ -14,18 +17,27 @@ export function mapRawMatch(raw) {
     })
   );
 
-  const normalizedSport = SPORT_MAP[raw.sportName] || raw.sportName;
-
   return {
     id: raw.fixtureId,
+
+    // ✅ SPORT
     sport: normalizedSport,
     sportName: normalizedSport,
-    tournamentName: raw.tournamentName,
-    categoryName: raw.categoryName,
-    startTime: raw.startTime,
-    home: raw.participant1Name,
-    away: raw.participant2Name,
-    odds // ✅ TERAZ ODDSY TRAFIAJĄ DO REACTA
+
+    // ✅ LIGA / TURNIEJ
+    tournamentName: raw.tournament,
+
+    // ✅ KRAJ – TU BYŁ BŁĄD
+    categoryName: raw.categoryName || raw.categorySlug || "—",
+
+    // ✅ DATA
+    startTime: raw.startTime || null,
+
+    // ✅ DRUŻYNY
+    home: raw.home,
+    away: raw.away,
+
+    // ✅ KURSY
+    odds
   };
 }
-``
