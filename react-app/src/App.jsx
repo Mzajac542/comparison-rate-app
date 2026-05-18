@@ -8,13 +8,20 @@ import Top5 from "./components/Top5";
 import { mapRawMatch } from "./utils/mapper";
 
 function App() {
-  const [selectedSport, setSelectedSport] = useState(null);
-  const [selectedMatch, setSelectedMatch] = useState(null);
-  const [activeTab, setActiveTab] = useState("matches");
+  const [selectedSport, setSelectedSport] = useState(
+    localStorage.getItem("selectedSport")
+  );
 
-  const [selectedLeague, setSelectedLeague] = useState(null);
+  const [selectedLeague, setSelectedLeague] = useState(
+    localStorage.getItem("selectedLeague")
+  );
+
+  const [activeTab, setActiveTab] = useState(
+    localStorage.getItem("activeTab") || "matches"
+  );
+
   const [matches, setMatches] = useState([]);
-
+  const [selectedMatch, setSelectedMatch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -31,8 +38,6 @@ function App() {
       .then(data => {
         const mapped = data.map(mapRawMatch);
         setMatches(mapped);
-        setSelectedSport(null);
-        setSelectedMatch(null);
         setLoading(false);
       })
       .catch(err => {
@@ -41,16 +46,37 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+  if (selectedSport) {
+    localStorage.setItem("selectedSport", selectedSport);
+  } else {
+    localStorage.removeItem("selectedSport");
+  }
+}, [selectedSport]);
+
+useEffect(() => {
+  if (selectedLeague) {
+    localStorage.setItem("selectedLeague", selectedLeague);
+  } else {
+    localStorage.removeItem("selectedLeague");
+  }
+}, [selectedLeague]);
+
+useEffect(() => {
+  localStorage.setItem("activeTab", activeTab);
+}, [activeTab]);
+
+
   /* =========================
      DYNAMICZNE SPORTY
   ========================= */
   const sports = Array.from(
-    new Set(
-      matches
-        .filter(m => m.odds && m.odds.length > 0)
-        .map(m => m.sport)
-    )
-  ).sort();
+  new Set(
+    matches
+      .filter(m => m.odds && m.odds.length > 0)
+      .map(m => m.sport)
+  )
+).sort((a, b) => a.localeCompare(b));
 
   /* =========================
      MECZE DLA SPORTU

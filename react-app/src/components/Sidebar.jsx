@@ -6,6 +6,22 @@ function Sidebar({
   onSelectSport,
   onSelectLeague
 }) {
+  // ✅ 1. NAJPIERW FUNKCJE POMOCNICZE
+
+  const getLeagueCount = (leagueName) => {
+    return matches.filter(
+      m =>
+        m.sport === selectedSport &&
+        m.tournamentName === leagueName
+    ).length;
+  };
+
+  const allMatchesCount = selectedSport
+    ? matches.filter(m => m.sport === selectedSport).length
+    : 0;
+
+  // ✅ 2. POTEM LOGIKA + SORTOWANIE
+
   const leagues = selectedSport
   ? [
       ...new Set(
@@ -13,8 +29,24 @@ function Sidebar({
           .filter(m => m.sport === selectedSport)
           .map(m => m.tournamentName)
       )
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   : [];
+
+  const popularLeagues = [
+    "Premier League",
+    "La Liga",
+    "Bundesliga",
+    "Serie A",
+    "Ligue 1"
+  ];
+
+  const popular = leagues.filter(league =>
+    popularLeagues.includes(league)
+  );
+
+  const others = leagues.filter(league =>
+    !popularLeagues.includes(league)
+  );
 
   return (
     <div>
@@ -26,7 +58,7 @@ function Sidebar({
             className={sport === selectedSport ? "active" : ""}
             onClick={() => {
               onSelectSport(sport);
-              onSelectLeague(null); // reset ligi
+              onSelectLeague(null);
             }}
           >
             {sport}
@@ -42,18 +74,41 @@ function Sidebar({
               className={selectedLeague === null ? "active" : ""}
               onClick={() => onSelectLeague(null)}
             >
-              Wszystkie
+              Wszystkie ({allMatchesCount})
             </li>
+           {popular.length > 0 && (
+                <>
+                  <h5>🔥 Popularne ligi</h5>
+                  <ul>
+                    {popular.map((league) => (
+                      <li
+                        key={league}
+                        className={league === selectedLeague ? "active" : ""}
+                        onClick={() => onSelectLeague(league)}
+                      >
+                        {league} ({getLeagueCount(league)})
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
 
-            {leagues.map((league) => (
-              <li
-                key={league}
-                className={league === selectedLeague ? "active" : ""}
-                onClick={() => onSelectLeague(league)}
-              >
-                {league}
-              </li>
-            ))}
+              {others.length > 0 && (
+                <>
+                  <h5>Pozostałe ligi</h5>
+                  <ul>
+                    {others.map((league) => (
+                      <li
+                        key={league}
+                        className={league === selectedLeague ? "active" : ""}
+                        onClick={() => onSelectLeague(league)}
+                      >
+                        {league} ({getLeagueCount(league)})
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
           </ul>
         </>
       )}

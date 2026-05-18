@@ -264,3 +264,96 @@ th, td {
   font-weight: 600;
   box-shadow: 0 0 0 1px rgba(77, 163, 255, 0.3);
 }
+.sidebar h5 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.sidebar h4 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+/* Hover na elementach list */
+.sidebar li {
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar li:hover {
+  background-color: #1f2937;
+}
+
+/* Aktywny element */
+.sidebar li.active {
+  background-color: #2563eb;
+  color: #ffffff;
+  font-weight: 500;
+}
+.max-odd {
+  background-color: #166534;
+  color: #dcfce7;
+  font-weight: 600;
+}
+
+.min-odd {
+  background-color: #7f1d1d;
+  color: #fee2e2;
+  font-weight: 600;
+}
+.empty-state {
+  opacity: 0.7;
+  font-style: italic;
+  padding: 8px;
+}
+.sidebar li,
+.matches-column li {
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.sidebar li:hover,
+.matches-column li:hover {
+  transform: translateX(2px);
+}
+/* =========================
+   MOBILE / TABLET
+========================= */
+@media (max-width: 768px) {
+}
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #2a2d34;
+  }
+}
+@media (max-width: 768px) {
+  .content-layout {
+    flex-direction: column;
+  }
+}
+@media (max-width: 768px) {
+  .odds-table {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px;
+  }
+}
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+}

@@ -17,12 +17,20 @@ function MatchesList({
     );
 
   if (visibleMatches.length === 0) {
-    return <p>Brak meczów w tej lidze</p>;
+    return 
+<p className="empty-state">
+  ℹ️ Brak meczów w tej lidze
+</p>
   }
 
   return (
     <div>
-      <h3>Mecze</h3>
+      <h3>
+        {selectedSport}
+        {" › "}
+        {selectedLeague ? selectedLeague : "Wszystkie ligi"}
+      </h3>
+
       <ul>
         {visibleMatches.map(match => (
           <li
