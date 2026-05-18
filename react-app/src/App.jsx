@@ -24,6 +24,7 @@ function App() {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
 
   /* =========================
@@ -129,30 +130,41 @@ useEffect(() => {
             {/* LEWA KOLUMNA */}
             <div className="matches-column">
               {/* ZAKŁADKI */}
-              <div className="tabs">
-                <button
-                  className={activeTab === "matches" ? "tab active" : "tab"}
-                  onClick={() => setActiveTab("matches")}
-                >
-                  Mecze
-                </button>
+              <div className="top-bar">
+                <div className="tabs">
+                  <button
+                    className={activeTab === "matches" ? "tab active" : "tab"}
+                    onClick={() => setActiveTab("matches")}
+                  >
+                    Mecze
+                  </button>
 
-                <button
-                  className={activeTab === "top" ? "tab active" : "tab"}
-                  onClick={() => setActiveTab("top")}
-                >
-                  Najlepsze okazje
-                </button>
+                  <button
+                    className={activeTab === "top" ? "tab active" : "tab"}
+                    onClick={() => setActiveTab("top")}
+                  >
+                    Najlepsze okazje
+                  </button>
+                </div>
+
+                <div className="search-bar">
+                  <input
+                    type="text"
+                    placeholder="Szukaj meczu lub drużyny…"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
               </div>
-
               <div className="card">
                 {/* ===== MECZE ===== */}
                 {activeTab === "matches" && (
                   <MatchesList
                     matches={matches}
-                    selectedSport={selectedSport}   // ✅ TO JEST KLUCZ
+                    selectedSport={selectedSport}
                     selectedLeague={selectedLeague}
                     selectedMatch={selectedMatch}
+                    searchQuery={searchQuery}
                     onSelect={setSelectedMatch}
                   />
                 )}

@@ -3,18 +3,24 @@ function MatchesList({
   selectedSport,
   selectedLeague,
   selectedMatch,
-  onSelect
+  onSelect,
+  searchQuery
 }) {
   if (!matches || matches.length === 0) {
     return <p>Brak meczów</p>;
   }
 
-  // ✅ FILTR: najpierw SPORT, potem (opcjonalnie) LIGA
   const visibleMatches = matches
     .filter(m => m.sport === selectedSport)
     .filter(m =>
       selectedLeague ? m.tournamentName === selectedLeague : true
+    )
+    .filter(m =>
+      searchQuery
+        ? `${m.home} ${m.away}`.toLowerCase().includes(searchQuery.toLowerCase())
+        : true
     );
+
 
   if (visibleMatches.length === 0) {
     return 
