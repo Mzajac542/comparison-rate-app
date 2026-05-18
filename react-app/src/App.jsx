@@ -26,10 +26,7 @@ function App() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-
-  /* =========================
-     FETCH DANYCH
-  ========================= */
+  // Fetch Danych
   useEffect(() => {
     fetch("/data/odds_mapped.json")
       .then(res => {
@@ -67,10 +64,6 @@ useEffect(() => {
   localStorage.setItem("activeTab", activeTab);
 }, [activeTab]);
 
-
-  /* =========================
-     DYNAMICZNE SPORTY
-  ========================= */
   const sports = Array.from(
   new Set(
     matches
@@ -79,18 +72,14 @@ useEffect(() => {
   )
 ).sort((a, b) => a.localeCompare(b));
 
-  /* =========================
-     MECZE DLA SPORTU
-  ========================= */
+  // MECZE
   const filteredMatches = selectedSport
     ? matches.filter(
         m => m.sport === selectedSport && m.odds && m.odds.length > 0
       )
     : [];
 
-  /* =========================
-     TOP 5 OKAZJI
-  ========================= */
+  // TOP 5 OKAZJI
   const top5 = calculateTop5(matches);
 
   if (loading) {
@@ -157,7 +146,7 @@ useEffect(() => {
                 </div>
               </div>
               <div className="card">
-                {/* ===== MECZE ===== */}
+                {/*  MECZE  */}
                 {activeTab === "matches" && (
                   <MatchesList
                     matches={matches}
@@ -169,7 +158,7 @@ useEffect(() => {
                   />
                 )}
 
-                {/* ===== TOP 5 ===== */}
+                {/*  TOP 5  */}
                 {activeTab === "top" && (
                   <Top5
                     items={top5}

@@ -6,8 +6,8 @@ function Sidebar({
   onSelectSport,
   onSelectLeague
 }) {
-  // ✅ 1. NAJPIERW FUNKCJE POMOCNICZE
-
+  
+  // Funkcje pomocnicze
   const getLeagueCount = (leagueName) => {
     return matches.filter(
       m =>
@@ -20,8 +20,8 @@ function Sidebar({
     ? matches.filter(m => m.sport === selectedSport).length
     : 0;
 
-  // ✅ 2. POTEM LOGIKA + SORTOWANIE
-
+  
+  // Logika + sortowanie
   const leagues = selectedSport
   ? [
       ...new Set(
