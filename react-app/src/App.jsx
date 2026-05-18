@@ -10,11 +10,14 @@ import { mapRawMatch } from "./utils/mapper";
 function App() {
   const [selectedSport, setSelectedSport] = useState(null);
   const [selectedMatch, setSelectedMatch] = useState(null);
-  const [activeTab, setActiveTab] = useState("matches"); // matches | top
+  const [activeTab, setActiveTab] = useState("matches");
 
+  const [selectedLeague, setSelectedLeague] = useState(null);
   const [matches, setMatches] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
 
   /* =========================
      FETCH DANYCH
@@ -84,14 +87,13 @@ function App() {
       <div className="layout">
         {/* SIDEBAR */}
         <aside className="sidebar">
-          <Sidebar
+          <Sidebar            
             sports={sports}
-            selectedSport={selectedSport}
-            onSelectSport={(sport) => {
-              setSelectedSport(sport);
-              setSelectedMatch(null);
-              setActiveTab("matches");
-            }}
+              matches={matches}
+              selectedSport={selectedSport}
+              selectedLeague={selectedLeague}
+              onSelectSport={setSelectedSport}
+              onSelectLeague={setSelectedLeague}
           />
         </aside>
 
@@ -121,7 +123,9 @@ function App() {
                 {/* ===== MECZE ===== */}
                 {activeTab === "matches" && (
                   <MatchesList
-                    matches={filteredMatches}
+                    matches={matches}
+                    selectedSport={selectedSport}   // ✅ TO JEST KLUCZ
+                    selectedLeague={selectedLeague}
                     selectedMatch={selectedMatch}
                     onSelect={setSelectedMatch}
                   />
