@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Administratora</title>
+    <style>
+        body { font-family: sans-serif; background-color: #121212; color: white; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; background: #1e1e1e; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
+        h1 { margin: 0; font-size: 1.5em; }
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; color: white; }
+        .btn-run { background-color: #10b981; font-size: 1.1em; }
+        .btn-run:hover { background-color: #059669; }
+        .btn-logout { background-color: #ef4444; }
+        .btn-logout:hover { background-color: #b91c1c; }
+        .btn-action { background-color: #3b82f6; padding: 5px 10px; font-size: 0.85em; }
+        .btn-action:hover { background-color: #2563eb; }
+        .btn-delete { background-color: #ef4444; padding: 5px 10px; font-size: 0.85em; margin-left: 5px; }
+        .btn-delete:hover { background-color: #b91c1c; }
+        
+        .panel { background: #1e1e1e; padding: 20px; border-radius: 8px; border: 1px solid #333; margin-bottom: 20px; }
+        #status { margin-top: 10px; font-size: 0.9em; color: #aaa; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #333; }
+        th { background-color: #2a2a2a; color: #aaa; font-size: 0.9em; text-transform: uppercase; }
+        .badge { background-color: #3b82f6; color: white; font-size: 0.75em; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; }
+        .badge-admin { background-color: #8b5cf6; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Panel Administratora</h1>
+        <div>
+            <button class="btn btn-run" onclick="runScraper()">🚀 Uruchom Scrapera</button>
+            <button class="btn btn-logout" onclick="logout()" style="margin-left: 10px;">🚪 Wyloguj</button>
+        </div>
+    </div>
+
+    <div class="panel">
+        <p id="status">Skrypty są w gotowości. Oczekują na rozkaz.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Zarządzanie Użytkownikami</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nazwa Użytkownika</th>
+                    <th>Rola</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Wylogowywanie
+    async function logout() {
+        await fetch('/api/logout', { method: 'POST' });
+        window.location.href = '/login.html';
+    }
+
+    // Uruchamianie scrapera
+    async function runScraper() {
+        const statusEl = document.getElementById('status');
+        statusEl.innerText = "🔄 Uruchamianie scraperów... (Proszę czekać, to może potrwać kilka minut)";
+        statusEl.style.color = "#fbbf24";
+
+        try {
+            const res = await fetch('/api/run-scraper', { method: 'POST' });
+            if (res.status === 403) {
+                alert("Błąd: Nie jesteś zalogowany lub brak uprawnień!");
+                window.location.href = '/login.html';
+            } else {
+                const data = await res.json();
+                statusEl.innerText = "✅ " + data.message + " Możesz odświeżyć główną aplikację.";
+                statusEl.style.color = "#10b981";
+            }
+        } catch (err) {
+            statusEl.innerText = "❌ Wystąpił błąd podczas łączenia z serwerem.";
+            statusEl.style.color = "#ef4444";
+        }
+    }
+
+    // Pobieranie i wyświetlanie użytkowników
+    async function loadUsers() {
+        const res = await fetch('/api/admin/users');
+        if (!res.ok) return;
+
+        const users = await res.json();
+        const tbody = document.getElementById('users-table-body');
+        tbody.innerHTML = ''; // Czyszczenie tabeli
+
+        users.forEach(user => {
+            const roleBadgeClass = user.role === 'admin' ? 'badge badge-admin' : 'badge';
+            const actionBtn = user.role === 'admin' 
+                ? `<button class="btn btn-action" onclick="changeRole(${user.id}, 'user')">Zrób Userem</button>`
+                : `<button class="btn btn-action" onclick="changeRole(${user.id}, 'admin')">Zrób Adminem</button>`;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>#${user.id}</td>
+                <td><strong>${user.username}</strong></td>
+                <td><span class="${roleBadgeClass}">${user.role}</span></td>
+                <td>
+                    ${actionBtn}
+                    <button class="btn btn-delete" onclick="deleteUser(${user.id}, '${user.username}')">Usuń</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Zmiana roli
+    async function changeRole(userId, newRole) {
+        if (!confirm(`Czy na pewno chcesz zmienić rolę tego użytkownika na ${newRole.toUpperCase()}?`)) return;
+
+        const res = await fetch(`/api/admin/users/${userId}/role`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role: newRole })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            loadUsers(); // Odśwież tabelę
+        } else {
+            alert("Błąd: " + data.error);
+        }
+    }
+
+    // Usuwanie użytkownika
+    async function deleteUser(userId, username) {
+        if (!confirm(`Czy NA PEWNO chcesz trwale usunąć konto użytkownika "${username}"?`)) return;
+
+        const res = await fetch(`/api/admin/users/${userId}`, {
+            method: 'DELETE'
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            loadUsers(); // Odśwież tabelę
+        } else {
+            alert("Błąd: " + data.error);
+        }
+    }
+
+    // Odpal załadowanie użytkowników od razu po otwarciu strony
+    window.onload = loadUsers;
+</script>
+</body>
+</html>

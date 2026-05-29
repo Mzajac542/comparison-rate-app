@@ -1,0 +1,3922 @@
+[
+  {
+    "mecz": "Bayern Monachium - VfB Stuttgart",
+    "kurs_1": 1.34,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:00:00",
+    "liga": "Puchar"
+  },
+  {
+    "mecz": "Celtic Glasgow - Dunfermline Athletic",
+    "kurs_1": 1.22,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "Puchar"
+  },
+  {
+    "mecz": "Jagiellonia Białystok - Zagłębie Lubin",
+    "kurs_1": 1.62,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Raków Częstochowa - Arka Gdynia",
+    "kurs_1": 1.38,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Hellas Verona - AS Roma",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.32,
+    "data": "2026-05-24 18:45:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "AC Milan - Cagliari",
+    "kurs_1": 1.28,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 18:45:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Górnik Zabrze - Radomiak Radom",
+    "kurs_1": 1.48,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Bruk-Bet Termalica Nieciecza - Lechia Gdańsk",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.82,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "ŁKS Łódź - Górnik Łęczna",
+    "kurs_1": 1.4,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "Legia Warszawa - Motor Lublin",
+    "kurs_1": 1.57,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Lech Poznań - Wisła Płock",
+    "kurs_1": 1.32,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Mallorca - Real Oviedo",
+    "kurs_1": 1.47,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Znicz Pruszków - Ruch Chorzów",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.72,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "Lazio Rzym - Pisa",
+    "kurs_1": 1.57,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:45:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Manchester City  - Aston Villa",
+    "kurs_1": 1.32,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Widzew Łódź - Piast Gliwice",
+    "kurs_1": 2.1,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Hajduk Split - HNK Vukovar",
+    "kurs_1": 1.19,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:15:00",
+    "liga": "HNL"
+  },
+  {
+    "mecz": "Real Madryt - Athletic Bilbao",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Cremonese - Como",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.6,
+    "data": "2026-05-24 18:45:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Wisła Kraków - Pogoń Siedlce",
+    "kurs_1": 1.37,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "Liverpool - Brentford",
+    "kurs_1": 1.82,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Torino - Juventus",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.43,
+    "data": "2026-05-24 18:45:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Śląsk Wrocław - Pogoń Grodzisk Mazowiecki",
+    "kurs_1": 1.58,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "Olimpia Grudziądz - Hutnik Kraków",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 17:30:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "Tottenham - Everton",
+    "kurs_1": 1.92,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Sunderland - Chelsea",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.02,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Odra Opole - Polonia Warszawa",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.95,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "Crystal Palace  - Arsenal",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.78,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Dinamo Zagrzeb - Lokomotiva Zagrzeb",
+    "kurs_1": 1.23,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:45:00",
+    "liga": "HNL"
+  },
+  {
+    "mecz": "Bologna - Inter Mediolan",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Brighton - Manchester United",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Warta Sieradz - Wigry Suwałki",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "III Liga - Grupa I"
+  },
+  {
+    "mecz": "Lecce - Genoa",
+    "kurs_1": 1.77,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 18:45:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Kristiansund BK - Viking FK",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.42,
+    "data": "2026-05-24 16:00:00",
+    "liga": "Eliteserien"
+  },
+  {
+    "mecz": "Napoli - Udinese",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Espanyol - Real Sociedad",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Sokół Kleczew - Sandecja Nowy Sącz",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "Real Betis - Levante",
+    "kurs_1": 2.25,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Universidad Catolica Santiago - Barcelona Guayaquil",
+    "kurs_1": 1.8,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Copa Libertadores"
+  },
+  {
+    "mecz": "Barcelona [K] - Olympique Lyon [K]",
+    "kurs_1": 1.35,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:00:00",
+    "liga": "Liga Mistrzów - kobiety"
+  },
+  {
+    "mecz": "Cracovia - Korona Kielce",
+    "kurs_1": 2.25,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Dynamo Kijów - FK Kudrivka",
+    "kurs_1": 1.24,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 10:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Rot-Weiss Essen - Greuther Furth",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:30:00",
+    "liga": "2. Bundesliga, awans/spadek"
+  },
+  {
+    "mecz": "Śląsk II Wrocław - ŁKS II Łódź",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:00:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "Inter Miami - Philadelphia Union",
+    "kurs_1": 1.4,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 23:00:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "KS CK Troszyn - ŁKS Łomża",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "III Liga - Grupa I"
+  },
+  {
+    "mecz": "Podhale Nowy Targ - Warta Poznań",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 10:45:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "Nottingham - Bournemouth",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.1,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Burnley - Wolverhampton",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "West Ham - Leeds",
+    "kurs_1": 1.88,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "HNK Rijeka - HNK Gorica",
+    "kurs_1": 1.72,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "HNL"
+  },
+  {
+    "mecz": "Villarreal - Atletico Madryt",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Primorje Ajdovscina - NK Celje",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.37,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Prva Liga"
+  },
+  {
+    "mecz": "Celta Vigo - Sevilla",
+    "kurs_1": 1.77,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Resovia Rzeszów - Podbeskidzie Bielsko-Biała",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 17:30:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "Zawisza Bydgoszcz - Wikęd Luzino",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 17:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Zagłębie Sosnowiec - KKS Kalisz",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "Kluczevia Stargard - Polonia Środa Wielkopolska",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Pogoń Nowe Skalmierzyce - Lech II Poznań",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 10:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Flota Świnoujście - Cartusia Kartuzy",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Tłuchowia Tłuchowo - Błękitni Stargard",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:30:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "KS Wasilków - Broń Radom",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 12:00:00",
+    "liga": "III Liga - Grupa I"
+  },
+  {
+    "mecz": "LZS Starowice Dolne - Carina Gubin",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "III Liga - Grupa III"
+  },
+  {
+    "mecz": "Girona - Elche",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "MKS Kluczbork - Warta Gorzów Wielkopolski",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:00:00",
+    "liga": "III Liga - Grupa III"
+  },
+  {
+    "mecz": "GKS Bełchatów - Jagiellonia II Białystok",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:00:00",
+    "liga": "III Liga - Grupa I"
+  },
+  {
+    "mecz": "Blooming Santa Cruz - Carabobo FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.15,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Copa Sudamericana"
+  },
+  {
+    "mecz": "Ząbkovia Ząbki - GKS Wikielec",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:00:00",
+    "liga": "III Liga - Grupa I"
+  },
+  {
+    "mecz": "Miedź Legnica - Puszcza Niepołomice",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "Shamrock Rovers - Sligo Rovers",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Premier Division"
+  },
+  {
+    "mecz": "Fulham - Newcastle",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.3,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "CA Penarol - SC Corinthians",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Copa Libertadores"
+  },
+  {
+    "mecz": "Wieczysta Kraków - Chrobry Głogów",
+    "kurs_1": 1.62,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "CFR Cluj - Arges Pitesti",
+    "kurs_1": 1.52,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:30:00",
+    "liga": "Superliga, grupa mistrzowska"
+  },
+  {
+    "mecz": "Trabzonspor - Konyaspor",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:45:00",
+    "liga": "Puchar"
+  },
+  {
+    "mecz": "Pogoń Szczecin - GKS Katowice",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Auckland FC - Sydney FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 08:10:00",
+    "liga": "A-League, playoffs"
+  },
+  {
+    "mecz": "Malaga CF - Racing Santander",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Lechia Zielona Góra - Karkonosze Jelenia Góra",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:00:00",
+    "liga": "III Liga - Grupa III"
+  },
+  {
+    "mecz": "Hammarby IF - AIK Solna",
+    "kurs_1": 1.48,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "Allsvenskan"
+  },
+  {
+    "mecz": "Djurgardens IF - IF Brommapojkarna",
+    "kurs_1": 1.4,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:00:00",
+    "liga": "Allsvenskan"
+  },
+  {
+    "mecz": "Sparta Praga - FC Hradec Kralove",
+    "kurs_1": 1.6,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "I Liga, grupa mistrzowska"
+  },
+  {
+    "mecz": "UD Las Palmas - Real Zaragoza",
+    "kurs_1": 1.42,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Slavia Praga - Viktoria Pilzno",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "I Liga, grupa mistrzowska"
+  },
+  {
+    "mecz": "Aarhus Fremad - Aalborg BK",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "1. Division, grupa spadkowa"
+  },
+  {
+    "mecz": "Partizan Belgrad - Radnik Surdulica",
+    "kurs_1": 1.67,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Superliga, grupa mistrzowska"
+  },
+  {
+    "mecz": "Real Valladolid - Deportivo La Coruna",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Sporting Lizbona - SCU Torreense",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:15:00",
+    "liga": "Puchar"
+  },
+  {
+    "mecz": "CR Flamengo U20 -  Santos FC U20",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.8,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Campeonato Brasileiro U20"
+  },
+  {
+    "mecz": "Omonia Nikozja - Apollon Limassol",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:30:00",
+    "liga": "Cyprus League, grupa mistrzowska"
+  },
+  {
+    "mecz": "Fritz Taylor - Basavareddy Nishesh",
+    "kurs_1": 1.35,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Humbert Ugo - Mannarino Adrian",
+    "kurs_1": 1.14,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Standard Liege - Royal Charleroi",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:45:00",
+    "liga": "Pro League"
+  },
+  {
+    "mecz": "FC FCSB - FC Botosani",
+    "kurs_1": 1.42,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 17:30:00",
+    "liga": "Superliga"
+  },
+  {
+    "mecz": " - ",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 05:00:00",
+    "liga": "Kraków. Referendum"
+  },
+  {
+    "mecz": "Sumgayit FK - Qarabag FK",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.32,
+    "data": "2026-05-22 15:30:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Kairat Almaty - Kaisar Kyzylorda",
+    "kurs_1": 1.27,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Priemjer Ligasy"
+  },
+  {
+    "mecz": "Oud-Heverlee Leuven - KRC Genk",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:45:00",
+    "liga": "Pro League"
+  },
+  {
+    "mecz": "Parma - Sassuolo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 13:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Unia Swarzędz - Wybrzeże Rewalskie Rewal",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 11:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Pafos FC - APOEL Nikozja",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:30:00",
+    "liga": "Cyprus League, grupa mistrzowska"
+  },
+  {
+    "mecz": "Hapoel Petah Tikva - Maccabi Tel Aviv",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.57,
+    "data": "2026-05-23 15:00:00",
+    "liga": "Ligat ha'Al, grupa mistrzowska"
+  },
+  {
+    "mecz": "CSD Macara - Alianza Atletico",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Copa Sudamericana"
+  },
+  {
+    "mecz": "Radnik Bijeljina - Borac Banja Luka",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.78,
+    "data": "2026-05-22 16:00:00",
+    "liga": "Premijer Liga"
+  },
+  {
+    "mecz": "NK Bravo - Olimpija Lublana",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:15:00",
+    "liga": "Prva Liga"
+  },
+  {
+    "mecz": "Getafe - Osasuna",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Droguet Titouan - Mensik Jakub",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.35,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Skra Częstochowa - LKS Goczałkowice-Zdrój",
+    "kurs_1": 2,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:00:00",
+    "liga": "III Liga - Grupa III"
+  },
+  {
+    "mecz": "SV Ried - Rapid Wiedeń",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:30:00",
+    "liga": "Bundesliga"
+  },
+  {
+    "mecz": "Victoria Września - Lipno Stęszew",
+    "kurs_1": 1.6,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Elana Toruń - Noteć Czarnków",
+    "kurs_1": 5.75,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Cruz Azul - Pumas UNAM",
+    "kurs_1": 1.72,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Liga MX, playoffs"
+  },
+  {
+    "mecz": "Club Brugge - KAA Gent",
+    "kurs_1": 1.75,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "Pro League, grupa mistrzowska"
+  },
+  {
+    "mecz": "New York Knicks - Cleveland Cavaliers",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 00:00:00",
+    "liga": "NBA, playoffs"
+  },
+  {
+    "mecz": "Epitsentr Kamianets-Podilskyi - SC Poltava",
+    "kurs_1": 1.26,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 12:30:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "FK Jablonec - Slovan Liberec",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "I Liga, grupa mistrzowska"
+  },
+  {
+    "mecz": "Pogoń II Szczecin - Wda Świecie",
+    "kurs_1": 1.45,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "III Liga - Grupa II"
+  },
+  {
+    "mecz": "Harmon Alexia - Farm Raegan",
+    "kurs_1": 1.22,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:30:00",
+    "liga": "Newport Beach"
+  },
+  {
+    "mecz": "Davidovich Fokina Alejandro - Dzumhur Damir",
+    "kurs_1": 1.17,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "El Gouna FC - Tala'ea El Gaish",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:00:00",
+    "liga": "Premier League, grupa spadkowa"
+  },
+  {
+    "mecz": "Machida Zelvia - Urawa Red Diamonds",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:30:00",
+    "liga": "J1 League"
+  },
+  {
+    "mecz": "Świt Nowy Dwór Mazowiecki - Wisła II Płock",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.6,
+    "data": "2026-05-23 15:00:00",
+    "liga": "III Liga - Grupa I"
+  },
+  {
+    "mecz": "Stal Mielec - Polonia Bytom",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.6,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "Malmo FF - Vasteras SK",
+    "kurs_1": 1.62,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:30:00",
+    "liga": "Allsvenskan"
+  },
+  {
+    "mecz": "Union Saint-Gilloise - RSC Anderlecht",
+    "kurs_1": 1.48,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "Pro League, grupa mistrzowska"
+  },
+  {
+    "mecz": "Avia Świdnik - Wisłoka Dębica",
+    "kurs_1": 1.42,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "III Liga - Grupa IV"
+  },
+  {
+    "mecz": "Bergischer HC - THW Kiel",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.22,
+    "data": "2026-05-24 14:30:00",
+    "liga": "Bundesliga"
+  },
+  {
+    "mecz": "Mpetshi Perricard Giovanni - Djokovic Novak",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.14,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Falcons  - Legacy",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 03:00:00",
+    "liga": "Asia Championships"
+  },
+  {
+    "mecz": "Kokkinakis Thanasi - Atmane Terence",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.28,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "FC Andorra - AD Ceuta",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:15:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "VPS Vassa - HJK Helsinki",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "Veikkausliiga"
+  },
+  {
+    "mecz": "Bolton Wanderers - Stockport County",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "League One, playoffs"
+  },
+  {
+    "mecz": "NK Maribor - NK Aluminij",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Prva Liga"
+  },
+  {
+    "mecz": "Kaizer Chiefs - Chippa United",
+    "kurs_1": 1.52,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Premiership"
+  },
+  {
+    "mecz": "Albacete Balompie - Real Sociedad B",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:15:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Unia Skierniewice - Chojniczanka Chojnice",
+    "kurs_1": 2,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "Royal Antwerp - KVC Westerlo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:45:00",
+    "liga": "Pro League"
+  },
+  {
+    "mecz": "FK Bodo/Glimt - SK Brann",
+    "kurs_1": 1.32,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 14:00:00",
+    "liga": "Eliteserien"
+  },
+  {
+    "mecz": "Fiorentina - Atalanta",
+    "kurs_1": 2.65,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Sporting Cristal - Deportiva Tarma",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:00:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Vikingur Reykjavik - FH Hafnarfjordur",
+    "kurs_1": 1.16,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:15:00",
+    "liga": "Besta deild"
+  },
+  {
+    "mecz": "Turan Tovuz - Sabah Baku",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 13:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Kapaz PFK - Neftchi Baku",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.46,
+    "data": "2026-05-23 11:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Kecmanovic Miomir - Maroszan Fabian",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Buse Ignacio - Rublev Andrey",
+    "kurs_1": 2.8,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Medjedovic Hamad - Hanfmann Yannick",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Shevchenko Alexander - Michelsen Alex",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.5,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Duckworth James - Diallo Gabriel",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.55,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "FC Zlin - FC Slovacko",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 12:00:00",
+    "liga": "I Liga, grupa spadkowa"
+  },
+  {
+    "mecz": "Universitatea Cluj - Dinamo Bukareszt",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 17:30:00",
+    "liga": "Superliga, grupa mistrzowska"
+  },
+  {
+    "mecz": "Defensor Sporting - CA Penarol",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 21:30:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "CA Cerro - Central Espanol FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 13:00:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Cusco FC - Atletico Grau",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 22:15:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Crvena Zvezda - OFK Belgrad",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Superliga, grupa mistrzowska"
+  },
+  {
+    "mecz": "CS Emelec - CSD Macara",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 20:30:00",
+    "liga": "LigaPro Primera A"
+  },
+  {
+    "mecz": "Deportes La Serena - Deportes Limache",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 19:00:00",
+    "liga": "Liga de Primera"
+  },
+  {
+    "mecz": "Deportes Concepcion - CD Huachipato",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "Liga de Primera"
+  },
+  {
+    "mecz": "IK Sirius - GAIS Goteborg",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "Allsvenskan"
+  },
+  {
+    "mecz": "Obolon Kijów - LNZ Cherkasy",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 10:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Navone Mariano - Brooksby Jenson",
+    "kurs_1": 1.18,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Riga FC - SK Super Nova",
+    "kurs_1": 1.15,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "Virsliga"
+  },
+  {
+    "mecz": "Slavia Sofia - PFC Montana",
+    "kurs_1": 1.56,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 12:30:00",
+    "liga": "Parva Liga, grupa spadkowa"
+  },
+  {
+    "mecz": "Twente Enschede [K] - PSV Eindhoven [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Eredivisie - kobiety"
+  },
+  {
+    "mecz": "Soles de Santo Domingo Este - Gigantes San Francisco De Macoris",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 00:30:00",
+    "liga": "LNB"
+  },
+  {
+    "mecz": "Phoenix Mercury [K] - Los Angeles Sparks [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "WNBA"
+  },
+  {
+    "mecz": "CD Valdivia - CD Espanol Osorno",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Liga Nacional, playoffs"
+  },
+  {
+    "mecz": "KRC Genk [K] - SV Zulte Waregem [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Super League - kobiety, grupa spadkowa"
+  },
+  {
+    "mecz": "Brondby IF [K] - Kolding IF [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:00:00",
+    "liga": "Kvindeligaen - kobiety, grupa mistrzowska"
+  },
+  {
+    "mecz": "Spartak Varna - Lokomotiv Sofia",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Parva Liga, grupa spadkowa"
+  },
+  {
+    "mecz": "Oud-Heverlee Leuven [K] - Standard Liege [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:30:00",
+    "liga": "Super League - kobiety"
+  },
+  {
+    "mecz": "Shelbourne FC - Waterford FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "Premier Division"
+  },
+  {
+    "mecz": "Drogheda United - Dundalk FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Premier Division"
+  },
+  {
+    "mecz": "ADO Den Haag [K] - PEC Zwolle [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Eredivisie - kobiety"
+  },
+  {
+    "mecz": "Stal Kraśnik - Świdniczanka Świdnik",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "III Liga - Grupa IV"
+  },
+  {
+    "mecz": "Shimizu S-Pulse - Gamba Osaka",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 08:00:00",
+    "liga": "J1 League"
+  },
+  {
+    "mecz": "Avispa Fukuoka - Vissel Kobe",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.77,
+    "data": "2026-05-23 05:00:00",
+    "liga": "J1 League"
+  },
+  {
+    "mecz": "Sanfrecce Hiroshima - Nagoya Grampus",
+    "kurs_1": 1.68,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 05:00:00",
+    "liga": "J1 League"
+  },
+  {
+    "mecz": "Sporting Gijon - UD Almeria",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Kalmar FF - Degerfors IF",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Allsvenskan"
+  },
+  {
+    "mecz": "Real Cartagena - Barranquilla FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 11.5,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Primera B"
+  },
+  {
+    "mecz": "Karpaty Lwów - Zoria Ługańsk",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "SD Huesca - CD Castellon",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Los Angeles Angels - Oakland Athletics",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2,
+    "data": "2026-05-22 01:38:00",
+    "liga": "MLB"
+  },
+  {
+    "mecz": "Wisła Płock - Industria Kielce",
+    "kurs_1": 1.67,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 10:30:00",
+    "liga": "Superliga, playoffs"
+  },
+  {
+    "mecz": "Septemvri Sofia - Dobrudzha Dobrich",
+    "kurs_1": 1.26,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Parva Liga, grupa spadkowa"
+  },
+  {
+    "mecz": "Minnesota United - Real Salt Lake",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 20:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "RC Lens - OGC Nice",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": 7,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Puchar"
+  },
+  {
+    "mecz": "Saint Louis City SC - Austin FC",
+    "kurs_1": 1.67,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:45:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "Hull City - Middlesbrough",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:30:00",
+    "liga": "Championship, playoffs"
+  },
+  {
+    "mecz": "Stade Lavallois - FC Rouen",
+    "kurs_1": 2.25,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 15:00:00",
+    "liga": "Ligue 2, awans/spadek"
+  },
+  {
+    "mecz": "Cadiz CF - CD Leganes",
+    "kurs_1": 2.2,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "GKS Tychy - Stal Rzeszów",
+    "kurs_1": null,
+    "kurs_X": 3.8,
+    "kurs_2": null,
+    "data": "2026-05-24 14:30:00",
+    "liga": "I Liga"
+  },
+  {
+    "mecz": "FK Mlada Boleslav - FK Teplice",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 12:00:00",
+    "liga": "I Liga, grupa spadkowa"
+  },
+  {
+    "mecz": "Bentleigh Greens SC - Caroline Springs George Cross",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:30:00",
+    "liga": "NPL Victoria"
+  },
+  {
+    "mecz": "Green Gully SC - Heidelberg United",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.22,
+    "data": "2026-05-22 09:30:00",
+    "liga": "NPL Victoria"
+  },
+  {
+    "mecz": "Orbit College FC - Orlando Pirates",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.14,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Premiership"
+  },
+  {
+    "mecz": "Polska - Ukraina",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Mecze towarzyskie"
+  },
+  {
+    "mecz": "CD Marathon - FC Motagua",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Liga Nacional - Clausura, playoffs"
+  },
+  {
+    "mecz": "Udelas FC - CD Arabe Unido B",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Liga Nacional de Ascenso, playoffs"
+  },
+  {
+    "mecz": "Botev Vratsa - Beroe Stara Zagora",
+    "kurs_1": 2.45,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Parva Liga, grupa spadkowa"
+  },
+  {
+    "mecz": "Niemcy - Węgry",
+    "kurs_1": 1.22,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:20:00",
+    "liga": "Mistrzostwa Świata"
+  },
+  {
+    "mecz": "USM Alger - Paradou AC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:00:00",
+    "liga": "Ligue 1"
+  },
+  {
+    "mecz": "Olympiakos Pireus - Fenerbahce SK",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.6,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Euroliga, playoffs"
+  },
+  {
+    "mecz": "NK Osijek - Slaven Belupo",
+    "kurs_1": 2.05,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:00:00",
+    "liga": "HNL"
+  },
+  {
+    "mecz": "FC Astana - Ulytau Zhezkazgan",
+    "kurs_1": 1.58,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 12:00:00",
+    "liga": "Priemjer Ligasy"
+  },
+  {
+    "mecz": "Los Angeles Galaxy - Houston Dynamo",
+    "kurs_1": 1.95,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 02:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "San Diego FC - Vancouver Whitecaps",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.95,
+    "data": "2026-05-24 01:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "Nashville SC - New York City FC",
+    "kurs_1": 1.75,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 00:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "Chicago Fire - Toronto FC",
+    "kurs_1": 1.47,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 00:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "AB Gladsaxe - HIK Hellerup",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:00:00",
+    "liga": "2. Division, grupa mistrzowska"
+  },
+  {
+    "mecz": "Gaubas Vilius - Llamas Ruiz Pablo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.45,
+    "data": "2026-05-22 10:10:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Kalinskaya Anna - Boisson Lois",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.7,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Rekord Bielsko-Biała - Świt Szczecin",
+    "kurs_1": null,
+    "kurs_X": 3.6,
+    "kurs_2": null,
+    "data": "2026-05-23 15:00:00",
+    "liga": "II Liga"
+  },
+  {
+    "mecz": "SC Heerenveen [K] - Ajax Amsterdam [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.17,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Eredivisie - kobiety"
+  },
+  {
+    "mecz": "Naito Yuki - Shimizu Eri",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Takasaki"
+  },
+  {
+    "mecz": "CD Mirandes - Granada",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Inter Turku - TPS Turku",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 11:00:00",
+    "liga": "Veikkausliiga"
+  },
+  {
+    "mecz": "Sokół Kolbuszowa Dolna - Wiślanie Skawina",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.4,
+    "data": "2026-05-22 15:30:00",
+    "liga": "III Liga - Grupa IV"
+  },
+  {
+    "mecz": "Korona II Kielce - Czarni Połaniec",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 3,
+    "data": "2026-05-22 15:00:00",
+    "liga": "III Liga - Grupa IV"
+  },
+  {
+    "mecz": "Rekord Bielsko-Biała [K] - UJ Kraków [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 4,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Ekstraliga - kobiety"
+  },
+  {
+    "mecz": " - ",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:00:00",
+    "liga": "Ekstraklasa"
+  },
+  {
+    "mecz": "Nava Emilio - Martinez Pedro",
+    "kurs_1": 1.4,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:10:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Sun Lulu - Liu Claire",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.5,
+    "data": "2026-05-22 10:10:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Abe Hiromi - Tsao Chia Yi",
+    "kurs_1": 1.19,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Toyama"
+  },
+  {
+    "mecz": "Gill Felix - Jacquet Kyrian",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.55,
+    "data": "2026-05-22 12:10:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Veres Rivne - Metalist 1925 Kharkiv",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 10:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Cultural Leonesa - Burgos CF",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Fremantle Dockers - St Kilda Saints",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:30:00",
+    "liga": "AFL"
+  },
+  {
+    "mecz": "Zavatska Katarina - Bronzetti Lucia",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.6,
+    "data": "2026-05-22 10:10:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Mulhouse Pfastatt - Tours Basket Metropole",
+    "kurs_1": 1.25,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Nationale 1"
+  },
+  {
+    "mecz": "Basket Le Havre - CEP Lorient",
+    "kurs_1": 1.6,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Nationale 1"
+  },
+  {
+    "mecz": "Aris Limassol - AEK Larnaka",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:30:00",
+    "liga": "Cyprus League, grupa mistrzowska"
+  },
+  {
+    "mecz": "Menorca Basquet - Basquet Coruna",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.47,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Primera FEB, playoffs"
+  },
+  {
+    "mecz": "Oviedo CB - San Sebastian Gipuzkoa",
+    "kurs_1": 1.42,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Primera FEB, playoffs"
+  },
+  {
+    "mecz": "Tan Harmony - Fruhvirtova Linda",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.5,
+    "data": "2026-05-22 09:00:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Maristany Guiomar - Quevedo Kaitlin",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.65,
+    "data": "2026-05-22 09:00:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "FC Hermannstadt - FC Voluntari",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 3.7,
+    "data": "2026-05-24 14:30:00",
+    "liga": "Superliga, awans/spadek"
+  },
+  {
+    "mecz": "Chindia Targoviste - Farul Constanta",
+    "kurs_1": 4.1,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:30:00",
+    "liga": "Superliga, awans/spadek"
+  },
+  {
+    "mecz": "Pharco FC - National Bank Egypt",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.8,
+    "data": "2026-05-22 17:00:00",
+    "liga": "Premier League, grupa spadkowa"
+  },
+  {
+    "mecz": "Kahrabaa Ismailia - Al Mokawloon SC",
+    "kurs_1": 3.9,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 17:00:00",
+    "liga": "Premier League, grupa spadkowa"
+  },
+  {
+    "mecz": "Gojo Borna - Rodionov Jurij",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.6,
+    "data": "2026-05-22 09:00:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Saraperos de Saltillo - Sultanes de Monterrey",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.57,
+    "data": "2026-05-22 01:30:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Charros de Jalisco - Toros de Tijuana",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.65,
+    "data": "2026-05-22 01:30:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Park Sohyun - Saigo Rina",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Takasaki"
+  },
+  {
+    "mecz": "Khachanov Karen - Gea Arthur",
+    "kurs_1": 1.24,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Vekic Donna - Tubello Alice",
+    "kurs_1": 1.23,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Carreno-Busta Pablo - Lehecka Jiri",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Jovic Iva - Eala Alexandra",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "Gentzsch Tom - Safiullin Roman",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.24,
+    "data": "2026-05-22 10:10:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Herbert Pierre-Hugues - Riedi Leandro",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.28,
+    "data": "2026-05-22 11:00:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Hapoel Beer Sheva - Maccabi Haifa",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:00:00",
+    "liga": "Ligat ha'Al, grupa mistrzowska"
+  },
+  {
+    "mecz": "Dukla Praga - Banik Ostrava",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 12:00:00",
+    "liga": "I Liga, grupa spadkowa"
+  },
+  {
+    "mecz": "Derry City - St. Patrick's Athletic",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "Premier Division"
+  },
+  {
+    "mecz": "Sramkova Rebecca - Carle Maria Lourdes",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 11:20:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Sasnovich Aliaksandra - Bassols Ribera Marina",
+    "kurs_1": 1.28,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:00:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Ostrovia Ostrów Wielkopolski - Wybrzeże Gdańsk",
+    "kurs_1": 2,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "Superliga, playoffs"
+  },
+  {
+    "mecz": "Suduva Marijampole - Żalgiris Kowno",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.78,
+    "data": "2026-05-23 11:15:00",
+    "liga": "A Lyga"
+  },
+  {
+    "mecz": "Marbella FC - CD Teruel",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:30:00",
+    "liga": "Primera Federacion"
+  },
+  {
+    "mecz": "Kudermetova Polina - Wang Xiyu",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.75,
+    "data": "2026-05-22 11:20:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Saito Sara - Kinoshita Hayu",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.35,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Takasaki"
+  },
+  {
+    "mecz": "Ryser Valentina - Kawaguchi Natsumi",
+    "kurs_1": 1.6,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Takasaki"
+  },
+  {
+    "mecz": "Carballes Baena Roberto - Dellien Hugo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.55,
+    "data": "2026-05-22 09:00:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "FC Sudtirol - SSC Bari",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Serie B, playout"
+  },
+  {
+    "mecz": "Keflavik IF - Thor Akureyri",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Besta deild"
+  },
+  {
+    "mecz": "Galway United - Bohemians Dublin",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "Premier Division"
+  },
+  {
+    "mecz": "Feyenoord Rotterdam [K] - NAC Breda [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Eredivisie - kobiety"
+  },
+  {
+    "mecz": "NK Radomlje - NS Mura",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Prva Liga"
+  },
+  {
+    "mecz": "Bandecchi Susan - Hruncakova Viktoria",
+    "kurs_1": 1.7,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:00:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Blanch Darwin - Pavlovic Luka",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 11:20:00",
+    "liga": "French Open, kwalifikacje"
+  },
+  {
+    "mecz": "Fierro Jonathan Javier - Chirino Sanchez Sergio",
+    "kurs_1": 1.22,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 00:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Hazawa Shinji - Jang Yunseok",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Gimcheon"
+  },
+  {
+    "mecz": "Miyata Moeka - Lin Fang An",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.33,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Toyama"
+  },
+  {
+    "mecz": "SJK Seinajoki - AC Oulu",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "Veikkausliiga"
+  },
+  {
+    "mecz": "Ilves Tampere - IF Gnistan",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "Veikkausliiga"
+  },
+  {
+    "mecz": "Kobori Momoko - Yamaguchi Mei",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.4,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Takasaki"
+  },
+  {
+    "mecz": "CR Flamengo - SE Palmeiras",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 00:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Breidablik Kopavogur - KR Reykjavik",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:15:00",
+    "liga": "Besta deild"
+  },
+  {
+    "mecz": "Ruud Casper - Navone Mariano",
+    "kurs_1": 1.24,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 12:00:00",
+    "liga": "Genewa"
+  },
+  {
+    "mecz": "Altai Oskemen - Okzhetpes Kokshetau",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:00:00",
+    "liga": "Priemjer Ligasy"
+  },
+  {
+    "mecz": "Auda Riga - FK Liepaja",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Virsliga"
+  },
+  {
+    "mecz": "Dewa United - Bali United",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 12:00:00",
+    "liga": "Liga 1"
+  },
+  {
+    "mecz": " HSK Posusje - Sloga Doboj",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "Premijer Liga"
+  },
+  {
+    "mecz": "Rudar Prijedor - Zrinjski Mostar",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "Premijer Liga"
+  },
+  {
+    "mecz": "Vojvodina Novi Sad - FK Novi Pazar",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:00:00",
+    "liga": "Superliga, grupa mistrzowska"
+  },
+  {
+    "mecz": "Nacional Montevideo - Albion FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 21:30:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Zhetysu Taldykorgan - FK Atyrau",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 11:00:00",
+    "liga": "Priemjer Ligasy"
+  },
+  {
+    "mecz": "Kyoto Sanga - V-Varen Nagasaki",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 10:00:00",
+    "liga": "J1 League"
+  },
+  {
+    "mecz": "Tigres de Quintana Roo - Guerreros de Oaxaca",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.47,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Conspiradores de Queretaro - Leones de Yucatan",
+    "kurs_1": 1.7,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Algodoneros de Union Laguna - Acereros de Monclova",
+    "kurs_1": 1.75,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:30:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Lamontville Golden Arrows - TS Galaxy FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Premiership"
+  },
+  {
+    "mecz": "Atert Bissen - FC Differdange",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "BGL Liga"
+  },
+  {
+    "mecz": "UNA Strassen - US Mondorf-les-Bains",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "BGL Liga"
+  },
+  {
+    "mecz": "Treaty United - Cobh Ramblers",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "First Division"
+  },
+  {
+    "mecz": "Kaspiy Aktau - Irtysh Pavlodar",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:00:00",
+    "liga": "Priemjer Ligasy"
+  },
+  {
+    "mecz": "Stjarnan Gardabaer - Fram Reykjavik",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:15:00",
+    "liga": "Besta deild"
+  },
+  {
+    "mecz": "Gyeongnam FC - Suwon FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 07:30:00",
+    "liga": "K-League 2"
+  },
+  {
+    "mecz": "Athlone Town - Cork City",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "First Division"
+  },
+  {
+    "mecz": "Ryan Ziegann Sam - Koizumi Noritaka",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.85,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Luan"
+  },
+  {
+    "mecz": "Hernandez Isid - Brown Baylen",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.55,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Tuscaloosa"
+  },
+  {
+    "mecz": "Vyrlan Esther - Davis Germany",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.44,
+    "data": "2026-05-22 00:05:00",
+    "liga": "Tuscaloosa"
+  },
+  {
+    "mecz": "Columbus Crew - Atlanta United",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 21:00:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "Colorado Rapids - FC Dallas",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 01:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "Sato Naho - Appleton Emily",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.5,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Changwon"
+  },
+  {
+    "mecz": "Dorados de Chihuahua - Caliente de Durango",
+    "kurs_1": 1.95,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Pericos de Puebla - Olmecas de Tabasco",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.9,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": " - ",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "Ekstraklasa - zakłady na kolejkę"
+  },
+  {
+    "mecz": "Shanghai Shenhua - Shenzhen Peng City",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 12:00:00",
+    "liga": "Super League"
+  },
+  {
+    "mecz": "Shanghai Port - Tianjin Jinmen Tiger",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 11:00:00",
+    "liga": "Super League"
+  },
+  {
+    "mecz": "KA Akureyri - Valur Reykjavik",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Besta deild"
+  },
+  {
+    "mecz": "Arizona Diamondbacks - Colorado Rockies",
+    "kurs_1": 1.47,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:40:00",
+    "liga": "MLB"
+  },
+  {
+    "mecz": "Piratas de Campeche - El Aguila de Veracruz",
+    "kurs_1": 2,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Rieleros de Aguascalientes - Tecolotes de Los Dos Laredos",
+    "kurs_1": 2.15,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:30:00",
+    "liga": "Mexican League"
+  },
+  {
+    "mecz": "Wu Ho Ching - Noguchi Sae",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.14,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Toyama"
+  },
+  {
+    "mecz": "Valencia BC - Real Madryt",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.95,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Euroliga, playoffs"
+  },
+  {
+    "mecz": "Chełmianka Chełm - Naprzód Jędrzejów",
+    "kurs_1": 1.35,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:00:00",
+    "liga": "III Liga - Grupa IV"
+  },
+  {
+    "mecz": "Radnicki Nis - Spartak Subotica",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 17:30:00",
+    "liga": "Superliga, grupa spadkowa"
+  },
+  {
+    "mecz": "US Catanzaro - AC Monza",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 18:00:00",
+    "liga": "Serie B, playoffs"
+  },
+  {
+    "mecz": "FC Volendam - Willem II Tilburg",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:00:00",
+    "liga": "Eredivisie, awans/spadek"
+  },
+  {
+    "mecz": "Atletico Nacional Medellin - Deportes Tolima",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 23:00:00",
+    "liga": "Primera A, playoffs"
+  },
+  {
+    "mecz": "Alianza Lima - Los Chankas CYC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 01:30:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Szwecja - Włochy",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:20:00",
+    "liga": "Mistrzostwa Świata"
+  },
+  {
+    "mecz": "River Plate - CA Belgrano",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 18:30:00",
+    "liga": "Liga Profesional, playoffs"
+  },
+  {
+    "mecz": "DC United - CF Montreal",
+    "kurs_1": 1.88,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 23:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "FC Cincinnati - Orlando City SC",
+    "kurs_1": 1.62,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 23:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "Charlotte FC - New England Revolution",
+    "kurs_1": 1.9,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 23:30:00",
+    "liga": "MLS"
+  },
+  {
+    "mecz": "Śląsk Wrocław [K] - Czarni Sosnowiec [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.4,
+    "data": "2026-05-23 08:30:00",
+    "liga": "Ekstraliga - kobiety"
+  },
+  {
+    "mecz": "Esenler Erokspor - Corum FK",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:00:00",
+    "liga": "1. Lig, playoffs"
+  },
+  {
+    "mecz": "Mito Hollyhock - Kawasaki Frontale",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 05:00:00",
+    "liga": "J1 League"
+  },
+  {
+    "mecz": "Kashima Antlers - FC Tokyo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 08:30:00",
+    "liga": "J1 League"
+  },
+  {
+    "mecz": "Sao Paulo FC - Botafogo RJ",
+    "kurs_1": 1.9,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 20:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Tien Learner - Bublik Alexander",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.65,
+    "data": "2026-05-22 13:30:00",
+    "liga": "Genewa"
+  },
+  {
+    "mecz": "Kanada - Słowenia",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:20:00",
+    "liga": "Mistrzostwa Świata"
+  },
+  {
+    "mecz": "Moreton City Excelsior - Brisbane City",
+    "kurs_1": 1.48,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:30:00",
+    "liga": "NPL Queensland"
+  },
+  {
+    "mecz": "Energetik Mingechevir - Sabail Baku",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 13:00:00",
+    "liga": "First Division"
+  },
+  {
+    "mecz": "Finlandia - Wielka Brytania",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:20:00",
+    "liga": "Mistrzostwa Świata"
+  },
+  {
+    "mecz": "T1 - Nongshim RedForce",
+    "kurs_1": 1.73,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 08:00:00",
+    "liga": "Esports World Cup PAC "
+  },
+  {
+    "mecz": "Wurzburg Baskets - Baskets Bonn",
+    "kurs_1": 1.47,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:30:00",
+    "liga": "BBL, playoffs"
+  },
+  {
+    "mecz": "Polska [K] - Turcja [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.65,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Mecze towarzyskie - kobiety"
+  },
+  {
+    "mecz": "BIG Academy - Kinoa",
+    "kurs_1": 1.36,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 08:00:00",
+    "liga": "European Pro League"
+  },
+  {
+    "mecz": "MiBR - B8",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.57,
+    "data": "2026-05-22 03:00:00",
+    "liga": "Asia Championships"
+  },
+  {
+    "mecz": "Real Murcia - CD Eldense",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:00:00",
+    "liga": "Primera Federacion"
+  },
+  {
+    "mecz": "Usyk Oleksandr - Verhoeven Rico",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 10,
+    "data": "2026-05-23 20:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Montpellier Herault Rugby - Ulster Rugby",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Challenge Cup, playoffs"
+  },
+  {
+    "mecz": "Fulghum Darius - Urrutia Yoanki",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 6,
+    "data": "2026-05-23 00:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Rodriguez Carlos - Estrada Leroy",
+    "kurs_1": 1.95,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 23:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Panthen Jordan - Rivera-Pacheco Jean",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 8,
+    "data": "2026-05-22 21:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Ramirez John - Fernandez Lucas Emanuel",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 7.6,
+    "data": "2026-05-22 20:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Piersma Jonathan Hauk - Bianchini Diego",
+    "kurs_1": 1.34,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 22:30:00",
+    "liga": "LFA 233 - Salamanca (USA)"
+  },
+  {
+    "mecz": "Miranda Richie - Varricchio Robert",
+    "kurs_1": 1.55,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 22:00:00",
+    "liga": "LFA 233 - Salamanca (USA)"
+  },
+  {
+    "mecz": "Dorsainvil Stanley - Holt Daniel",
+    "kurs_1": 1.65,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 22:30:00",
+    "liga": "LFA 233 - Salamanca (USA)"
+  },
+  {
+    "mecz": "Santos Ednilson - Santana Shaheen",
+    "kurs_1": 1.4,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 22:30:00",
+    "liga": "LFA 233 - Salamanca (USA)"
+  },
+  {
+    "mecz": "Lee Clayton - Edmond Easton",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.78,
+    "data": "2026-05-22 22:30:00",
+    "liga": "LFA 233 - Salamanca (USA)"
+  },
+  {
+    "mecz": "CN Marseille - Jadran Split",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:00:00",
+    "liga": "Euro Cup, playoffs"
+  },
+  {
+    "mecz": "KuPS Kuopio - FC Lahti",
+    "kurs_1": 1.56,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "Veikkausliiga"
+  },
+  {
+    "mecz": "Perth Western Force - Fijian Drua",
+    "kurs_1": 1.15,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 09:35:00",
+    "liga": "Super Rugby Pacific"
+  },
+  {
+    "mecz": "Kharkhuu Enkhmandakh - Ibarra Herrera Adrian Yair",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 4.75,
+    "data": "2026-05-22 20:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Martinez Yuberjen - Bethancourt Angel",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 3.75,
+    "data": "2026-05-23 00:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Jones Amari - Gualtieri Vincenzo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 8,
+    "data": "2026-05-23 01:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Sirwan Safar Robin - Peralta Yamil Alberto",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2.32,
+    "data": "2026-05-23 01:00:00",
+    "liga": "Walki"
+  },
+  {
+    "mecz": "Volsungur Husavik - Fylkir Reykjavik",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.22,
+    "data": "2026-05-23 14:00:00",
+    "liga": "1. deild"
+  },
+  {
+    "mecz": "Rasta Vechta - Alba Berlin",
+    "kurs_1": 1.8,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:30:00",
+    "liga": "BBL, playoffs"
+  },
+  {
+    "mecz": "Zagłębie Lubin [K] - MKS Lublin [K]",
+    "kurs_1": 1.48,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:30:00",
+    "liga": "Superliga - kobiety, grupa mistrzowska"
+  },
+  {
+    "mecz": "Mboko Victoria - Cristian Jaqueline",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:30:00",
+    "liga": "Strasbourg"
+  },
+  {
+    "mecz": "Pankin Semen - Ursu Vadym",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 06:00:00",
+    "liga": "Kutaisi"
+  },
+  {
+    "mecz": "Beijing Guoan - Henan Songshan Longmen",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 11:35:00",
+    "liga": "Super League"
+  },
+  {
+    "mecz": "Kaji Haruka - Tian Fangran",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.42,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Takasaki"
+  },
+  {
+    "mecz": "Veljacic Zejda - Dunda Karina",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.52,
+    "data": "2026-05-22 07:00:00",
+    "liga": "Ahaus"
+  },
+  {
+    "mecz": "Cruzeiro EC - Chapecoense SC",
+    "kurs_1": 1.34,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 19:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Sach Tai Leonard - Fukuda Sora",
+    "kurs_1": 1.55,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 03:00:00",
+    "liga": "Gimcheon"
+  },
+  {
+    "mecz": "Tomida Yuta - Ogura Kosuke",
+    "kurs_1": 1.55,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Luan"
+  },
+  {
+    "mecz": "Kubareva Anna - Bertacchi Anastasia",
+    "kurs_1": 1.35,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 08:30:00",
+    "liga": "Monastir"
+  },
+  {
+    "mecz": "Gannon Conor - de Jonge Daniel",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.55,
+    "data": "2026-05-22 08:30:00",
+    "liga": "Monastir"
+  },
+  {
+    "mecz": "Chu Seokhyeon / Shin Woobin - Heck Hunter / Hashimoto Hugo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.35,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Gimcheon debel"
+  },
+  {
+    "mecz": "CB Granada - CB Canarias Tenerife",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.27,
+    "data": "2026-05-23 19:00:00",
+    "liga": "Liga ACB"
+  },
+  {
+    "mecz": "Arakawa Natsuho - Chikaraishi Yui",
+    "kurs_1": 1.35,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Toyama"
+  },
+  {
+    "mecz": "Meksyk - Ghana",
+    "kurs_1": 1.38,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 02:00:00",
+    "liga": "Mecze towarzyskie"
+  },
+  {
+    "mecz": "Persib Bandung - Persijap Jepara",
+    "kurs_1": 1.17,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 09:00:00",
+    "liga": "Liga 1"
+  },
+  {
+    "mecz": "Navarro Emma - Li Ann",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.9,
+    "data": "2026-05-22 12:30:00",
+    "liga": "Strasbourg"
+  },
+  {
+    "mecz": "Kim Dong Ju - Saitoh Keisuke",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.21,
+    "data": "2026-05-22 03:00:00",
+    "liga": "Gimcheon"
+  },
+  {
+    "mecz": "FAR Rabat - Mamelodi Sundowns",
+    "kurs_1": 2.25,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 19:00:00",
+    "liga": "Liga Mistrzów CAF"
+  },
+  {
+    "mecz": "Mirassol FC - Fluminense FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 22:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "The MongolZ - Pvision",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 2,
+    "data": "2026-05-22 06:00:00",
+    "liga": "Asia Championships"
+  },
+  {
+    "mecz": "KT Rolster - Gen.G",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.23,
+    "data": "2026-05-22 10:00:00",
+    "liga": "LCK"
+  },
+  {
+    "mecz": "Karmine Corp - G2",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.32,
+    "data": "2026-05-23 15:00:00",
+    "liga": "LEC"
+  },
+  {
+    "mecz": "Ratajski Krzysztof - Reyes Cristo",
+    "kurs_1": 1.8,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:30:00",
+    "liga": "PDC European Tour"
+  },
+  {
+    "mecz": "Yoshida Sara - Guillen Giselle Isabella",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Toyama"
+  },
+  {
+    "mecz": "Rebordosa AC - Leca FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Campeonato de Portugal"
+  },
+  {
+    "mecz": "RSC Anderlecht [K] - Club Brugge [K]",
+    "kurs_1": 1.48,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:30:00",
+    "liga": "Super League - kobiety"
+  },
+  {
+    "mecz": "Dalian Young Boy - Chengdu Rongcheng",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.78,
+    "data": "2026-05-23 12:00:00",
+    "liga": "Super League"
+  },
+  {
+    "mecz": "Hera United [K] - FC Utrecht [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.9,
+    "data": "2026-05-22 18:00:00",
+    "liga": "Eredivisie - kobiety"
+  },
+  {
+    "mecz": "Gilding Andrew - Brooks Bradley",
+    "kurs_1": 1.42,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 12:30:00",
+    "liga": "PDC European Tour"
+  },
+  {
+    "mecz": "Mboko Victoria - Bartunkova Nikola",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "CA Progreso - Montevideo City Torque",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Kolstad Handball - Drammen HK",
+    "kurs_1": 1.34,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:15:00",
+    "liga": "Eliteserien, playoffs"
+  },
+  {
+    "mecz": "Mladost Lucani - Napredak Krusevac",
+    "kurs_1": 1.15,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 17:30:00",
+    "liga": "Superliga, grupa spadkowa"
+  },
+  {
+    "mecz": "San Antonio Bulo Bulo - Academia del Balompie",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Division Profesional"
+  },
+  {
+    "mecz": "Eastern United - Adelaide Blue Eagles",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:15:00",
+    "liga": "South Australia State League 1"
+  },
+  {
+    "mecz": "Daegu FC - Ansan Greeners",
+    "kurs_1": 1.32,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 10:00:00",
+    "liga": "K-League 2"
+  },
+  {
+    "mecz": "Nordic United FC - IK Brage",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 13:00:00",
+    "liga": "Superettan"
+  },
+  {
+    "mecz": "Gremio Porto Alegre -  Santos FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 22:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Koike Ena - Serban Raluca Georgiana",
+    "kurs_1": 1.65,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Takasaki"
+  },
+  {
+    "mecz": "Olimpia Elbląg - Znicz Biała Piska",
+    "kurs_1": 1.2,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:00:00",
+    "liga": "III Liga - Grupa I"
+  },
+  {
+    "mecz": "Salisbury Inter [K] - Adelaide Comets [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 08:45:00",
+    "liga": "NPL South Australia - kobiety"
+  },
+  {
+    "mecz": "Etcheverry Tomas Martin - Borges Nuno",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 09:00:00",
+    "liga": "French Open"
+  },
+  {
+    "mecz": "ŁKS Łódź - Astoria Bydgoszcz",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 15:30:00",
+    "liga": "I Liga, playoffs"
+  },
+  {
+    "mecz": "Sint-Truidense VV - KV Mechelen",
+    "kurs_1": 1.85,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "Pro League, grupa mistrzowska"
+  },
+  {
+    "mecz": "NK Sesvete - BSK Bijelo Brdo",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 11:45:00",
+    "liga": "Prva NL"
+  },
+  {
+    "mecz": "Shandong Taishan B - Shanghai Port B",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 11:00:00",
+    "liga": "Liga Yi"
+  },
+  {
+    "mecz": "Auckland FC OFC - Eastern Suburbs Auckland",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 07:00:00",
+    "liga": "National League"
+  },
+  {
+    "mecz": "Nautico PE - Cuiaba EC",
+    "kurs_1": 1.88,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 22:00:00",
+    "liga": "Serie B"
+  },
+  {
+    "mecz": "Xuan Thien Phu Tho FC - CS Dong Thap",
+    "kurs_1": 1.65,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 11:00:00",
+    "liga": "V-League 2"
+  },
+  {
+    "mecz": "Viettel FC - PVF-CAND FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 12:15:00",
+    "liga": "V-League"
+  },
+  {
+    "mecz": "Leiknir Reykjavik - UMF Grindavik",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:15:00",
+    "liga": "1. deild"
+  },
+  {
+    "mecz": "Box Hill United - Springvale White Eagles",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:30:00",
+    "liga": "Victoria Premier League 2"
+  },
+  {
+    "mecz": "West Adelaide II [K] - Flinders United II [K]",
+    "kurs_1": 1.17,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 08:30:00",
+    "liga": "NPL South Australia - rezerwy - kobiety"
+  },
+  {
+    "mecz": "Wynnum Wolves FC U23 - Olympic Football Club U23",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:30:00",
+    "liga": "NPL Queensland U23"
+  },
+  {
+    "mecz": "EC Vitoria BA - SC Internacional",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 20:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "ThSV Eisenach - TBV Lemgo Lippe",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.55,
+    "data": "2026-05-22 17:00:00",
+    "liga": "Bundesliga"
+  },
+  {
+    "mecz": "Szachtar Donieck U19 - Kolos Kovalivka U19",
+    "kurs_1": 1.32,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:00:00",
+    "liga": "League U19"
+  },
+  {
+    "mecz": "SD Eibar - Cordoba CF",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 16:30:00",
+    "liga": "LaLiga 2"
+  },
+  {
+    "mecz": "Doumbia S / Reboul F - Schnaitter J / Wallner M",
+    "kurs_1": 1.47,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:30:00",
+    "liga": "Hamburg debel"
+  },
+  {
+    "mecz": "Cracovia II - KSZO Ostrowiec Świętokrzyski",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.5,
+    "data": "2026-05-23 10:00:00",
+    "liga": "III Liga - Grupa IV"
+  },
+  {
+    "mecz": "Dallas Fuel - Crazy Raccoon ",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.17,
+    "data": "2026-05-22 06:00:00",
+    "liga": "OWCS Champions Clash"
+  },
+  {
+    "mecz": "Union Santa Fe - CA Independiente",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 23:00:00",
+    "liga": "Puchar"
+  },
+  {
+    "mecz": "Hercules Alicante - Gimnastic Tarragona",
+    "kurs_1": 4.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:30:00",
+    "liga": "Primera Federacion"
+  },
+  {
+    "mecz": "Hrybeniuk Volodymyr - Maltsev Denys",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.38,
+    "data": "2026-05-22 01:45:00",
+    "liga": "Setka Cup - mężczyźni"
+  },
+  {
+    "mecz": " - ",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:55:00",
+    "liga": "Grand Prix Czech - Praga"
+  },
+  {
+    "mecz": "Prokupek Jaroslav - Fojt Pavel",
+    "kurs_1": 1.37,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 02:30:00",
+    "liga": "Liga Pro - mężczyźni"
+  },
+  {
+    "mecz": "Valencia - Barcelona",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 19:00:00",
+    "liga": "LaLiga"
+  },
+  {
+    "mecz": "Montevideo Wanderers - Deportivo Maldonado",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 18:00:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Leviatan - G2",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.38,
+    "data": "2026-05-22 21:00:00",
+    "liga": "Champions Tour AM"
+  },
+  {
+    "mecz": "BM Nava - EON Horneo Alicante",
+    "kurs_1": 1.43,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Liga ASOBAL"
+  },
+  {
+    "mecz": "Śląsk Wrocław - Arka Gdynia",
+    "kurs_1": 1.47,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 17:00:00",
+    "liga": "OBL, playoffs"
+  },
+  {
+    "mecz": "Łotwa - USA",
+    "kurs_1": 8.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 10:20:00",
+    "liga": "Mistrzostwa Świata"
+  },
+  {
+    "mecz": "Bartosz Zmarzlik (POL) - Brady Kurtz (AUS)",
+    "kurs_1": 1.4,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:55:00",
+    "liga": "Grand Prix Czech - Praga"
+  },
+  {
+    "mecz": "BB - PlayTime",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 13:30:00",
+    "liga": "DreamLeague"
+  },
+  {
+    "mecz": "Arsenal de Sarandi - Villa San Carlos",
+    "kurs_1": 1.57,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:30:00",
+    "liga": "Primera B"
+  },
+  {
+    "mecz": "Sedlacek Karel - Engstrom Johan",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 13:30:00",
+    "liga": "PDC European Tour"
+  },
+  {
+    "mecz": "Regner Michal - Kasnik Sebastian",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.28,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Liga Pro - mężczyźni"
+  },
+  {
+    "mecz": "Sulava Lubor - Vitrovyj Oleg",
+    "kurs_1": 1.35,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 01:00:00",
+    "liga": "Liga Pro - mężczyźni"
+  },
+  {
+    "mecz": "Strnad Jaroslav (1964) - Pleskot Jan",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.3,
+    "data": "2026-05-22 00:30:00",
+    "liga": "Liga Pro - mężczyźni"
+  },
+  {
+    "mecz": "Plaza Colonia - Oriental de Football",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 21:00:00",
+    "liga": "Segunda Division"
+  },
+  {
+    "mecz": "Dempo SC - Sreenidi Deccan FC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 13:00:00",
+    "liga": "I-League"
+  },
+  {
+    "mecz": "TNT Tropang Giga - Meralco Bolts",
+    "kurs_1": 1.7,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 11:30:00",
+    "liga": "PBA Commissioner Cup, playoffs"
+  },
+  {
+    "mecz": "Sola HK [K] - Storhamar HE [K]",
+    "kurs_1": 1.53,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:15:00",
+    "liga": "Eliteserien - kobiety, playoffs"
+  },
+  {
+    "mecz": "ADC Juan Pablo II - FBC Melgar",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 20:00:00",
+    "liga": "Primera Division"
+  },
+  {
+    "mecz": "Al-Ittihad Aleppo - Omaya SC",
+    "kurs_1": 1.19,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 13:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Brabrand IF - Skive IK",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 17:00:00",
+    "liga": "2. Division, grupa spadkowa"
+  },
+  {
+    "mecz": "Young Africans SC - Singida Black Stars",
+    "kurs_1": 1.27,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 13:00:00",
+    "liga": "Premier League"
+  },
+  {
+    "mecz": "Kedainiai Nevezis - FKS Ukmerge",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:00:00",
+    "liga": "II Lyga"
+  },
+  {
+    "mecz": "Tobol Kostanay - Ordabasy Shymkent",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.82,
+    "data": "2026-05-23 15:00:00",
+    "liga": "Priemjer Ligasy"
+  },
+  {
+    "mecz": "Perth RedStar FC - Perth SC",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 11:00:00",
+    "liga": "NPL Western Australia"
+  },
+  {
+    "mecz": "Independiente del Valle - Libertad Loja",
+    "kurs_1": 1.28,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 00:00:00",
+    "liga": "LigaPro Primera A"
+  },
+  {
+    "mecz": "Tampere United - JJK Jyvaskyla",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:30:00",
+    "liga": "Ykkonen"
+  },
+  {
+    "mecz": "Vanersborgs IF - Husqvarna FF",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.28,
+    "data": "2026-05-22 17:30:00",
+    "liga": "Division 2"
+  },
+  {
+    "mecz": "UMF Afturelding - Throttur Reykjavik",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:15:00",
+    "liga": "1. deild"
+  },
+  {
+    "mecz": "Preston Lions [K] - Heidelberg United [K]",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:30:00",
+    "liga": "NPL Victoria - kobiety"
+  },
+  {
+    "mecz": "Kongsvinger IL II - Tromso IL II",
+    "kurs_1": 1.28,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 14:00:00",
+    "liga": "3. Division - Grupa 5"
+  },
+  {
+    "mecz": "Peninsula Power FC - Magic United TFA",
+    "kurs_1": 1.17,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 07:00:00",
+    "liga": "NPL Queensland"
+  },
+  {
+    "mecz": "Wynnum Wolves FC - Olympic FC Brisbane",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:30:00",
+    "liga": "NPL Queensland"
+  },
+  {
+    "mecz": "Mounties Wanderers FC - Granville Rage",
+    "kurs_1": 1.17,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 10:00:00",
+    "liga": "NSW League Two"
+  },
+  {
+    "mecz": "SJK Akatemia - Haka Valkeakoski",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 15:30:00",
+    "liga": "Ykkosliiga"
+  },
+  {
+    "mecz": "CA San Miguel - Almirante Brown",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 18:30:00",
+    "liga": "Primera Nacional"
+  },
+  {
+    "mecz": "Clube do Remo - Athletico Paranaense",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-24 19:00:00",
+    "liga": "Serie A"
+  },
+  {
+    "mecz": "Wexford FC - University College Dublin",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "First Division"
+  },
+  {
+    "mecz": "Kerry FC - Bray Wanderers",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 18:45:00",
+    "liga": "First Division"
+  },
+  {
+    "mecz": "New South Wales Waratahs - ACT Brumbies",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:35:00",
+    "liga": "Super Rugby Pacific"
+  },
+  {
+    "mecz": "PFK Zaqatala - Shafa Baku",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.44,
+    "data": "2026-05-22 11:30:00",
+    "liga": "First Division"
+  },
+  {
+    "mecz": "Bidasoa Irun - BM Granollers",
+    "kurs_1": 1.46,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Liga ASOBAL"
+  },
+  {
+    "mecz": "Caserio Ciudad Real - CB Cangas",
+    "kurs_1": 1.6,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Liga ASOBAL"
+  },
+  {
+    "mecz": "BM Puente Genil - BM Villa de Aranda",
+    "kurs_1": 1.43,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Liga ASOBAL"
+  },
+  {
+    "mecz": "Ademar Leon - BM Atletico Valladolid",
+    "kurs_1": 1.55,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 16:30:00",
+    "liga": "Liga ASOBAL"
+  },
+  {
+    "mecz": "BM Huesca - BM Logrono La Rioja",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.32,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Liga ASOBAL"
+  },
+  {
+    "mecz": "BM Guadalajara - REBI Balonmano Cuenca",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.54,
+    "data": "2026-05-22 19:00:00",
+    "liga": "Liga ASOBAL"
+  },
+  {
+    "mecz": "Arema FC - PSIM Yogyakarta",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 08:30:00",
+    "liga": "Liga 1"
+  },
+  {
+    "mecz": "Victoria Rosport - US Hostert",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 14:00:00",
+    "liga": "BGL Liga"
+  },
+  {
+    "mecz": "Zeng Yaojie - Delaney Jake",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.47,
+    "data": "2026-05-22 02:00:00",
+    "liga": "Luan"
+  },
+  {
+    "mecz": "Kim Dabin - Jeong Boyoung",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.35,
+    "data": "2026-05-22 03:00:00",
+    "liga": "Changwon"
+  },
+  {
+    "mecz": "Ostapenkov Daniil - Edengren Kevin",
+    "kurs_1": 1.15,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 06:00:00",
+    "liga": "Kutaisi"
+  },
+  {
+    "mecz": "Varaksina Arina - Nishimoto Sera",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 03:00:00",
+    "liga": "Changwon"
+  },
+  {
+    "mecz": "Ivashka Ilya - Stewart Hamish",
+    "kurs_1": 1.55,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 07:30:00",
+    "liga": "Bengaluru"
+  },
+  {
+    "mecz": "Serbia - Bułgaria",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.85,
+    "data": "2026-05-22 15:00:00",
+    "liga": "Mecze towarzyskie"
+  },
+  {
+    "mecz": "Ursus Warszawa - Ożarowianka Ożarów Mazowiecki",
+    "kurs_1": 1.15,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 16:00:00",
+    "liga": "IV Liga Mazowiecka"
+  },
+  {
+    "mecz": "Lech Poznań U19 - Lechia Gdańsk U19",
+    "kurs_1": 1.3,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-23 10:00:00",
+    "liga": "Centralna Liga Juniorów U19"
+  },
+  {
+    "mecz": "Weibo - Virtus.pro",
+    "kurs_1": 1.5,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 03:00:00",
+    "liga": "OWCS Champions Clash"
+  },
+  {
+    "mecz": "MOUZ - paiN",
+    "kurs_1": 1.33,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 06:00:00",
+    "liga": "Asia Championships"
+  },
+  {
+    "mecz": "JD - Weibo",
+    "kurs_1": 1.67,
+    "kurs_X": null,
+    "kurs_2": null,
+    "data": "2026-05-22 09:00:00",
+    "liga": "Esports World Cup CN"
+  },
+  {
+    "mecz": "SOOPers - DRX",
+    "kurs_1": null,
+    "kurs_X": null,
+    "kurs_2": 1.33,
+    "data": "2026-05-22 08:00:00",
+    "liga": "LCK"
+  }
+]

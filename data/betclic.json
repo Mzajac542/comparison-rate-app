@@ -1,0 +1,4992 @@
+{
+    "pilka_nozna": [
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "00:00",
+            "home": "Cobresal",
+            "away": "Nublense",
+            "kurs_1": "2,80",
+            "kurs_X": "3,35",
+            "kurs_2": "2,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "00:30",
+            "home": "America RN",
+            "away": "Central PE",
+            "kurs_1": "1,78",
+            "kurs_X": "2,87",
+            "kurs_2": "4,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "00:30",
+            "home": "Independiente FBC",
+            "away": "12 de Junio",
+            "kurs_1": "2,88",
+            "kurs_X": "3,02",
+            "kurs_2": "2,27"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "00:30",
+            "home": "Cerro L.",
+            "away": "Cerro",
+            "kurs_1": "2,05",
+            "kurs_X": "3,00",
+            "kurs_2": "3,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "00:30",
+            "home": "One Knoxville SC",
+            "away": "Greenville Triumph SC",
+            "kurs_1": "1,90",
+            "kurs_X": "3,15",
+            "kurs_2": "3,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "01:00",
+            "home": "FC Supra du Quebec",
+            "away": "Inter Toronto FC",
+            "kurs_1": "3,33",
+            "kurs_X": "3,42",
+            "kurs_2": "1,97"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "01:00",
+            "home": "Toronto FC II",
+            "away": "Philadelphia Union II",
+            "kurs_1": "2,90",
+            "kurs_X": "3,50",
+            "kurs_2": "2,05"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "01:00",
+            "home": "Forward Madison FC",
+            "away": "Corpus Christi",
+            "kurs_1": "2,10",
+            "kurs_X": "3,10",
+            "kurs_2": "3,13"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "01:00",
+            "home": "Orlando Pride K.",
+            "away": "Bay FC K.",
+            "kurs_1": "1,76",
+            "kurs_X": "3,48",
+            "kurs_2": "3,78"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "02:00",
+            "home": "Racing de Cordoba",
+            "away": "Ferro Carril Oeste",
+            "kurs_1": "2,53",
+            "kurs_X": "2,77",
+            "kurs_2": "2,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "02:00",
+            "home": "Juventude",
+            "away": "America Mineiro",
+            "kurs_1": "1,79",
+            "kurs_X": "3,17",
+            "kurs_2": "4,05"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "02:00",
+            "home": "Eastern Suburbs",
+            "away": "Auckland City",
+            "kurs_1": "2,58",
+            "kurs_X": "3,20",
+            "kurs_2": "2,27"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "02:00",
+            "home": "Racing Louisville K.",
+            "away": "Denver Summit FC K.",
+            "kurs_1": "2,83",
+            "kurs_X": "3,33",
+            "kurs_2": "2,13"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "02:30",
+            "home": "Universidad Concepcion",
+            "away": "Union La Calera",
+            "kurs_1": "2,08",
+            "kurs_X": "3,35",
+            "kurs_2": "3,12"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "03:10",
+            "home": "Atletico",
+            "away": "Millonarios",
+            "kurs_1": "8,50",
+            "kurs_X": "5,00",
+            "kurs_2": "1,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "04:00",
+            "home": "Napier City Rovers",
+            "away": "Island Bay Utd",
+            "kurs_1": "1,15",
+            "kurs_X": "5,90",
+            "kurs_2": "9,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "04:00",
+            "home": "Real Monarchs",
+            "away": "Sporting Kansas City II",
+            "kurs_1": "1,50",
+            "kurs_X": "4,20",
+            "kurs_2": "4,65"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "06:00",
+            "home": "Edgeworth Eagles",
+            "away": "Kahibah FC",
+            "kurs_1": "1,27",
+            "kurs_X": "5,10",
+            "kurs_2": "6,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "06:00",
+            "home": "Cooks Hill Utd",
+            "away": "Valentine",
+            "kurs_1": "1,48",
+            "kurs_X": "4,35",
+            "kurs_2": "4,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "06:00",
+            "home": "Hume City",
+            "away": "South Melbourne",
+            "kurs_1": "2,37",
+            "kurs_X": "3,40",
+            "kurs_2": "2,37"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Brin. Blues",
+            "away": "Canberra Olympic",
+            "kurs_1": "5,75",
+            "kurs_X": "4,75",
+            "kurs_2": "1,33"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Canberra Juventus FC",
+            "away": "Tuggeranong United",
+            "kurs_1": "2,40",
+            "kurs_X": "3,93",
+            "kurs_2": "2,13"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "O'Connor Knights",
+            "away": "Queanbeyan City",
+            "kurs_1": "4,10",
+            "kurs_X": "4,20",
+            "kurs_2": "1,52"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "University of NSW",
+            "away": "Wollongong Wolves",
+            "kurs_1": "2,30",
+            "kurs_X": "3,30",
+            "kurs_2": "2,50"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Gold Coast United",
+            "away": "Peninsula Power",
+            "kurs_1": "4,30",
+            "kurs_X": "4,15",
+            "kurs_2": "1,50"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Avondale",
+            "away": "Bentleigh Greens",
+            "kurs_1": "1,44",
+            "kurs_X": "3,88",
+            "kurs_2": "5,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Melbourne",
+            "away": "Dandenong City",
+            "kurs_1": "1,59",
+            "kurs_X": "3,80",
+            "kurs_2": "4,05"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Vissel Kobe",
+            "away": "Kashima Antlers",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Nagoya Grampus",
+            "away": "Machida Zelvia",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:00",
+            "home": "Sanfrecce Hiroshima",
+            "away": "Kawasaki Frontale",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:30",
+            "home": "Sturt Lions",
+            "away": "White City FK Beograd",
+            "kurs_1": "2,78",
+            "kurs_X": "3,68",
+            "kurs_2": "1,97"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:30",
+            "home": "Para Hills",
+            "away": "Croydon Kings",
+            "kurs_1": "5,75",
+            "kurs_X": "5,10",
+            "kurs_2": "1,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:30",
+            "home": "Adelaide Utd Yth",
+            "away": "Playford City Patriots",
+            "kurs_1": "2,25",
+            "kurs_X": "3,63",
+            "kurs_2": "2,38"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "07:30",
+            "home": "South Melbourne K.",
+            "away": "Preston Lions K.",
+            "kurs_1": "1,34",
+            "kurs_X": "4,70",
+            "kurs_2": "5,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:00",
+            "home": "Bulleen Lions K.",
+            "away": "Avondale FC K.",
+            "kurs_1": "1,53",
+            "kurs_X": "3,95",
+            "kurs_2": "4,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:00",
+            "home": "Cerezo Osaka",
+            "away": "FC Tokyo",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:15",
+            "home": "Heidelberg Utd K.",
+            "away": "Melbourne Victory FC Youth W.",
+            "kurs_1": "2,17",
+            "kurs_X": "3,75",
+            "kurs_2": "2,42"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:30",
+            "home": "Belconnen United",
+            "away": "Canberra FC",
+            "kurs_1": "10,50",
+            "kurs_X": "6,90",
+            "kurs_2": "1,11"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:30",
+            "home": "Maitland FC",
+            "away": "Belmont SUSC",
+            "kurs_1": "2,00",
+            "kurs_X": "4,10",
+            "kurs_2": "2,50"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:30",
+            "home": "Macarthur Rams",
+            "away": "C. Coast Mariners Youth",
+            "kurs_1": "2,45",
+            "kurs_X": "3,43",
+            "kurs_2": "2,27"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:45",
+            "home": "Riverside Olympic",
+            "away": "Kingborough Lions",
+            "kurs_1": "5,10",
+            "kurs_X": "4,90",
+            "kurs_2": "1,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "08:45",
+            "home": "Glenorchy Knights",
+            "away": "Launceston City",
+            "kurs_1": "2,45",
+            "kurs_X": "3,95",
+            "kurs_2": "2,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Sydney Olympic",
+            "away": "Raiders FC",
+            "kurs_1": "2,95",
+            "kurs_X": "3,63",
+            "kurs_2": "1,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Manly United",
+            "away": "Blacktown City",
+            "kurs_1": "1,96",
+            "kurs_X": "3,40",
+            "kurs_2": "2,98"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "GC Knights",
+            "away": "Eastern Suburbs Brisbane",
+            "kurs_1": "2,03",
+            "kurs_X": "3,58",
+            "kurs_2": "2,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Moreton City Ex. II",
+            "away": "Pine Hills",
+            "kurs_1": "1,36",
+            "kurs_X": "4,75",
+            "kurs_2": "5,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Grange Thistle",
+            "away": "Souths Utd",
+            "kurs_1": "1,68",
+            "kurs_X": "4,10",
+            "kurs_2": "3,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "North Geelong Warriors FC",
+            "away": "NS Eagles",
+            "kurs_1": "2,32",
+            "kurs_X": "3,78",
+            "kurs_2": "2,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Western Knights SC",
+            "away": "Perth SC",
+            "kurs_1": "2,40",
+            "kurs_X": "3,63",
+            "kurs_2": "2,23"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Armadale",
+            "away": "Perth Glory Youth",
+            "kurs_1": "2,13",
+            "kurs_X": "3,63",
+            "kurs_2": "2,53"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Sorrento",
+            "away": "Bayswater City",
+            "kurs_1": "5,00",
+            "kurs_X": "4,30",
+            "kurs_2": "1,41"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Fremantle City",
+            "away": "Perth Redstar FC",
+            "kurs_1": "3,25",
+            "kurs_X": "3,40",
+            "kurs_2": "1,86"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Stirling Lions",
+            "away": "Balcatta",
+            "kurs_1": "1,41",
+            "kurs_X": "4,60",
+            "kurs_2": "4,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Curtin",
+            "away": "Joondalup City",
+            "kurs_1": "4,35",
+            "kurs_X": "4,05",
+            "kurs_2": "1,50"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Murdoch Univ. Melville",
+            "away": "Kingsley Westside FC",
+            "kurs_1": "2,80",
+            "kurs_X": "3,63",
+            "kurs_2": "1,97"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Subiaco",
+            "away": "UWA Nedlands",
+            "kurs_1": "5,75",
+            "kurs_X": "4,40",
+            "kurs_2": "1,36"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Avispa Fukuoka",
+            "away": "JEF Utd Chiba",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Gamba Osaka",
+            "away": "Tokyo Verdy",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:00",
+            "home": "Canterbury",
+            "away": "Inter Lions FC",
+            "kurs_1": "1,90",
+            "kurs_X": "3,42",
+            "kurs_2": "3,12"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:30",
+            "home": "NWS Spirit",
+            "away": "APIA Leichhardt Tigers",
+            "kurs_1": "3,42",
+            "kurs_X": "3,75",
+            "kurs_2": "1,72"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:30",
+            "home": "Busan I Park",
+            "away": "Paju Citizen",
+            "kurs_1": "1,61",
+            "kurs_X": "3,43",
+            "kurs_2": "4,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:30",
+            "home": "Chungnam Asan",
+            "away": "Suwon Samsung Bluewings",
+            "kurs_1": "3,40",
+            "kurs_X": "3,27",
+            "kurs_2": "1,86"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:30",
+            "home": "Yongin City FC",
+            "away": "Daegu",
+            "kurs_1": "3,73",
+            "kurs_X": "3,47",
+            "kurs_2": "1,71"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "09:45",
+            "home": "Monaro Panthers",
+            "away": "Canberra WE",
+            "kurs_1": "1,02",
+            "kurs_X": "9,75",
+            "kurs_2": "17,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:00",
+            "home": "Adamstown",
+            "away": "Newcastle Olympic",
+            "kurs_1": "2,63",
+            "kurs_X": "3,80",
+            "kurs_2": "2,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:00",
+            "home": "Caroline Springs George Cross FC",
+            "away": "Green Gully Cavaliers",
+            "kurs_1": "1,76",
+            "kurs_X": "3,45",
+            "kurs_2": "3,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:00",
+            "home": "V-Varen Nagasaki",
+            "away": "Mito Hollyhock",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:15",
+            "home": "Rochedale Rovers",
+            "away": "Moreton City Excelsior",
+            "kurs_1": "3,98",
+            "kurs_X": "4,40",
+            "kurs_2": "1,51"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:15",
+            "home": "Altona Magic",
+            "away": "Oakleigh Cannons",
+            "kurs_1": "5,75",
+            "kurs_X": "4,20",
+            "kurs_2": "1,37"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:15",
+            "home": "FC Melbourne Srbija",
+            "away": "Langwarrin",
+            "kurs_1": "1,66",
+            "kurs_X": "3,78",
+            "kurs_2": "3,65"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:30",
+            "home": "Darwin Olympic SC",
+            "away": "Azurri United FC",
+            "kurs_1": "2,45",
+            "kurs_X": "3,90",
+            "kurs_2": "2,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "10:30",
+            "home": "St. George",
+            "away": "St George City FA",
+            "kurs_1": "2,15",
+            "kurs_X": "3,28",
+            "kurs_2": "2,72"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Marconi Stallion",
+            "away": "Rockdale City Suns",
+            "kurs_1": "1,59",
+            "kurs_X": "3,78",
+            "kurs_2": "4,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "11:45",
+            "home": "Metro Stars",
+            "away": "Campbelltown City",
+            "kurs_1": "1,41",
+            "kurs_X": "4,25",
+            "kurs_2": "5,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Jagiellonia II Białystok",
+            "away": "KS Wasilków",
+            "kurs_1": "1,35",
+            "kurs_X": "5,05",
+            "kurs_2": "5,95"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Qingdao West Coast",
+            "away": "Shanghai Shenhua",
+            "kurs_1": "2,17",
+            "kurs_X": "3,47",
+            "kurs_2": "2,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Meshakhte Tkibuli",
+            "away": "Dinamo Tbilisi",
+            "kurs_1": "3,88",
+            "kurs_X": "3,40",
+            "kurs_2": "1,76"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Kyoto",
+            "away": "Kashiwa Reysol",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Suwon FC",
+            "away": "Seongnam Ilhwa",
+            "kurs_1": "2,08",
+            "kurs_X": "3,18",
+            "kurs_2": "2,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Gimhae",
+            "away": "Gimpo",
+            "kurs_1": "4,50",
+            "kurs_X": "3,40",
+            "kurs_2": "1,61"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Vorskla Poltava",
+            "away": "Podill",
+            "kurs_1": "1,82",
+            "kurs_X": "3,18",
+            "kurs_2": "3,93"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:30",
+            "home": "Port Darwin FC",
+            "away": "Garuda FC",
+            "kurs_1": "1,06",
+            "kurs_X": "8,50",
+            "kurs_2": "13,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "12:30",
+            "home": "Tainan City",
+            "away": "Hang Yuen",
+            "kurs_1": "1,84",
+            "kurs_X": "3,60",
+            "kurs_2": "3,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "KTS-K Luzino",
+            "away": "ZKS Kluczevia Stargard",
+            "kurs_1": "1,60",
+            "kurs_X": "4,25",
+            "kurs_2": "4,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Arsenal Dzerzhinsk",
+            "away": "Dinamo Minsk",
+            "kurs_1": "10,25",
+            "kurs_X": "4,10",
+            "kurs_2": "1,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Henan Songshan Longmen",
+            "away": "Zhejiang Professional",
+            "kurs_1": "1,75",
+            "kurs_X": "3,73",
+            "kurs_2": "3,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Suzhou Dongwu",
+            "away": "Wuxi Wuguo",
+            "kurs_1": "3,10",
+            "kurs_X": "2,80",
+            "kurs_2": "2,27"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Dalian Kuncheng City",
+            "away": "Hebei Kungfu",
+            "kurs_1": "1,67",
+            "kurs_X": "3,28",
+            "kurs_2": "4,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Mas Taborsko",
+            "away": "Banik Ostrava",
+            "kurs_1": "4,55",
+            "kurs_X": "3,68",
+            "kurs_2": "1,59"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Helsingør",
+            "away": "Brabrand",
+            "kurs_1": "2,18",
+            "kurs_X": "3,32",
+            "kurs_2": "2,78"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Ishøj IF",
+            "away": "VSK Arhus",
+            "kurs_1": "2,58",
+            "kurs_X": "3,25",
+            "kurs_2": "2,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "FC Neptunas Klaipeda",
+            "away": "Be1 NFA",
+            "kurs_1": "2,48",
+            "kurs_X": "3,28",
+            "kurs_2": "2,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "FK Tauras",
+            "away": "Hegelmann Litauen B",
+            "kurs_1": "1,13",
+            "kurs_X": "6,10",
+            "kurs_2": "11"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Ljungskile SK",
+            "away": "Varbergs BoIS",
+            "kurs_1": "2,38",
+            "kurs_X": "3,32",
+            "kurs_2": "2,52"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Landskrona BoIS",
+            "away": "Brage",
+            "kurs_1": "2,13",
+            "kurs_X": "3,33",
+            "kurs_2": "2,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:15",
+            "home": "Dziugas",
+            "away": "Panevezys",
+            "kurs_1": "2,03",
+            "kurs_X": "3,15",
+            "kurs_2": "3,22"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:30",
+            "home": "Guangxi Hengchen FC",
+            "away": "Foshan Nanshi FC",
+            "kurs_1": "1,56",
+            "kurs_X": "3,53",
+            "kurs_2": "5,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:30",
+            "home": "Meizhou Hakka",
+            "away": "Heilongjiang Ice City",
+            "kurs_1": "2,83",
+            "kurs_X": "3,03",
+            "kurs_2": "2,28"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:30",
+            "home": "Harju JK",
+            "away": "Narva Trans",
+            "kurs_1": "2,27",
+            "kurs_X": "3,22",
+            "kurs_2": "2,58"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:30",
+            "home": "Parnu JK",
+            "away": "Nõmme Kalju",
+            "kurs_1": "5,60",
+            "kurs_X": "4,25",
+            "kurs_2": "1,38"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:30",
+            "home": "ÍF Fuglafjørður",
+            "away": "B71 Sandoy",
+            "kurs_1": "4,80",
+            "kurs_X": "4,20",
+            "kurs_2": "1,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "13:35",
+            "home": "Chengdu Rongcheng",
+            "away": "Shandong Taishan",
+            "kurs_1": "1,92",
+            "kurs_X": "3,80",
+            "kurs_2": "3,17"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Szkocja",
+            "away": "Curacao",
+            "kurs_1": "1,16",
+            "kurs_X": "6,10",
+            "kurs_2": "13,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Warta Gorzów Wielkopolski",
+            "away": "Pniówek Pawłowice",
+            "kurs_1": "1,20",
+            "kurs_X": "6,50",
+            "kurs_2": "9,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Union AC Mauer",
+            "away": "SC Retz",
+            "kurs_1": "1,37",
+            "kurs_X": "4,25",
+            "kurs_2": "5,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Chongqing Tonglianglong",
+            "away": "Beijing Guoan",
+            "kurs_1": "3,60",
+            "kurs_X": "3,43",
+            "kurs_2": "1,88"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Shenzhen Peng City",
+            "away": "Qingdao Hainiu",
+            "kurs_1": "1,89",
+            "kurs_X": "3,48",
+            "kurs_2": "3,53"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Hellerup IK",
+            "away": "Vendsyssel",
+            "kurs_1": "4,45",
+            "kurs_X": "3,83",
+            "kurs_2": "1,58"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "HJK Helsinki",
+            "away": "Mariehamn",
+            "kurs_1": "1,18",
+            "kurs_X": "5,75",
+            "kurs_2": "10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Liepaja",
+            "away": "Tukums 2000/Tss",
+            "kurs_1": "1,56",
+            "kurs_X": "3,85",
+            "kurs_2": "4,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "Baltijos Futbolo Akademija",
+            "away": "Lietava Jonava",
+            "kurs_1": "2,27",
+            "kurs_X": "3,07",
+            "kurs_2": "2,67"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "FK Transinvest B",
+            "away": "Kauno Zalgiris B",
+            "kurs_1": "2,07",
+            "kurs_X": "3,50",
+            "kurs_2": "2,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:00",
+            "home": "FK Atmosphere",
+            "away": "Zalgiris II",
+            "kurs_1": "1,56",
+            "kurs_X": "3,80",
+            "kurs_2": "4,20"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Świt Szczecin",
+            "away": "Olimpia Grudziądz",
+            "kurs_1": "4,45",
+            "kurs_X": "4,00",
+            "kurs_2": "1,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Podbeskidzie Bielsko Biała",
+            "away": "Podhale Nowy Targ",
+            "kurs_1": "1,75",
+            "kurs_X": "3,83",
+            "kurs_2": "3,73"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Hutnik Kraków",
+            "away": "Stal Stalowa Wola",
+            "kurs_1": "3,00",
+            "kurs_X": "3,47",
+            "kurs_2": "2,08"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Sandecja Nowy Sącz",
+            "away": "Zagłębie Sosnowiec",
+            "kurs_1": "1,50",
+            "kurs_X": "4,05",
+            "kurs_2": "5,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Warta Poznań",
+            "away": "Resovia Rzeszów",
+            "kurs_1": "1,51",
+            "kurs_X": "4,20",
+            "kurs_2": "4,95"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "KKS Kalisz",
+            "away": "Unia Skierniewice",
+            "kurs_1": "5,10",
+            "kurs_X": "3,85",
+            "kurs_2": "1,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "ŁKS II Łódź",
+            "away": "Sokol Kleczew",
+            "kurs_1": "3,50",
+            "kurs_X": "4,15",
+            "kurs_2": "1,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Chojniczanka Chojnice",
+            "away": "Rekord Bielsko-Biała",
+            "kurs_1": "1,86",
+            "kurs_X": "3,68",
+            "kurs_2": "3,43"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Banga Gargzdai",
+            "away": "Futbolo Akademija Siauliai",
+            "kurs_1": "1,54",
+            "kurs_X": "3,70",
+            "kurs_2": "5,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Znicz",
+            "away": "Legia II Warszawa",
+            "kurs_1": "8,00",
+            "kurs_X": "6,05",
+            "kurs_2": "1,23"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "MKP Carina Gubin",
+            "away": "Polonia Nysa",
+            "kurs_1": "1,70",
+            "kurs_X": "4,00",
+            "kurs_2": "3,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "MKS Podlasie Biala Podlaska",
+            "away": "Wisła II Kraków",
+            "kurs_1": "2,02",
+            "kurs_X": "3,55",
+            "kurs_2": "3,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "FK Homel",
+            "away": "Dinamo Brześć",
+            "kurs_1": "2,48",
+            "kurs_X": "2,98",
+            "kurs_2": "2,77"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Neman Grodno",
+            "away": "ML Vitebsk",
+            "kurs_1": "4,75",
+            "kurs_X": "3,47",
+            "kurs_2": "1,67"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Hobro",
+            "away": "Middelfart",
+            "kurs_1": "1,34",
+            "kurs_X": "4,85",
+            "kurs_2": "6,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "B 93 Copenhagen",
+            "away": "Aarhus Fremad",
+            "kurs_1": "3,28",
+            "kurs_X": "3,83",
+            "kurs_2": "1,87"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Aalborg",
+            "away": "HB Køge",
+            "kurs_1": "2,20",
+            "kurs_X": "3,65",
+            "kurs_2": "2,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Malmö FF",
+            "away": "Halmstads",
+            "kurs_1": "1,47",
+            "kurs_X": "4,15",
+            "kurs_2": "5,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "AIK",
+            "away": "IK Sirius FK",
+            "kurs_1": "3,00",
+            "kurs_X": "3,58",
+            "kurs_2": "2,05"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "GAIS",
+            "away": "Kalmar FF",
+            "kurs_1": "1,77",
+            "kurs_X": "3,48",
+            "kurs_2": "4,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Falkenbergs FF",
+            "away": "Oddevold",
+            "kurs_1": "2,20",
+            "kurs_X": "3,28",
+            "kurs_2": "2,77"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "GIF Sundsvall",
+            "away": "Sandvikens IF",
+            "kurs_1": "2,80",
+            "kurs_X": "3,15",
+            "kurs_2": "2,23"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "IK Uppsala W.",
+            "away": "AIK K.",
+            "kurs_1": "4,95",
+            "kurs_X": "3,65",
+            "kurs_2": "1,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "IFK Norrkoping DFK K.",
+            "away": "Piteå IF K.",
+            "kurs_1": "2,32",
+            "kurs_X": "3,28",
+            "kurs_2": "2,62"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Djurgardens K.",
+            "away": "Eskilstuna Utd K.",
+            "kurs_1": "1,50",
+            "kurs_X": "4,10",
+            "kurs_2": "4,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:00",
+            "home": "Racing Club",
+            "away": "Defensor Sporting",
+            "kurs_1": "1,86",
+            "kurs_X": "3,15",
+            "kurs_2": "3,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:30",
+            "home": "Altach II",
+            "away": "FC Pinzgau Saalfelden",
+            "kurs_1": "1,88",
+            "kurs_X": "3,58",
+            "kurs_2": "3,03"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:30",
+            "home": "SV Kuchl",
+            "away": "Lustenau",
+            "kurs_1": "1,22",
+            "kurs_X": "5,10",
+            "kurs_2": "8,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "15:30",
+            "home": "Seekirchen",
+            "away": "Dornbirn",
+            "kurs_1": "1,73",
+            "kurs_X": "3,83",
+            "kurs_2": "3,33"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "LKS Goczałkowice-Zdrój",
+            "away": "Zagłębie II",
+            "kurs_1": "2,25",
+            "kurs_X": "3,75",
+            "kurs_2": "2,62"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Lafnitz",
+            "away": "SK Treibach",
+            "kurs_1": "1,86",
+            "kurs_X": "3,85",
+            "kurs_2": "2,92"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Hohenems",
+            "away": "Wacker Innsbruck",
+            "kurs_1": "4,65",
+            "kurs_X": "4,20",
+            "kurs_2": "1,46"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Jalgpallikool Tammeka",
+            "away": "Levadia",
+            "kurs_1": "8,00",
+            "kurs_X": "5,60",
+            "kurs_2": "1,19"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Gnistan",
+            "away": "Seinajoen JK",
+            "kurs_1": "2,58",
+            "kurs_X": "3,35",
+            "kurs_2": "2,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Kuopio",
+            "away": "Inter Turku",
+            "kurs_1": "2,32",
+            "kurs_X": "3,13",
+            "kurs_2": "2,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "TPS Turku",
+            "away": "Vaasa",
+            "kurs_1": "2,72",
+            "kurs_X": "3,22",
+            "kurs_2": "2,27"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Lahti",
+            "away": "Ilves",
+            "kurs_1": "2,40",
+            "kurs_X": "3,15",
+            "kurs_2": "2,58"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Grindavik/Njarovik K.",
+            "away": "Breidablik K.",
+            "kurs_1": "5,40",
+            "kurs_X": "5,00",
+            "kurs_2": "1,36"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Auda",
+            "away": "Ogre Utd",
+            "kurs_1": "1,19",
+            "kurs_X": "5,40",
+            "kurs_2": "8,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Molde",
+            "away": "Sandefjord",
+            "kurs_1": "1,55",
+            "kurs_X": "4,00",
+            "kurs_2": "4,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Odds BK",
+            "away": "Lyn",
+            "kurs_1": "1,64",
+            "kurs_X": "3,93",
+            "kurs_2": "3,88"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Moss",
+            "away": "Stabæk",
+            "kurs_1": "2,73",
+            "kurs_X": "3,75",
+            "kurs_2": "2,05"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Cham",
+            "away": "Biel-Bienne",
+            "kurs_1": "3,65",
+            "kurs_X": "3,93",
+            "kurs_2": "1,69"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "FC Breitenrain",
+            "away": "BSC Young Boys II",
+            "kurs_1": "2,20",
+            "kurs_X": "3,48",
+            "kurs_2": "2,63"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Luzern II",
+            "away": "Bulle",
+            "kurs_1": "2,10",
+            "kurs_X": "3,98",
+            "kurs_2": "2,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Lausanne Sports U21",
+            "away": "Schaffhausen",
+            "kurs_1": "2,70",
+            "kurs_X": "3,58",
+            "kurs_2": "2,12"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "HB Torshavn",
+            "away": "Víkingur Gøta",
+            "kurs_1": "2,35",
+            "kurs_X": "3,32",
+            "kurs_2": "2,42"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:15",
+            "home": "Ceuta",
+            "away": "Albacete",
+            "kurs_1": "2,20",
+            "kurs_X": "3,17",
+            "kurs_2": "3,02"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "16:15",
+            "home": "Real Sociedad B",
+            "away": "Cultural Leonesa",
+            "kurs_1": "2,25",
+            "kurs_X": "3,18",
+            "kurs_2": "2,92"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Broń Radom",
+            "away": "Warta Sieradz",
+            "kurs_1": "3,70",
+            "kurs_X": "4,25",
+            "kurs_2": "1,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "GKS Wikielec",
+            "away": "KS CK Troszyn",
+            "kurs_1": "2,22",
+            "kurs_X": "3,70",
+            "kurs_2": "2,65"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Łomża",
+            "away": "MKS Mlawianka Mlawa",
+            "kurs_1": "1,50",
+            "kurs_X": "4,45",
+            "kurs_2": "4,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Widzew II Łódź",
+            "away": "Ząbkovia Ząbki",
+            "kurs_1": "1,40",
+            "kurs_X": "4,80",
+            "kurs_2": "5,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Wigry Suwałki",
+            "away": "Świt Nowy Dwór Mazowiecki",
+            "kurs_1": "1,45",
+            "kurs_X": "4,65",
+            "kurs_2": "4,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Lechia TM",
+            "away": "Olimpia Elbląg",
+            "kurs_1": "1,76",
+            "kurs_X": "4,10",
+            "kurs_2": "3,50"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Wisła II Płock",
+            "away": "GKS Bełchatów",
+            "kurs_1": "1,86",
+            "kurs_X": "3,85",
+            "kurs_2": "3,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Błękitni Stargard",
+            "away": "Flota Świnoujście",
+            "kurs_1": "1,65",
+            "kurs_X": "4,00",
+            "kurs_2": "4,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Cartusia",
+            "away": "Zawisza Bydgoszcz",
+            "kurs_1": "2,40",
+            "kurs_X": "4,00",
+            "kurs_2": "2,08"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Lech Poznań II",
+            "away": "Victoria Wrzesnia",
+            "kurs_1": "2,00",
+            "kurs_X": "3,75",
+            "kurs_2": "3,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Lipno Stęszew",
+            "away": "Unia Swarzędz",
+            "kurs_1": "2,20",
+            "kurs_X": "3,75",
+            "kurs_2": "2,72"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Polonia Środa Wielkopolska",
+            "away": "Pogoń Nowe Skalmierzyce",
+            "kurs_1": "1,80",
+            "kurs_X": "3,90",
+            "kurs_2": "3,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Wybrzeże Rewalskie Rewal",
+            "away": "Pogoń Szczecin II",
+            "kurs_1": "9,00",
+            "kurs_X": "6,50",
+            "kurs_2": "1,20"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Górnik Polkowice",
+            "away": "Lechia Zielona Góra",
+            "kurs_1": "2,10",
+            "kurs_X": "3,75",
+            "kurs_2": "2,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Karkonosze Jelenia Gora",
+            "away": "Gornik Zabrze II",
+            "kurs_1": "2,40",
+            "kurs_X": "3,80",
+            "kurs_2": "2,42"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Miedz II Legnica",
+            "away": "LZS Starowice",
+            "kurs_1": "1,30",
+            "kurs_X": "5,50",
+            "kurs_2": "7,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Słowianin Wolibórz",
+            "away": "Skra Częstochowa",
+            "kurs_1": "2,60",
+            "kurs_X": "3,80",
+            "kurs_2": "2,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Czarni Polaniec",
+            "away": "Avia Świdnik",
+            "kurs_1": "5,75",
+            "kurs_X": "5,00",
+            "kurs_2": "1,37"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "KSZO",
+            "away": "Sparta Kazimierza Wielka",
+            "kurs_1": "1,05",
+            "kurs_X": "10",
+            "kurs_2": "14"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Naprzod Jedrzejow",
+            "away": "Stal Kraśnik",
+            "kurs_1": "2,75",
+            "kurs_X": "3,70",
+            "kurs_2": "2,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Siarka Tarnobrzeg",
+            "away": "Cracovia Kraków II",
+            "kurs_1": "2,05",
+            "kurs_X": "3,55",
+            "kurs_2": "3,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Świdniczanka Świdnik",
+            "away": "Sokół Kolbuszowa Dolna",
+            "kurs_1": "5,95",
+            "kurs_X": "5,05",
+            "kurs_2": "1,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "KS Wisloka Debica",
+            "away": "Chełmianka Chełm",
+            "kurs_1": "3,75",
+            "kurs_X": "4,20",
+            "kurs_2": "1,67"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Wiślanie Skawina",
+            "away": "Korona II Kielce",
+            "kurs_1": "2,18",
+            "kurs_X": "3,55",
+            "kurs_2": "2,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Wiener Viktoria",
+            "away": "SV Oberwart",
+            "kurs_1": "3,03",
+            "kurs_X": "3,63",
+            "kurs_2": "1,87"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:00",
+            "home": "Östers IF",
+            "away": "Norrby IF",
+            "kurs_1": "1,94",
+            "kurs_X": "3,53",
+            "kurs_2": "3,12"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "17:30",
+            "home": "CSD Central Ballester",
+            "away": "Deportivo Español",
+            "kurs_1": "2,92",
+            "kurs_X": "2,65",
+            "kurs_2": "2,50"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "Paris SG",
+            "away": "Arsenal",
+            "kurs_1": "2,25",
+            "kurs_X": "3,25",
+            "kurs_2": "3,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "Al Ittihad",
+            "away": "Al Badii",
+            "kurs_1": "2,93",
+            "kurs_X": "3,32",
+            "kurs_2": "2,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "Al-Najma Manama",
+            "away": "Manama Club",
+            "kurs_1": "1,72",
+            "kurs_X": "3,55",
+            "kurs_2": "3,88"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "ADT de Tarma",
+            "away": "Cusco FC",
+            "kurs_1": "2,07",
+            "kurs_X": "3,13",
+            "kurs_2": "3,17"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "Uruguay Montevideo FC",
+            "away": "Plaza Colonia",
+            "kurs_1": "3,53",
+            "kurs_X": "2,83",
+            "kurs_2": "1,98"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "18:30",
+            "home": "Santiago Wanderers",
+            "away": "Union Espanola",
+            "kurs_1": "1,98",
+            "kurs_X": "3,40",
+            "kurs_2": "3,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "18:30",
+            "home": "Deportes Recoleta",
+            "away": "San Luis Quillota",
+            "kurs_1": "2,33",
+            "kurs_X": "3,10",
+            "kurs_2": "2,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "19:30",
+            "home": "Sportivo",
+            "away": "CA Brown",
+            "kurs_1": "2,17",
+            "kurs_X": "2,78",
+            "kurs_2": "3,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "19:30",
+            "home": "Comunicaciones",
+            "away": "D. Armenio",
+            "kurs_1": "2,15",
+            "kurs_X": "2,85",
+            "kurs_2": "3,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "19:30",
+            "home": "Clayp",
+            "away": "Central Cordoba",
+            "kurs_1": "2,85",
+            "kurs_X": "2,72",
+            "kurs_2": "2,48"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "19:30",
+            "home": "CA Lugano",
+            "away": "Dep. Paraguayo",
+            "kurs_1": "1,66",
+            "kurs_X": "3,23",
+            "kurs_2": "4,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "19:30",
+            "home": "Kansas City K.",
+            "away": "Boston Legacy FC W.",
+            "kurs_1": "1,55",
+            "kurs_X": "3,90",
+            "kurs_2": "4,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "Colegiales",
+            "away": "Agropecuario",
+            "kurs_1": "1,91",
+            "kurs_X": "2,92",
+            "kurs_2": "4,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "Estudiantes",
+            "away": "Godoy Cruz",
+            "kurs_1": "2,60",
+            "kurs_X": "2,58",
+            "kurs_2": "3,07"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "Danubio",
+            "away": "CA Progreso",
+            "kurs_1": "1,92",
+            "kurs_X": "3,17",
+            "kurs_2": "3,53"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "Klaksvik",
+            "away": "EB/Streymur",
+            "kurs_1": "1,07",
+            "kurs_X": "7,50",
+            "kurs_2": "13,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "B68 Toftir",
+            "away": "B36 Torshavn",
+            "kurs_1": "5,90",
+            "kurs_X": "4,65",
+            "kurs_2": "1,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "AB Argir",
+            "away": "NSÍ Runavík",
+            "kurs_1": "6,25",
+            "kurs_X": "4,60",
+            "kurs_2": "1,31"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:30",
+            "home": "Gim. Esgrima Jujuy",
+            "away": "Belgrano",
+            "kurs_1": "3,63",
+            "kurs_X": "2,85",
+            "kurs_2": "2,12"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:30",
+            "home": "All Boys",
+            "away": "Los Andes",
+            "kurs_1": "2,18",
+            "kurs_X": "2,67",
+            "kurs_2": "3,73"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:30",
+            "home": "Defensores de Belgrano",
+            "away": "San Telmo",
+            "kurs_1": "1,86",
+            "kurs_X": "3,05",
+            "kurs_2": "4,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:30",
+            "home": "Almirante Brown",
+            "away": "Colon",
+            "kurs_1": "2,65",
+            "kurs_X": "2,65",
+            "kurs_2": "2,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:30",
+            "home": "Real Pilar",
+            "away": "UAI Urquiza",
+            "kurs_1": "2,08",
+            "kurs_X": "2,87",
+            "kurs_2": "3,65"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "20:30",
+            "home": "Puerto Nuevo",
+            "away": "Cl. Mercedes",
+            "kurs_1": "2,82",
+            "kurs_X": "2,77",
+            "kurs_2": "2,48"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Granada",
+            "away": "Sporting Gijon",
+            "kurs_1": "2,30",
+            "kurs_X": "3,30",
+            "kurs_2": "2,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Flamengo",
+            "away": "Coritiba",
+            "kurs_1": "1,42",
+            "kurs_X": "4,30",
+            "kurs_2": "6,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Atletico Paranaense",
+            "away": "Mirassol",
+            "kurs_1": "1,74",
+            "kurs_X": "3,38",
+            "kurs_2": "4,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Avai",
+            "away": "Criciuma",
+            "kurs_1": "2,25",
+            "kurs_X": "2,88",
+            "kurs_2": "3,05"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Atletico Goianiense",
+            "away": "Goias",
+            "kurs_1": "2,20",
+            "kurs_X": "2,85",
+            "kurs_2": "3,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "La Serena",
+            "away": "Colo Colo",
+            "kurs_1": "3,75",
+            "kurs_X": "3,30",
+            "kurs_2": "1,89"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Union San Felipe",
+            "away": "Puerto Montt",
+            "kurs_1": "2,63",
+            "kurs_X": "3,05",
+            "kurs_2": "2,43"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Manta",
+            "away": "Libertad Loja",
+            "kurs_1": "2,35",
+            "kurs_X": "3,00",
+            "kurs_2": "2,92"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "Ponferradina",
+            "away": "Atletico Madrid B",
+            "kurs_1": "2,02",
+            "kurs_X": "3,00",
+            "kurs_2": "3,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:00",
+            "home": "HFX Wanderers FC",
+            "away": "Vancouver FC",
+            "kurs_1": "2,63",
+            "kurs_X": "3,30",
+            "kurs_2": "2,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "21:30",
+            "home": "CF Os Belenenses",
+            "away": "Sporting Farense",
+            "kurs_1": "2,65",
+            "kurs_X": "3,12",
+            "kurs_2": "2,48"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:00",
+            "home": "Floresta CE",
+            "away": "Confianca",
+            "kurs_1": "2,20",
+            "kurs_X": "2,65",
+            "kurs_2": "3,43"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:00",
+            "home": "Itabaiana SE",
+            "away": "Volta Redonda",
+            "kurs_1": "2,08",
+            "kurs_X": "3,03",
+            "kurs_2": "3,23"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:00",
+            "home": "Dep. Garcilaso",
+            "away": "J. Pablo II",
+            "kurs_1": "1,50",
+            "kurs_X": "3,98",
+            "kurs_2": "5,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:00",
+            "home": "Portland Thorns K.",
+            "away": "Utah Royals K.",
+            "kurs_1": "2,27",
+            "kurs_X": "3,15",
+            "kurs_2": "2,77"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:30",
+            "home": "Bahia Salvador",
+            "away": "Botafogo",
+            "kurs_1": "1,85",
+            "kurs_X": "3,53",
+            "kurs_2": "3,63"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:30",
+            "home": "Gremio",
+            "away": "Corinthians",
+            "kurs_1": "2,48",
+            "kurs_X": "3,02",
+            "kurs_2": "2,73"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:30",
+            "home": "Cumbaya FC",
+            "away": "Independiente Juniors",
+            "kurs_1": "2,72",
+            "kurs_X": "2,97",
+            "kurs_2": "2,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:30",
+            "home": "9 de Octubre FC",
+            "away": "Club Deportivo Cuenca Juniors",
+            "kurs_1": "2,03",
+            "kurs_X": "2,90",
+            "kurs_2": "3,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "22:30",
+            "home": "22 de Julio FC",
+            "away": "San Antonio FC",
+            "kurs_1": "2,65",
+            "kurs_X": "2,95",
+            "kurs_2": "2,37"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "23:00",
+            "home": "Instituto AC Cordoba",
+            "away": "Atletico Lanus",
+            "kurs_1": "2,55",
+            "kurs_X": "2,97",
+            "kurs_2": "2,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "23:00",
+            "home": "Athletic Club Sjdr MG",
+            "away": "Fortaleza",
+            "kurs_1": "2,82",
+            "kurs_X": "2,90",
+            "kurs_2": "2,38"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "23:00",
+            "home": "Botafogo PB",
+            "away": "Metropolitano Maringa",
+            "kurs_1": "2,25",
+            "kurs_X": "3,22",
+            "kurs_2": "2,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "23:30",
+            "home": "Universidad de Chile",
+            "away": "Deportes Concepcion",
+            "kurs_1": "1,49",
+            "kurs_X": "3,90",
+            "kurs_2": "5,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Jutro",
+            "godzina": "23:30",
+            "home": "Liga Deportiva Universitaria",
+            "away": "Orense SC",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:00",
+            "home": "Defensores",
+            "away": "Espanol",
+            "kurs_1": "2,50",
+            "kurs_X": "2,77",
+            "kurs_2": "2,78"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:00",
+            "home": "Pacific FC",
+            "away": "Atletico Ottawa",
+            "kurs_1": "3,85",
+            "kurs_X": "3,53",
+            "kurs_2": "1,79"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:00",
+            "home": "Colón",
+            "away": "Miramar",
+            "kurs_1": "2,23",
+            "kurs_X": "2,85",
+            "kurs_2": "2,93"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:00",
+            "home": "Charleston Battery",
+            "away": "Detroit City FC",
+            "kurs_1": "1,74",
+            "kurs_X": "3,37",
+            "kurs_2": "4,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:30",
+            "home": "Caxias RS",
+            "away": "Ituano",
+            "kurs_1": "1,79",
+            "kurs_X": "2,98",
+            "kurs_2": "4,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:30",
+            "home": "Sport Boys Association",
+            "away": "Comerciantes",
+            "kurs_1": "1,58",
+            "kurs_X": "3,53",
+            "kurs_2": "4,95"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:30",
+            "home": "Portland HoP",
+            "away": "Spokane Velocity FC",
+            "kurs_1": "2,58",
+            "kurs_X": "3,12",
+            "kurs_2": "2,43"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "00:30",
+            "home": "Washington Spirit K.",
+            "away": "OL Reign K.",
+            "kurs_1": "1,46",
+            "kurs_X": "3,85",
+            "kurs_2": "5,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:00",
+            "home": "Santos",
+            "away": "Vitoria BA",
+            "kurs_1": "1,75",
+            "kurs_X": "3,38",
+            "kurs_2": "4,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:00",
+            "home": "Pittsburgh R",
+            "away": "Miami",
+            "kurs_1": "1,64",
+            "kurs_X": "3,60",
+            "kurs_2": "4,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:00",
+            "home": "Indy XI",
+            "away": "Rhode Island FC",
+            "kurs_1": "2,63",
+            "kurs_X": "3,25",
+            "kurs_2": "2,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:00",
+            "home": "Louisville City",
+            "away": "Tampa Bay Rowdies",
+            "kurs_1": "1,86",
+            "kurs_X": "3,40",
+            "kurs_2": "3,47"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:00",
+            "home": "Hartford Athletic",
+            "away": "New Mexico Utd",
+            "kurs_1": "1,89",
+            "kurs_X": "3,43",
+            "kurs_2": "3,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:00",
+            "home": "Chattanooga Red Wolves",
+            "away": "Charlotte Ind.",
+            "kurs_1": "2,20",
+            "kurs_X": "3,23",
+            "kurs_2": "2,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:30",
+            "home": "Ekwador",
+            "away": "Arabia Saudyjska",
+            "kurs_1": "1,63",
+            "kurs_X": "3,43",
+            "kurs_2": "5,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:30",
+            "home": "Sport Recife",
+            "away": "Nautico PE",
+            "kurs_1": "2,17",
+            "kurs_X": "2,93",
+            "kurs_2": "3,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "01:30",
+            "home": "Fort Wayne FC",
+            "away": "Av Alta FC",
+            "kurs_1": "2,12",
+            "kurs_X": "3,35",
+            "kurs_2": "2,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "02:00",
+            "home": "Deportivo Toluca",
+            "away": "UANL Tigres",
+            "kurs_1": "1,86",
+            "kurs_X": "3,43",
+            "kurs_2": "3,68"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "02:00",
+            "home": "CD Arica",
+            "away": "Temuco Sadp",
+            "kurs_1": "1,93",
+            "kurs_X": "3,25",
+            "kurs_2": "3,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "02:00",
+            "home": "Deportivo Cuenca",
+            "away": "Delfin",
+            "kurs_1": "1,75",
+            "kurs_X": "3,12",
+            "kurs_2": "4,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "02:00",
+            "home": "Oakland Roots SC",
+            "away": "Colorado Springs",
+            "kurs_1": "2,47",
+            "kurs_X": "3,32",
+            "kurs_2": "2,42"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "02:00",
+            "home": "Union Omaha",
+            "away": "FC Naples",
+            "kurs_1": "1,64",
+            "kurs_X": "3,50",
+            "kurs_2": "4,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "03:00",
+            "home": "Korea Południowa",
+            "away": "Trynidad i Tobago",
+            "kurs_1": "1,11",
+            "kurs_X": "7,00",
+            "kurs_2": "17,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "03:00",
+            "home": "Universitario",
+            "away": "Sport Huancayo",
+            "kurs_1": "1,34",
+            "kurs_X": "4,45",
+            "kurs_2": "6,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "03:00",
+            "home": "El Paso Locomotive",
+            "away": "Lexington SC",
+            "kurs_1": "2,10",
+            "kurs_X": "3,38",
+            "kurs_2": "2,88"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "03:00",
+            "home": "Jaiba Brava",
+            "away": "Tepatitlan FC",
+            "kurs_1": "2,00",
+            "kurs_X": "3,08",
+            "kurs_2": "3,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "04:00",
+            "home": "Meksyk",
+            "away": "Australia",
+            "kurs_1": "1,58",
+            "kurs_X": "3,65",
+            "kurs_2": "4,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "04:00",
+            "home": "Monterey Bay FC",
+            "away": "Loudoun Utd",
+            "kurs_1": "2,33",
+            "kurs_X": "3,27",
+            "kurs_2": "2,47"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "04:30",
+            "home": "Phoenix Rising",
+            "away": "Sacramento Rep.",
+            "kurs_1": "2,70",
+            "kurs_X": "3,02",
+            "kurs_2": "2,28"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "04:30",
+            "home": "L.V. Lights",
+            "away": "FC Tulsa",
+            "kurs_1": "2,57",
+            "kurs_X": "3,30",
+            "kurs_2": "2,23"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "05:00",
+            "home": "Broadmeadows",
+            "away": "Lambton",
+            "kurs_1": "1,66",
+            "kurs_X": "3,98",
+            "kurs_2": "3,28"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "06:00",
+            "home": "Western United Youth",
+            "away": "Northcote City",
+            "kurs_1": "4,40",
+            "kurs_X": "4,00",
+            "kurs_2": "1,46"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "06:30",
+            "home": "Sydney United",
+            "away": "Sutherland",
+            "kurs_1": "1,58",
+            "kurs_X": "3,58",
+            "kurs_2": "4,05"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "06:30",
+            "home": "Magic Utd",
+            "away": "Queensland Lions",
+            "kurs_1": "9,00",
+            "kurs_X": "6,00",
+            "kurs_2": "1,13"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "06:30",
+            "home": "Clarence Zebras FC",
+            "away": "South East Utd",
+            "kurs_1": "1,46",
+            "kurs_X": "4,45",
+            "kurs_2": "4,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "07:00",
+            "home": "Charlestown City",
+            "away": "Weston Workers",
+            "kurs_1": "3,02",
+            "kurs_X": "3,80",
+            "kurs_2": "1,77"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "07:00",
+            "home": "Boroondara Eagles K.",
+            "away": "Essendon Royals K.",
+            "kurs_1": "2,93",
+            "kurs_X": "3,75",
+            "kurs_2": "1,81"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "07:00",
+            "home": "Fagiano Okayama",
+            "away": "Urawa Red Diamonds",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "07:00",
+            "home": "Shimizu S-Pulse",
+            "away": "Yokohama Marinos",
+            "kurs_1": null,
+            "kurs_X": null,
+            "kurs_2": null
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "09:00",
+            "home": "St Albans Saints",
+            "away": "Preston Lions",
+            "kurs_1": "3,50",
+            "kurs_X": "3,55",
+            "kurs_2": "1,69"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "09:00",
+            "home": "Perth Azzurri K.",
+            "away": "Sorrento FC K.",
+            "kurs_1": "1,03",
+            "kurs_X": "7,75",
+            "kurs_2": "17"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "09:15",
+            "home": "West Adelaide FC",
+            "away": "Adelaide City",
+            "kurs_1": "3,78",
+            "kurs_X": "3,65",
+            "kurs_2": "1,61"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "09:30",
+            "home": "Jeonnam Dragons",
+            "away": "Seoul E-Land FC",
+            "kurs_1": "3,05",
+            "kurs_X": "3,17",
+            "kurs_2": "1,94"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "09:30",
+            "home": "Hwaseong",
+            "away": "Gyeongnam",
+            "kurs_1": "1,97",
+            "kurs_X": "2,95",
+            "kurs_2": "3,20"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "09:45",
+            "home": "Subiaco K.",
+            "away": "Fremantle City FC K.",
+            "kurs_1": "8,50",
+            "kurs_X": "5,90",
+            "kurs_2": "1,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "10:00",
+            "home": "Olympic FC",
+            "away": "Brisbane City",
+            "kurs_1": "2,07",
+            "kurs_X": "3,68",
+            "kurs_2": "2,47"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "10:15",
+            "home": "Sigma Olomouc B",
+            "away": "Apos Blansko",
+            "kurs_1": "1,49",
+            "kurs_X": "3,98",
+            "kurs_2": "4,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "10:15",
+            "home": "Unicov",
+            "away": "1 FC Slovacko B",
+            "kurs_1": "1,62",
+            "kurs_X": "3,73",
+            "kurs_2": "3,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "10:15",
+            "home": "FC Zbrojovka Brno B",
+            "away": "Hlucin",
+            "kurs_1": "1,21",
+            "kurs_X": "4,95",
+            "kurs_2": "9,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "12:00",
+            "home": "AGF Aarhus K.",
+            "away": "HB Køge K.",
+            "kurs_1": "5,60",
+            "kurs_X": "3,83",
+            "kurs_2": "1,39"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "12:00",
+            "home": "Ansan Greeners",
+            "away": "Cheonan City",
+            "kurs_1": "3,40",
+            "kurs_X": "3,12",
+            "kurs_2": "1,83"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "12:25",
+            "home": "Japonia",
+            "away": "Islandia",
+            "kurs_1": "1,20",
+            "kurs_X": "5,50",
+            "kurs_2": "9,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "13:00",
+            "home": "Vitebsk",
+            "away": "Baranovichi",
+            "kurs_1": "1,61",
+            "kurs_X": "3,43",
+            "kurs_2": "4,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "13:00",
+            "home": "Tianjin Jinmen Tiger",
+            "away": "Dalian Yingbo",
+            "kurs_1": "2,82",
+            "kurs_X": "3,13",
+            "kurs_2": "2,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "13:00",
+            "home": "Rosengard 1917 K.",
+            "away": "IF Brommapojkarna K.",
+            "kurs_1": "1,83",
+            "kurs_X": "3,43",
+            "kurs_2": "3,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "13:15",
+            "home": "Zalgiris Kaunas",
+            "away": "Zalgiris Wilno",
+            "kurs_1": "1,56",
+            "kurs_X": "3,70",
+            "kurs_2": "4,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "13:30",
+            "home": "Singapur",
+            "away": "Mongolia",
+            "kurs_1": "1,21",
+            "kurs_X": "5,50",
+            "kurs_2": "8,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "13:35",
+            "home": "Wuhan Three Towns",
+            "away": "Yunnan Yukun",
+            "kurs_1": "2,57",
+            "kurs_X": "3,47",
+            "kurs_2": "2,27"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "14:00",
+            "home": "Häcken",
+            "away": "Hammarby",
+            "kurs_1": "2,85",
+            "kurs_X": "3,45",
+            "kurs_2": "2,08"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "14:00",
+            "home": "Degerfors IF",
+            "away": "IF Brommapojkarna",
+            "kurs_1": "2,27",
+            "kurs_X": "3,12",
+            "kurs_2": "2,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "14:00",
+            "home": "Vasteras",
+            "away": "IFK Goteborg",
+            "kurs_1": "2,40",
+            "kurs_X": "3,27",
+            "kurs_2": "2,52"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "14:00",
+            "home": "Kristianstads K.",
+            "away": "Hacken K.",
+            "kurs_1": "5,10",
+            "kurs_X": "3,98",
+            "kurs_2": "1,44"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "14:00",
+            "home": "Vittsjo Gik K.",
+            "away": "Hammarby K.",
+            "kurs_1": "10,25",
+            "kurs_X": "5,60",
+            "kurs_2": "1,16"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Szwajcaria",
+            "away": "Jordania",
+            "kurs_1": "1,22",
+            "kurs_X": "5,10",
+            "kurs_2": "9,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Slavia Mozyr",
+            "away": "Belshina Bobruisk",
+            "kurs_1": "1,41",
+            "kurs_X": "4,15",
+            "kurs_2": "5,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Horsens",
+            "away": "Kolding",
+            "kurs_1": "1,53",
+            "kurs_X": "3,70",
+            "kurs_2": "5,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Hillerød Fodbold",
+            "away": "Hvidovre",
+            "kurs_1": "2,43",
+            "kurs_X": "3,47",
+            "kurs_2": "2,37"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Esbjerg",
+            "away": "Lyngby",
+            "kurs_1": "2,60",
+            "kurs_X": "3,58",
+            "kurs_2": "2,20"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "AC Oulu",
+            "away": "Jaro",
+            "kurs_1": "1,51",
+            "kurs_X": "3,73",
+            "kurs_2": "4,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Jelgava",
+            "away": "BFC Daugavpils",
+            "kurs_1": "2,58",
+            "kurs_X": "3,18",
+            "kurs_2": "2,18"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "IFK Värnamo",
+            "away": "United IK Nordic",
+            "kurs_1": "2,17",
+            "kurs_X": "3,45",
+            "kurs_2": "2,58"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Malmö K.",
+            "away": "Vaxjo K.",
+            "kurs_1": "1,23",
+            "kurs_X": "4,90",
+            "kurs_2": "8,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "15:00",
+            "home": "Albion",
+            "away": "Torque",
+            "kurs_1": "2,55",
+            "kurs_X": "3,03",
+            "kurs_2": "2,38"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Czechy",
+            "away": "Kosowo",
+            "kurs_1": "1,68",
+            "kurs_X": "3,43",
+            "kurs_2": "4,30"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Bragantino",
+            "away": "Internacional",
+            "kurs_1": "2,02",
+            "kurs_X": "3,08",
+            "kurs_2": "3,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Londrina",
+            "away": "Vila Nova",
+            "kurs_1": "2,25",
+            "kurs_X": "2,92",
+            "kurs_2": "2,83"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Sao Bernardo",
+            "away": "Novorizontino",
+            "kurs_1": "2,65",
+            "kurs_X": "2,73",
+            "kurs_2": "2,52"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Paide Linnameeskond",
+            "away": "Kuressaare",
+            "kurs_1": "1,34",
+            "kurs_X": "4,25",
+            "kurs_2": "5,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Tallinna Kalev",
+            "away": "Levadia U21",
+            "kurs_1": "1,85",
+            "kurs_X": "4,05",
+            "kurs_2": "3,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "IR Reykjavik",
+            "away": "Vestri",
+            "kurs_1": "2,20",
+            "kurs_X": "3,68",
+            "kurs_2": "2,42"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Völsungur",
+            "away": "Aegir",
+            "kurs_1": "3,03",
+            "kurs_X": "3,50",
+            "kurs_2": "1,91"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "16:15",
+            "home": "Europa",
+            "away": "Celta Fortuna",
+            "kurs_1": "2,27",
+            "kurs_X": "2,95",
+            "kurs_2": "2,77"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Wyspy Ziel. Przyl.",
+            "away": "Serbia",
+            "kurs_1": "2,78",
+            "kurs_X": "3,25",
+            "kurs_2": "2,20"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "BATE Borysow",
+            "away": "Dnepr Mogilev",
+            "kurs_1": "2,13",
+            "kurs_X": "3,30",
+            "kurs_2": "2,88"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Polanka",
+            "away": "Unie Hlubina",
+            "kurs_1": "2,95",
+            "kurs_X": "3,47",
+            "kurs_2": "1,95"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "PK 35 Helsinki",
+            "away": "Klubi 04",
+            "kurs_1": "1,47",
+            "kurs_X": "3,73",
+            "kurs_2": "4,70"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Ranheim",
+            "away": "Sandnes Ulf",
+            "kurs_1": "1,84",
+            "kurs_X": "3,58",
+            "kurs_2": "3,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Raufoss",
+            "away": "Haugesund",
+            "kurs_1": "3,37",
+            "kurs_X": "3,58",
+            "kurs_2": "1,77"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Bryne",
+            "away": "Hodd",
+            "kurs_1": "1,75",
+            "kurs_X": "3,38",
+            "kurs_2": "3,65"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Kongsvinger",
+            "away": "Asane",
+            "kurs_1": "1,27",
+            "kurs_X": "5,10",
+            "kurs_2": "6,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Egersund IK",
+            "away": "Strømsgodset",
+            "kurs_1": "2,67",
+            "kurs_X": "3,65",
+            "kurs_2": "2,03"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Strommen",
+            "away": "Sogndal",
+            "kurs_1": "2,57",
+            "kurs_X": "3,50",
+            "kurs_2": "2,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Ostersunds FK",
+            "away": "Orebro SK",
+            "kurs_1": "1,75",
+            "kurs_X": "3,32",
+            "kurs_2": "3,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Helsingborgs IF",
+            "away": "IFK Norrkoping FK",
+            "kurs_1": "3,03",
+            "kurs_X": "3,37",
+            "kurs_2": "1,95"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:30",
+            "home": "Polska",
+            "away": "Ukraina",
+            "kurs_1": "1,95",
+            "kurs_X": "3,20",
+            "kurs_2": "3,38"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:30",
+            "home": "Mikkelin",
+            "away": "EIF",
+            "kurs_1": "2,22",
+            "kurs_X": "3,28",
+            "kurs_2": "2,47"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "17:30",
+            "home": "Atletico Fenix",
+            "away": "Rentistas",
+            "kurs_1": "2,08",
+            "kurs_X": "2,85",
+            "kurs_2": "3,03"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Melgar",
+            "away": "Alianza Atletico",
+            "kurs_1": "1,48",
+            "kurs_X": "3,63",
+            "kurs_2": "5,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Racing Santander",
+            "away": "Cádiz",
+            "kurs_1": "1,32",
+            "kurs_X": "4,55",
+            "kurs_2": "7,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Castellon",
+            "away": "Eibar",
+            "kurs_1": "1,48",
+            "kurs_X": "4,15",
+            "kurs_2": "4,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Deportivo",
+            "away": "Las Palmas",
+            "kurs_1": "3,32",
+            "kurs_X": "3,37",
+            "kurs_2": "1,92"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Zaragoza",
+            "away": "Malaga",
+            "kurs_1": "4,00",
+            "kurs_X": "3,17",
+            "kurs_2": "1,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Real Burgos",
+            "away": "FC Andorra",
+            "kurs_1": "1,45",
+            "kurs_X": "3,90",
+            "kurs_2": "5,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Almeria",
+            "away": "Real Valladolid",
+            "kurs_1": "1,38",
+            "kurs_X": "4,45",
+            "kurs_2": "5,90"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Atletico Atlanta",
+            "away": "Gimnasia Y Tiro de Salta",
+            "kurs_1": "1,77",
+            "kurs_X": "2,97",
+            "kurs_2": "4,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Gent",
+            "away": "Genk",
+            "kurs_1": "2,77",
+            "kurs_X": "3,50",
+            "kurs_2": "2,12"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "Deportes Limache",
+            "away": "Coquimbo Unido",
+            "kurs_1": "2,42",
+            "kurs_X": "3,23",
+            "kurs_2": "2,52"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "18:30",
+            "home": "D Magallanes",
+            "away": "Deportes Iquique",
+            "kurs_1": "2,05",
+            "kurs_X": "3,20",
+            "kurs_2": "2,95"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "19:00",
+            "home": "IBV Vestmannaeyjar",
+            "away": "Keflavik IF",
+            "kurs_1": "2,90",
+            "kurs_X": "3,45",
+            "kurs_2": "1,98"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "19:00",
+            "home": "KR Reykjavik",
+            "away": "KA Akureyri",
+            "kurs_1": "1,43",
+            "kurs_X": "4,65",
+            "kurs_2": "4,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "19:00",
+            "home": "Thor Akureyri",
+            "away": "Stjarnan Gardabaer",
+            "kurs_1": "3,03",
+            "kurs_X": "3,83",
+            "kurs_2": "1,82"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "19:00",
+            "home": "Leiknir Reykjavik",
+            "away": "Kopavogs",
+            "kurs_1": "3,17",
+            "kurs_X": "3,73",
+            "kurs_2": "1,79"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "19:00",
+            "home": "Chicago Red Stars K.",
+            "away": "San Diego Wave K.",
+            "kurs_1": "6,10",
+            "kurs_X": "4,05",
+            "kurs_2": "1,37"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "19:30",
+            "home": "Farul Constanta",
+            "away": "Chindia Targoviste",
+            "kurs_1": "1,34",
+            "kurs_X": "4,05",
+            "kurs_2": "6,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:00",
+            "home": "Deportivo Madryn",
+            "away": "Acassuso",
+            "kurs_1": "1,49",
+            "kurs_X": "3,55",
+            "kurs_2": "6,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:00",
+            "home": "Mushuc Runa",
+            "away": "Aucas",
+            "kurs_1": "2,38",
+            "kurs_X": "3,18",
+            "kurs_2": "2,60"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:00",
+            "home": "Juventud",
+            "away": "Montevideo",
+            "kurs_1": "2,08",
+            "kurs_X": "3,05",
+            "kurs_2": "3,02"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:00",
+            "home": "Sporting Jax",
+            "away": "Brooklyn FC",
+            "kurs_1": "2,35",
+            "kurs_X": "3,25",
+            "kurs_2": "2,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:15",
+            "home": "FC Cajamarca",
+            "away": "Alianza Lima",
+            "kurs_1": "4,05",
+            "kurs_X": "3,20",
+            "kurs_2": "1,72"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:30",
+            "home": "Estudiantes de La Plata",
+            "away": "Rosario Central",
+            "kurs_1": "2,60",
+            "kurs_X": "2,65",
+            "kurs_2": "2,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:30",
+            "home": "Almagro",
+            "away": "Club Atletico Guemes",
+            "kurs_1": "2,30",
+            "kurs_X": "2,70",
+            "kurs_2": "3,18"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:30",
+            "home": "Villarreal B",
+            "away": "Zamora",
+            "kurs_1": "1,97",
+            "kurs_X": "3,02",
+            "kurs_2": "3,32"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:30",
+            "home": "River Plate Montevideo",
+            "away": "Atenas",
+            "kurs_1": "1,83",
+            "kurs_X": "3,00",
+            "kurs_2": "3,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:45",
+            "home": "Niemcy",
+            "away": "Finlandia",
+            "kurs_1": "1,10",
+            "kurs_X": "7,25",
+            "kurs_2": "13,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "20:45",
+            "home": "Wieczysta",
+            "away": "Chrobry Głogów",
+            "kurs_1": "1,72",
+            "kurs_X": "3,88",
+            "kurs_2": "4,10"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Cordoba",
+            "away": "Huesca",
+            "kurs_1": "1,62",
+            "kurs_X": "3,40",
+            "kurs_2": "4,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Leganes",
+            "away": "Mirandes",
+            "kurs_1": "1,95",
+            "kurs_X": "3,33",
+            "kurs_2": "3,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Temperley",
+            "away": "San Martin San Juan",
+            "kurs_1": "2,25",
+            "kurs_X": "2,70",
+            "kurs_2": "3,27"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Ciudad de Bolivar",
+            "away": "San Miguel",
+            "kurs_1": "2,05",
+            "kurs_X": "2,70",
+            "kurs_2": "3,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Patronato",
+            "away": "Tristan Suarez",
+            "kurs_1": "2,20",
+            "kurs_X": "2,72",
+            "kurs_2": "3,38"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Mitre Santiago Del Estero",
+            "away": "Deportivo Moron",
+            "kurs_1": "2,55",
+            "kurs_X": "2,53",
+            "kurs_2": "2,98"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "CA Ferrocarril",
+            "away": "San Martin Tucuman",
+            "kurs_1": "2,37",
+            "kurs_X": "2,62",
+            "kurs_2": "3,17"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Vasco da Gama",
+            "away": "Atletico Mineiro",
+            "kurs_1": "1,98",
+            "kurs_X": "3,17",
+            "kurs_2": "3,33"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Palmeiras",
+            "away": "Chapecoense",
+            "kurs_1": "1,19",
+            "kurs_X": "5,40",
+            "kurs_2": "10,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Ceara",
+            "away": "Operario",
+            "kurs_1": "1,85",
+            "kurs_X": "3,00",
+            "kurs_2": "3,78"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Guarani SP",
+            "away": "Amazonas FC AM",
+            "kurs_1": "1,76",
+            "kurs_X": "2,90",
+            "kurs_2": "4,40"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Santa Cruz",
+            "away": "Ferroviaria",
+            "kurs_1": "1,92",
+            "kurs_X": "2,80",
+            "kurs_2": "3,80"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Inter De Limeira SP",
+            "away": "Ypiranga",
+            "kurs_1": "1,80",
+            "kurs_X": "2,98",
+            "kurs_2": "4,00"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Huachipato",
+            "away": "Universidad Católica",
+            "kurs_1": "2,97",
+            "kurs_X": "3,18",
+            "kurs_2": "2,13"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:00",
+            "home": "Gotham FC K.",
+            "away": "Houston Dash K.",
+            "kurs_1": "1,27",
+            "kurs_X": "4,50",
+            "kurs_2": "7,75"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:15",
+            "home": "Valur Reykjavik",
+            "away": "Vikingur Reykjavik",
+            "kurs_1": "5,40",
+            "kurs_X": "4,65",
+            "kurs_2": "1,35"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:15",
+            "home": "Njarovik",
+            "away": "Grotta",
+            "kurs_1": "1,48",
+            "kurs_X": "4,05",
+            "kurs_2": "4,55"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:15",
+            "home": "Afturelding",
+            "away": "Fylkir Reykjavik",
+            "kurs_1": "2,17",
+            "kurs_X": "3,32",
+            "kurs_2": "2,65"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:30",
+            "home": "USA",
+            "away": "Senegal",
+            "kurs_1": "2,23",
+            "kurs_X": "3,13",
+            "kurs_2": "2,85"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "21:30",
+            "home": "Central Norte",
+            "away": "Chaco For Ever",
+            "kurs_1": "2,13",
+            "kurs_X": "2,75",
+            "kurs_2": "3,50"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "22:00",
+            "home": "Maipu",
+            "away": "Chacarita Jnr",
+            "kurs_1": "2,13",
+            "kurs_X": "2,77",
+            "kurs_2": "3,45"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "22:00",
+            "home": "Quilmes AC",
+            "away": "Atl. de Rafaela",
+            "kurs_1": "2,10",
+            "kurs_X": "2,75",
+            "kurs_2": "3,58"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "22:00",
+            "home": "Forge FC",
+            "away": "Cavalry FC",
+            "kurs_1": "2,20",
+            "kurs_X": "2,88",
+            "kurs_2": "3,15"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "22:15",
+            "home": "CD Los Chankas",
+            "away": "UTC de Cajamarca",
+            "kurs_1": "1,63",
+            "kurs_X": "3,43",
+            "kurs_2": "4,25"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "22:30",
+            "home": "Guayaquil City",
+            "away": "Del Valle",
+            "kurs_1": "4,75",
+            "kurs_X": "3,47",
+            "kurs_2": "1,61"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "23:30",
+            "home": "Brazylia",
+            "away": "Panama",
+            "kurs_1": "1,09",
+            "kurs_X": "7,25",
+            "kurs_2": "16"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "23:30",
+            "home": "Anapolis",
+            "away": "Maranhao MA",
+            "kurs_1": "1,91",
+            "kurs_X": "2,92",
+            "kurs_2": "3,65"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "23:30",
+            "home": "O'Higgins",
+            "away": "Everton Vina",
+            "kurs_1": "1,87",
+            "kurs_X": "3,20",
+            "kurs_2": "3,68"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "23:30",
+            "home": "Cobreloa",
+            "away": "Rangers Talca",
+            "kurs_1": "1,81",
+            "kurs_X": "3,23",
+            "kurs_2": "3,63"
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "Pojutrze",
+            "godzina": "23:30",
+            "home": "Deportivo Maldonado",
+            "away": "Nacional Montevideo",
+            "kurs_1": "3,28",
+            "kurs_X": "3,25",
+            "kurs_2": "1,89"
+        }
+    ],
+    "koszykowka": [
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "01:30",
+            "home": "New York Liberty",
+            "away": "Phoenix Mercury",
+            "kurs_1": "1,41",
+            "kurs_X": null,
+            "kurs_2": "2,62"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "01:30",
+            "home": "Washington Mystics",
+            "away": "Los Angeles Sparks",
+            "kurs_1": "1,68",
+            "kurs_X": null,
+            "kurs_2": "2,02"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "01:30",
+            "home": "Chicago Sky",
+            "away": "Minnesota Lynx",
+            "kurs_1": "2,33",
+            "kurs_X": null,
+            "kurs_2": "1,51"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "02:00",
+            "home": "Leones De Ponce",
+            "away": "Piratas de Quebradillas",
+            "kurs_1": "1,22",
+            "kurs_X": null,
+            "kurs_2": "3,45"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "02:00",
+            "home": "Gigantes de Carolina",
+            "away": "Mets de Guaynabo",
+            "kurs_1": "1,51",
+            "kurs_X": null,
+            "kurs_2": "2,23"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "02:00",
+            "home": "Heroes de Moca",
+            "away": "Titanes del Licey",
+            "kurs_1": "1,62",
+            "kurs_X": null,
+            "kurs_2": "2,03"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "02:30",
+            "home": "Metros de Santiago",
+            "away": "Reales de La Vega",
+            "kurs_1": "1,32",
+            "kurs_X": null,
+            "kurs_2": "2,82"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "03:10",
+            "home": "Boca Juniors",
+            "away": "Quimsa",
+            "kurs_1": "1,49",
+            "kurs_X": null,
+            "kurs_2": "2,27"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "03:15",
+            "home": "Brujos De Izalco",
+            "away": "Ahuachapan",
+            "kurs_1": "1,23",
+            "kurs_X": null,
+            "kurs_2": "3,23"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "04:00",
+            "home": "Portland Fire",
+            "away": "Atlanta Dream",
+            "kurs_1": "4,10",
+            "kurs_X": null,
+            "kurs_2": "1,18"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "06:00",
+            "home": "Whai",
+            "away": "Bay Hawks",
+            "kurs_1": "1,82",
+            "kurs_X": null,
+            "kurs_2": "1,79"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "09:30",
+            "home": "Canterbury Rams",
+            "away": "Nelson Giants",
+            "kurs_1": "1,08",
+            "kurs_X": null,
+            "kurs_2": "5,60"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Gippsland United",
+            "away": "Camberwell Dragons",
+            "kurs_1": "2,45",
+            "kurs_X": null,
+            "kurs_2": "1,40"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "11:30",
+            "home": "Bellarine",
+            "away": "Melbourne Uni.",
+            "kurs_1": "2,23",
+            "kurs_X": null,
+            "kurs_2": "1,49"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Pakenham",
+            "away": "Sunbury Jets",
+            "kurs_1": "1,68",
+            "kurs_X": null,
+            "kurs_2": "1,91"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Hume City Broncos",
+            "away": "McKinnon Cougars",
+            "kurs_1": "1,58",
+            "kurs_X": null,
+            "kurs_2": "2,05"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "12:00",
+            "home": "Warrandyte Venom",
+            "away": "Wyndham Basketball",
+            "kurs_1": "1,05",
+            "kurs_X": null,
+            "kurs_2": "5,90"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "13:00",
+            "home": "Bumi Borneo",
+            "away": "West Bandits Solo",
+            "kurs_1": "1,37",
+            "kurs_X": null,
+            "kurs_2": "2,62"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "13:30",
+            "home": "Paris Basketball",
+            "away": "Strasbourg",
+            "kurs_1": "1,10",
+            "kurs_X": null,
+            "kurs_2": "5,60"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "13:50",
+            "home": "PAOK Thessaloniki",
+            "away": "Panathinaikos",
+            "kurs_1": "4,45",
+            "kurs_X": null,
+            "kurs_2": "1,13"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "14:30",
+            "home": "Bayern Monachium",
+            "away": "Telekom Baskets Bonn",
+            "kurs_1": "1,08",
+            "kurs_X": null,
+            "kurs_2": "6,10"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "AEK Athens",
+            "away": "Olympiakos",
+            "kurs_1": "5,75",
+            "kurs_X": null,
+            "kurs_2": "1,07"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "16:30",
+            "home": "Alba Berlin",
+            "away": "Brose Bamberg",
+            "kurs_1": "1,39",
+            "kurs_X": null,
+            "kurs_2": "2,68"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "Kapfenberg Bulls",
+            "away": "Oberwart Gunners",
+            "kurs_1": "1,39",
+            "kurs_X": null,
+            "kurs_2": "2,57"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "18:15",
+            "home": "Lokomotiv Plovdiv 1926",
+            "away": "Balkan",
+            "kurs_1": "2,15",
+            "kurs_X": null,
+            "kurs_2": "1,56"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "19:00",
+            "home": "ASVEL",
+            "away": "Cholet",
+            "kurs_1": "1,26",
+            "kurs_X": null,
+            "kurs_2": "3,38"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "19:00",
+            "home": "Toronto Tempo",
+            "away": "Seattle Storm",
+            "kurs_1": "1,55",
+            "kurs_X": null,
+            "kurs_2": "2,25"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "19:30",
+            "home": "Besiktas Istanbul",
+            "away": "Galatasaray",
+            "kurs_1": "1,16",
+            "kurs_X": null,
+            "kurs_2": "4,40"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "Virtus Bologna",
+            "away": "Venezia",
+            "kurs_1": "1,32",
+            "kurs_X": null,
+            "kurs_2": "3,02"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "Cedevita Olimpija",
+            "away": "Krka Novo Mesto",
+            "kurs_1": "1,30",
+            "kurs_X": null,
+            "kurs_2": "2,95"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Pojutrze",
+            "godzina": "02:00",
+            "home": "Osos de Manati",
+            "away": "Vaqueros de Bayamon",
+            "kurs_1": "2,45",
+            "kurs_X": null,
+            "kurs_2": "1,43"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Pojutrze",
+            "godzina": "02:15",
+            "home": "Tabare K.",
+            "away": "Defensor Sporting K.",
+            "kurs_1": "8,00",
+            "kurs_X": null,
+            "kurs_2": "1,02"
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "Pojutrze",
+            "godzina": "15:50",
+            "home": "Zalgiris",
+            "away": "Lietkabelis",
+            "kurs_1": "1,05",
+            "kurs_X": null,
+            "kurs_2": "6,75"
+        }
+    ],
+    "tenis": [
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "00:00",
+            "home": "Masur D / Pearson K",
+            "away": "Padgham E / Vrba J",
+            "kurs_1": "1,21",
+            "kurs_X": null,
+            "kurs_2": "3,85"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "01:00",
+            "home": "X. Wang",
+            "away": "A. Penickova",
+            "kurs_1": "3,45",
+            "kurs_X": null,
+            "kurs_2": "1,22"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "01:10",
+            "home": "Maginley J / Shick B",
+            "away": "Martinez L D / Monday J",
+            "kurs_1": "2,31",
+            "kurs_X": null,
+            "kurs_2": "1,52"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "F. Cerundolo",
+            "away": "Z. Svajda",
+            "kurs_1": "1,06",
+            "kurs_X": null,
+            "kurs_2": "7,80"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "F. Cobolli",
+            "away": "L. Tien",
+            "kurs_1": "1,43",
+            "kurs_X": null,
+            "kurs_2": "2,70"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "J. Faria",
+            "away": "F. Tiafoe",
+            "kurs_1": "2,38",
+            "kurs_X": null,
+            "kurs_2": "1,54"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "J M. Cerundolo",
+            "away": "M. Landaluce",
+            "kurs_1": "1,57",
+            "kurs_X": null,
+            "kurs_2": "2,31"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "M. Kouamé",
+            "away": "A. Tabilo",
+            "kurs_1": "4,70",
+            "kurs_X": null,
+            "kurs_2": "1,16"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "M. Berrettini",
+            "away": "F. Comesana",
+            "kurs_1": "1,43",
+            "kurs_X": null,
+            "kurs_2": "2,70"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "F. Auger Aliassime",
+            "away": "B. Nakashima",
+            "kurs_1": "1,42",
+            "kurs_X": null,
+            "kurs_2": "2,75"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "M. Arnaldi",
+            "away": "R. Collignon",
+            "kurs_1": "2,21",
+            "kurs_X": null,
+            "kurs_2": "1,62"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "I. Jovic",
+            "away": "N. Osaka",
+            "kurs_1": "2,01",
+            "kurs_X": null,
+            "kurs_2": "1,75"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "D. Shnaider",
+            "away": "O. Oliynykova",
+            "kurs_1": "1,29",
+            "kurs_X": null,
+            "kurs_2": "3,35"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "A Kalinskaya",
+            "away": "M. C. Osorio Serrano",
+            "kurs_1": "1,80",
+            "kurs_X": null,
+            "kurs_2": "1,94"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "D. Parry",
+            "away": "A. Anisimova",
+            "kurs_1": "4,80",
+            "kurs_X": null,
+            "kurs_2": "1,16"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "M. Sakkari",
+            "away": "M. Chwalinska",
+            "kurs_1": "1,98",
+            "kurs_X": null,
+            "kurs_2": "1,77"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "A. Sabalenka",
+            "away": "D. Kasatkina",
+            "kurs_1": "1,06",
+            "kurs_X": null,
+            "kurs_2": "7,60"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "C. Gauff",
+            "away": "A. Potapova",
+            "kurs_1": "1,29",
+            "kurs_X": null,
+            "kurs_2": "3,35"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "V. Mboko",
+            "away": "M. Keys",
+            "kurs_1": "1,61",
+            "kurs_X": null,
+            "kurs_2": "2,24"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Goransson A / King E",
+            "away": "Hidalgo D / Trhac P",
+            "kurs_1": "1,66",
+            "kurs_X": null,
+            "kurs_2": "2,01"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Kittay B / Ram R",
+            "away": "Erler A / Miedler L",
+            "kurs_1": "2,70",
+            "kurs_X": null,
+            "kurs_2": "1,37"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Arevalo M / Pavic M",
+            "away": "Galloway R / Peers J",
+            "kurs_1": "1,22",
+            "kurs_X": null,
+            "kurs_2": "3,60"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Halys Q / Herbert P-H",
+            "away": "Harrison C / Skupski N",
+            "kurs_1": "2,50",
+            "kurs_X": null,
+            "kurs_2": "1,42"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Machac T / Vocel M",
+            "away": "Paul J / Willis M",
+            "kurs_1": "1,47",
+            "kurs_X": null,
+            "kurs_2": "2,38"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Bouzkova M / Sorribes Tormo S",
+            "away": "Haddad Maia B / Samsonova L",
+            "kurs_1": "2,22",
+            "kurs_X": null,
+            "kurs_2": "1,54"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Chong E / Erjavec V",
+            "away": "Mcnally C / Sanders S",
+            "kurs_1": "3,00",
+            "kurs_X": null,
+            "kurs_2": "1,30"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Detiuc A / Khromacheva I",
+            "away": "Eikeri U / Gleason Q",
+            "kurs_1": "2,21",
+            "kurs_X": null,
+            "kurs_2": "1,54"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Kichenok N / Ninomiya M",
+            "away": "Hozumi E / Wu F",
+            "kurs_1": "1,71",
+            "kurs_X": null,
+            "kurs_2": "1,94"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Martins I / Sierra S",
+            "away": "Kempen M / Klepac A",
+            "kurs_1": "2,06",
+            "kurs_X": null,
+            "kurs_2": "1,63"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Fossa-Huergo N / Korpatsch T",
+            "away": "Mertens E / Zhang S",
+            "kurs_1": "6,40",
+            "kurs_X": null,
+            "kurs_2": "1,06"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Siegemund L / Zvonareva V",
+            "away": "Ferro F / Parry D",
+            "kurs_1": "1,25",
+            "kurs_X": null,
+            "kurs_2": "3,30"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Miedler L / Eikeri U",
+            "away": "Tracy J / Danilina A",
+            "kurs_1": "1,96",
+            "kurs_X": null,
+            "kurs_2": "1,70"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Guinard M / Mladenovic K",
+            "away": "Roger-Vasselin E / Siegemund L",
+            "kurs_1": "1,88",
+            "kurs_X": null,
+            "kurs_2": "1,76"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Blancaneaux G / Jeanjean L",
+            "away": "Goransson A / Routliffe E",
+            "kurs_1": "3,15",
+            "kurs_X": null,
+            "kurs_2": "1,27"
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "Jutro",
+            "godzina": "11:00",
+            "home": "Skupski N / Krawczyk D",
+            "away": "Bhambri Y / Panova A",
+            "kurs_1": "1,47",
+            "kurs_X": null,
+            "kurs_2": "2,39"
+        }
+    ],
+    "pilka_reczna": [
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "12:30",
+            "home": "Montpellier",
+            "away": "THW Kiel",
+            "kurs_1": "3,15",
+            "kurs_X": "9,40",
+            "kurs_2": "1,46"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "15:30",
+            "home": "Melsungen",
+            "away": "Flensburg-Handewitt",
+            "kurs_1": "4,10",
+            "kurs_X": "10",
+            "kurs_2": "1,28"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "16:00",
+            "home": "Odense K.",
+            "away": "Team Esbjerg K.",
+            "kurs_1": "3,10",
+            "kurs_X": "8,20",
+            "kurs_2": "1,48"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "HSG Krefeld",
+            "away": "TuS N-Lübbecke",
+            "kurs_1": "1,65",
+            "kurs_X": "9,40",
+            "kurs_2": "2,33"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "18:00",
+            "home": "TV 05/07 Hüttenberg",
+            "away": "Tus Ferndorf",
+            "kurs_1": "1,84",
+            "kurs_X": "9,20",
+            "kurs_2": "2,04"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "18:15",
+            "home": "Herning Ikast K.",
+            "away": "Nykøbing K.",
+            "kurs_1": "1,61",
+            "kurs_X": "7,60",
+            "kurs_2": "2,75"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "18:30",
+            "home": "UHC Hollabrunn",
+            "away": "Bregenz",
+            "kurs_1": "2,09",
+            "kurs_X": "6,60",
+            "kurs_2": "1,96"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "19:30",
+            "home": "Bietigheim",
+            "away": "1. VfL Potsdam",
+            "kurs_1": "1,36",
+            "kurs_X": "10",
+            "kurs_2": "3,25"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "BM Villa de Aranda",
+            "away": "Reale Ademar León",
+            "kurs_1": "2,12",
+            "kurs_X": "7,00",
+            "kurs_2": "1,97"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "12:30",
+            "home": "Industria Kielce",
+            "away": "Wisła Płock",
+            "kurs_1": "2,00",
+            "kurs_X": "7,00",
+            "kurs_2": "2,15"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "16:00",
+            "home": "Aalborg",
+            "away": "Skanderborg",
+            "kurs_1": "1,12",
+            "kurs_X": "11",
+            "kurs_2": "6,40"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Oppenweiler/Backnang",
+            "away": "Ludwigshafen",
+            "kurs_1": "4,90",
+            "kurs_X": "14",
+            "kurs_2": "1,16"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "TSV Bayer Dormagen",
+            "away": "Coburg",
+            "kurs_1": "1,84",
+            "kurs_X": "10",
+            "kurs_2": "2,00"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "17:00",
+            "home": "Hagen",
+            "away": "VfL Lübeck-Schwartau",
+            "kurs_1": "1,47",
+            "kurs_X": "10",
+            "kurs_2": "2,75"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Naturhouse La Rioja",
+            "away": "Barcelona",
+            "kurs_1": "12",
+            "kurs_X": "28",
+            "kurs_2": "1,02"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "BM Torrelavega",
+            "away": "BM Guadalajara",
+            "kurs_1": "1,06",
+            "kurs_X": "17",
+            "kurs_2": "9,20"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Granollers",
+            "away": "BM Caserio Ciudad Real",
+            "kurs_1": "1,17",
+            "kurs_X": "11",
+            "kurs_2": "5,80"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Frigoríficos Morrrazo",
+            "away": "Puente Genil",
+            "kurs_1": "1,79",
+            "kurs_X": "7,20",
+            "kurs_2": "2,38"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Sporting Alicante",
+            "away": "BM Huesca",
+            "kurs_1": "1,27",
+            "kurs_X": "10",
+            "kurs_2": "4,30"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Pevafersa Valladolid",
+            "away": "Viveros H. Nava",
+            "kurs_1": "2,75",
+            "kurs_X": "7,80",
+            "kurs_2": "1,59"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Cuenca 2016",
+            "away": "Irun",
+            "kurs_1": "4,60",
+            "kurs_X": "11",
+            "kurs_2": "1,24"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "GOG Handbold",
+            "away": "Mors-Thy",
+            "kurs_1": "1,25",
+            "kurs_X": "9,80",
+            "kurs_2": "4,20"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "GVM Europe-Vác K.",
+            "away": "Mosonmagyarovari KCSE K.",
+            "kurs_1": "1,54",
+            "kurs_X": "8,80",
+            "kurs_2": "2,65"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Vasas K.",
+            "away": "Esztergomi Vitezek K.",
+            "kurs_1": "7,20",
+            "kurs_X": "12",
+            "kurs_2": "1,09"
+        },
+        {
+            "dyscyplina": "pilka_reczna",
+            "dzien": "Pojutrze",
+            "godzina": "18:00",
+            "home": "Kisvarda K.",
+            "away": "Moyra-Budaörs K.",
+            "kurs_1": "1,84",
+            "kurs_X": "8,40",
+            "kurs_2": "2,09"
+        }
+    ],
+    "boks": [
+        {
+            "dyscyplina": "boks",
+            "dzien": "Jutro",
+            "godzina": "19:20",
+            "home": "Joel Kodua",
+            "away": "Will Harrison",
+            "kurs_1": "1,10",
+            "kurs_X": null,
+            "kurs_2": "5,90"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Jutro",
+            "godzina": "20:00",
+            "home": "Francesca Hennessy",
+            "away": "Aurora de Persio",
+            "kurs_1": "1,05",
+            "kurs_X": null,
+            "kurs_2": "8,00"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Jutro",
+            "godzina": "20:20",
+            "home": "Adam Azim",
+            "away": "Steve Claggett",
+            "kurs_1": "1,09",
+            "kurs_X": null,
+            "kurs_2": "6,10"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Jutro",
+            "godzina": "22:00",
+            "home": "Dmitry Bivol",
+            "away": "Michael Eifert",
+            "kurs_1": "1,03",
+            "kurs_X": null,
+            "kurs_2": "10,50"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Jutro",
+            "godzina": "23:00",
+            "home": "Kevin Lerena",
+            "away": "Ryad Merhy",
+            "kurs_1": "1,57",
+            "kurs_X": null,
+            "kurs_2": "2,30"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Pojutrze",
+            "godzina": "03:00",
+            "home": "Desley Robinson",
+            "away": "Mary Spencer",
+            "kurs_1": "1,52",
+            "kurs_X": null,
+            "kurs_2": "2,43"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Pojutrze",
+            "godzina": "03:40",
+            "home": "Omari Jones",
+            "away": "Diego Osuna Zuniga",
+            "kurs_1": "1,03",
+            "kurs_X": null,
+            "kurs_2": "9,50"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Pojutrze",
+            "godzina": "03:45",
+            "home": "Lourdes Juarez",
+            "away": "Yokasta Valle",
+            "kurs_1": "3,22",
+            "kurs_X": null,
+            "kurs_2": "1,32"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Pojutrze",
+            "godzina": "04:10",
+            "home": "Charlie Sheehy",
+            "away": "Nike Theran",
+            "kurs_1": "1,21",
+            "kurs_X": null,
+            "kurs_2": "3,95"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Pojutrze",
+            "godzina": "04:30",
+            "home": "Stephanie Han",
+            "away": "Holly Holm",
+            "kurs_1": "1,19",
+            "kurs_X": null,
+            "kurs_2": "4,45"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Pojutrze",
+            "godzina": "05:00",
+            "home": "O'Shaquie Foster",
+            "away": "Raymond Ford",
+            "kurs_1": "1,57",
+            "kurs_X": null,
+            "kurs_2": "2,33"
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "Pojutrze",
+            "godzina": "05:15",
+            "home": "Amanda Serrano",
+            "away": "Cheyenne Hanson",
+            "kurs_1": "1,01",
+            "kurs_X": null,
+            "kurs_2": "13"
+        }
+    ]
+}

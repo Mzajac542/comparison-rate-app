@@ -1,0 +1,121 @@
+.settings-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.settings-modal {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    color: white;
+    overflow: hidden;
+}
+
+.settings-header {
+    background-color: #2a2a2a;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.settings-header h2 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: white;
+}
+
+.settings-content {
+    padding: 20px;
+}
+
+.info-group {
+    margin-bottom: 15px;
+}
+
+.info-group label, .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.85em;
+    color: #aaa;
+}
+
+.info-group input, .form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background-color: #2d2d2d;
+    color: white;
+    box-sizing: border-box;
+}
+
+.disabled-input {
+    background-color: #111 !important;
+    color: #888 !important;
+    cursor: not-allowed;
+}
+
+.settings-content hr {
+    border: 0;
+    height: 1px;
+    background-color: #333;
+    margin: 20px 0;
+}
+
+.settings-content h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.save-btn:hover {
+    background-color: #2563eb;
+}
+
+.msg {
+    font-size: 0.9em;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.error-msg { background-color: #451a1a; color: #ef4444; border: 1px solid #7f1d1d; }
+.success-msg { background-color: #064e3b; color: #10b981; border: 1px solid #065f46; }

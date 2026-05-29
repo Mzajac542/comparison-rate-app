@@ -1,20 +1,31 @@
+
+function formatDate(dateString) {
+  if (!dateString) return "-";
+
+  if (dateString === "Jutro" || dateString === "Pojutrze")
+    return dateString;
+
+  const d = new Date(dateString);
+
+  if (isNaN(d)) return dateString;
+
+  return d.toLocaleString();
+}
+
+
 function MatchDetails({ match }) {
+
   if (!match) {
-    return <p>Wybierz mecz</p>;
+    return <div>Wybierz mecz</div>;
   }
 
   return (
     <div>
-      <p><strong>Sport:</strong> {match.sportName}</p>
-      <p><strong>Liga:</strong> {match.tournamentName}</p>
-      <p><strong>Kraj:</strong> {match.categoryName}</p> 
-      <p>
-        <strong>Data:</strong>{" "}
-        {match.startTime
-          ? new Date(match.startTime).toLocaleString("pl-PL")
-          : "—"}
-      </p>
-      <p><strong>Mecz:</strong> {match.home} vs {match.away}</p>
+      <p><strong>Sport:</strong> {match.sport}</p>
+      <p><strong>Liga:</strong> {match.league}</p>
+      <p><strong>Kraj:</strong> {match.country}</p>
+      <p><strong>Data:</strong> {formatDate(match.date)}</p>
+      <p><strong>Mecz:</strong> {match.match}</p>
     </div>
   );
 }
