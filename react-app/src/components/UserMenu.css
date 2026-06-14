@@ -1,0 +1,104 @@
+.user-menu-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.user-menu-btn {
+    background-color: #2d2d2d;
+    color: white;
+    border: 1px solid #444;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.user-menu-btn:hover {
+    background-color: #3b3b3b;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    width: 220px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    color: white;
+    overflow: hidden;
+}
+
+.dropdown-header {
+    padding: 10px 15px;
+    background-color: #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dropdown-header p {
+    margin: 0;
+    font-size: 0.85em;
+    color: #aaa;
+}
+
+.user-info-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    margin-top: 4px;
+}
+
+.badge {
+    background-color: #3b82f6;
+    color: white;
+    font-size: 0.7em;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    display: flex;
+    align-self: center;
+    line-height: 1;
+}
+
+.dropdown-menu hr {
+    border: 0;
+    height: 1px;
+    background-color: #333;
+    margin: 0;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu li {
+    padding: 12px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: 0.2s;
+    color: #ffffff;
+}
+
+.dropdown-menu li:hover {
+    background-color: #333;
+}
+
+.logout-btn {
+    color: #ef4444 !important;
+}
+
+.logout-btn:hover {
+    background-color: #451a1a !important;
+}

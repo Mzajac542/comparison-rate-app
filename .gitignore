@@ -1,0 +1,22 @@
+# 🔴 NAJWAŻNIEJSZE
+data/
+
+# cache / profile
+**/Default/
+**/Cache/
+**/Cache_Data/
+*.log
+*.tmp
+
+# Node
+node_modules/
+
+# python
+__pycache__/
+
+# system
+.DS_Store
+Thumbs.db
+
+# env
+.env
