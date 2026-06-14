@@ -8,8 +8,6 @@ import Database from 'better-sqlite3';
 import bcrypt from 'bcrypt';
 import session from 'express-session';
 import SqliteStore from 'connect-sqlite3';
-import { createClient } from '@supabase/supabase-js';
-const supabase = createClient('https://visqjmqawhhkmyumxyag.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpc3FqbXFhd2hoa215dW14eWFnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTQ1MTIyNCwiZXhwIjoyMDk3MDI3MjI0fQ.iOQHGW0-DIKfAZbsVZzkoBK0HY-KBHbZli_ppaM4g80'); // Użyj SERVICE_ROLE_KEY z Supabase
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -125,7 +123,6 @@ const runScraper = async () => {
             });
         });
     }
-
     try {
         console.log("🔄 [FAZA 1] Zbieranie danych z Polskich buków...");
         const polishScrapers = [
@@ -139,31 +136,18 @@ const runScraper = async () => {
             await runScript(cmd, args);
         }
 
+        // USUNIĘTO BLOKADĘ Z CZEKANIEM NA ENTER!
+        
         console.log("🔄 [FAZA 2] Zbieranie danych zagranicznych (z auto-VPN)...");
         await runScript("py", ["-3.13", "scrappers/zagraniczni.py"]);
         
         console.log("🔄 [FAZA 3] Łączenie wszystkiego (compare_odds.py)...");
         await runScript("py", ["-3.13", "scrappers/compare_odds.py"]);
 
-        // --- SYNCHRONIZACJA Z SUPABASE ---
-        try {
-            console.log("☁️ [SUPABASE] Synchronizacja danych z chmurą...");
-            const dataToUpload = JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
-            const { error } = await supabase
-                .from('matches')
-                .upsert({ id: 1, data: dataToUpload });
-            
-            if (error) throw error;
-            console.log("✅ [SUPABASE] Dane pomyślnie wysłane do chmury!");
-        } catch (syncError) {
-            console.error("❌ [SUPABASE] Błąd synchronizacji:", syncError);
-        }
-        // ---------------------------------
-
         console.log("✅ [FINISH] Dane zaktualizowane!");
         cleanDeadFavorites(); 
     } catch (error) {
-        console.error("❌ Błąd krytyczny w runScraper:", error);
+        console.error("❌ Błąd krytyczny:", error);
     } finally {
         isScraping = false;
     }

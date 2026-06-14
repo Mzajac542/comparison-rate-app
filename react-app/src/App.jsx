@@ -8,8 +8,6 @@ import { calculateTop5 } from "./utils/top5";
 import { mapRawMatch } from "./utils/mapper";
 import UserMenu from './components/UserMenu';
 import "./App.css";
-import { supabase } from './supabaseClient';
-import { createClient } from '@supabase/supabase-js';
 
 // Lista polskich bukmacherów do podziału na kolumny
 const POLISH_BOOKMAKERS = [
@@ -37,13 +35,7 @@ const parseMatchDate = (dateStr) => {
 
 function App() {
   // ✅ INICJALIZACJA Z LOCALSTORAGE (Zapamiętywanie po F5)
-  const [activeTab, setActiveTab] = useState(() => {
-  try {
-    return localStorage.getItem("bet_activeTab") || "matches";
-  } catch {
-    return "matches";
-  }
-});
+  const [activeTab, setActiveTab] = useState(() => localStorage.getItem("bet_activeTab") || "matches");
   const [selectedSport, setSelectedSport] = useState(() => localStorage.getItem("bet_selectedSport") || null);
   const [selectedLeague, setSelectedLeague] = useState(() => localStorage.getItem("bet_selectedLeague") || null);
   const [timeFilter, setTimeFilter] = useState(() => localStorage.getItem("bet_timeFilter") || "all");
@@ -74,7 +66,7 @@ function App() {
   const calcResult = () => {
   const matchSource = calcMatch || selectedMatch;
 
-  if (!matchSource || !matchSource.kursy || !calcInputs.bookieA || !calcInputs.bookieB) {
+  if (!matchSource || !matchSource.kursy) {
     return { gainA: 0, gainB: 0, diff: 0 };
   }
 
@@ -160,74 +152,55 @@ function App() {
     localStorage.setItem("bet_showOnlyCommon", showOnlyCommon);
   }, [activeTab, selectedSport, selectedLeague, timeFilter, showOnlyCommon]);
 
-  // ✅ LOAD DATA Z SUPABASE
+  // ✅ LOAD DATA
   useEffect(() => {
-    async function loadData() {
-      try {
-        // Zmień ten fragment w useEffect:
-        const { data, error } = await supabase
-          .from('matches')
-          .select('data') // Pobierz wszystkie kolumny dla wiersza
-          .eq('id', 1)
-          .single();
-
-        if (error) throw error;
-
-        // Teraz dostęp do danych będzie przez data.data
-        if (data && data.data) {
-            const mapped = data.data.map((m, i) => mapRawMatch(m, i));
-            setMatches(mapped);
-        }
-      } catch (err) {
-        console.error("Błąd pobierania z Supabase:", err);
-      } finally {
+    fetch(`http://localhost:3001/api/matches?t=${new Date().getTime()}`)
+      .then(res => res.json())
+      .then(data => {
+        const mapped = data.map((m, i) => mapRawMatch(m, i));
+        setMatches(mapped);
         setLoading(false);
-      }
-    }
+      })
+      .catch(err => {
+        console.error("Błąd pobierania meczów:", err);
+        setLoading(false);
+      });
 
-    loadData();
+    fetch("http://localhost:3001/api/favorites", { credentials: "include" })
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) setFavorites(data);
+      })
+      .catch(err => console.error("Błąd pobierania ulubionych:", err));
   }, []);
-
-useEffect(() => {
-  async function loadFavorites() {
-    const { data, error } = await supabase
-      .from('favorites')
-      .select('match_name'); // Pobieramy tylko nazwy meczów
-
-    if (error) {
-      console.error("Błąd pobierania ulubionych z Supabase:", error);
-    } else {
-      setFavorites(data.map(item => item.match_name));
-    }
-  }
-  loadFavorites();
-}, []);
 
   // ✅ OBSŁUGA ULUBIONYCH
   const handleToggleFavorite = async (matchName) => {
-  const isFav = favorites.includes(matchName);
+    const isFav = favorites.includes(matchName);
+    const method = isFav ? 'DELETE' : 'POST';
+    const url = isFav 
+      ? `http://localhost:3001/api/favorites/${encodeURIComponent(matchName)}` 
+      : `http://localhost:3001/api/favorites`;
 
-  if (isFav) {
-    // USUWANIE z Supabase
-    const { error } = await supabase
-      .from('favorites')
-      .delete()
-      .eq('match_name', matchName);
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: isFav ? null : JSON.stringify({ match_name: matchName })
+      });
 
-    if (!error) {
-      setFavorites(prev => prev.filter(name => name !== matchName));
+      if (res.ok) {
+        if (isFav) {
+          setFavorites(prev => prev.filter(name => name !== matchName));
+        } else {
+          setFavorites(prev => [...prev, matchName]);
+        }
+      }
+    } catch (err) {
+      console.error("Błąd zapisu ulubionych:", err);
     }
-  } else {
-    // DODAWANIE do Supabase
-    const { error } = await supabase
-      .from('favorites')
-      .insert([{ match_name: matchName }]);
-
-    if (!error) {
-      setFavorites(prev => [...prev, matchName]);
-    }
-  }
-};
+  };
 
   // ✅ KALKULACJA BUKMACHERÓW (ZMODYFIKOWANA)
   const getBookmakerStats = () => {
@@ -548,40 +521,11 @@ useEffect(() => {
 
               <div className="card">
                 {activeTab === "matches" && (
-                  filteredMatches && filteredMatches.length > 0 ? (
-                    <MatchesList 
-                      matches={filteredMatches} 
-                      selectedMatch={selectedMatch} 
-                      onSelect={handleSelectMatch} 
-                      favorites={favorites} 
-                      onToggleFavorite={handleToggleFavorite} 
-                      onOpenCalc={openCalc}
-                    />
-                  ) : (
-                    <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
-                      <p>Brak meczów spełniających wybrane kryteria.</p>
-                    </div>
-                  )
+                  <MatchesList matches={filteredMatches} selectedMatch={selectedMatch} onSelect={handleSelectMatch} favorites={favorites} onToggleFavorite={handleToggleFavorite} onOpenCalc={openCalc}/>
                 )}
-                
                 {activeTab === "favorites" && (
-                  favoriteMatches && favoriteMatches.length > 0 ? (
-                    <MatchesList 
-                      matches={favoriteMatches} 
-                      selectedMatch={selectedMatch} 
-                      onSelect={handleSelectMatch} 
-                      favorites={favorites} 
-                      onToggleFavorite={handleToggleFavorite} 
-                      groupBySport={true} 
-                      onOpenCalc={openCalc} 
-                    />
-                  ) : (
-                    <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
-                      <p>Brak polubionych meczów.</p>
-                    </div>
-                  )
+                  <MatchesList matches={favoriteMatches} selectedMatch={selectedMatch} onSelect={handleSelectMatch} favorites={favorites} onToggleFavorite={handleToggleFavorite} groupBySport={true} onOpenCalc={openCalc} />
                 )}
-
                 {activeTab === "top" && (
                   <Top5 items={filteredMatches} onSelect={(match) => { setActiveTab("matches"); handleSelectMatch(match); }} />
                 )}
@@ -621,7 +565,7 @@ useEffect(() => {
               {/* Kolumna: Polskie */}
               <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
                 <h3 style={{ color: "#10b981", fontSize: "1.1em", marginTop: 0, marginBottom: "12px", borderBottom: "1px solid #2a2a2a", paddingBottom: "5px" }}>
-                  Polscy ({polishBookies.length})
+                  Polcy ({polishBookies.length})
                 </h3>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
                   {polishBookies.length > 0 ? (
