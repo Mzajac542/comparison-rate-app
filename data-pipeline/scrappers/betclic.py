@@ -14,11 +14,9 @@ DISCIPLINES = {
     "pilka_nozna": "https://www.betclic.pl/pilka-nozna-s1",
     "koszykowka": "https://www.betclic.pl/koszykowka-s4",
     "tenis": "https://www.betclic.pl/tenis-s2",
-    "pilka_reczna": "https://www.betclic.pl/pilka-reczna-s9",
     "boks": "https://www.betclic.pl/boks-s16",
 }
 
-# POPRAWKA 1: Dwa razy dirname, żeby trafiało do data-pipeline/data
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUTPUT_JSON_PATH = os.path.join(BASE_DIR, "data", "betclic.json")
 
@@ -33,34 +31,73 @@ def force_kill_zombie_chromes():
         except Exception:
             pass
 
-def setup_driver():
-    options = uc.ChromeOptions()
+def setup_driver(max_retries=3):
     profile = os.path.join(BASE_DIR, "data", "betclic_profile")
-    os.makedirs(profile, exist_ok=True)
 
-    lock_file = os.path.join(profile, "SingletonLock")
-    if os.path.exists(lock_file):
-        try: os.remove(lock_file)
-        except: pass
+    for attempt in range(max_retries):
+        try:
+            print(f"[SYSTEM] Próba uruchomienia przeglądarki ({attempt + 1}/{max_retries})...")
+            
+            force_kill_zombie_chromes()
 
-    options.add_argument(f"--user-data-dir={profile}")
-    options.add_argument("--window-size=1920,3000")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-infobars")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-background-timer-throttling")
-    options.add_argument("--disable-backgrounding-occluded-windows")
-    options.add_argument("--disable-renderer-backgrounding")
-    options.add_argument("--disable-features=CalculateNativeWinOcclusion")
-    options.add_argument("--enable-features=NetworkService,NetworkServiceInProcess")
+            if attempt > 0 and os.path.exists(profile):
+                print("[SYSTEM] Twardy reset folderu profilu...")
+                shutil.rmtree(profile, ignore_errors=True)
+                time.sleep(1)
 
-    driver = uc.Chrome(options=options, use_subprocess=True)
-    driver.set_window_size(1920, 3000)
+            if os.path.exists(profile):
+                lock_files = ["SingletonLock", "SingletonCookie", "SingletonSocket", "Local State", "DevToolsActivePort"]
+                for lf in lock_files:
+                    lf_path = os.path.join(profile, lf)
+                    if os.path.exists(lf_path):
+                        try: os.remove(lf_path)
+                        except: pass
 
-    # POPRAWKA 2: Przesuwamy okno daleko poza widoczny ekran!
-    driver.set_window_position(-3000, 0)
-    time.sleep(5)
+            options = uc.ChromeOptions()
+            options.add_argument(f"--user-data-dir={profile}")
+            options.add_argument("--lang=pl-PL")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--disable-popup-blocking")
+            options.add_argument("--log-level=3") 
+            options.page_load_strategy = 'eager' 
+
+            # Flagi zapobiegające zamrażaniu kart
+            options.add_argument("--disable-background-timer-throttling")
+            options.add_argument("--disable-backgrounding-occluded-windows")
+            options.add_argument("--disable-renderer-backgrounding")
+            options.add_argument("--disable-ipc-flooding-protection")
+            
+            # KLUCZOWE USTAWIENIE: Wymuszenie dużego okna i wyrzucenie go poza widoczny ekran (-2000, -2000)
+            options.add_argument("--window-size=1920,1080")
+            options.add_argument("--window-position=-2000,-2000")
+
+            # Usunięto parametr headless=True, aby strona ładowała się prawidłowo
+            driver = uc.Chrome(options=options, use_subprocess=True, version_main=149)
+
+            driver.get("about:blank") 
+            
+            try:
+                driver.switch_to.window(driver.current_window_handle)
+            except:
+                pass
+            
+            print("[SYSTEM] Chrome uruchomiony stabilnie w tle (Ukryte okno Off-Screen).")
+            return driver
+
+        except Exception as e:
+            print(f"[SYSTEM] Odrzucono sesję Chrome: {e}")
+            try:
+                driver.quit()
+            except:
+                pass
+            
+            if attempt == max_retries - 1:
+                print("[SYSTEM] BŁĄD KRYTYCZNY: Nie udało się uruchomić Chrome.")
+                return None
+            
+            time.sleep(3) 
     return driver
 
 def handle_cookies(driver):
@@ -141,7 +178,7 @@ def scrape_current_page(driver, discipline):
         bloki = driver.find_elements(By.CSS_SELECTOR, "div.groupEvents")
         for blok in bloki:
             try:
-                text = blok.find_element(By.CSS_SELECTOR, "h2").text.lower()
+                text = blok.find_element(By.CSS_SELECTOR, "h2").get_attribute("textContent").lower()
                 if "jutro" in text:
                     blok_jutro = blok
                     break
@@ -157,7 +194,7 @@ def scrape_current_page(driver, discipline):
         found_jutro = False
         for blok in bloki:
             try:
-                text = blok.find_element(By.CSS_SELECTOR, "h2").text.lower()
+                text = blok.find_element(By.CSS_SELECTOR, "h2").get_attribute("textContent").lower()
             except:
                 continue
             if "jutro" in text:
@@ -170,6 +207,7 @@ def scrape_current_page(driver, discipline):
             break
         driver.execute_script("window.scrollBy(0, 800)")
         time.sleep(1.2)
+        
     blocks = []
     if blok_jutro:
         blocks.append((blok_jutro, jutro_date))
@@ -177,6 +215,7 @@ def scrape_current_page(driver, discipline):
         blocks.append((blok_pojutrze, pojutrze_date))
     if not blocks:
         return []
+        
     for blok, dzien in blocks:
         driver.execute_script("arguments[0].scrollIntoView({block:'center'});", blok)
         time.sleep(2)
@@ -189,14 +228,18 @@ def scrape_current_page(driver, discipline):
                 teams = karta.find_elements(By.CSS_SELECTOR, ".scoreboard_contestantLabel")
                 if len(teams) != 2:
                     continue
-                home = teams[0].text.strip()
-                away = teams[1].text.strip()
+                
+                home = teams[0].get_attribute("textContent").strip()
+                away = teams[1].get_attribute("textContent").strip()
                 key = f"{home}-{away}"
                 if key in seen:
                     continue
-                time_match = re.search(r"\d{2}:\d{2}", karta.text)
+                
+                karta_text = karta.get_attribute("textContent")
+                time_match = re.search(r"\d{2}:\d{2}", karta_text)
                 godzina = time_match.group(0) if time_match else "00:00"
-                kursy = re.findall(r"\d+\.\d{2}", karta.text.replace(",", "."))
+                
+                kursy = re.findall(r"\d+\.\d{2}", karta_text.replace(",", "."))
                 kursy = [k for k in kursy if 1.01 <= float(k) <= 20]
                 k1 = kx = k2 = None
                 if len(kursy) >= 3:
@@ -205,6 +248,7 @@ def scrape_current_page(driver, discipline):
                     k1, k2 = kursy
                 if not k1 and not k2:
                     continue
+                
                 matches.append({
                     "dyscyplina": discipline,
                     "dzien": dzien,
@@ -223,6 +267,7 @@ def scrape_current_page(driver, discipline):
 
 if __name__ == '__main__':
     force_kill_zombie_chromes()
+    
     driver = setup_driver()
     if driver:
         try:
@@ -243,16 +288,19 @@ if __name__ == '__main__':
                     if len(result) > len(best_result):
                         best_result = result
                     print(f"[TRY {attempt+1}] {len(result)} meczów")
+                    
+                    if len(best_result) > 0:
+                        break 
+                        
                 data[discipline] = best_result
             with open(OUTPUT_JSON_PATH, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
             print("\nGOTOWE", flush=True)
 
-        # POPRAWKA 3: Twarde zamykanie, żeby Node.js się nie zawieszał
         finally:
             print("[SYSTEM] Zamykanie...", flush=True)
             try:
-                driver.close()
+                driver.quit() 
             except:
                 pass
             force_kill_zombie_chromes()

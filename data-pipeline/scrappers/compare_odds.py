@@ -5,7 +5,6 @@ import re
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import requests
-from supabase import create_client
 
 def send_to_discord(match_name, typ_nazwa, dyscyplina, diff, local_bookie, local_odds, foreign_bookie, foreign_odds, mecz_data, mecz_godzina):
     webhook_url = "https://discord.com/api/webhooks/1512914675657080952/E1yWfMuACfkduEkEBT8nKNlRIjCXSzmb_yiOfRDQ2LEL_SiNLJ_NasRoHqKV3mu3lvjT"
@@ -346,22 +345,3 @@ for em in merged_matches:
 print(f"[OK] Polaczono! Znaleziono {len(merged_matches)} unikalnych wydarzen.")
 print(f"[!] Aktywnych okazji ogółem (także już wysłanych): {len(current_active_opportunities)}.")
 print(f"[!] Wysłano teraz {licznik_okazji} NOWYCH powiadomień na Discorda.")
-
-def wyslij_do_supa(dane):
-    # Używamy zmiennych środowiskowych (GitHub Actions lub lokalny .env)
-    SUPABASE_URL = os.environ.get("SUPABASE_URL")
-    SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-    
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        print("❌ Brak kluczy Supabase w zmiennych środowiskowych!")
-        return
-
-    try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-        supabase.table("matches").upsert({"id": 1, "data": dane}).execute()
-        print("✅ Dane zostały pomyślnie wysłane do chmury Supabase!")
-    except Exception as e:
-        print(f"❌ Błąd wysyłki do Supabase: {e}")
-
-# Wywołujemy funkcję wysyłania po zakończeniu łączenia
-wyslij_do_supa(merged_matches)
