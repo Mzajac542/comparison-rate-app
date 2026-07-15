@@ -1,0 +1,2104 @@
+{
+    "pilka_nozna": [
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Clyde",
+            "away": "Airdrieonians",
+            "kurs_1": "3.13",
+            "kurs_X": "3.80",
+            "kurs_2": "1.86",
+            "btts_tak": "1.45",
+            "btts_nie": "2.45",
+            "dc_1x": "1.75",
+            "dc_12": "1.20",
+            "dc_x2": "1.29",
+            "over_under": {
+                "1.5": {
+                    "over": "1.12",
+                    "under": "4.75"
+                },
+                "2.5": {
+                    "over": "1.44",
+                    "under": "2.45"
+                },
+                "3.5": {
+                    "over": "2.10",
+                    "under": "1.60"
+                },
+                "4.5": {
+                    "over": "3.38",
+                    "under": "1.24"
+                },
+                "5.5": {
+                    "over": "5.50",
+                    "under": "1.09"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Brora Rangers",
+            "away": "Aberdeen",
+            "kurs_1": "9.25",
+            "kurs_X": "1.02",
+            "kurs_2": null,
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": "10.25",
+            "dc_12": "1.01",
+            "dc_x2": "1.01",
+            "over_under": {
+                "2.5": {
+                    "over": "1.18",
+                    "under": "3.98"
+                },
+                "3.5": {
+                    "over": "1.49",
+                    "under": "2.33"
+                },
+                "4.5": {
+                    "over": "2.08",
+                    "under": "1.61"
+                },
+                "5.5": {
+                    "over": "3.15",
+                    "under": "1.28"
+                },
+                "6.5": {
+                    "over": "4.95",
+                    "under": "1.11"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Annan",
+            "away": "Dundee",
+            "kurs_1": "7.00",
+            "kurs_X": "1.10",
+            "kurs_2": null,
+            "btts_tak": "2.23",
+            "btts_nie": "1.54",
+            "dc_1x": "5.50",
+            "dc_12": "1.04",
+            "dc_x2": "1.02",
+            "over_under": {
+                "1.5": {
+                    "over": "1.10",
+                    "under": "5.25"
+                },
+                "2.5": {
+                    "over": "1.37",
+                    "under": "2.72"
+                },
+                "3.5": {
+                    "over": "1.94",
+                    "under": "1.71"
+                },
+                "4.5": {
+                    "over": "3.03",
+                    "under": "1.30"
+                },
+                "5.5": {
+                    "over": "4.95",
+                    "under": "1.11"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Forfar",
+            "away": "Partick",
+            "kurs_1": "10.50",
+            "kurs_X": "5.50",
+            "kurs_2": "1.19",
+            "btts_tak": "2.02",
+            "btts_nie": "1.66",
+            "dc_1x": "3.90",
+            "dc_12": "1.08",
+            "dc_x2": "1.04",
+            "over_under": {
+                "1.5": {
+                    "over": "1.13",
+                    "under": "4.60"
+                },
+                "2.5": {
+                    "over": "1.46",
+                    "under": "2.40"
+                },
+                "3.5": {
+                    "over": "2.15",
+                    "under": "1.57"
+                },
+                "4.5": {
+                    "over": "3.50",
+                    "under": "1.23"
+                },
+                "5.5": {
+                    "over": "5.75",
+                    "under": "1.08"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Kelty Hearts",
+            "away": "Queens Park FC",
+            "kurs_1": "4.40",
+            "kurs_X": "3.53",
+            "kurs_2": "1.64",
+            "btts_tak": "1.84",
+            "btts_nie": "1.80",
+            "dc_1x": "2.02",
+            "dc_12": "1.22",
+            "dc_x2": "1.16",
+            "over_under": {
+                "0.5": {
+                    "over": "1.04",
+                    "under": "7.25"
+                },
+                "1.5": {
+                    "over": "1.27",
+                    "under": "3.23"
+                },
+                "2.5": {
+                    "over": "1.85",
+                    "under": "1.79"
+                },
+                "3.5": {
+                    "over": "3.05",
+                    "under": "1.30"
+                },
+                "4.5": {
+                    "over": "5.25",
+                    "under": "1.10"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Montrose",
+            "away": "Dundee Utd",
+            "kurs_1": "6.75",
+            "kurs_X": "4.85",
+            "kurs_2": "1.30",
+            "btts_tak": "1.73",
+            "btts_nie": "1.92",
+            "dc_1x": "2.97",
+            "dc_12": "1.12",
+            "dc_x2": "1.08",
+            "over_under": {
+                "1.5": {
+                    "over": "1.13",
+                    "under": "4.65"
+                },
+                "2.5": {
+                    "over": "1.45",
+                    "under": "2.43"
+                },
+                "3.5": {
+                    "over": "2.13",
+                    "under": "1.58"
+                },
+                "4.5": {
+                    "over": "3.45",
+                    "under": "1.24"
+                },
+                "5.5": {
+                    "over": "5.60",
+                    "under": "1.08"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Linlithgow R.",
+            "away": "St Johnstone",
+            "kurs_1": "11.75",
+            "kurs_X": "7.00",
+            "kurs_2": "1.12",
+            "btts_tak": "1.77",
+            "btts_nie": "1.87",
+            "dc_1x": "4.95",
+            "dc_12": "1.05",
+            "dc_x2": "1.03",
+            "over_under": {
+                "1.5": {
+                    "over": "1.05",
+                    "under": "6.60"
+                },
+                "2.5": {
+                    "over": "1.24",
+                    "under": "3.43"
+                },
+                "3.5": {
+                    "over": "1.63",
+                    "under": "2.05"
+                },
+                "4.5": {
+                    "over": "2.38",
+                    "under": "1.47"
+                },
+                "5.5": {
+                    "over": "3.73",
+                    "under": "1.20"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Kilmarnock",
+            "away": "Raith",
+            "kurs_1": "1.83",
+            "kurs_X": "3.40",
+            "kurs_2": "3.58",
+            "btts_tak": "1.66",
+            "btts_nie": "2.02",
+            "dc_1x": "1.23",
+            "dc_12": "1.23",
+            "dc_x2": "1.79",
+            "over_under": {
+                "0.5": {
+                    "over": "1.03",
+                    "under": "7.75"
+                },
+                "1.5": {
+                    "over": "1.22",
+                    "under": "3.60"
+                },
+                "2.5": {
+                    "over": "1.71",
+                    "under": "1.93"
+                },
+                "3.5": {
+                    "over": "2.72",
+                    "under": "1.37"
+                },
+                "4.5": {
+                    "over": "4.70",
+                    "under": "1.13"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "East Fife",
+            "away": "Greenock Morton",
+            "kurs_1": "2.63",
+            "kurs_X": "3.60",
+            "kurs_2": "2.17",
+            "btts_tak": "1.64",
+            "btts_nie": "2.03",
+            "dc_1x": "1.55",
+            "dc_12": "1.22",
+            "dc_x2": "1.40",
+            "over_under": {
+                "0.5": {
+                    "over": "1.03",
+                    "under": "8.00"
+                },
+                "1.5": {
+                    "over": "1.22",
+                    "under": "3.53"
+                },
+                "2.5": {
+                    "over": "1.71",
+                    "under": "1.94"
+                },
+                "3.5": {
+                    "over": "2.77",
+                    "under": "1.35"
+                },
+                "4.5": {
+                    "over": "4.70",
+                    "under": "1.13"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Edinburgh City",
+            "away": "Alloa",
+            "kurs_1": "4.00",
+            "kurs_X": "3.80",
+            "kurs_2": "1.65",
+            "btts_tak": "1.60",
+            "btts_nie": "2.10",
+            "dc_1x": "2.00",
+            "dc_12": "1.19",
+            "dc_x2": "1.19",
+            "over_under": {
+                "0.5": {
+                    "over": "1.02",
+                    "under": "8.50"
+                },
+                "1.5": {
+                    "over": "1.17",
+                    "under": "4.10"
+                },
+                "2.5": {
+                    "over": "1.57",
+                    "under": "2.15"
+                },
+                "3.5": {
+                    "over": "2.40",
+                    "under": "1.46"
+                },
+                "4.5": {
+                    "over": "4.00",
+                    "under": "1.18"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Elgin City",
+            "away": "Peterhead",
+            "kurs_1": "3.20",
+            "kurs_X": "3.60",
+            "kurs_2": "1.88",
+            "btts_tak": "1.51",
+            "btts_nie": "2.28",
+            "dc_1x": "1.74",
+            "dc_12": "1.22",
+            "dc_x2": "1.28",
+            "over_under": {
+                "0.5": {
+                    "over": "1.02",
+                    "under": "8.50"
+                },
+                "1.5": {
+                    "over": "1.15",
+                    "under": "4.30"
+                },
+                "2.5": {
+                    "over": "1.53",
+                    "under": "2.23"
+                },
+                "3.5": {
+                    "over": "2.30",
+                    "under": "1.50"
+                },
+                "4.5": {
+                    "over": "3.83",
+                    "under": "1.19"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Falkirk",
+            "away": "Ayr",
+            "kurs_1": "1.48",
+            "kurs_X": "4.10",
+            "kurs_2": "5.00",
+            "btts_tak": "1.61",
+            "btts_nie": "2.08",
+            "dc_1x": "1.13",
+            "dc_12": "1.17",
+            "dc_x2": "2.32",
+            "over_under": {
+                "1.5": {
+                    "over": "1.14",
+                    "under": "4.45"
+                },
+                "2.5": {
+                    "over": "1.50",
+                    "under": "2.32"
+                },
+                "3.5": {
+                    "over": "2.22",
+                    "under": "1.54"
+                },
+                "4.5": {
+                    "over": "3.65",
+                    "under": "1.21"
+                },
+                "5.5": {
+                    "over": "6.00",
+                    "under": "1.07"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "20:45",
+            "home": "Dunfermline",
+            "away": "Dumbarton",
+            "kurs_1": "1.29",
+            "kurs_X": "5.00",
+            "kurs_2": "7.00",
+            "btts_tak": "1.74",
+            "btts_nie": "1.91",
+            "dc_1x": "1.07",
+            "dc_12": "1.11",
+            "dc_x2": "3.07",
+            "over_under": {
+                "1.5": {
+                    "over": "1.12",
+                    "under": "4.75"
+                },
+                "2.5": {
+                    "over": "1.44",
+                    "under": "2.47"
+                },
+                "3.5": {
+                    "over": "2.10",
+                    "under": "1.60"
+                },
+                "4.5": {
+                    "over": "3.38",
+                    "under": "1.24"
+                },
+                "5.5": {
+                    "over": "5.60",
+                    "under": "1.09"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "21:00",
+            "home": "Francja",
+            "away": "Hiszpania",
+            "kurs_1": "2.32",
+            "kurs_X": "3.25",
+            "kurs_2": "3.20",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "21:00",
+            "home": "Shamrock Rovers",
+            "away": "Floriana",
+            "kurs_1": "1.28",
+            "kurs_X": "4.90",
+            "kurs_2": "8.75",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "21:00",
+            "home": "Larne",
+            "away": "Tre Fiori",
+            "kurs_1": "1.14",
+            "kurs_X": "6.50",
+            "kurs_2": "14.25",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "21:00",
+            "home": "La Fiorita",
+            "away": "Una Strassen",
+            "kurs_1": "6.60",
+            "kurs_X": "4.05",
+            "kurs_2": "1.43",
+            "btts_tak": "2.13",
+            "btts_nie": "1.64",
+            "dc_1x": "2.57",
+            "dc_12": "1.18",
+            "dc_x2": "1.10",
+            "over_under": {
+                "0.5": {
+                    "over": "1.04",
+                    "under": "8.25"
+                },
+                "1.5": {
+                    "over": "1.29",
+                    "under": "3.25"
+                },
+                "2.5": {
+                    "over": "1.91",
+                    "under": "1.80"
+                },
+                "3.5": {
+                    "over": "3.23",
+                    "under": "1.30"
+                },
+                "4.5": {
+                    "over": "5.90",
+                    "under": "1.10"
+                },
+                "5.5": {
+                    "over": "9.50",
+                    "under": "1.03"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "21:15",
+            "home": "Throttur Reykjavik K.",
+            "away": "Fram K.",
+            "kurs_1": "1.44",
+            "kurs_X": "4.55",
+            "kurs_2": "4.85",
+            "btts_tak": "1.50",
+            "btts_nie": "2.30",
+            "dc_1x": "1.13",
+            "dc_12": "1.14",
+            "dc_x2": "2.42",
+            "over_under": {
+                "1.5": {
+                    "over": "1.10",
+                    "under": "5.25"
+                },
+                "2.5": {
+                    "over": "1.37",
+                    "under": "2.70"
+                },
+                "3.5": {
+                    "over": "1.94",
+                    "under": "1.71"
+                },
+                "4.5": {
+                    "over": "3.03",
+                    "under": "1.30"
+                },
+                "5.5": {
+                    "over": "4.95",
+                    "under": "1.11"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "14.07.2026",
+            "czas": "23:30",
+            "home": "Macara",
+            "away": "Mushuc Runa",
+            "kurs_1": "1.95",
+            "kurs_X": "3.23",
+            "kurs_2": "3.60",
+            "btts_tak": "1.89",
+            "btts_nie": "1.82",
+            "dc_1x": "1.25",
+            "dc_12": "1.28",
+            "dc_x2": "1.73",
+            "over_under": {
+                "0.5": {
+                    "over": "1.06",
+                    "under": "7.50"
+                },
+                "1.5": {
+                    "over": "1.34",
+                    "under": "3.00"
+                },
+                "2.5": {
+                    "over": "2.05",
+                    "under": "1.69"
+                },
+                "3.5": {
+                    "over": "3.55",
+                    "under": "1.25"
+                },
+                "4.5": {
+                    "over": "6.50",
+                    "under": "1.08"
+                },
+                "5.5": {
+                    "over": "10.25",
+                    "under": "1.02"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "00:00",
+            "home": "Deportivo Merlo",
+            "away": "Real Pilar",
+            "kurs_1": "2.73",
+            "kurs_X": "2.78",
+            "kurs_2": "2.67",
+            "btts_tak": "2.15",
+            "btts_nie": "1.63",
+            "dc_1x": "1.40",
+            "dc_12": "1.36",
+            "dc_x2": "1.40",
+            "over_under": {
+                "0.5": {
+                    "over": "1.11",
+                    "under": "5.60"
+                },
+                "1.5": {
+                    "over": "1.52",
+                    "under": "2.37"
+                },
+                "2.5": {
+                    "over": "2.62",
+                    "under": "1.43"
+                },
+                "3.5": {
+                    "over": "4.90",
+                    "under": "1.14"
+                },
+                "4.5": {
+                    "over": "8.75",
+                    "under": "1.03"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "00:00",
+            "home": "CA Brown",
+            "away": "Deportivo Laferrere",
+            "kurs_1": "2.57",
+            "kurs_X": "2.78",
+            "kurs_2": "2.83",
+            "btts_tak": "2.12",
+            "btts_nie": "1.65",
+            "dc_1x": "1.37",
+            "dc_12": "1.36",
+            "dc_x2": "1.43",
+            "over_under": {
+                "0.5": {
+                    "over": "1.10",
+                    "under": "5.75"
+                },
+                "1.5": {
+                    "over": "1.50",
+                    "under": "2.42"
+                },
+                "2.5": {
+                    "over": "2.55",
+                    "under": "1.45"
+                },
+                "3.5": {
+                    "over": "4.75",
+                    "under": "1.15"
+                },
+                "4.5": {
+                    "over": "8.75",
+                    "under": "1.04"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "00:00",
+            "home": "Ituzaingo",
+            "away": "San Martin",
+            "kurs_1": "2.82",
+            "kurs_X": "2.83",
+            "kurs_2": "2.55",
+            "btts_tak": "2.10",
+            "btts_nie": "1.65",
+            "dc_1x": "1.43",
+            "dc_12": "1.35",
+            "dc_x2": "1.38",
+            "over_under": {
+                "0.5": {
+                    "over": "1.10",
+                    "under": "5.90"
+                },
+                "1.5": {
+                    "over": "1.49",
+                    "under": "2.43"
+                },
+                "2.5": {
+                    "over": "2.53",
+                    "under": "1.46"
+                },
+                "3.5": {
+                    "over": "4.70",
+                    "under": "1.15"
+                },
+                "4.5": {
+                    "over": "8.50",
+                    "under": "1.04"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "00:00",
+            "home": "Comunicaciones",
+            "away": "Dálmine",
+            "kurs_1": "2.85",
+            "kurs_X": "2.70",
+            "kurs_2": "2.63",
+            "btts_tak": "2.32",
+            "btts_nie": "1.54",
+            "dc_1x": "1.41",
+            "dc_12": "1.38",
+            "dc_x2": "1.37",
+            "over_under": {
+                "0.5": {
+                    "over": "1.13",
+                    "under": "5.10"
+                },
+                "1.5": {
+                    "over": "1.62",
+                    "under": "2.17"
+                },
+                "2.5": {
+                    "over": "2.90",
+                    "under": "1.36"
+                },
+                "3.5": {
+                    "over": "5.60",
+                    "under": "1.11"
+                },
+                "4.5": {
+                    "over": "9.75",
+                    "under": "1.02"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "00:00",
+            "home": "CDT Real Oruro",
+            "away": "Always Ready",
+            "kurs_1": "3.55",
+            "kurs_X": "3.95",
+            "kurs_2": "1.77",
+            "btts_tak": "1.45",
+            "btts_nie": "2.57",
+            "dc_1x": "1.90",
+            "dc_12": "1.21",
+            "dc_x2": "1.25",
+            "over_under": {
+                "0.5": {
+                    "over": "1.01",
+                    "under": "10.75"
+                },
+                "1.5": {
+                    "over": "1.12",
+                    "under": "5.40"
+                },
+                "2.5": {
+                    "over": "1.43",
+                    "under": "2.65"
+                },
+                "3.5": {
+                    "over": "2.05",
+                    "under": "1.69"
+                },
+                "4.5": {
+                    "over": "3.30",
+                    "under": "1.29"
+                },
+                "5.5": {
+                    "over": "5.60",
+                    "under": "1.11"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "02:00",
+            "home": "Manta",
+            "away": "Delfin",
+            "kurs_1": "2.50",
+            "kurs_X": "2.75",
+            "kurs_2": "2.98",
+            "btts_tak": "2.27",
+            "btts_nie": "1.57",
+            "dc_1x": "1.34",
+            "dc_12": "1.36",
+            "dc_x2": "1.45",
+            "over_under": {
+                "0.5": {
+                    "over": "1.12",
+                    "under": "5.25"
+                },
+                "1.5": {
+                    "over": "1.58",
+                    "under": "2.25"
+                },
+                "2.5": {
+                    "over": "2.78",
+                    "under": "1.39"
+                },
+                "3.5": {
+                    "over": "5.25",
+                    "under": "1.12"
+                },
+                "4.5": {
+                    "over": "9.50",
+                    "under": "1.03"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "02:30",
+            "home": "Blooming",
+            "away": "CD Gualberto Villarroel",
+            "kurs_1": "1.44",
+            "kurs_X": "4.40",
+            "kurs_2": "5.60",
+            "btts_tak": "1.61",
+            "btts_nie": "2.18",
+            "dc_1x": "1.12",
+            "dc_12": "1.17",
+            "dc_x2": "2.52",
+            "over_under": {
+                "0.5": {
+                    "over": "1.02",
+                    "under": "10.50"
+                },
+                "1.5": {
+                    "over": "1.13",
+                    "under": "5.10"
+                },
+                "2.5": {
+                    "over": "1.46",
+                    "under": "2.53"
+                },
+                "3.5": {
+                    "over": "2.13",
+                    "under": "1.64"
+                },
+                "4.5": {
+                    "over": "3.50",
+                    "under": "1.26"
+                },
+                "5.5": {
+                    "over": "5.90",
+                    "under": "1.10"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "11:30",
+            "home": "White City FK Beograd",
+            "away": "NS Eagles",
+            "kurs_1": "1.45",
+            "kurs_X": "4.15",
+            "kurs_2": "4.70",
+            "btts_tak": "1.49",
+            "btts_nie": "2.28",
+            "dc_1x": "1.15",
+            "dc_12": "1.16",
+            "dc_x2": "2.43",
+            "over_under": {
+                "3.5": {
+                    "over": "1.89",
+                    "under": "1.64"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "12:00",
+            "home": "Jeonnam Dragons",
+            "away": "Chungnam Asan",
+            "kurs_1": "2.67",
+            "kurs_X": "3.15",
+            "kurs_2": "2.45",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "16:30",
+            "home": "KF Malisheva",
+            "away": "Vllaznia",
+            "kurs_1": "1.87",
+            "kurs_X": "3.40",
+            "kurs_2": "3.42",
+            "btts_tak": "1.65",
+            "btts_nie": "2.02",
+            "dc_1x": "1.25",
+            "dc_12": "1.23",
+            "dc_x2": "1.74",
+            "over_under": {
+                "0.5": {
+                    "over": "1.03",
+                    "under": "7.75"
+                },
+                "1.5": {
+                    "over": "1.22",
+                    "under": "3.55"
+                },
+                "2.5": {
+                    "over": "1.72",
+                    "under": "1.92"
+                },
+                "3.5": {
+                    "over": "2.75",
+                    "under": "1.36"
+                },
+                "4.5": {
+                    "over": "4.70",
+                    "under": "1.13"
+                },
+                "5.5": {
+                    "over": "7.50",
+                    "under": "1.04"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "17:00",
+            "home": "Ordabasy",
+            "away": "Altay Vko",
+            "kurs_1": "1.26",
+            "kurs_X": "4.55",
+            "kurs_2": "8.00",
+            "btts_tak": "2.18",
+            "btts_nie": "1.51",
+            "dc_1x": "1.05",
+            "dc_12": "1.10",
+            "dc_x2": "3.10",
+            "over_under": {
+                "0.5": {
+                    "over": "1.03",
+                    "under": "6.90"
+                },
+                "1.5": {
+                    "over": "1.23",
+                    "under": "3.28"
+                },
+                "2.5": {
+                    "over": "1.73",
+                    "under": "1.84"
+                },
+                "3.5": {
+                    "over": "2.80",
+                    "under": "1.31"
+                },
+                "4.5": {
+                    "over": "4.65",
+                    "under": "1.10"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "17:30",
+            "home": "Jippo",
+            "away": "Mikkelin",
+            "kurs_1": "1.45",
+            "kurs_X": "3.63",
+            "kurs_2": "5.10",
+            "btts_tak": "1.82",
+            "btts_nie": "1.69",
+            "dc_1x": "1.10",
+            "dc_12": "1.15",
+            "dc_x2": "2.22",
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "19:00",
+            "home": "Libertad Loja",
+            "away": "Tecnico Universitario",
+            "kurs_1": "2.42",
+            "kurs_X": "3.03",
+            "kurs_2": "2.65",
+            "btts_tak": "1.80",
+            "btts_nie": "1.84",
+            "dc_1x": "1.39",
+            "dc_12": "1.28",
+            "dc_x2": "1.44",
+            "over_under": {
+                "0.5": {
+                    "over": "1.05",
+                    "under": "6.75"
+                },
+                "1.5": {
+                    "over": "1.32",
+                    "under": "2.92"
+                },
+                "2.5": {
+                    "over": "2.02",
+                    "under": "1.66"
+                },
+                "3.5": {
+                    "over": "3.42",
+                    "under": "1.24"
+                },
+                "4.5": {
+                    "over": "6.00",
+                    "under": "1.07"
+                },
+                "5.5": {
+                    "over": "8.75",
+                    "under": "1.02"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "19:30",
+            "home": "Universitatea Craiova",
+            "away": "ML Vitebsk",
+            "kurs_1": "1.22",
+            "kurs_X": "5.25",
+            "kurs_2": "9.25",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "20:15",
+            "home": "Atert Bissen",
+            "away": "Klaksvik",
+            "kurs_1": "2.72",
+            "kurs_X": "3.40",
+            "kurs_2": "2.18",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "20:30",
+            "home": "Decic",
+            "away": "Liepaja",
+            "kurs_1": "2.58",
+            "kurs_X": "3.27",
+            "kurs_2": "2.35",
+            "btts_tak": "1.77",
+            "btts_nie": "1.86",
+            "dc_1x": "1.47",
+            "dc_12": "1.25",
+            "dc_x2": "1.41",
+            "over_under": {
+                "0.5": {
+                    "over": "1.04",
+                    "under": "7.00"
+                },
+                "1.5": {
+                    "over": "1.30",
+                    "under": "3.02"
+                },
+                "2.5": {
+                    "over": "1.94",
+                    "under": "1.71"
+                },
+                "3.5": {
+                    "over": "3.28",
+                    "under": "1.26"
+                },
+                "4.5": {
+                    "over": "5.75",
+                    "under": "1.08"
+                },
+                "5.5": {
+                    "over": "8.50",
+                    "under": "1.02"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "21:00",
+            "home": "Anglia",
+            "away": "Argentyna",
+            "kurs_1": "2.57",
+            "kurs_X": "3.03",
+            "kurs_2": "3.03",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "21:00",
+            "home": "KF Egnatia Rrogozhine",
+            "away": "FC Petrocub",
+            "kurs_1": "1.69",
+            "kurs_X": "3.25",
+            "kurs_2": "4.50",
+            "btts_tak": "2.07",
+            "btts_nie": "1.62",
+            "dc_1x": "1.16",
+            "dc_12": "1.24",
+            "dc_x2": "1.93",
+            "over_under": {
+                "0.5": {
+                    "over": "1.06",
+                    "under": "6.40"
+                },
+                "1.5": {
+                    "over": "1.38",
+                    "under": "2.68"
+                },
+                "2.5": {
+                    "over": "2.17",
+                    "under": "1.57"
+                },
+                "3.5": {
+                    "over": "3.78",
+                    "under": "1.20"
+                },
+                "4.5": {
+                    "over": "6.60",
+                    "under": "1.05"
+                }
+            }
+        },
+        {
+            "dyscyplina": "pilka_nozna",
+            "dzien": "15.07.2026",
+            "czas": "21:00",
+            "home": "Sutjeska",
+            "away": "Kairat Almaty",
+            "kurs_1": "4.25",
+            "kurs_X": "3.75",
+            "kurs_2": "1.62",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        }
+    ],
+    "koszykowka": [
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "14.07.2026",
+            "czas": "05:00",
+            "home": "Portland",
+            "away": "Minnesota Timb.",
+            "kurs_1": "2.68",
+            "kurs_X": null,
+            "kurs_2": "1.41",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "14.07.2026",
+            "czas": "11:00",
+            "home": "Estonia U20",
+            "away": "Luksemburg U20",
+            "kurs_1": "1.85",
+            "kurs_X": null,
+            "kurs_2": "1.76",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Connecticut Sun",
+            "away": "Portland Fire",
+            "kurs_1": "1.80",
+            "kurs_X": null,
+            "kurs_2": "1.87",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "14.07.2026",
+            "czas": "19:30",
+            "home": "Al Riyadi Beirut",
+            "away": "Antonine",
+            "kurs_1": "1.18",
+            "kurs_X": null,
+            "kurs_2": "3.65",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "14.07.2026",
+            "czas": "22:00",
+            "home": "Houston Rockets",
+            "away": "Philadelphia 76",
+            "kurs_1": "2.43",
+            "kurs_X": null,
+            "kurs_2": "1.47",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "00:00",
+            "home": "Brooklyn Nets",
+            "away": "Sacramento Kings",
+            "kurs_1": "2.08",
+            "kurs_X": null,
+            "kurs_2": "1.64",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "01:00",
+            "home": "Golden State",
+            "away": "Memphis Grizzlies",
+            "kurs_1": "1.60",
+            "kurs_X": null,
+            "kurs_2": "2.15",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "01:00",
+            "home": "Toronto Tempo",
+            "away": "Washington Mystics",
+            "kurs_1": "1.89",
+            "kurs_X": null,
+            "kurs_2": "1.78",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "01:15",
+            "home": "Verdirrojo",
+            "away": "Lagomar",
+            "kurs_1": "1.19",
+            "kurs_X": null,
+            "kurs_2": "3.70",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "01:15",
+            "home": "Olivol Mundial",
+            "away": "Stockolmo",
+            "kurs_1": "3.28",
+            "kurs_X": null,
+            "kurs_2": "1.24",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "01:15",
+            "home": "Club Atletico Olimpia",
+            "away": "Club Atletico Tabare",
+            "kurs_1": "1.45",
+            "kurs_X": null,
+            "kurs_2": "2.38",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "02:00",
+            "home": "Chicago Bulls",
+            "away": "Washington Wizards",
+            "kurs_1": "2.62",
+            "kurs_X": null,
+            "kurs_2": "1.41",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "02:00",
+            "home": "Criollos de Caguas",
+            "away": "Cangrejeros de Santurce",
+            "kurs_1": "1.61",
+            "kurs_X": null,
+            "kurs_2": "2.03",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "02:00",
+            "home": "Atleticos de San German",
+            "away": "Leones De Ponce",
+            "kurs_1": "1.86",
+            "kurs_X": null,
+            "kurs_2": "1.75",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "03:00",
+            "home": "Oklahoma City Thunder",
+            "away": "Denver Nuggets",
+            "kurs_1": "1.80",
+            "kurs_X": null,
+            "kurs_2": "1.87",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "04:00",
+            "home": "LA Lakers",
+            "away": "LA Clippers",
+            "kurs_1": "2.25",
+            "kurs_X": null,
+            "kurs_2": "1.55",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "koszykowka",
+            "dzien": "15.07.2026",
+            "czas": "09:00",
+            "home": "Taranaki Mountainairs",
+            "away": "Nelson Giants",
+            "kurs_1": "1.62",
+            "kurs_X": null,
+            "kurs_2": "2.03",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        }
+    ],
+    "tenis": [
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Bayldon B / Harper P",
+            "away": "Fuchs Z / Thayne W",
+            "kurs_1": "1.24",
+            "kurs_X": null,
+            "kurs_2": "3.30",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Ayeni A / Chopra K",
+            "away": "Giese K / Rafiq A",
+            "kurs_1": "1.05",
+            "kurs_X": null,
+            "kurs_2": "6.20",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Bilicic H / Shepp A",
+            "away": "Martinez L D / Sheehy J",
+            "kurs_1": "4.00",
+            "kurs_X": null,
+            "kurs_2": "1.16",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Perez B / Vandecasteele Q",
+            "away": "Broom C / Jones B",
+            "kurs_1": "2.22",
+            "kurs_X": null,
+            "kurs_2": "1.52",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Bertola R / Echargui M",
+            "away": "Hilderbrand T / Krueger M",
+            "kurs_1": "2.22",
+            "kurs_X": null,
+            "kurs_2": "1.52",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Myneni S / Suresh D",
+            "away": "Lammons N / Withrow J",
+            "kurs_1": "2.80",
+            "kurs_X": null,
+            "kurs_2": "1.33",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "17:00",
+            "home": "Goldhoff G / Harper C",
+            "away": "Cui J / Matsuoka H",
+            "kurs_1": "1.14",
+            "kurs_X": null,
+            "kurs_2": "4.20",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Y. Zhou",
+            "away": "S. Kozlov",
+            "kurs_1": "1.52",
+            "kurs_X": null,
+            "kurs_2": "2.22",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Y. Erel",
+            "away": "L. Pavlovic",
+            "kurs_1": "1.84",
+            "kurs_X": null,
+            "kurs_2": "1.76",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "R. Bertrand",
+            "away": "J. P. Ficovich",
+            "kurs_1": "1.84",
+            "kurs_X": null,
+            "kurs_2": "1.76",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "L. Castelnuovo",
+            "away": "A. Ghibaudo",
+            "kurs_1": "2.55",
+            "kurs_X": null,
+            "kurs_2": "1.39",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Gray A / Stewart H",
+            "away": "Dev S D P / Sinha N K",
+            "kurs_1": "2.13",
+            "kurs_X": null,
+            "kurs_2": "1.56",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Palan D / Santillan A",
+            "away": "Barroso Campos A / Forcano Aparicio I",
+            "kurs_1": "2.15",
+            "kurs_X": null,
+            "kurs_2": "1.55",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Arias B / Zeballos F",
+            "away": "Bertrand R / Kalyanpur A",
+            "kurs_1": "1.29",
+            "kurs_X": null,
+            "kurs_2": "2.95",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Duncan S / Mackinlay J",
+            "away": "Azkara A / Erel Y",
+            "kurs_1": "1.33",
+            "kurs_X": null,
+            "kurs_2": "2.80",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Bittoun Kouzmine C / Ouakaa A",
+            "away": "Pereira T / Vega Hernandez D",
+            "kurs_1": "2.50",
+            "kurs_X": null,
+            "kurs_2": "1.41",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Diaz Ruiz C / Martin Espinar A",
+            "away": "Ganta S K R / Jones M",
+            "kurs_1": "7.80",
+            "kurs_X": null,
+            "kurs_2": "1.02",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Castelnuovo L / Lock C J",
+            "away": "Sanchez Quilez A / Winter Lopez B",
+            "kurs_1": "1.85",
+            "kurs_X": null,
+            "kurs_2": "1.75",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "18:30",
+            "home": "Callejon Hernando S / Tobon M",
+            "away": "Lopez Escribano A / Perez Navarro P",
+            "kurs_1": "1.10",
+            "kurs_X": null,
+            "kurs_2": "4.90",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "14.07.2026",
+            "czas": "20:00",
+            "home": "A. Walton",
+            "away": "S. Gorzny",
+            "kurs_1": "1.12",
+            "kurs_X": null,
+            "kurs_2": "4.60",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "15.07.2026",
+            "czas": "01:59",
+            "home": "M. Kuramochi",
+            "away": "Yeonwoo Ku",
+            "kurs_1": "2.95",
+            "kurs_X": null,
+            "kurs_2": "1.30",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "15.07.2026",
+            "czas": "01:59",
+            "home": "S. Saito",
+            "away": "Y. Naito",
+            "kurs_1": "1.90",
+            "kurs_X": null,
+            "kurs_2": "1.72",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "15.07.2026",
+            "czas": "01:59",
+            "home": "L. Ma",
+            "away": "H. Kaji",
+            "kurs_1": "1.67",
+            "kurs_X": null,
+            "kurs_2": "1.95",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "15.07.2026",
+            "czas": "01:59",
+            "home": "R. Marino",
+            "away": "M. Yamaguchi",
+            "kurs_1": "1.43",
+            "kurs_X": null,
+            "kurs_2": "2.45",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "15.07.2026",
+            "czas": "01:59",
+            "home": "E. Ovcharenko",
+            "away": "A. Vagramov",
+            "kurs_1": "1.80",
+            "kurs_X": null,
+            "kurs_2": "1.80",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "15.07.2026",
+            "czas": "01:59",
+            "home": "H. Kinoshita",
+            "away": "S. Hosogi",
+            "kurs_1": "1.30",
+            "kurs_X": null,
+            "kurs_2": "2.95",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "tenis",
+            "dzien": "15.07.2026",
+            "czas": "11:00",
+            "home": "E. Andreeva",
+            "away": "M. Ristic",
+            "kurs_1": "1.58",
+            "kurs_X": null,
+            "kurs_2": "2.10",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        }
+    ],
+    "pilka_reczna": [],
+    "boks": [
+        {
+            "dyscyplina": "boks",
+            "dzien": "14.07.2026",
+            "czas": "10:50",
+            "home": "Hayato Tsutsumi",
+            "away": "Felix Batista",
+            "kurs_1": "1.02",
+            "kurs_X": null,
+            "kurs_2": "9.75",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "14.07.2026",
+            "czas": "10:50",
+            "home": "Takara Kawaguchi",
+            "away": "Shota Kajino",
+            "kurs_1": "1.51",
+            "kurs_X": null,
+            "kurs_2": "2.40",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "00:00",
+            "home": "Kieran Molloy",
+            "away": "Sean Noakes",
+            "kurs_1": "1.48",
+            "kurs_X": null,
+            "kurs_2": "2.47",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "01:00",
+            "home": "Harlem Eubank",
+            "away": "David Papot",
+            "kurs_1": "2.10",
+            "kurs_X": null,
+            "kurs_2": "1.65",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "02:00",
+            "home": "Leo Atang",
+            "away": "Glenn Williams",
+            "kurs_1": "1.01",
+            "kurs_X": null,
+            "kurs_2": "11.75",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "03:05",
+            "home": "Saul Sanchez",
+            "away": "Bruno Mario Rios Jr.",
+            "kurs_1": "1.19",
+            "kurs_X": null,
+            "kurs_2": "4.20",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "05:00",
+            "home": "Albert Gonzalez",
+            "away": "Aaron Alameda",
+            "kurs_1": "1.07",
+            "kurs_X": null,
+            "kurs_2": "7.00",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "06:00",
+            "home": "Andy Cruz",
+            "away": "Abraham Montoya",
+            "kurs_1": "1.03",
+            "kurs_X": null,
+            "kurs_2": "9.00",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "06:00",
+            "home": "Bryan Flores",
+            "away": "Jonathan Navarro",
+            "kurs_1": "1.12",
+            "kurs_X": null,
+            "kurs_2": "5.40",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        },
+        {
+            "dyscyplina": "boks",
+            "dzien": "15.07.2026",
+            "czas": "07:00",
+            "home": "Diego Pacheco",
+            "away": "Immanuwel Aleem",
+            "kurs_1": "1.03",
+            "kurs_X": null,
+            "kurs_2": "8.75",
+            "btts_tak": null,
+            "btts_nie": null,
+            "dc_1x": null,
+            "dc_12": null,
+            "dc_x2": null,
+            "over_under": {}
+        }
+    ]
+}

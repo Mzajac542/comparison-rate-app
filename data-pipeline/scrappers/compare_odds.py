@@ -2,12 +2,12 @@ import json
 import os
 import unicodedata
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import requests
 
 def send_to_discord(match_name, typ_nazwa, dyscyplina, diff, local_bookie, local_odds, foreign_bookie, foreign_odds, mecz_data, mecz_godzina):
-    webhook_url = "https://discord.com/api/webhooks/1512914675657080952/E1yWfMuACfkduEkEBT8nKNlRIjCXSzmb_yiOfRDQ2LEL_SiNLJ_NasRoHqKV3mu3lvjT"
+    webhook_url = "https://discord.com/api/webhooks/1519387089991635166/s_ia-i77r-FqI2Qf5QZ_JwJMnLNLNjUbQhI8loRV3uSE_55OXycSYnZeFaOcBXr5EpMa"
     
     embed = {
         "title": "🚀 Znaleziono okazję!",
@@ -231,39 +231,23 @@ for em in merged_matches:
     del em["home_w"], em["away_w"]
 
 # =========================================================================
-# SYSTEM OCHRONY PRZED NADPISYWANIEM MECZÓW Z DNIA DZISIEJSZEGO (BUFOROWANIE)
+# SYSTEM FILTROWANIA – TYLKO JUTRO I POJUTRZE (KLUCZOWA ZMIANA)
 # =========================================================================
 strefa_pl = ZoneInfo("Europe/Warsaw")
-dzis_str = datetime.now(strefa_pl).strftime("%Y-%m-%d")
-sciezka_laczna = os.path.join(DATA_DIR, "wszystkie_mecze_laczni.json")
-zostawione_na_dzis = []
+teraz = datetime.now(strefa_pl)
+dzis_str = teraz.strftime("%Y-%m-%d")
 
-if os.path.exists(sciezka_laczna):
-    try:
-        with open(sciezka_laczna, "r", encoding="utf-8") as f:
-            stare_dane = json.load(f)
-            for stary_mecz in stare_dane:
-                if stary_mecz.get("dzien") == dzis_str:
-                    juz_jest = any(
-                        nowy["mecz"] == stary_mecz["mecz"] and 
-                        nowy["dyscyplina"] == stary_mecz["dyscyplina"]
-                        for nowy in merged_matches
-                    )
-                    if not juz_jest:
-                        stary_mecz["_is_cached_today"] = True
-                        zostawione_na_dzis.append(stary_mecz)
-            print(f"[LOG] Uratowano i zabezpieczono {len(zostawione_na_dzis)} archiwalnych meczy z dnia dzisiejszego ({dzis_str}).")
-    except Exception as e:
-        print(f"[UWAGA] Problem z odczytem pamięci podręcznej starego pliku: {e}")
+jutro_str = (teraz + timedelta(days=1)).strftime("%Y-%m-%d")
+pojutrze_str = (teraz + timedelta(days=2)).strftime("%Y-%m-%d")
 
-merged_matches = zostawione_na_dzis + merged_matches
+# Nadpisujemy tablicę zostawiając wyłącznie mecze z jutra i pojutrza
+merged_matches = [em for em in merged_matches if em.get("dzien") in [jutro_str, pojutrze_str]]
 
+# Ustawiamy is_today na False dla wszystkich, aby zachować strukturę dla frontendu
 for em in merged_matches:
-    if em.get("dzien") == dzis_str or em.get("_is_cached_today") is True:
-        em["is_today"] = True
-    else:
-        em["is_today"] = False
+    em["is_today"] = False
 
+print(f"[LOG] Pozostawiono wyłącznie mecze na jutro ({jutro_str}) oraz pojutrze ({pojutrze_str}). Razem: {len(merged_matches)}.")
 # =========================================================================
 
 merged_matches.sort(key=lambda x: (x["dzien"], x["godzina"]))
@@ -274,7 +258,6 @@ with open(os.path.join(DATA_DIR, "wszystkie_mecze_laczni.json"), "w", encoding="
 # ===============================
 # ANALIZA I POWIADOMIENIA Z BLOKADĄ DZIENNA (ANTY-SPAM DISCORD)
 # ===============================
-# DODANO NOWYCH BUKMACHERÓW DO LISTY PL
 POLISH_BOOKIES = ["Superbet", "Fortuna", "Betclic", "STS", "BETFAN", "LV BET"]
 
 SENT_CACHE_FILE = os.path.join(DATA_DIR, "wyslane_discord.json")
@@ -295,6 +278,24 @@ licznik_okazji = 0
 current_active_opportunities = [] 
 
 for em in merged_matches:
+    # -------------------------------------------------------------------------
+    # WARUNEK: POMIJANIE ZAKOŃCZONYCH MECZÓW
+    # -------------------------------------------------------------------------
+    if em.get("dzien") and em.get("godzina"):
+        try:
+            if em["godzina"] != "00:00":
+                mecz_start = datetime.strptime(f"{em['dzien']} {em['godzina']}", "%Y-%m-%d %H:%M").replace(tzinfo=strefa_pl)
+                # Jeśli minęło więcej niż 2.5 godziny od rozpoczęcia, uznajemy mecz za definitywnie zakończony
+                if teraz > mecz_start + timedelta(hours=2, minutes=30):
+                    continue
+            else:
+                # Jeśli brak dokładnej godziny, odrzucamy tylko jeśli dzień już minął
+                if em["dzien"] < dzis_str:
+                    continue
+        except:
+            pass
+    # -------------------------------------------------------------------------
+
     for typ_zakladu in ["1", "X", "2"]:
         polska_max, polska_nazwa = 0, ""
         zagraniczne_kursy = [] 

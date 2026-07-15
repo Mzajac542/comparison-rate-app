@@ -64,40 +64,40 @@ function App() {
   };
 
   const calcResult = () => {
-  const matchSource = calcMatch || selectedMatch;
+    const matchSource = calcMatch || selectedMatch;
 
-  if (!matchSource || !matchSource.kursy) {
-    return { gainA: 0, gainB: 0, diff: 0 };
-  }
+    if (!matchSource || !matchSource.kursy) {
+      return { gainA: 0, gainB: 0, diff: 0 };
+    }
 
-  const getOdd = (b, t) => {
-  const bookieData = matchSource.kursy?.[b];
+    const getOdd = (b, t) => {
+      const bookieData = matchSource.kursy?.[b];
 
-  if (!bookieData) return 0;
+      if (!bookieData) return 0;
 
-  let value;
+      let value;
 
-  if (t === "1") {
-    value = bookieData.home || bookieData["1"];
-  } else if (t === "X") {
-    value = bookieData.draw || bookieData["X"];
-  } else {
-    value = bookieData.away || bookieData["2"];
-  }
+      if (t === "1") {
+        value = bookieData.home || bookieData["1"];
+      } else if (t === "X") {
+        value = bookieData.draw || bookieData["X"];
+      } else {
+        value = bookieData.away || bookieData["2"];
+      }
 
-  if (!value || value === "-") return 0;
+      if (!value || value === "-") return 0;
 
-  const parsed = parseFloat(value);
-  return isNaN(parsed) ? 0 : parsed;
-};
+      const parsed = parseFloat(value);
+      return isNaN(parsed) ? 0 : parsed;
+    };
 
-  const amount = parseFloat(calcInputs.amount) || 0;
+    const amount = parseFloat(calcInputs.amount) || 0;
 
-  const gainA = amount * getOdd(calcInputs.bookieA, calcInputs.type);
-  const gainB = amount * getOdd(calcInputs.bookieB, calcInputs.type);
+    const gainA = amount * getOdd(calcInputs.bookieA, calcInputs.type);
+    const gainB = amount * getOdd(calcInputs.bookieB, calcInputs.type);
 
-  return { gainA, gainB, diff: gainB - gainA };
-};
+    return { gainA, gainB, diff: gainB - gainA };
+  };
 
   // ✅ TIMER
   useEffect(() => {
@@ -127,15 +127,15 @@ function App() {
   }, []);
 
   useEffect(() => {
-  if (selectedMatch) {
-    setCalcInputs({
-      amount: "",
-      type: "",
-      bookieA: "",
-      bookieB: ""
-    });
-  }
-}, [selectedMatch]);
+    if (selectedMatch) {
+      setCalcInputs({
+        amount: "",
+        type: "",
+        bookieA: "",
+        bookieB: ""
+      });
+    }
+  }, [selectedMatch]);
 
 
   // ✅ ZAPISYWANIE DO LOCALSTORAGE PRZY KAŻDEJ ZMIANIE
@@ -159,7 +159,7 @@ function App() {
       .then(data => {
         const mapped = data.map((m, i) => mapRawMatch(m, i));
         setMatches(mapped);
-        setLoading(false);
+        loading && setLoading(false);
       })
       .catch(err => {
         console.error("Błąd pobierania meczów:", err);
@@ -296,6 +296,17 @@ function App() {
     window.scrollTo(0, 0); 
   }
 
+  // ✅ NOWA FUNKCJA RESETUJĄCA DO USTAWIEŃ POCZĄTKOWYCH
+  const handleResetToDefault = () => {
+    setActiveTab("matches");
+    setSelectedSport(null);
+    setSelectedLeague(null);
+    setTimeFilter("all");
+    setSelectedMatch(null);
+    setSearchQuery("");
+    setShowOnlyCommon(false);
+  };
+
   const timeBtnStyle = (filterType) => ({
     padding: "8px 12px",
     borderRadius: "6px",
@@ -325,7 +336,14 @@ function App() {
   return (
     <div className="app">
       <header className="header" style={{ position: "relative" }}>
-      <h1>Comparing <span>Rates</span></h1>
+        {/* ✅ DODANY ONCLICK ORAZ STYLE DO TYTUŁU STRONY */}
+        <h1 
+          onClick={handleResetToDefault} 
+          style={{ cursor: "pointer", userSelect: "none" }}
+          title="Powrót do strony głównej"
+        >
+          Comparing <span>Rates</span>
+        </h1>
         
         <div style={{ 
           position: "absolute", right: "150px", top: "50%", transform: "translateY(-50%)", 
@@ -443,7 +461,7 @@ function App() {
 
                     {/* Wybór Bukmacherów */}
                     <label style={{ color: "#aaa", fontSize: "0.8em" }}>Bukmacher 1:</label>
-                                      
+                                                  
                     <select
                       value={calcInputs.bookieA}
                       onChange={e => setCalcInputs({...calcInputs, bookieA: e.target.value})}
@@ -479,7 +497,7 @@ function App() {
                   {/* Wynik */}
                   <div style={{ marginTop: "20px", padding: "15px", backgroundColor: "#2a2a2a", borderRadius: "8px", textAlign: "center" }}>
                     <p style={{ margin: "0 0 5px 0", color: "#aaa", fontSize: "0.9em" }}>Wygrywasz więcej po postawieniu na Bukmacher 2:</p>
-                    <strong style={{ fontSize: "1.4em", color: calcResult().diff >= 0 ? "#10b981" : "#ef4444" }}>                   
+                    <strong style={{ fontSize: "1.4em", color: calcResult().diff >= 0 ? "#10b981" : "#ef4444" }}>                  
                       {calcInputs.amount && calcInputs.type && calcInputs.bookieA && calcInputs.bookieB
                         ? `${calcResult().diff.toFixed(2)} PLN`
                         : "--"
@@ -508,7 +526,6 @@ function App() {
                   
                   <div style={{ display: 'flex', gap: '5px' }}>
                     <button style={timeBtnStyle("all")} onClick={() => setTimeFilter("all")}>Wszystkie</button>
-                    <button style={timeBtnStyle("today")} onClick={() => setTimeFilter("today")}>Mecze na dzisiaj</button>
                     <button style={timeBtnStyle("tomorrow")} onClick={() => setTimeFilter("tomorrow")}>Mecze na jutro</button>
                     <button style={timeBtnStyle("dayAfter")} onClick={() => setTimeFilter("dayAfter")}>Mecze na pojutrze</button>
                   </div>
