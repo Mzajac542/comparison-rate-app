@@ -17,7 +17,7 @@ DISCIPLINES = {
     "koszykowka": "https://www.betclic.pl/koszykowka-s4",
     "tenis": "https://www.betclic.pl/tenis-s2",
     "pilka_reczna": "https://www.betclic.pl/pilka-reczna-s9",
-    "boks": "https://www.betclic.pl/boks-s16",
+    "boks": "https://www.betclic.pl/boks-sboxing",
 }
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -163,7 +163,6 @@ def smart_scroll_block(driver, blok):
             pass
 
 def scrape_current_page(driver, discipline):
-    # Zabezpieczenie przed brakiem dyscypliny w ofercie (np. wycofana piłka ręczna)
     try:
         WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div.groupEvents"))
@@ -241,7 +240,8 @@ def scrape_current_page(driver, discipline):
                     matches.append({
                         "dyscyplina": discipline, "dzien": jutro_date, "czas": godzina,
                         "home": safe(home), "away": safe(away), "kurs_1": safe(k1), "kurs_X": safe(kx), "kurs_2": safe(k2),
-                        "link": link, "btts_tak": None, "btts_nie": None, "dc_1x": None, "dc_12": None, "dc_x2": None, "over_under": {}
+                        "link": link, "btts_tak": None, "btts_nie": None, "dc_1x": None, "dc_12": None, "dc_x2": None, 
+                        "over_under": {}, "handicap": {}
                     })
                     seen.add(key)
                 except:
@@ -316,7 +316,8 @@ def scrape_current_page(driver, discipline):
                     matches.append({
                         "dyscyplina": discipline, "dzien": pojutrze_date, "czas": godzina,
                         "home": safe(home), "away": safe(away), "kurs_1": safe(k1), "kurs_X": safe(kx), "kurs_2": safe(k2),
-                        "link": link, "btts_tak": None, "btts_nie": None, "dc_1x": None, "dc_12": None, "dc_x2": None, "over_under": {}
+                        "link": link, "btts_tak": None, "btts_nie": None, "dc_1x": None, "dc_12": None, "dc_x2": None, 
+                        "over_under": {}, "handicap": {}
                     })
                     seen.add(key)
                 except:
@@ -327,100 +328,113 @@ def scrape_current_page(driver, discipline):
     # =======================================================
     # KROK 3: FAZA 2 (Rynki poboczne) CAŁKOWICIE POZA PĘTLAMI SKANOWANIA STRONY GŁÓWNEJ
     # =======================================================
+    JS_GET_MARKET_TEXT = """
+        var marketName = arguments[0];
+        var allElements = document.querySelectorAll('h2, h3, p, span, div');
+        var targetNode = null;
+
+        for (var i = 0; i < allElements.length; i++) {
+            var text = allElements[i].innerText;
+            if (!text) continue;
+            var cleanText = text.replace(/ⓘ/g, '').replace(/\\n/g, '').trim();
+            if (cleanText === marketName && text.length < marketName.length + 10) {
+                targetNode = allElements[i];
+                break;
+            }
+        }
+
+        if (!targetNode) return "";
+
+        // Metoda 1: Szukamy dedykowanego kontenera rynku na Betclic
+        var container = targetNode.closest('app-market, .marketBox, .card');
+        if (container) {
+            return container.innerText || "";
+        }
+
+        // Metoda 2: Fallback (idziemy do góry, ale ostrożnie by nie wziąć innych rynków)
+        var current = targetNode;
+        var lastValid = current;
+        for (var j = 0; j < 6; j++) {
+            var parent = current.parentElement;
+            if (!parent) break;
+            
+            // Liczymy nagłówki H2. Jeśli jest ich więcej niż 1, to znaczy, 
+            // że wyszliśmy za wysoko i łapiemy sąsiednie rynki. Przerywamy wspinaczkę.
+            var h2s = Array.from(parent.querySelectorAll('h2')).filter(function(h) { 
+                return h.innerText.trim().length > 0; 
+            });
+            
+            if (h2s.length > 1) {
+                break; 
+            }
+            
+            lastValid = parent;
+            current = parent;
+        }
+        return lastValid.innerText || "";
+    """
+
+    JS_EXPAND_MARKET = """
+        var marketName = arguments[0];
+        var allElements = document.querySelectorAll('h2, h3, p, span, div');
+        var targetNode = null;
+
+        for (var i = 0; i < allElements.length; i++) {
+            var text = allElements[i].innerText;
+            if (!text) continue;
+            var cleanText = text.replace(/ⓘ/g, '').replace(/\\n/g, '').trim();
+            if (cleanText === marketName && text.length < marketName.length + 10) {
+                targetNode = allElements[i];
+                break;
+            }
+        }
+
+        if (targetNode) {
+            var current = targetNode.closest('app-market, .marketBox, .card') || targetNode;
+            
+            // Jeśli nie mamy kontenera, szukamy go fallbackiem
+            if (!targetNode.closest('app-market, .marketBox, .card')) {
+                for (var j = 0; j < 5; j++) {
+                    var parent = current.parentElement;
+                    if (!parent) break;
+                    var h2s = Array.from(parent.querySelectorAll('h2')).filter(function(h) { return h.innerText.trim().length > 0; });
+                    if (h2s.length > 1) break;
+                    current = parent;
+                }
+            }
+            
+            // Wewnątrz wyznaczonego kontenera szukamy przycisku rozwijania
+            var btns = current.querySelectorAll('div[role="button"], button');
+            for (var k = btns.length - 1; k >= 0; k--) {
+                var btnText = btns[k].innerText || "";
+                if (!btnText.match(/\\d+[.,]\\d{2}/)) {
+                    var svg = btns[k].querySelector('svg');
+                    if (svg || btnText === '' || btnText.toLowerCase().includes('pokaż')) {
+                        var clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
+                        btns[k].dispatchEvent(clickEvent);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    """
+
+    JS_CLICK_TAB = """
+        var tabName = arguments[0];
+        var tabs = document.querySelectorAll('.category-tab, .marketcategory-tab, div[role="tab"], span, a');
+        for (var i = 0; i < tabs.length; i++) {
+            if (tabs[i].innerText.trim().toLowerCase() === tabName.toLowerCase()) {
+                var clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
+                tabs[i].dispatchEvent(clickEvent);
+                return true;
+            }
+        }
+        return false;
+    """
+
     if discipline == "pilka_nozna" and len(matches) > 0:
         print(f"\n[FAZA 2] Pobieranie rynków pobocznych dla {len(matches)} meczów piłki nożnej (to potrwa chwilę)...")
-        
-        JS_GET_MARKET_TEXT = """
-            var marketName = arguments[0];
-            var allElements = document.querySelectorAll('h2, h3, p, span, div');
-            var targetNode = null;
-
-            for (var i = 0; i < allElements.length; i++) {
-                var text = allElements[i].innerText;
-                if (!text) continue;
-                var cleanText = text.replace(/ⓘ/g, '').replace(/\\n/g, '').trim();
-                if (cleanText === marketName && text.length < marketName.length + 10) {
-                    targetNode = allElements[i];
-                    break;
-                }
-            }
-
-            if (!targetNode) return "";
-
-            // Metoda 1: Szukamy dedykowanego kontenera rynku na Betclic
-            var container = targetNode.closest('app-market, .marketBox, .card');
-            if (container) {
-                return container.innerText || "";
-            }
-
-            // Metoda 2: Fallback (idziemy do góry, ale ostrożnie by nie wziąć innych rynków)
-            var current = targetNode;
-            var lastValid = current;
-            for (var j = 0; j < 6; j++) {
-                var parent = current.parentElement;
-                if (!parent) break;
-                
-                // Liczymy nagłówki H2. Jeśli jest ich więcej niż 1, to znaczy, 
-                // że wyszliśmy za wysoko i łapiemy sąsiednie rynki. Przerywamy wspinaczkę.
-                var h2s = Array.from(parent.querySelectorAll('h2')).filter(function(h) { 
-                    return h.innerText.trim().length > 0; 
-                });
-                
-                if (h2s.length > 1) {
-                    break; 
-                }
-                
-                lastValid = parent;
-                current = parent;
-            }
-            return lastValid.innerText || "";
-        """
-
-        JS_EXPAND_MARKET = """
-            var marketName = arguments[0];
-            var allElements = document.querySelectorAll('h2, h3, p, span, div');
-            var targetNode = null;
-
-            for (var i = 0; i < allElements.length; i++) {
-                var text = allElements[i].innerText;
-                if (!text) continue;
-                var cleanText = text.replace(/ⓘ/g, '').replace(/\\n/g, '').trim();
-                if (cleanText === marketName && text.length < marketName.length + 10) {
-                    targetNode = allElements[i];
-                    break;
-                }
-            }
-
-            if (targetNode) {
-                var current = targetNode.closest('app-market, .marketBox, .card') || targetNode;
-                
-                // Jeśli nie mamy kontenera, szukamy go fallbackiem
-                if (!targetNode.closest('app-market, .marketBox, .card')) {
-                    for (var j = 0; j < 5; j++) {
-                        var parent = current.parentElement;
-                        if (!parent) break;
-                        var h2s = Array.from(parent.querySelectorAll('h2')).filter(function(h) { return h.innerText.trim().length > 0; });
-                        if (h2s.length > 1) break;
-                        current = parent;
-                    }
-                }
-                
-                // Wewnątrz wyznaczonego kontenera szukamy przycisku rozwijania
-                var btns = current.querySelectorAll('div[role="button"], button');
-                for (var k = btns.length - 1; k >= 0; k--) {
-                    var btnText = btns[k].innerText || "";
-                    if (!btnText.match(/\\d+[.,]\\d{2}/)) {
-                        var svg = btns[k].querySelector('svg');
-                        if (svg || btnText === '' || btnText.toLowerCase().includes('pokaż')) {
-                            var clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
-                            btns[k].dispatchEvent(clickEvent);
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        """
 
         for idx, match in enumerate(matches):
             if not match.get("link"):
@@ -479,6 +493,135 @@ def scrape_current_page(driver, discipline):
                 print(f"  -> [{idx+1}/{len(matches)}] Błąd wczytywania detali: {match['home']} vs {match['away']}")
 
         print("[FAZA 2] Zakończono pobieranie detali.\n")
+
+    # =======================================================
+    # DODANA OBSŁUGA KOSZYKÓWKI (Zgodnie z wymaganiami)
+    # =======================================================
+    elif discipline == "koszykowka" and len(matches) > 0:
+        print(f"\n[FAZA 2] Pobieranie rynków pobocznych dla {len(matches)} meczów koszykówki (to potrwa chwilę)...")
+        
+        for idx, match in enumerate(matches):
+            if not match.get("link"):
+                continue
+            
+            try:
+                driver.get(match["link"])
+                
+                WebDriverWait(driver, 5).until(
+                    EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'marketBox') or contains(@class, 'card')]"))
+                )
+                time.sleep(0.5)
+                
+                # ---- 1. SUMA PUNKTÓW (Over / Under) ----
+                try:
+                    # Spróbuj najpierw rozwinąć na domyślnej zakładce "Top"
+                    driver.execute_script(JS_EXPAND_MARKET, 'Suma punktów')
+                    time.sleep(0.3)
+                    ou_text = driver.execute_script(JS_GET_MARKET_TEXT, 'Suma punktów')
+                    
+                    # Fallback: Jeśli pusty, kliknij zakładkę "Punkty" i spróbuj ponownie
+                    if not ou_text:
+                        driver.execute_script(JS_CLICK_TAB, 'Punkty')
+                        time.sleep(0.4)
+                        driver.execute_script(JS_EXPAND_MARKET, 'Suma punktów')
+                        time.sleep(0.3)
+                        ou_text = driver.execute_script(JS_GET_MARKET_TEXT, 'Suma punktów')
+                    
+                    if ou_text:
+                        ou_lines = [line.strip() for line in ou_text.split('\n') if line.strip()]
+                        # Usuń nagłówek z listy
+                        if ou_lines and "suma" in ou_lines[0].lower():
+                            ou_lines = ou_lines[1:]
+                        
+                        i = 0
+                        while i + 3 < len(ou_lines):
+                            over_text = ou_lines[i]
+                            over_odd = ou_lines[i+1]
+                            under_text = ou_lines[i+2]
+                            under_odd = ou_lines[i+3]
+                            
+                            if "powyżej" in over_text.lower() and "poniżej" in under_text.lower():
+                                over_match = re.search(r"powyżej\s+(\d+(?:[.,]\d+)?)", over_text, re.IGNORECASE)
+                                under_match = re.search(r"poniżej\s+(\d+(?:[.,]\d+)?)", under_text, re.IGNORECASE)
+                                
+                                if over_match and under_match:
+                                    line_val = over_match.group(1).replace(",", ".")
+                                    o_odd = over_odd.strip().replace(",", ".")
+                                    u_odd = under_odd.strip().replace(",", ".")
+                                    
+                                    try:
+                                        float(o_odd)
+                                        float(u_odd)
+                                        match["over_under"][line_val] = {
+                                            "over": o_odd,
+                                            "under": u_odd
+                                        }
+                                    except ValueError:
+                                        pass
+                            i += 4
+                except Exception as e:
+                    print(f"      [OSTRZEŻENIE] Błąd podczas pobierania Suma punktów: {e}")
+
+                # ---- 2. WYNIK HANDICAP ----
+                try:
+                    # Spróbuj najpierw rozwinąć na domyślnej zakładce "Top"
+                    driver.execute_script(JS_EXPAND_MARKET, 'Wynik handicap')
+                    time.sleep(0.3)
+                    hc_text = driver.execute_script(JS_GET_MARKET_TEXT, 'Wynik handicap')
+                    
+                    # Fallback: Jeśli pusty, kliknij zakładkę "Wynik", potem pod-zakładkę "Handicap"
+                    if not hc_text:
+                        driver.execute_script(JS_CLICK_TAB, 'Wynik')
+                        time.sleep(0.4)
+                        driver.execute_script(JS_CLICK_TAB, 'Handicap')
+                        time.sleep(0.4)
+                        driver.execute_script(JS_EXPAND_MARKET, 'Wynik handicap')
+                        time.sleep(0.3)
+                        hc_text = driver.execute_script(JS_GET_MARKET_TEXT, 'Wynik handicap')
+                    
+                    if hc_text:
+                        hc_lines = [line.strip() for line in hc_text.split('\n') if line.strip()]
+                        # Usuń nagłówek z listy
+                        if hc_lines and "handicap" in hc_lines[0].lower():
+                            hc_lines = hc_lines[1:]
+                        
+                        i = 0
+                        while i + 3 < len(hc_lines):
+                            home_text = hc_lines[i]
+                            home_odd = hc_lines[i+1]
+                            away_text = hc_lines[i+2]
+                            away_odd = hc_lines[i+3]
+                            
+                            # Wyciągamy samą linię handicapu z końca tekstu (np. Otago Nuggets -13,5 -> -13,5)
+                            home_hc_match = re.search(r"([+-]?\d+(?:[.,]\d+)?)$", home_text.strip())
+                            away_hc_match = re.search(r"([+-]?\d+(?:[.,]\d+)?)$", away_text.strip())
+                            
+                            if home_hc_match and away_hc_match:
+                                home_hc = home_hc_match.group(1).replace(",", ".")
+                                away_hc = away_hc_match.group(1).replace(",", ".")
+                                h_odd = home_odd.strip().replace(",", ".")
+                                a_odd = away_odd.strip().replace(",", ".")
+                                
+                                try:
+                                    float(h_odd)
+                                    float(a_odd)
+                                    # Przypisujemy do klucza będącego linią handicapu gospodarzy (home)
+                                    match["handicap"][home_hc] = {
+                                        "home": h_odd,
+                                        "away": a_odd
+                                    }
+                                except ValueError:
+                                    pass
+                            i += 4
+                except Exception as e:
+                    print(f"      [OSTRZEŻENIE] Błąd podczas pobierania Wynik handicap: {e}")
+                
+                print(f"  -> [{idx+1}/{len(matches)}] Zaktualizowano pomyślnie (koszykówka): {match['home']} vs {match['away']}")
+                
+            except Exception as e:
+                print(f"  -> [{idx+1}/{len(matches)}] Błąd wczytywania szczegółów koszykówki: {match['home']} vs {match['away']}")
+                
+        print("[FAZA 2] Zakończono pobieranie detali koszykówki.\n")
 
     print(f"[SUKCES] {len(matches)} meczów wyodrębnionych do zapisu.")
     for m in matches:

@@ -52,7 +52,7 @@ def scroll_to_bottom(page):
 # ===============================
 
 def normalize_text(value):
-    if value is None:
+    if not value:
         return ""
 
     value = str(value).lower().strip()
@@ -140,7 +140,7 @@ def extract_line(text):
         return None
 
     text = str(text).replace(",", ".")
-    match = re.search(r"(\d+(?:\.\d+)?)", text)
+    match = re.search(r"([-+]?\d+(?:\.\d+)?)", text)
 
     if match:
         return match.group(1)
@@ -156,24 +156,18 @@ def deep_merge_dict(target, source):
             target[key] = value
 
 
-def classify_and_save_market(result, market_name, odds_list):
-    """
-    Przypisuje znaleziony market do odpowiednich kategorii.
-    Wykorzystuje ścisłe dopasowanie nazwy rynku (Exact Match), 
-    aby zablokować rynki specyficzne dla konkretnych drużyn lub części meczu.
-    """
+def classify_and_save_market(result, market_name, odds_list, home="", away=""):
     if not market_name or not isinstance(odds_list, list):
         return
 
     market_norm = normalize_text(market_name)
+    home_norm = normalize_text(home)
+    away_norm = normalize_text(away)
 
     # -------------------------------
-    # BTTS / Obie drużyny strzelą (Tylko czysty rynek)
+    # BTTS / Obie drużyny strzelą
     # -------------------------------
-    # Akceptujemy tylko dokładne nazwy głównych rynków
     if market_norm in ["obie druzyny strzela", "both teams to score", "btts", "obie druzyny strzela (btts)"]:
-        
-        # Sprawdzamy czy selekcje nie pachną zakładem łączonym
         valid_btts = True
         for odd in odds_list:
             n_norm = normalize_text(get_odd_name(odd))
@@ -195,7 +189,7 @@ def classify_and_save_market(result, market_name, odds_list):
         return
 
     # -------------------------------
-    # Podwójna szansa (Tylko czysty mecz)
+    # Podwójna szansa
     # -------------------------------
     if market_norm in ["podwojna szansa", "double chance"]:
         valid_dc = True
@@ -212,6 +206,8 @@ def classify_and_save_market(result, market_name, odds_list):
                 price = get_price(odd)
                 if price is None:
                     continue
+                
+                # Poprawne, bezpośrednie przypisanie
                 if name in ["1X", "X1"]:
                     result["podwojna_szansa"]["1X"] = str(price)
                 elif name in ["12", "21"]:
@@ -221,10 +217,15 @@ def classify_and_save_market(result, market_name, odds_list):
         return
 
     # -------------------------------
-    # Over / Under (Gole w całym meczu - czyste linie)
+    # Over / Under (Gole w Piłce / Punkty w Koszykówce)
     # -------------------------------
-    # Akceptujemy tylko stricte określone nazwy globalne
-    if market_norm in ["liczba goli", "total goals", "gole powyzej/ponizej", "suma goli"]:
+    valid_ou_markets_exact = [
+        "liczba goli", "total goals", "suma goli",
+        "liczba punktow (z dogrywka)", "liczba punktow", "total points"
+    ]
+    
+    # TWARDE DOPASOWANIE - eliminuje wyciąganie U23 i statystyk konkretnych drużyn
+    if market_norm in valid_ou_markets_exact:
         for odd in odds_list:
             name = get_odd_name(odd)
             name_norm = normalize_text(name)
@@ -233,15 +234,15 @@ def classify_and_save_market(result, market_name, odds_list):
             if price is None:
                 continue
 
-            # Rygorystyczny odsiew selekcji totalsów - odrzucamy 3-way i combo
             if any(x in name_norm for x in [
-                "dokladnie", "exact", "remis", "wynik", "strzeli", "tak", "nie", 
-                " i ", "oraz", "1x", "x2", "12", "gospodarz", "gosc"
+                "dokladnie", "exact", "remis", "wynik", "strzeli", "tak", "nie",
+                " i ", "oraz", "1x", "x2", "12", "gospodarz", "gosc", "polowa", "kwarta"
             ]):
                 continue
 
             line_from_obj = get_line(odd)
-            line = line_from_obj or extract_line(name) or extract_line(market_name)
+            # Usunięto extract_line(market_name) bo powodowało łapanie "23" z "U23"
+            line = line_from_obj or extract_line(name)
 
             if not line:
                 continue
@@ -266,13 +267,71 @@ def classify_and_save_market(result, market_name, odds_list):
                 del result["over_under"][line]
 
         return
+        
+    # -------------------------------
+    # Handicap (Koszykówka)
+    # -------------------------------
+    valid_handicap_exact = [
+        "handicap", "handicap (z dogrywka)", "handicap punktowy", "handicap punktowy (z dogrywka)"
+    ]
+
+    # TWARDE DOPASOWANIE
+    if market_norm in valid_handicap_exact:
+        for odd in odds_list:
+            name = get_odd_name(odd)
+            name_norm = normalize_text(name)
+            price = get_price(odd)
+            
+            if price is None:
+                continue
+                
+            line_from_obj = get_line(odd)
+            line_str = line_from_obj or extract_line(name)
+            
+            if not line_str:
+                continue
+                
+            try:
+                val = float(line_str)
+            except:
+                continue
+
+            result.setdefault("handicap", {})
+            
+            # Wyszukiwanie czy to linia gospodarza czy gościa
+            is_home = name_norm == "1"
+            if home_norm and (name_norm == home_norm or home_norm in name_norm):
+                is_home = True
+                
+            is_away = name_norm == "2"
+            if away_norm and (name_norm == away_norm or away_norm in name_norm):
+                is_away = True
+            
+            # Zawsze układamy strukturę pod linię gospodarza.
+            if is_home:
+                line_key = f"+{val}" if val > 0 else str(val)
+                if line_key.endswith(".0"): line_key = line_key[:-2]
+                
+                result["handicap"].setdefault(line_key, {})
+                result["handicap"][line_key]["home"] = str(price)
+                
+            elif is_away:
+                home_val = -val
+                line_key = f"+{home_val}" if home_val > 0 else str(home_val)
+                if line_key.endswith(".0"): line_key = line_key[:-2]
+                
+                result["handicap"].setdefault(line_key, {})
+                result["handicap"][line_key]["away"] = str(price)
+
+        return
 
 
-def extract_side_markets(obj):
+def extract_side_markets(obj, home="", away=""):
     side_markets = {
         "btts": {},
         "podwojna_szansa": {},
-        "over_under": {}
+        "over_under": {},
+        "handicap": {}
     }
 
     odds_container_keys = [
@@ -297,7 +356,9 @@ def extract_side_markets(obj):
                         classify_and_save_market(
                             side_markets,
                             current_market_name,
-                            odds_with_prices
+                            odds_with_prices,
+                            home,
+                            away
                         )
 
             for value in node.values():
@@ -400,7 +461,7 @@ def iter_events_by_id(obj, target_id):
 def scrape_superbet():
     results_by_key = {}
     order_keys = []
-    football_event_urls = {}
+    detail_event_urls = {}
     event_id_to_key = {}
 
     jutro, pojutrze = get_superbet_days()
@@ -445,10 +506,10 @@ def scrape_superbet():
         else:
             existing = results_by_key[key]
             for k in ["kurs_1", "kurs_X", "kurs_2", "url"]:
-                if result.get(k) and result.get(k) != "N/A":
+                if result.get(k) and result.get(k) is not None:
                     existing[k] = result[k]
 
-            if result.get("dyscyplina") == "Piłka nożna":
+            if result.get("dyscyplina") in ["Piłka nożna", "Koszykówka"]:
                 existing.setdefault("rynki_poboczne", {})
                 deep_merge_dict(existing["rynki_poboczne"], result.get("rynki_poboczne", {}))
 
@@ -493,6 +554,9 @@ def scrape_superbet():
         teams = name.split("·")
         if len(teams) != 2:
             return
+            
+        home_team = teams[0].strip()
+        away_team = teams[1].strip()
 
         odd_1 = odd_X = odd_2 = None
         if len(odds) == 2:
@@ -508,17 +572,17 @@ def scrape_superbet():
             "dyscyplina": detected_sport,
             "dzien": dzien,
             "godzina": godzina,
-            "home": teams[0].strip(),
-            "away": teams[1].strip(),
-            "kurs_1": str(odd_1) if odd_1 else "N/A",
-            "kurs_X": str(odd_X) if odd_X else "N/A",
-            "kurs_2": str(odd_2) if odd_2 else "N/A",
+            "home": home_team,
+            "away": away_team,
+            "kurs_1": str(odd_1) if odd_1 else None,
+            "kurs_X": str(odd_X) if odd_X else None,
+            "kurs_2": str(odd_2) if odd_2 else None,
             "url": f"https://superbet.pl/zaklady-bukmacherskie/wydarzenie/{event_id_str}",
             "_event_id": event_id_str
         }
 
-        if detected_sport == "Piłka nożna":
-            result["rynki_poboczne"] = extract_side_markets(event)
+        if detected_sport in ["Piłka nożna", "Koszykówka"]:
+            result["rynki_poboczne"] = extract_side_markets(event, home=home_team, away=away_team)
 
         upsert_result(result)
 
@@ -556,8 +620,11 @@ def scrape_superbet():
                         
                     if ev_id:
                         key = event_id_to_key.get(str(ev_id))
-                        if key and key in results_by_key and results_by_key[key].get("dyscyplina") == "Piłka nożna":
-                            side_markets = extract_side_markets(obj)
+                        if key and key in results_by_key and results_by_key[key].get("dyscyplina") in ["Piłka nożna", "Koszykówka"]:
+                            home_team = results_by_key[key].get("home", "")
+                            away_team = results_by_key[key].get("away", "")
+                            
+                            side_markets = extract_side_markets(obj, home=home_team, away=away_team)
                             if side_markets:
                                 results_by_key[key].setdefault("rynki_poboczne", {})
                                 deep_merge_dict(results_by_key[key]["rynki_poboczne"], side_markets)
@@ -597,8 +664,8 @@ def scrape_superbet():
                 page.goto(url, wait_until="domcontentloaded")
                 page.wait_for_timeout(2000)
 
-                if sport_name == "Piłka nożna":
-                    print("[SCROLL] Ładowanie API i dynamiczne zbieranie linków...")
+                if sport_name in ["Piłka nożna", "Koszykówka"]:
+                    print(f"[SCROLL] Ładowanie API i dynamiczne zbieranie linków dla: {sport_name}...")
                     try:
                         page.mouse.click(1100, 300)
                         page.wait_for_timeout(500)
@@ -611,11 +678,11 @@ def scrape_superbet():
                         page.wait_for_timeout(800)
                         
                         current_links = collect_event_links_from_page(page)
-                        football_event_urls.update(current_links)
+                        detail_event_urls.update(current_links)
 
-                    print(f"[LINKI] Zebranych unikalnych linków piłkarskich: {len(football_event_urls)}")
+                    print(f"[LINKI] Zebranych unikalnych linków do tej pory: {len(detail_event_urls)}")
 
-                    for event_id, real_url in football_event_urls.items():
+                    for event_id, real_url in detail_event_urls.items():
                         key = event_id_to_key.get(str(event_id))
                         if key and key in results_by_key:
                             results_by_key[key]["url"] = real_url
@@ -626,12 +693,15 @@ def scrape_superbet():
 
             page.wait_for_timeout(1000)
 
-        print(f"\n[SUPERBET] Szczegóły piłki nożnej: {len(football_event_urls)} eventów")
+        print(f"\n[SUPERBET] Szczegóły: {len(detail_event_urls)} eventów do sprawdzenia głębiej")
 
-        for event_id, event_url in list(football_event_urls.items()):
-            current_sport_hint = "Piłka nożna"
+        for event_id, event_url in list(detail_event_urls.items()):
+            key = event_id_to_key.get(str(event_id))
+            sport_val = results_by_key.get(key, {}).get("dyscyplina") if key else "Inne"
+            
+            current_sport_hint = sport_val
             current_detail_event_id = event_id
-            print(f"--> DETAIL {event_url}")
+            print(f"--> DETAIL {event_url} ({sport_val})")
 
             try:
                 page.goto(event_url, wait_until="domcontentloaded", timeout=20000)
@@ -651,18 +721,64 @@ def scrape_superbet():
         browser.close()
 
     # ===============================
-    # FILTR I ZAPIS
+    # FILTR I FORMATOWANIE JSONA
     # ===============================
 
     unique = [results_by_key[key] for key in order_keys]
     filtered = [m for m in unique if m["dzien"] in [data_jutro, data_pojutrze]]
 
     for match in filtered:
+        # Usuwanie tymczasowych zmiennych z prefixem "_"
         keys_to_remove = [k for k in match.keys() if k.startswith("_")]
         for key in keys_to_remove:
             del match[key]
-        if match.get("dyscyplina") != "Piłka nożna":
-            match.pop("rynki_poboczne", None)
+            
+        # Standaryzacja kursów na wypadek starych zmiennych i zablokowanie X dla Kosza
+        for k in ["kurs_1", "kurs_X", "kurs_2"]:
+            if match.get(k) == "N/A" or match.get(k) is None:
+                match[k] = None
+        
+        if match.get("dyscyplina") == "Koszykówka":
+            match["kurs_X"] = None
+            
+        rynki = match.pop("rynki_poboczne", {})
+        
+        # Odrzucamy rynki poboczne dla sportów innych niż piłka i koszykówka
+        if match.get("dyscyplina") not in ["Piłka nożna", "Koszykówka"]:
+            continue
+
+        # Dynamiczne generowanie struktury na podstawie dyscypliny
+        if match.get("dyscyplina") == "Piłka nożna":
+            # Piłka nożna: btts, over_under i podwójna szansa (brak handicapu)
+            match["btts_tak"] = None
+            match["btts_nie"] = None
+            match["dc_1x"] = None
+            match["dc_12"] = None
+            match["dc_x2"] = None
+            match["over_under"] = {}
+            
+            if "btts" in rynki:
+                match["btts_tak"] = rynki["btts"].get("tak")
+                match["btts_nie"] = rynki["btts"].get("nie")
+                
+            if "podwojna_szansa" in rynki:
+                match["dc_1x"] = rynki["podwojna_szansa"].get("1X")
+                match["dc_12"] = rynki["podwojna_szansa"].get("12")
+                match["dc_x2"] = rynki["podwojna_szansa"].get("X2")
+                
+            if "over_under" in rynki and rynki["over_under"]:
+                match["over_under"] = rynki["over_under"]
+                
+        elif match.get("dyscyplina") == "Koszykówka":
+            # Koszykówka: over_under i handicap (brak btts i podwójnej szansy)
+            match["over_under"] = {}
+            match["handicap"] = {}
+            
+            if "over_under" in rynki and rynki["over_under"]:
+                match["over_under"] = rynki["over_under"]
+                
+            if "handicap" in rynki and rynki["handicap"]:
+                match["handicap"] = rynki["handicap"]
 
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -671,9 +787,9 @@ def scrape_superbet():
     os.makedirs(DATA_DIR, exist_ok=True)
 
     with open(FILE_PATH, "w", encoding="utf-8") as f:
-        json.dump(filtered, f, indent=2, ensure_ascii=False)
+        json.dump(filtered, f, indent=4, ensure_ascii=False)
 
-    print(f"\n[OK] Zapisano {len(filtered)} meczy")
+    print(f"\n[OK] Zapisano {len(filtered)} meczy do {FILE_PATH}")
     return filtered
 
 
@@ -693,16 +809,6 @@ def run_diagnostics(data):
     for k, v in sports.items():
         print(f"{k}: {v}")
 
-    football = [m for m in data if m.get("dyscyplina") == "Piłka nożna"]
-    if football:
-        print("\nRynki poboczne - piłka nożna:")
-        market_counter = Counter()
-        for match in football:
-            for market_name, market_data in match.get("rynki_poboczne", {}).items():
-                if market_data:
-                    market_counter[market_name] += 1
-        for k, v in market_counter.items():
-            print(f"{k}: {v}")
     print("==========================\n")
 
 

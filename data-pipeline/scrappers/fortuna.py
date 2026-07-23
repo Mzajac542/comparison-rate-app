@@ -6,7 +6,7 @@ import re
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
-print("### FORTUNA OMNI-RADAR V24 (OPTIMIZED TAB-CLICKER & PERFECT-MATCH) ###")
+print("### FORTUNA OMNI-RADAR V27 (FIXED BTTS, HANDICAP & OVER/UNDER) ###")
 
 teraz_pl = datetime.now(ZoneInfo("Europe/Warsaw"))
 
@@ -38,7 +38,7 @@ PL_NAMES = {
     "Pilka nozna": "Piłka nożna",
     "Koszykowka": "Koszykówka",
     "Tenis": "Tenis",
-    "Pilka ręczna": "Piłka ręczna",
+    "Pilka reczna": "Piłka ręczna",
     "Boks": "Boks",
     "Inne": "Inne"
 }
@@ -52,7 +52,6 @@ GLOBAL_NODES = {}
 ALL_MATCH_URLS = set()
 CURRENT_MATCH_ID = None
 
-
 def extract_json_objects(data):
     fixtures = []
     markets = []
@@ -60,7 +59,9 @@ def extract_json_objects(data):
     def _scan(node, current_fixture_id=None):
         if isinstance(node, dict):
             node_id = str(node.get("id", ""))
-
+            if not node_id:
+                node_id = str(node.get("objectId") or node.get("key") or "")
+                
             if node_id:
                 GLOBAL_NODES[node_id] = node
             
@@ -75,7 +76,6 @@ def extract_json_objects(data):
                     node["_injected_fixture_id"] = current_fixture_id
                 markets.append(node)
                 
-            # Zbieranie relacji z tablic znormalizowanego stanu (Redux/Apollo)
             if current_fixture_id:
                 for k, v in node.items():
                     if isinstance(v, list):
@@ -86,6 +86,11 @@ def extract_json_objects(data):
                         GLOBAL_MARKET_MAP[v] = current_fixture_id
                         
             for k, v in node.items():
+                if isinstance(v, dict):
+                    if "id" not in v and isinstance(k, str) and (k.startswith("ufo:") or k.startswith("Outcome:") or k.startswith("Market:")):
+                        v["id"] = k
+                        GLOBAL_NODES[k] = v
+
                 if isinstance(v, str) and "/zaklady-bukmacherskie/" in v:
                     clean_url = v.split('?')[0]
                     url_parts = clean_url.split('/')
@@ -148,6 +153,23 @@ def parse_match_date(match_obj):
                 continue
     return None
 
+def flatten_outcomes(raw):
+    if isinstance(raw, list):
+        res = []
+        for item in raw:
+            if isinstance(item, dict):
+                if "node" in item: res.append(item["node"])
+                elif "edges" in item: res.extend(flatten_outcomes(item["edges"]))
+                else: res.append(item)
+            else:
+                res.append(item)
+        return res
+    elif isinstance(raw, dict):
+        if "edges" in raw: return flatten_outcomes(raw["edges"])
+        if "nodes" in raw: return flatten_outcomes(raw["nodes"])
+        if "items" in raw: return flatten_outcomes(raw["items"])
+        return list(raw.values())
+    return []
 
 def handle_response(response):
     if response.status != 200: return
@@ -157,8 +179,18 @@ def handle_response(response):
     except Exception: 
         return
 
-    fixtures, markets = extract_json_objects(data)
+    if isinstance(data, dict) and "data" in data:
+        f, m = extract_json_objects(data["data"])
+        _merge_intercepted(f, m)
+    elif isinstance(data, list):
+        for item in data:
+            f, m = extract_json_objects(item)
+            _merge_intercepted(f, m)
+    else:
+        f, m = extract_json_objects(data)
+        _merge_intercepted(f, m)
 
+def _merge_intercepted(fixtures, markets):
     for f in fixtures:
         f_id = f.get("id")
         if f_id and str(f_id).startswith("ufo:mtch"):
@@ -173,7 +205,7 @@ def handle_response(response):
 
 
 def run_deep_scraper():
-    global ALL_MATCH_URLS
+    global ALL_MATCH_URLS, CURRENT_MATCH_ID
     current_dir = os.path.dirname(os.path.abspath(__file__))
     target_data_dir = os.path.abspath(os.path.join(current_dir, "../../data"))
     os.makedirs(target_data_dir, exist_ok=True)
@@ -186,12 +218,11 @@ def run_deep_scraper():
         page = context.new_page()
         page.on("response", handle_response)
 
-        # FAZA 1: Skanowanie struktur ligowych i zbieranie linków
         for sport, base_url in SPORT_URLS.items():
             print(f"\n-> SPORT: {sport} - Skanowanie pelnej bazy lig...")
             try:
                 page.goto(base_url, wait_until="domcontentloaded", timeout=20000)
-                page.wait_for_timeout(3000) # Zamiana time.sleep na wait_for_timeout!
+                page.wait_for_timeout(3000) 
                 
                 for _ in range(4):
                     page.evaluate("""
@@ -219,11 +250,8 @@ def run_deep_scraper():
                         if next_data:
                             try:
                                 parsed_html_json = json.loads(next_data)
-                                html_fixtures, html_markets = extract_json_objects(parsed_html_json)
-                                for f in html_fixtures:
-                                    f_id = f.get("id")
-                                    if f_id and str(f_id).startswith("ufo:mtch"):
-                                        INTERCEPTED_FIXTURES[f_id] = f
+                                f, m = extract_json_objects(parsed_html_json)
+                                _merge_intercepted(f, m)
                             except Exception: 
                                 pass
 
@@ -256,7 +284,6 @@ def run_deep_scraper():
             except Exception as e:
                 print(f"[UWAGA] Blad w strukturze lig: {e}")
 
-        # FAZA 2: DEEP DIVE
         filtered_match_urls = []
         for m_url in ALL_MATCH_URLS:
             if any(key in m_url.lower() for key in SPORT_MAP.keys()):
@@ -271,83 +298,63 @@ def run_deep_scraper():
                 sys.stdout.write(f"\r[Deep Dive {idx}/{len(filtered_match_urls)}] Odpytuję: {match_slug[:30]}...")
                 sys.stdout.flush()
 
-                # --- USTAWIANIE AKTUALNEGO ID MECZU Z URL ---
-                global CURRENT_MATCH_ID
-                id_search = re.search(r'ufo-mtch-([a-zA-Z0-9\-]+)', m_url)
+                # Poprawiony regex wyciągający ID meczu z URL
+                id_search = re.search(r'ufo[-:]mtch[-:]([a-zA-Z0-9\-]+)', m_url)
                 if id_search:
                     CURRENT_MATCH_ID = f"ufo:mtch:{id_search.group(1)}"
                 else:
                     CURRENT_MATCH_ID = None
-                # ---------------------------------------------
 
                 full_url = f"{m_url}?tab=all&filter=all"
                 try:
                     page.goto(full_url, wait_until="domcontentloaded", timeout=15000)
                 except PlaywrightError:
-                    continue # Pomijamy uszkodzony/zbyt wolny URL
+                    continue 
 
-                page.wait_for_timeout(1000)
-                
-                # Zoptymalizowany klikacz zakładek: szuka priorytetowo "Wszystkie"
                 page.evaluate("""
-                    () => {
-                        const tabs = Array.from(document.querySelectorAll('a, button, [role="tab"]'));
-                        const wszystkoTab = tabs.find(el => {
-                            const txt = (el.textContent || "").trim().toLowerCase();
-                            return txt === "wszystkie" || txt === "wszystko" || txt.includes("wszystkie rynki");
-                        });
-                        if (wszystkoTab) {
-                            try { wszystkoTab.click(); } catch(e) {}
-                        } else {
-                            tabs.forEach(el => {
+                    async () => {
+                        const delay = ms => new Promise(r => setTimeout(r, ms));
+                        const tabNames = ['wszystkie', 'wszystko', 'główne', 'bramki', 'punkty', 'handicap', 'spready', 'zakłady'];
+                        
+                        for (const t of tabNames) {
+                            const tabs = Array.from(document.querySelectorAll('a, button, [role="tab"], li'));
+                            const target = tabs.find(el => {
                                 const txt = (el.textContent || "").trim().toLowerCase();
-                                if (txt.includes('bramki') || txt.includes('dokładny') || txt.includes('dokladny')) {
-                                    try { el.click(); } catch(e) {}
+                                return txt === t || txt.includes(t);
+                            });
+                            if (target) {
+                                try { target.click(); await delay(600); } catch(e) {}
+                            }
+                        }
+                        
+                        for(let i=0; i<6; i++) {
+                            window.scrollBy(0, 1000);
+                            document.querySelectorAll('[aria-expanded="false"]').forEach(el => {
+                                try { el.click(); } catch(e) {}
+                            });
+                            document.querySelectorAll('i[class*="down"], i[class*="chevron-down"], svg[class*="down"]').forEach(arrow => {
+                                const btn = arrow.closest('button') || arrow.closest('div');
+                                if (btn) { try { btn.click(); } catch(e) {} }
+                            });
+                            document.querySelectorAll('button').forEach(b => {
+                                const txt = (b.innerText || '').toLowerCase();
+                                if (txt.includes('pokaż') || txt.includes('więcej') || txt.includes('rozwiń') || txt.includes('+')) {
+                                    try { b.click(); } catch(e) {}
                                 }
                             });
+                            await delay(600);
                         }
                     }
                 """)
-                page.wait_for_timeout(1500)
-
-                for _ in range(4):
-                    page.evaluate("window.scrollBy(0, 1200);")
-                    page.wait_for_timeout(300)
                 
-                page.evaluate("""
-                    () => {
-                        document.querySelectorAll('[aria-expanded="false"]').forEach(el => {
-                            try { el.click(); } catch(e) {}
-                        });
-                        
-                        const downArrows = document.querySelectorAll('i[class*="down"], i[class*="chevron-down"], [class*="arrow-down"], svg[class*="down"]');
-                        downArrows.forEach(arrow => {
-                            const btn = arrow.closest('button') || arrow.closest('[role="button"]') || arrow.closest('div');
-                            if (btn) {
-                                try { btn.click(); } catch(e) {}
-                            }
-                        });
-                    }
-                """)
-                
-                # Zwiększony czas oczekiwania na rozwiązanie eventów i XHR po kliknięciach
-                page.wait_for_timeout(2500) 
+                page.wait_for_timeout(2500)
                 
                 m_next_data = page.evaluate("() => { let s = document.querySelector('script#__NEXT_DATA__'); return s ? s.textContent : null; }")
                 if m_next_data:
                     try:
                         parsed_m_json = json.loads(m_next_data)
-                        m_fixtures, m_markets = extract_json_objects(parsed_m_json)
-                        for f in m_fixtures:
-                            f_id = f.get("id")
-                            if f_id and str(f_id).startswith("ufo:mtch"):
-                                INTERCEPTED_FIXTURES[f_id] = f
-                        for mk in m_markets:
-                            f_id = get_match_id_from_market(mk)
-                            if f_id:
-                                if f_id not in INTERCEPTED_MARKETS:
-                                    INTERCEPTED_MARKETS[f_id] = []
-                                INTERCEPTED_MARKETS[f_id].append(mk)
+                        f, m = extract_json_objects(parsed_m_json)
+                        _merge_intercepted(f, m)
                     except Exception: 
                         pass
             except Exception:
@@ -356,8 +363,6 @@ def run_deep_scraper():
         print("\n[OK] Skanowanie głębokie zakończone.")
         context.close()
 
-
-    # FAZA 3: Parowanie danych i budowa finalnego JSON
     print("\n-> Budowanie bazy danych H2H...")
     final_json_data = []
     unique_fixtures = {f["id"]: f for f in INTERCEPTED_FIXTURES.values() if str(f.get("id", "")).startswith("ufo:mtch")}
@@ -407,6 +412,7 @@ def run_deep_scraper():
             "btts_tak": None,
             "btts_nie": None,
             "over_under": {},
+            "handicap": {},
             "podwojna_1X": None,
             "podwojna_12": None,
             "podwojna_X2": None,
@@ -419,7 +425,15 @@ def run_deep_scraper():
 
         def extract_val(o):
             if not isinstance(o, dict): return None
-            val_raw = o.get("odds") or o.get("oddsValue") or o.get("price") or o.get("value") or o.get("rate") or o.get("odd")
+            val_raw = (
+                o.get("odds") or 
+                o.get("oddsValue") or 
+                o.get("price") or 
+                o.get("value") or 
+                o.get("rate") or 
+                o.get("odd") or
+                o.get("oddsDecimal")
+            )
             if isinstance(val_raw, dict): 
                 val_raw = val_raw.get("value") or val_raw.get("oddsValue") or val_raw.get("price") or val_raw.get("rate") or val_raw.get("odd")
             if val_raw is not None:
@@ -429,17 +443,23 @@ def run_deep_scraper():
 
         def extract_label(o):
             if not isinstance(o, dict): return ""
-            val = o.get("longName") or o.get("name") or o.get("label") or o.get("shortName") or o.get("betName") or o.get("selectionName") or o.get("outcomeName") or o.get("oddsName") or o.get("desc") or ""
+            val = (
+                o.get("longName") or 
+                o.get("name") or 
+                o.get("label") or 
+                o.get("shortName") or 
+                o.get("betName") or 
+                o.get("selectionName") or 
+                o.get("outcomeName") or 
+                o.get("oddsName") or 
+                o.get("desc") or
+                o.get("type") or
+                o.get("outcomeType") or
+                o.get("header") or
+                o.get("subName") or
+                ""
+            )
             return str(val).upper().strip()
-
-        def is_team_specific(market_name, team_name):
-            if not team_name: return False
-            t_lower = team_name.lower()
-            if t_lower in market_name: return True
-            parts = t_lower.split()
-            for p in parts:
-                if len(p) > 3 and p in market_name: return True
-            return False
 
         for market in markets_list:
             name = str(
@@ -451,18 +471,27 @@ def run_deep_scraper():
                 ""
             ).lower()
             
+            skip_market = False
+            for kw in ["1. poł", "2. poł", "1.poł", "2.poł", "1. połowa", "2. połowa", "połowa", "polowa", "kwarta", "kwarcie", "set", "secie", "gem", "kartki", "rożne", "rozne", "zawodnik", "awans", "przedział"]:
+                if kw in name:
+                    skip_market = True
+                    break
+            if not skip_market and any(kw in name for kw in ["1.", "2.", "3.", "4."]) and any(kw in name for kw in ["kwarta", "set", "połowa", "polowa"]):
+                skip_market = True
+                
+            if skip_market: continue
+            
             raw_outcomes = market.get("outcomes") or market.get("selections") or market.get("bets") or market.get("marketOutcomes") or market.get("odds") or []
-            if isinstance(raw_outcomes, dict): 
-                raw_outcomes = list(raw_outcomes.values())
+            flat_raw = flatten_outcomes(raw_outcomes)
 
             outcomes = []
-            for o in raw_outcomes:
+            for o in flat_raw:
                 if isinstance(o, str):
                     if o in GLOBAL_NODES: 
                         outcomes.append(GLOBAL_NODES[o])
                     else:
                         for nid, nval in GLOBAL_NODES.items():
-                            if isinstance(nval, dict) and o in str(nval.get("id", "")):
+                            if isinstance(nval, dict) and str(nval.get("id", "")) == o:
                                 outcomes.append(nval)
                                 break
                 elif isinstance(o, dict) and "__ref" in o and o["__ref"] in GLOBAL_NODES: 
@@ -475,105 +504,248 @@ def run_deep_scraper():
             if not outcomes:
                 continue
 
-            if m_sport == "Pilka nozna":
-                # 1. BTTS
-                if any(k in name for k in ["obie drużyny", "obie druzyny", "btts", "druz.strz.gola", "druż.strz.gola"]): 
-                    if any(k in name for k in ["połowa", "polowa", "1.", "2."]): continue
-                    for o in outcomes:
-                        lbl = extract_label(o)
-                        val = extract_val(o)
-                        if val:
-                            if lbl in ["TAK", "YES", "1"] or "TAK" in lbl: match_obj["btts_tak"] = val
-                            elif lbl in ["NIE", "NO", "2", "0"] or "NIE" in lbl: match_obj["btts_nie"] = val
-                    continue
-                    
-                # 2. Over/Under
-                is_over_under = False
-                if any(k in name for k in ["liczba goli", "liczba bramek", "ilość goli", "ilosc goli", "suma goli", "suma bramek", "gole powyżej", "gole poniżej", "bramki", "under/over", "over/under", "powyżej/poniżej", "powyzej/ponizej"]):
-                    if "handicap" not in name and "hc" not in name:
+            is_btts = False
+            is_over_under = False
+            is_handicap = False
+
+            # Rozszerzona klasyfikacja główna
+            if any(k in name for k in ["obie druż", "obie druz", "btts", "druż.strz.gola", "druz.strz.gola", "obie strz", "obie zespoły", "obie zespoly"]):
+                if not any(k in name for k in ["wynik", "liczba", "zwycięzca", "mecz i", "suma"]):
+                    is_btts = True
+
+            if not is_btts:
+                if any(k in name for k in ["handicap", "hc ", "hc:", "spread"]):
+                    is_handicap = True
+
+            if not is_btts and not is_handicap:
+                if any(k in name for k in ["liczba goli", "liczba bramek", "ilość goli", "ilosc goli", "suma goli", "gole powyżej", "gole poniżej", "bramki", "under/over", "over/under", "powyżej/poniżej", "liczba punktów", "suma punktów", "razem punktów"]):
+                    if not any(k in name for k in ["drużyna", "druzyna", "goście", "gospodarze", "wynik", "faule", "strzały", "spalone", "celne", "podań", "asysty", "interwencje", "słupki", "rzuty"]):
                         is_over_under = True
+
+            # Klasyfikacja fallback po etykietach zdarzeń
+            if not is_btts and not is_handicap and not is_over_under:
+                has_pow_pon = False
+                has_team = False
+                has_line = False
+                has_tak_nie = False
                 
-                if not is_over_under:
-                    for o in outcomes[:3]:
-                        lbl_test = extract_label(o)
-                        if any(k in lbl_test for k in ["POW", "PON", "OVER", "UNDER", "WIĘC", "MNIE"]) or lbl_test.startswith("+") or lbl_test.startswith("-"):
-                            is_over_under = True
-                            break
+                home_clean = re.sub(r'[^a-z0-9]', '', home.lower()) if home else ""
+                away_clean = re.sub(r'[^a-z0-9]', '', away.lower()) if away else ""
 
-                if is_over_under:
-                    if (is_team_specific(name, home) or is_team_specific(name, away)) and not (" - " in name or ":" in name or (home.lower() in name and away.lower() in name)):
-                        continue
-
-                    if any(k in name for k in [
-                        "połowa", "polowa", "1. połowa", "2. połowa", "1. poł", "2. poł", "kwarta", "set", "kartki", "rożne", "rozne", 
-                        "drużyna", "druzyna", "goście", "gospodarze", "handicap", "hc", "szansa", 
-                        "wynik i", "faule", "fauli", "strzały", "strzaly", "strzałów", 
-                        "spalone", "spalonych", "celne", "podań", "podania", "asysty", "interwencje",
-                        "słupki", "poprzeczki", "wznowienia", "rzuty wolne"
-                    ]):
-                        continue 
-
-                    market_line = None
-                    specifiers = market.get("specifiers", {})
-                    if isinstance(specifiers, str):
-                        try: specifiers = json.loads(specifiers)
-                        except Exception: specifiers = {}
-                        
-                    if isinstance(specifiers, dict):
-                        sp_val = specifiers.get("total") or specifiers.get("line") or specifiers.get("handicap")
-                        if sp_val: market_line = str(sp_val).replace(',', '.')
+                for o in outcomes[:4]:
+                    lbl = extract_label(o).lower()
+                    lbl_cl = re.sub(r'[^a-z0-9]', '', lbl)
+                    o_type = str(o.get("type") or o.get("outcomeType") or "").upper()
                     
-                    if not market_line:
-                        for k in ["line", "total", "handicap", "attr", "specialOddsValue"]:
-                            if market.get(k):
-                                mlm = re.search(r'(\d+(?:[\.,]\d+)?)', str(market.get(k)))
-                                if mlm:
-                                    market_line = mlm.group(1).replace(',', '.')
+                    if any(x in lbl for x in ["powy", "poni", "over", "under", "więc", "mnie"]) or lbl.startswith("+") or lbl.startswith("-") or o_type in ["OVER", "UNDER"]:
+                        has_pow_pon = True
+                    if home_clean and len(home_clean)>3 and home_clean in lbl_cl: has_team = True
+                    if away_clean and len(away_clean)>3 and away_clean in lbl_cl: has_team = True
+                    if re.search(r'(\d+(?:[\.,]\d+)?)', lbl): has_line = True
+                    if lbl_cl in ["tak", "nie", "yes", "no", "strzelą", "strzela", "gg", "ng"] or o_type in ["YES", "NO"]: has_tak_nie = True
+
+                if has_pow_pon and has_line:
+                    is_over_under = True
+                elif has_team and has_line and not has_pow_pon:
+                    is_handicap = True
+                elif has_tak_nie and ("strzel" in name or "gol" in name or "bramk" in name):
+                    is_btts = True
+
+            # 1. BTTS
+            if is_btts:
+                for o in outcomes:
+                    lbl = extract_label(o)
+                    val = extract_val(o)
+                    o_type = str(o.get("type") or o.get("outcomeType") or "").upper()
+                    
+                    if val:
+                        lbl_clean = re.sub(r'[^a-z0-9]', '', lbl.lower())
+                        if lbl_clean in ["tak", "yes", "1", "gg", "strzela", "strzelą"] or "tak" in lbl.lower() or o_type in ["YES", "TAK"]: 
+                            match_obj["btts_tak"] = val
+                        elif lbl_clean in ["nie", "no", "2", "0", "ng", "niestrzelą", "niestrzela"] or "nie" in lbl.lower() or o_type in ["NO", "NIE"]: 
+                            match_obj["btts_nie"] = val
+                continue
+                
+            # 2. Over/Under
+            if is_over_under:
+                market_line = None
+                specifiers = market.get("specifiers", {})
+                if isinstance(specifiers, str):
+                    try: specifiers = json.loads(specifiers)
+                    except Exception: specifiers = {}
+                    
+                if isinstance(specifiers, dict):
+                    sp_val = specifiers.get("total") or specifiers.get("line") or specifiers.get("handicap")
+                    if sp_val: market_line = str(sp_val).replace(',', '.')
+                
+                if not market_line:
+                    market_line_match = re.search(r'(\d+(?:[\.,]\d+)?)', name)
+                    market_line = market_line_match.group(1).replace(',', '.') if market_line_match else None
+
+                for o in outcomes:
+                    lbl = extract_label(o)
+                    val = extract_val(o)
+                    if not val: continue
+                    
+                    line = None
+                    line_match = re.search(r'(\d+(?:[\.,]\d+)?)', lbl)
+                    if line_match:
+                        line = line_match.group(1).replace(',', '.')
+                    else:
+                        line = market_line
+                    
+                    if not line:
+                        for k in ["line", "total", "specialOddsValue", "oddsName", "name", "label", "shortName", "handicap", "header"]:
+                            if isinstance(o.get(k), (str, int, float)):
+                                om = re.search(r'(\d+(?:[\.,]\d+)?)', str(o.get(k)))
+                                if om:
+                                    line = om.group(1).replace(',', '.')
                                     break
                                     
-                    if not market_line:
-                        market_line_match = re.search(r'(\d+[\.,]\d+)', name)
-                        market_line = market_line_match.group(1).replace(',', '.') if market_line_match else None
+                    if not line:
+                        o_spec = o.get("specifiers", {})
+                        if isinstance(o_spec, str):
+                            try: o_spec = json.loads(o_spec)
+                            except: o_spec = {}
+                        if isinstance(o_spec, dict):
+                            sp_val = o_spec.get("total") or o_spec.get("line") or o_spec.get("handicap")
+                            if sp_val: line = str(sp_val).replace(',', '.')
 
-                    for o in outcomes:
-                        lbl = extract_label(o)
-                        val = extract_val(o)
-                        if not val: continue
-                        
-                        line_match = re.search(r'(\d+(?:[\.,]\d+)?)', lbl)
-                        line = line_match.group(1).replace(',', '.') if line_match else market_line
-                        
-                        if not line:
-                            for k in ["line", "total", "specialOddsValue", "oddsName", "name", "label"]:
-                                if isinstance(o.get(k), (str, int, float)):
-                                    om = re.search(r'(\d+(?:[\.,]\d+)?)', str(o.get(k)))
-                                    if om:
-                                        line = om.group(1).replace(',', '.')
-                                        break
-
-                        if line:
+                    if line:
+                        if m_sport == "Pilka nozna":
                             try:
-                                if float(line) > 8.5: continue
+                                if float(line) > 11.5: continue
                             except ValueError: continue
 
-                            if '.' not in line: line = f"{line}.0"
-                            if line not in match_obj["over_under"]:
-                                match_obj["over_under"][line] = {}
-                            if any(k in lbl for k in ["+", "POWYŻEJ", "POWYZEJ", "OVER", "WIĘCEJ", "WIECEJ", "POW", "WIE"]):
-                                match_obj["over_under"][line]["over"] = val
-                            elif any(k in lbl for k in ["-", "PONIŻEJ", "PONIZEJ", "UNDER", "MNIEJ", "PON", "MNI"]):
-                                match_obj["over_under"][line]["under"] = val
-                    continue
-
-            # Rynki główne (1X2 i Podwójna Szansa)
-            block_keywords = [
-                "1. połowa", "2. połowa", "1. poł", "2. poł", "kwarta", "set", "gem", "handicap", "kartki", "rożne", "rozne",
-                "zawodnik", "awans", "przedział", "przedzial", "hc ", "zakład bez", "zaklad bez", "dnb", "bez remisu"
-            ]
-
-            if any(kw in name for kw in block_keywords): 
+                        if '.' not in line: line = f"{line}.0"
+                        if line not in match_obj["over_under"]:
+                            match_obj["over_under"][line] = {}
+                        
+                        lbl_upper = lbl.upper()
+                        lbl_clean = re.sub(r'[^a-z0-9]', '', lbl.lower())
+                        o_type = str(o.get("type") or o.get("outcomeType") or "").upper()
+                        
+                        if any(k in lbl_upper for k in ["+", ">", "POW", "OVER", "WIĘC", "WIE"]) or lbl_clean == "1" or "OVER" in o_type:
+                            match_obj["over_under"][line]["over"] = val
+                        elif any(k in lbl_upper for k in ["-", "<", "PON", "UNDER", "MNI", "M"]) or lbl_clean == "2" or "UNDER" in o_type:
+                            match_obj["over_under"][line]["under"] = val
                 continue
 
+            # 3. Handicap
+            if is_handicap:
+                handicaps_parsed = []
+                home_clean = re.sub(r'[^a-z0-9]', '', home.lower())
+                away_clean = re.sub(r'[^a-z0-9]', '', away.lower())
+
+                market_line = None
+                specifiers = market.get("specifiers", {})
+                if isinstance(specifiers, str):
+                    try: specifiers = json.loads(specifiers)
+                    except Exception: specifiers = {}
+                if isinstance(specifiers, dict):
+                    sp_val = specifiers.get("handicap") or specifiers.get("line")
+                    if sp_val: market_line = str(sp_val).replace(',', '.')
+                    
+                if not market_line:
+                    market_line_match = re.search(r'([+-]?\d+(?:[\.,]\d+)?)', name)
+                    if market_line_match: market_line = market_line_match.group(1).replace(',', '.')
+
+                for o in outcomes:
+                    lbl = extract_label(o)
+                    val = extract_val(o)
+                    if not val: continue
+                    
+                    line = None
+                    line_match = re.search(r'([+-]?\s*\d+(?:[\.,]\d+)?)', lbl)
+                    if line_match:
+                        line = line_match.group(1).replace(" ", "").replace(",", ".")
+                    else:
+                        line = market_line
+                        
+                    if not line:
+                        o_spec = o.get("specifiers", {})
+                        if isinstance(o_spec, str):
+                            try: o_spec = json.loads(o_spec)
+                            except: o_spec = {}
+                        if isinstance(o_spec, dict):
+                            sp_val = o_spec.get("handicap") or o_spec.get("line")
+                            if sp_val: line = str(sp_val).replace(',', '.')
+
+                    if not line: continue
+                    
+                    lbl_clean = re.sub(r'[^a-z0-9]', '', lbl.lower())
+                    is_home_side = False
+                    is_away_side = False
+                    
+                    if lbl_clean in ["1", "home", "gospodarze"]: is_home_side = True
+                    elif lbl_clean in ["2", "away", "goscie", "goście"]: is_away_side = True
+                    elif home_clean in lbl_clean: is_home_side = True
+                    elif away_clean in lbl_clean: is_away_side = True
+                    else:
+                        home_parts = [p for p in home.lower().split() if len(p) > 2]
+                        away_parts = [p for p in away.lower().split() if len(p) > 2]
+                        home_matches = sum(1 for p in home_parts if p in lbl.lower())
+                        away_matches = sum(1 for p in away_parts if p in lbl.lower())
+                        if home_matches > away_matches: is_home_side = True
+                        elif away_matches > home_matches: is_away_side = True
+                    
+                    if is_home_side:
+                        handicaps_parsed.append({"type": "home", "line": str(line), "val": val})
+                    elif is_away_side:
+                        handicaps_parsed.append({"type": "away", "line": str(line), "val": val})
+                
+                for h in [x for x in handicaps_parsed if x["type"] == "home"]:
+                    matching_away = None
+                    try:
+                        h_val = float(h["line"])
+                        for a in [x for x in handicaps_parsed if x["type"] == "away"]:
+                            try:
+                                a_val = float(a["line"])
+                                if abs(h_val + a_val) < 0.01 or abs(h_val - a_val) < 0.01:
+                                    matching_away = a
+                                    break
+                            except ValueError:
+                                continue
+                    except ValueError:
+                        pass
+                    
+                    line_key = h["line"]
+                    if line_key not in match_obj["handicap"]:
+                        match_obj["handicap"][line_key] = {}
+                    match_obj["handicap"][line_key]["home"] = h["val"]
+                    
+                    if matching_away:
+                        match_obj["handicap"][line_key]["away"] = matching_away["val"]
+                        
+                for a in [x for x in handicaps_parsed if x["type"] == "away"]:
+                    paired = False
+                    try:
+                        a_val = float(a["line"])
+                        for h in [x for x in handicaps_parsed if x["type"] == "home"]:
+                            try:
+                                h_val = float(h["line"])
+                                if abs(h_val + a_val) < 0.01 or abs(h_val - a_val) < 0.01:
+                                    paired = True
+                                    break
+                            except ValueError:
+                                continue
+                    except ValueError:
+                        pass
+                        
+                    if not paired:
+                        try:
+                            opp_line = -float(a["line"])
+                            opp_line_str = f"+{opp_line}" if opp_line > 0 else f"{opp_line}"
+                            if opp_line == 0: opp_line_str = "0.0"
+                        except ValueError:
+                            opp_line_str = a["line"]
+                            
+                        if opp_line_str not in match_obj["handicap"]:
+                            match_obj["handicap"][opp_line_str] = {}
+                        match_obj["handicap"][opp_line_str]["away"] = a["val"]
+                continue
+
+            # Standardowe 1X2 i Podwójna Szansa
             for o in outcomes:
                 if not isinstance(o, dict): continue
                 label = extract_label(o)
