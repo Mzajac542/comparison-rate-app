@@ -196,7 +196,7 @@ def pobierz_polskich_z_oddsportal():
                                         
                         print(f"    [*] Wykryto {dzienne_linki_count} surowych odnośników do meczów na dzień {dzien}")
                         time.sleep(1.5)
-                                        
+                                
                     except Exception as e:
                         print(f"    [!] Błąd podczas parsowania listy głównej: {e}")
 
@@ -258,7 +258,7 @@ def pobierz_polskich_z_oddsportal():
                                     "btts": {},
                                     "podwojna_szansa": {},
                                     "over_under": {},
-                                    "asian_handicap": {} # DODANE WSPARCIE DLA AH
+                                    "asian_handicap": {}
                                 }
                             return match_data[buk_name]
 
@@ -326,7 +326,8 @@ def pobierz_polskich_z_oddsportal():
                                         p = logo.parent
                                         for _ in range(8):
                                             if not p: break
-                                            if p.find_all('a', class_=re.compile(r'odds-link|odds')):
+                                            tekst_p = p.get_text(separator=" ")
+                                            if p.find_all(['a', 'p', 'div'], class_=re.compile(r'odds-link|odds', re.I)) or len(re.findall(r'\b[1-9]\d*\.\d{2}\b', tekst_p)) >= 2:
                                                 row = p
                                                 break
                                             p = p.parent
@@ -334,27 +335,29 @@ def pobierz_polskich_z_oddsportal():
                                         if not row: continue
                                         
                                         line_val = None
-                                        p = row.parent
-                                        for _ in range(8):
-                                            if not p: break
-                                            tekst_kontenera = p.get_text(separator=" ")
-                                            
-                                            # ZMIANA: Obsługa zarówno np. +2.5 jak i pełnych liczb np. +160
-                                            matches = re.findall(r'(?:Over/Under|Total)\s*\+([0-9]+(?:\.5)?)', tekst_kontenera, re.IGNORECASE)
-                                            unikalne_linie = list(set(matches))
-                                            
-                                            if len(unikalne_linie) == 1:
-                                                line_val = unikalne_linie[0] 
-                                                break
-                                            elif len(unikalne_linie) > 1:
-                                                break 
+                                        bookie_row_text = row.get_text(separator=" ")
+                                        
+                                        row_matches = re.findall(r'([+-]\d{2,3}(?:\.5)?|\b\d{2,3}\.5\b)', bookie_row_text)
+                                        if row_matches:
+                                            val = row_matches[0].replace('+', '').replace('-', '')
+                                            line_val = f"+{val}"
+                                        
+                                        if not line_val:
+                                            p = row.parent
+                                            for _ in range(5):
+                                                if not p: break
+                                                tekst_kontenera = p.get_text(separator=" ")
+                                                match = re.search(r'(?:Over/Under|Total)\s*([+-]?\d+(?:\.5)?)', tekst_kontenera, re.IGNORECASE)
+                                                if match:
+                                                    val = match.group(1).replace('+', '').replace('-', '')
+                                                    line_val = f"+{val}"
+                                                    break
+                                                p = p.parent
                                                 
-                                            p = p.parent
-                                            
                                         if not line_val: continue
                                         
-                                        odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
-                                        kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
+                                        znalezione_liczby = re.findall(r'\b([1-9]\d*\.\d{2})\b', bookie_row_text)
+                                        kursy = [float(x) for x in znalezione_liczby if float(x) > 0]
                                         
                                         if len(kursy) >= 2:
                                             d = get_match_data(buk)
@@ -362,24 +365,14 @@ def pobierz_polskich_z_oddsportal():
 
                                 parse_ou(page.content())
                                 
-                                zebrane_linie = set()
-                                for b_data in match_data.values():
-                                    if "over_under" in b_data:
-                                        zebrane_linie.update(b_data["over_under"].keys())
-                                
-                                # ZMIANA: Dynamiczne rozwijanie wszystkich znalezionych elementów O/U zamiast iterowania z pętli range(16)
                                 try:
-                                    # Szukamy na stronie tekstu odpowiadającego dowolnej linii O/U (z ułamkami .5 lub pełnych)
-                                    elements = page.get_by_text(re.compile(r"Over/Under \+\d+(?:\.5)?", re.IGNORECASE)).all()
+                                    elements = page.locator('div.cursor-pointer').all()
                                     for el in elements:
                                         try: 
                                             txt = el.inner_text().strip()
-                                            match = re.search(r'\+([0-9]+(?:\.5)?)', txt)
-                                            if match:
-                                                linia_str = match.group(1)
-                                                if linia_str not in zebrane_linie and len(txt) < 60 and el.is_visible():
-                                                    el.click(force=True, timeout=800) 
-                                                    page.wait_for_timeout(150)
+                                            if (re.search(r'Over/Under|Total', txt, re.I) or re.search(r'[+-]?\d+\.5', txt)) and len(txt) < 80:
+                                                el.click(force=True, timeout=800) 
+                                                page.wait_for_timeout(150)
                                         except: pass
                                 except: pass
                                 
@@ -389,98 +382,91 @@ def pobierz_polskich_z_oddsportal():
                         except Exception as e:
                             print(f"      [!] Błąd ładowania O/U: {e}")
 
-                        # --- 5. POBIERANIE ASIAN HANDICAP (NOWE) ---
-                        try:
-                            if wejdz_w_zakladke(page, "Asian Handicap"):
-                                page.evaluate("window.scrollBy(0, 300);")
-                                page.wait_for_timeout(500)
-                                
-                                def parse_ah(html_content):
-                                    soup_ah = BeautifulSoup(html_content, "html.parser")
-                                    logos = soup_ah.find_all('img')
+                        # --- 5. POBIERANIE ASIAN HANDICAP (Zablokowane dla piłki nożnej, dozwolone dla koszykówki itp.) ---
+                        if nazwa_sportu != "Piłka nożna":
+                            try:
+                                if wejdz_w_zakladke(page, "Asian Handicap") or wejdz_w_zakladke(page, "Handicap"):
+                                    page.evaluate("window.scrollBy(0, 300);")
+                                    page.wait_for_timeout(500)
                                     
-                                    for logo in logos:
-                                        name = logo.get('alt', '').strip().lower()
-                                        src = logo.get('src', '').strip().lower()
+                                    def parse_ah(html_content):
+                                        soup_ah = BeautifulSoup(html_content, "html.parser")
+                                        logos = soup_ah.find_all('img')
                                         
-                                        buk = None
-                                        if "sts" in name or "sts" in src: buk = "STS"
-                                        elif "betfan" in name or "betfan" in src: buk = "BETFAN"
-                                        elif "lv bet" in name or "lvbet" in name or "lvbet" in src: buk = "LV BET"
-                                        if not buk: continue
-                                        
-                                        row = None
-                                        p = logo.parent
-                                        for _ in range(8):
-                                            if not p: break
-                                            if p.find_all('a', class_=re.compile(r'odds-link|odds')):
-                                                row = p
-                                                break
-                                            p = p.parent
+                                        for logo in logos:
+                                            name = logo.get('alt', '').strip().lower()
+                                            src = logo.get('src', '').strip().lower()
                                             
-                                        if not row: continue
-                                        
-                                        line_val = None
-                                        p = row.parent
-                                        for _ in range(8):
-                                            if not p: break
-                                            tekst_kontenera = p.get_text(separator=" ")
+                                            buk = None
+                                            if "sts" in name or "sts" in src: buk = "STS"
+                                            elif "betfan" in name or "betfan" in src: buk = "BETFAN"
+                                            elif "lv bet" in name or "lvbet" in name or "lvbet" in src: buk = "LV BET"
+                                            if not buk: continue
                                             
-                                            # Szukamy linii, np. "Asian Handicap -24.5" lub "+5"
-                                            matches = re.findall(r'Asian Handicap\s*([+-]?[0-9]+(?:\.5)?)', tekst_kontenera, re.IGNORECASE)
-                                            unikalne_linie = list(set(matches))
-                                            
-                                            if len(unikalne_linie) == 1:
-                                                line_val = unikalne_linie[0] 
-                                                break
-                                            elif len(unikalne_linie) > 1:
-                                                break 
+                                            row = None
+                                            p = logo.parent
+                                            for _ in range(8):
+                                                if not p: break
+                                                tekst_p = p.get_text(separator=" ")
+                                                if p.find_all(['a', 'p', 'div'], class_=re.compile(r'odds-link|odds', re.I)) or len(re.findall(r'\b[1-9]\d*\.\d{2}\b', tekst_p)) >= 2:
+                                                    row = p
+                                                    break
+                                                p = p.parent
                                                 
-                                            p = p.parent
+                                            if not row: continue
                                             
-                                        if not line_val: continue
-                                        
-                                        odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
-                                        kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
-                                        
-                                        if len(kursy) >= 2:
-                                            d = get_match_data(buk)
-                                            d["asian_handicap"][line_val] = {"home": str(kursy[0]), "away": str(kursy[-1])}
+                                            line_val = None
+                                            bookie_row_text = row.get_text(separator=" ")
+                                            
+                                            row_matches = re.findall(r'([+-]\d+(?:\.5)?)', bookie_row_text)
+                                            if row_matches:
+                                                line_val = row_matches[0]
+                                            
+                                            if not line_val:
+                                                p = row.parent
+                                                for _ in range(5):
+                                                    if not p: break
+                                                    tekst_kontenera = p.get_text(separator=" ")
+                                                    match = re.search(r'(?:Asian Handicap|Handicap)\s*([+-]?\d+(?:\.5)?)', tekst_kontenera, re.IGNORECASE)
+                                                    if match:
+                                                        val = match.group(1)
+                                                        line_val = f"+{val}" if (not val.startswith('-') and not val.startswith('+') and float(val) > 0) else val
+                                                        break
+                                                    p = p.parent
+                                                    
+                                            if not line_val: continue
+                                            
+                                            znalezione_liczby = re.findall(r'\b([1-9]\d*\.\d{2})\b', bookie_row_text)
+                                            kursy = [float(x) for x in znalezione_liczby if float(x) > 0]
+                                            
+                                            if len(kursy) >= 2:
+                                                d = get_match_data(buk)
+                                                d["asian_handicap"][line_val] = {"home": str(kursy[0]), "away": str(kursy[-1])}
 
-                                parse_ah(page.content())
-                                
-                                zebrane_linie_ah = set()
-                                for b_data in match_data.values():
-                                    if "asian_handicap" in b_data:
-                                        zebrane_linie_ah.update(b_data["asian_handicap"].keys())
-                                
-                                try:
-                                    # Szukamy na stronie zamkniętych elementów Asian Handicap
-                                    elements = page.get_by_text(re.compile(r"Asian Handicap\s*[+-]?\d+(?:\.5)?", re.IGNORECASE)).all()
-                                    for el in elements:
-                                        try: 
-                                            txt = el.inner_text().strip()
-                                            match = re.search(r'Asian Handicap\s*([+-]?[0-9]+(?:\.5)?)', txt, re.IGNORECASE)
-                                            if match:
-                                                linia_str = match.group(1)
-                                                if linia_str not in zebrane_linie_ah and len(txt) < 60 and el.is_visible():
+                                    parse_ah(page.content())
+                                    
+                                    try:
+                                        elements = page.locator('div.cursor-pointer').all()
+                                        for el in elements:
+                                            try: 
+                                                txt = el.inner_text().strip()
+                                                if (re.search(r'Asian Handicap|Handicap', txt, re.I) or re.search(r'[+-]?\d+\.5', txt)) and len(txt) < 80:
                                                     el.click(force=True, timeout=800) 
                                                     page.wait_for_timeout(150)
-                                        except: pass
-                                except: pass
-                                
-                                page.wait_for_timeout(1500) 
-                                parse_ah(page.content())
-                                
-                        except Exception as e:
-                            print(f"      [!] Błąd ładowania Asian Handicap: {e}")
+                                            except: pass
+                                    except: pass
+                                    
+                                    page.wait_for_timeout(1500) 
+                                    parse_ah(page.content())
+                                    
+                            except Exception as e:
+                                print(f"      [!] Błąd ładowania Asian Handicap: {e}")
 
                         # Zapis finalnych danych do struktury z całego meczu
                         if match_data:
                             for d in match_data.values():
                                 if d["kurs_1"] > 0 or d["over_under"] or d.get("asian_handicap"): 
                                     wszystkie_mecze.append(d)
-                                    # Dodany log dla AH
                                     print(f"      [+] Zapisano: {d['bukmacher']:<8} | O/U: {len(d['over_under'])} linii | AH: {len(d.get('asian_handicap', {}))} | BTTS: {bool(d['btts'])} | DC: {bool(d['podwojna_szansa'])}")
                         else:
                             print("      [INFO] Brak linii dla STS/BETFAN/LVBET w tym spotkaniu.")
