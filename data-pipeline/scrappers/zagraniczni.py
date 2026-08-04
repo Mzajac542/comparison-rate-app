@@ -56,7 +56,7 @@ WYKLUCZENI_BUKMACHERZY = [
 SMIECIOWE_FRAZY = [
     "18+", "onetrust", "logo", "data by", "cookie", "privacy", 
     "tomorrow", "live", "today", "yesterday", "vs", "-",
-    "6", "8", "ie", "bg" # dodatkowe śmieci z paginacji i flag
+    "6", "8", "ie", "bg" 
 ]
 
 # ==========================================
@@ -76,34 +76,24 @@ def parsuj_kurs(element):
         return 0.0
 
 def wyciagnij_nazwe_buka(logo):
-    """Inteligentne wyciąganie nazwy bukmachera omijające placeholdery typu 'img'"""
     zabronione = ["img", "logo", "bookmaker", ""]
     
-    # 1. Sprawdź atrybut alt
     alt = logo.get('alt', '').strip()
-    if alt and alt.lower() not in zabronione:
-        return alt
+    if alt and alt.lower() not in zabronione: return alt
         
-    # 2. Sprawdź atrybut title
     title = logo.get('title', '').strip()
-    if title and title.lower() not in zabronione:
-        return title
+    if title and title.lower() not in zabronione: return title
         
     parent = logo.parent
     if parent:
-        # 3. Sprawdź title u rodzica (często link owijający obrazek to trzyma)
         p_title = parent.get('title', '').strip()
-        if p_title and p_title.lower() not in zabronione:
-            return p_title
+        if p_title and p_title.lower() not in zabronione: return p_title
             
-        # 4. Sprawdź czy jest ukryty tekst obok obrazka (nowy layout Oddsportal)
         p_tag = parent.find('p')
         if p_tag:
             p_text = p_tag.text.strip()
-            if p_text and p_text.lower() not in zabronione:
-                return p_text
+            if p_text and p_text.lower() not in zabronione: return p_text
                 
-        # 5. Sprawdź bezpośredni tekst obok obrazka (np. w tagu <a>)
         p_text_direct = parent.text.strip()
         if p_text_direct and p_text_direct.lower() not in zabronione:
             return p_text_direct.split('\n')[0].strip()
@@ -111,7 +101,6 @@ def wyciagnij_nazwe_buka(logo):
     return ""
 
 def parse_standard_odds(html_content, home="", away=""):
-    """Pobiera tabele (1X2, BTTS, DC) dla wszystkich bukmacherów OPRÓCZ polskich i śmieci."""
     soup = BeautifulSoup(html_content, "html.parser")
     wyniki = {}
     
@@ -119,31 +108,20 @@ def parse_standard_odds(html_content, home="", away=""):
     
     for row in rows:
         odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
-        if not odds_elements:
-            continue
+        if not odds_elements: continue
             
         logo = row.find('img')
-        if not logo:
-            continue
+        if not logo: continue
             
         name = wyciagnij_nazwe_buka(logo)
-        if not name:
-            continue
-            
+        if not name: continue
         name_lower = name.lower()
         
-        # --- FILTRY ---
-        if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY):
-            continue
-        if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY):
-            continue
-        # Filtrujemy nazwy drużyn
+        if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): continue
+        if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): continue
         if home and name_lower == home.lower(): continue
         if away and name_lower == away.lower(): continue
-        # Filtrujemy za krótkie/długie teksty
-        if len(name) < 3 or len(name) > 30:
-            continue
-        # --------------
+        if len(name) < 3 or len(name) > 30: continue
 
         kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
         if kursy:
@@ -152,7 +130,6 @@ def parse_standard_odds(html_content, home="", away=""):
     return wyniki
 
 def wejdz_w_zakladke(page_obj, tab_name):
-    """Klikanie zakładek z inteligentną obsługą listy 'More'."""
     tab = page_obj.locator(f'text="{tab_name}" >> visible=true').first
     if tab.count() > 0:
         tab.click(force=True)
@@ -316,8 +293,7 @@ def pobierz_zagranicznych_z_oddsportal():
                             continue
                         
                         h1 = soup.find('h1')
-                        if not h1:
-                            continue
+                        if not h1: continue
                         
                         title_raw = h1.text.strip()
                         title_clean = re.sub(r'\s*-\s*Odds,\s*Predictions.*$', '', title_raw, flags=re.IGNORECASE).replace(" vs ", " - ")
@@ -345,11 +321,11 @@ def pobierz_zagranicznych_z_oddsportal():
                                     "kurs_2": 0.0,
                                     "btts": {},
                                     "podwojna_szansa": {},
-                                    "over_under": {}
+                                    "over_under": {},
+                                    "handicap": {}
                                 }
                             return match_data[buk_name]
 
-                        # --- 1. GŁÓWNY RYNEK (1X2 / ZWYCIĘZCA) ---
                         wyniki_1x2 = parse_standard_odds(page.content(), home, away)
                         for buk, kursy_list in wyniki_1x2.items():
                             if nazwa_sportu in ["Piłka nożna", "Piłka ręczna"] and len(kursy_list) >= 3:
@@ -362,10 +338,93 @@ def pobierz_zagranicznych_z_oddsportal():
                                 d["kurs_1"] = kursy_list[0]
                                 d["kurs_2"] = kursy_list[-1]
 
-                        # --- RYNKI POBOCZNE TYLKO DLA PIŁKI NOŻNEJ ---
-                        if nazwa_sportu == "Piłka nożna":
+                        # ==========================================
+                        # NOWE FUNKCJE PARSUJĄCE O/U I HANDICAP
+                        # ==========================================
+                        def parse_ou(html_content):
+                            soup_ou = BeautifulSoup(html_content, "html.parser")
+                            regex_ou = re.compile(r'(?:Over/Under|Total)\s*\+?([0-9]+(?:\.[0-9]+)?)', re.IGNORECASE)
                             
-                            # --- 2. BTTS ---
+                            rows = soup_ou.find_all('div', class_=re.compile(r'border-b|flex-row|table-row-item', re.IGNORECASE))
+                            seen_rows = set()
+                            
+                            for row in rows:
+                                if row in seen_rows: continue
+                                seen_rows.add(row)
+                                
+                                logo = row.find('img')
+                                if not logo: continue
+                                
+                                odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
+                                if len(odds_elements) < 2: continue
+                                
+                                # Skanowanie wstecz w poszukiwaniu najbliższego nagłówka
+                                header_str = row.find_previous(string=regex_ou)
+                                if not header_str: continue
+                                    
+                                match = regex_ou.search(header_str)
+                                if not match: continue
+                                line_val = match.group(1)
+                                
+                                name = wyciagnij_nazwe_buka(logo)
+                                if not name: continue
+                                name_lower = name.lower()
+                                
+                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): continue
+                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): continue
+                                if home and name_lower == home.lower(): continue
+                                if away and name_lower == away.lower(): continue
+                                if len(name) < 3 or len(name) > 30: continue
+                                
+                                kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
+                                if len(kursy) >= 2:
+                                    d = get_match_data(name)
+                                    if line_val not in d["over_under"]:
+                                        d["over_under"][line_val] = {"over": str(kursy[0]), "under": str(kursy[-1])}
+
+                        def parse_handicap(html_content):
+                            soup_hc = BeautifulSoup(html_content, "html.parser")
+                            # Dodane AH do ulepszonego wychwytywania
+                            regex_hc = re.compile(r'(?:Asian Handicap|Handicap|AH)\s*([+-]?[0-9]+(?:\.[0-9]+)?)', re.IGNORECASE)
+                            
+                            rows = soup_hc.find_all('div', class_=re.compile(r'border-b|flex-row|table-row-item', re.IGNORECASE))
+                            seen_rows = set()
+                            
+                            for row in rows:
+                                if row in seen_rows: continue
+                                seen_rows.add(row)
+                                
+                                logo = row.find('img')
+                                if not logo: continue
+                                
+                                odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
+                                if len(odds_elements) < 2: continue
+                                
+                                header_str = row.find_previous(string=regex_hc)
+                                if not header_str: continue
+                                    
+                                match = regex_hc.search(header_str)
+                                if not match: continue
+                                line_val = match.group(1)
+                                
+                                name = wyciagnij_nazwe_buka(logo)
+                                if not name: continue
+                                name_lower = name.lower()
+                                
+                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): continue
+                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): continue
+                                if home and name_lower == home.lower(): continue
+                                if away and name_lower == away.lower(): continue
+                                if len(name) < 3 or len(name) > 30: continue
+                                
+                                kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
+                                if len(kursy) >= 2:
+                                    d = get_match_data(name)
+                                    if line_val not in d["handicap"]:
+                                        d["handicap"][line_val] = {"1": str(kursy[0]), "2": str(kursy[-1])}
+
+                        # --- RYNKI POBOCZNE DLA PIŁKI NOŻNEJ ---
+                        if nazwa_sportu == "Piłka nożna":
                             try:
                                 if wejdz_w_zakladke(page, "Both Teams to Score"):
                                     wyniki_btts = parse_standard_odds(page.content(), home, away)
@@ -377,7 +436,6 @@ def pobierz_zagranicznych_z_oddsportal():
                             except Exception as e:
                                 print(f"      [!] Błąd ładowania BTTS: {e}")
 
-                            # --- 3. PODWÓJNA SZANSA ---
                             try:
                                 if wejdz_w_zakladke(page, "Double Chance"):
                                     wyniki_dc = parse_standard_odds(page.content(), home, away)
@@ -390,99 +448,10 @@ def pobierz_zagranicznych_z_oddsportal():
                             except Exception as e:
                                 print(f"      [!] Błąd ładowania Double Chance: {e}")
 
-                            # --- 4. OVER / UNDER ---
                             try:
                                 if wejdz_w_zakladke(page, "Over/Under"):
                                     page.evaluate("window.scrollBy(0, 300);")
-                                    page.wait_for_timeout(500)
-                                    
-                                    def parse_ou(html_content):
-                                        soup_ou = BeautifulSoup(html_content, "html.parser")
-                                        
-                                        # Krok A: Pobieramy nagłówki wszystkich linii widocznych na ekranie
-                                        line_headers = []
-                                        for el in soup_ou.find_all(string=re.compile(r'(?:Over/Under|Total)\s*\+([0-9]+\.5)', re.IGNORECASE)):
-                                            match = re.search(r'(?:Over/Under|Total)\s*\+([0-9]+\.5)', el, re.IGNORECASE)
-                                            if match:
-                                                line_val = match.group(1)
-                                                line_headers.append((line_val, el.parent))
-                                                
-                                        # Krok B: Wyizolowanie kontenera dla każdej linii i pobranie kursów
-                                        for line_val, header_el in line_headers:
-                                            ancestor = header_el.parent
-                                            best_container = None
-                                            for _ in range(10):
-                                                if not ancestor or ancestor == soup_ou:
-                                                    break
-                                                
-                                                # Pobieramy wszystkie sygnatury linii w tym rodzicu
-                                                all_headers_in_ancestor = ancestor.find_all(string=re.compile(r'(?:Over/Under|Total)\s*\+([0-9]+\.5)', re.IGNORECASE))
-                                                unique_lines = set()
-                                                for h_text in all_headers_in_ancestor:
-                                                    m = re.search(r'(?:Over/Under|Total)\s*\+([0-9]+\.5)', h_text, re.IGNORECASE)
-                                                    if m:
-                                                        unique_lines.add(m.group(1))
-                                                        
-                                                # Jeśli napotkamy przodka zawierającego więcej niż 1 linię, wychodzimy z pętli (osiągnęliśmy makro-kontener)
-                                                if len(unique_lines) > 1:
-                                                    break
-                                                    
-                                                # Zapamiętujemy przodka zawierającego logotypy/kursy bukmacherskie
-                                                if ancestor.find('img') or ancestor.find('a', class_=re.compile(r'odds-link|odds')):
-                                                    best_container = ancestor
-                                                    
-                                                ancestor = ancestor.parent
-                                                
-                                            if not best_container:
-                                                continue
-                                                
-                                            # Pobieranie pojedynczych wierszy w obrębie znalezionego kontenera linii
-                                            rows = best_container.find_all('div', class_=re.compile(r'border-b|flex-row|table-row-item', re.IGNORECASE))
-                                            if not rows:
-                                                # Fallback na wypadek ewentualnych zmian w strukturze HTML tabeli
-                                                rows = []
-                                                for img in best_container.find_all('img'):
-                                                    p_row = img.parent
-                                                    for _ in range(5):
-                                                        if not p_row or p_row == best_container:
-                                                            break
-                                                        if p_row.find_all('a', class_=re.compile(r'odds-link|odds')):
-                                                            rows.append(p_row)
-                                                            break
-                                                        p_row = p_row.parent
-                                            
-                                            seen_rows = set()
-                                            unique_rows = []
-                                            for r in rows:
-                                                if r not in seen_rows:
-                                                    seen_rows.add(r)
-                                                    unique_rows.append(r)
-                                                    
-                                            for row in unique_rows:
-                                                logo = row.find('img')
-                                                if not logo:
-                                                    continue
-                                                    
-                                                name = wyciagnij_nazwe_buka(logo)
-                                                if not name:
-                                                    continue
-                                                    
-                                                name_lower = name.lower()
-                                                
-                                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): continue
-                                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): continue
-                                                if home and name_lower == home.lower(): continue
-                                                if away and name_lower == away.lower(): continue
-                                                if len(name) < 3 or len(name) > 30: continue
-                                                
-                                                odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
-                                                kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
-                                                
-                                                if len(kursy) >= 2:
-                                                    d = get_match_data(name)
-                                                    d["over_under"][line_val] = {"over": str(kursy[0]), "under": str(kursy[-1])}
-
-                                    # PRZEJŚCIE 1: Zczytujemy to, co aktualnie jest otwarte (np. domyślne Over/Under +0.5 lub +2.5)
+                                    page.wait_for_timeout(1000)
                                     parse_ou(page.content())
                                     
                                     zebrane_linie = set()
@@ -490,15 +459,11 @@ def pobierz_zagranicznych_z_oddsportal():
                                         if "over_under" in b_data:
                                             zebrane_linie.update(b_data["over_under"].keys())
                                     
-                                    # PRZEJŚCIE 2: Wymuszamy rozwinięcie wszystkich pozostałych linii (0.5 do 15.5)
                                     try:
                                         for i in range(0, 16):
                                             linia_str = f"{i}.5"
-                                            if linia_str in zebrane_linie:
-                                                # Jeśli już pobrano tę linię w Przejściu 1, absolutnie w nią nie klikamy (aby jej nie zwinąć!)
-                                                continue
+                                            if linia_str in zebrane_linie: continue
                                                 
-                                            # Lokalizujemy przycisk nagłówka (Over/Under lub Total)
                                             regex_locator = f'text=/(Over\\/Under|Total)\\s*\\+{i}\\.5/i'
                                             elements = page.locator(regex_locator).all()
                                             
@@ -506,31 +471,76 @@ def pobierz_zagranicznych_z_oddsportal():
                                             for el in elements:
                                                 try: 
                                                     if el.is_visible() and len(el.inner_text().strip()) < 60:
-                                                        # Klikamy wyłącznie pierwszy widoczny element powiązany z tą linią
                                                         el.click(force=True, timeout=1000) 
                                                         clicked_any = True
                                                         break 
                                                 except: pass
                                             
                                             if clicked_any:
-                                                # Niewielki odstęp czasu, aby zapobiec przeciążeniu i dać Oddsportal chwilę na doładowanie kursów
                                                 page.wait_for_timeout(200)
                                     except: pass
                                     
                                     page.wait_for_timeout(1500) 
-                                    
-                                    # PRZEJŚCIE 3: Zczytujemy komplet danych ze wszystkich nowo otwartych linii
                                     parse_ou(page.content())
-                                    
                             except Exception as e:
                                 print(f"      [!] Błąd ładowania O/U: {e}")
+
+                        # --- RYNKI POBOCZNE DLA KOSZYKÓWKI ---
+                        elif nazwa_sportu == "Koszykówka":
+                            # 1. OVER / UNDER
+                            try:
+                                if wejdz_w_zakladke(page, "Over/Under") or wejdz_w_zakladke(page, "Over/Under Incl. OT"):
+                                    page.evaluate("window.scrollBy(0, 300);")
+                                    page.wait_for_timeout(1500)
+                                    
+                                    # Parsujemy linię otwartą domyślnie
+                                    parse_ou(page.content())
+                                    
+                                    try:
+                                        accordions = page.locator('div[class*="cursor-pointer"]:has-text("Over/Under"), div[class*="cursor-pointer"]:has-text("Total")').all()
+                                        for acc in accordions:
+                                            try:
+                                                if acc.is_visible():
+                                                    acc.click(force=True, timeout=1000)
+                                                    page.wait_for_timeout(200)
+                                            except: pass
+                                            
+                                        page.wait_for_timeout(2000) # Wydłużony czas po naklikaniu reszty
+                                        parse_ou(page.content())
+                                    except: pass
+                            except Exception as e:
+                                print(f"      [!] Błąd ładowania O/U dla koszykówki: {e}")
+
+                            # 2. HANDICAP
+                            try:
+                                if wejdz_w_zakladke(page, "Asian Handicap") or wejdz_w_zakladke(page, "Handicap") or wejdz_w_zakladke(page, "Handicap Incl. OT"):
+                                    page.evaluate("window.scrollBy(0, 300);")
+                                    page.wait_for_timeout(1500)
+                                    
+                                    # Parsujemy linię otwartą domyślnie
+                                    parse_handicap(page.content())
+                                    
+                                    try:
+                                        accordions = page.locator('div[class*="cursor-pointer"]:has-text("Handicap"), div[class*="cursor-pointer"]:has-text("AH")').all()
+                                        for acc in accordions:
+                                            try:
+                                                if acc.is_visible():
+                                                    acc.click(force=True, timeout=1000)
+                                                    page.wait_for_timeout(200)
+                                            except: pass
+                                            
+                                        page.wait_for_timeout(2000) # Wydłużony czas po naklikaniu reszty
+                                        parse_handicap(page.content())
+                                    except: pass
+                            except Exception as e:
+                                print(f"      [!] Błąd ładowania Handicap dla koszykówki: {e}")
 
                         # Zapis finalnych danych
                         if match_data:
                             for d in match_data.values():
-                                if d["kurs_1"] > 0 or d["over_under"]: 
+                                if d["kurs_1"] > 0 or d["over_under"] or d["handicap"]: 
                                     wszystkie_mecze.append(d)
-                                    print(f"      [+] Zapisano: {d['bukmacher']:<12} | O/U: {len(d['over_under'])} linii | BTTS: {bool(d['btts'])} | DC: {bool(d['podwojna_szansa'])}")
+                                    print(f"      [+] Zapisano: {d['bukmacher']:<12} | O/U: {len(d['over_under'])} linii | HC: {len(d['handicap'])} linii | BTTS: {bool(d['btts'])} | DC: {bool(d['podwojna_szansa'])}")
                         else:
                             print("      [INFO] Brak zagranicznych kursów dla tego spotkania.")
 
@@ -548,7 +558,6 @@ def pobierz_zagranicznych_z_oddsportal():
             try: browser.close()
             except: pass
             
-            # Wyłączamy VPN po wszystkim
             vpn_off()
 
     with open(output, "w", encoding="utf-8") as f:
