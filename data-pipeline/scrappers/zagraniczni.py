@@ -34,8 +34,8 @@ def sprawdz_ip():
             exit()
         else:
             print(f"✅ Połączono z VPN. Zmiana IP na: {ip_info['ip']} ({ip_info['country']})")
-    except:
-        print("Nie można sprawdzić IP.")
+    except Exception as e:
+        print(f"Nie można sprawdzić IP: {e}")
 
 # ==========================================
 # ⚙️ USTAWIENIA I ZMIENNE
@@ -60,7 +60,7 @@ SMIECIOWE_FRAZY = [
 ]
 
 # ==========================================
-# 🛠️ FUNKCJE POMOCNICZE
+# 🛠️ FUNKCJE POMOCNICZE I PARSERY DOM
 # ==========================================
 def parsuj_kurs(element):
     """Bezpieczny parser kursów z tekstów HTML"""
@@ -100,6 +100,39 @@ def wyciagnij_nazwe_buka(logo):
             
     return ""
 
+def znajdz_wartosc_linii(element):
+    """Wspólny parser wartości linii (Over/Under, Handicap) idący w górę drzewa DOM."""
+    curr = element
+    for _ in range(6):
+        if not curr or curr.name in ['body', 'html']: break
+        
+        header = curr.find('div', class_=re.compile(r'cursor-pointer'))
+        if header:
+            tekst = header.get_text(separator=" ", strip=True)
+            
+            # 1. Dopasowanie linii tuż po nazwie rynku
+            match = re.search(r'(?:Over/Under|Handicap|Total|Asian Handicap|AH)\s*([\+\-]?\d+(?:\.\d+)?)', tekst, re.IGNORECASE)
+            if match:
+                val = match.group(1)
+                if not val.startswith(('+', '-')) and val != "0":
+                    val = '+' + val
+                return val
+
+            # 2. Fallback: Pobranie wartości liczbowej po odfiltrowaniu śmieci
+            tekst_czysty = re.sub(r'3\s*way|1st|2nd|payout|\d+%', '', tekst, flags=re.IGNORECASE)
+            matches = re.findall(r'([\+\-]\d{1,3}(?:\.\d+)?|\d{1,3}\.\d+)', tekst_czysty)
+            if not matches:
+                matches = re.findall(r'([\+\-]?\d{1,3})', tekst_czysty)
+                
+            matches = [m for m in matches if m and m not in ['+', '-']]
+            if matches:
+                val = matches[0]
+                if not val.startswith(('+', '-')) and val != "0":
+                    val = '+' + val
+                return val
+        curr = curr.parent
+    return None
+
 def parse_standard_odds(html_content, home="", away=""):
     soup = BeautifulSoup(html_content, "html.parser")
     wyniki = {}
@@ -107,7 +140,7 @@ def parse_standard_odds(html_content, home="", away=""):
     rows = soup.find_all('div', class_=re.compile(r'border-b|flex-row|table-row-item', re.IGNORECASE))
     
     for row in rows:
-        odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
+        odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
         if not odds_elements: continue
             
         logo = row.find('img')
@@ -148,6 +181,37 @@ def wejdz_w_zakladke(page_obj, tab_name):
             return True
             
     return False
+
+def rozwin_ukryte_linie(page_obj):
+    """Rozwija zablokowane/ukryte akordiony dla O/U i Handicap za pomocą JS."""
+    js_skrypt = """
+    () => {
+        let klikniete = 0;
+        let naglowki = document.querySelectorAll('div.cursor-pointer');
+        for (let el of naglowki) {
+            let tekst = el.innerText || "";
+            if (tekst.includes("Over/Under") || tekst.includes("Handicap") || tekst.includes("Total") || tekst.includes("Asian Handicap")) {
+                let rodzic = el.parentElement;
+                let nastepny = el.nextElementSibling;
+                let czy_otwarte = (rodzic && rodzic.innerText && rodzic.innerText.includes("Bookmakers")) || 
+                                  (nastepny && nastepny.innerText && nastepny.innerText.includes("Bookmakers"));
+                if (!czy_otwarte) {
+                    el.click();
+                    klikniete++;
+                }
+            }
+        }
+        return klikniete;
+    }
+    """
+    for proba in range(6):
+        page_obj.wait_for_timeout(500)
+        ile_kliknieto = page_obj.evaluate(js_skrypt)
+        if ile_kliknieto > 0:
+            print(f"      [~] Rozwinięto {ile_kliknieto} ukrytych linii kursowych (próba {proba+1})...")
+            page_obj.wait_for_timeout(2000)
+        else:
+            break
 
 # ==========================================
 # 🚀 GŁÓWNY PROCES SCRAPOWANIA
@@ -326,6 +390,7 @@ def pobierz_zagranicznych_z_oddsportal():
                                 }
                             return match_data[buk_name]
 
+                        # --- 1. GŁÓWNY RYNEK (1X2 / 12) ---
                         wyniki_1x2 = parse_standard_odds(page.content(), home, away)
                         for buk, kursy_list in wyniki_1x2.items():
                             if nazwa_sportu in ["Piłka nożna", "Piłka ręczna"] and len(kursy_list) >= 3:
@@ -338,90 +403,81 @@ def pobierz_zagranicznych_z_oddsportal():
                                 d["kurs_1"] = kursy_list[0]
                                 d["kurs_2"] = kursy_list[-1]
 
-                        # ==========================================
-                        # NOWE FUNKCJE PARSUJĄCE O/U I HANDICAP
-                        # ==========================================
+                        # --- FUNKCJE DLA RYNKÓW POBOCZNYCH (O/U & HANDICAP) ---
                         def parse_ou(html_content):
                             soup_ou = BeautifulSoup(html_content, "html.parser")
-                            regex_ou = re.compile(r'(?:Over/Under|Total)\s*\+?([0-9]+(?:\.[0-9]+)?)', re.IGNORECASE)
-                            
-                            rows = soup_ou.find_all('div', class_=re.compile(r'border-b|flex-row|table-row-item', re.IGNORECASE))
-                            seen_rows = set()
-                            
-                            for row in rows:
-                                if row in seen_rows: continue
-                                seen_rows.add(row)
-                                
-                                logo = row.find('img')
-                                if not logo: continue
-                                
-                                odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
-                                if len(odds_elements) < 2: continue
-                                
-                                # Skanowanie wstecz w poszukiwaniu najbliższego nagłówka
-                                header_str = row.find_previous(string=regex_ou)
-                                if not header_str: continue
-                                    
-                                match = regex_ou.search(header_str)
-                                if not match: continue
-                                line_val = match.group(1)
-                                
-                                name = wyciagnij_nazwe_buka(logo)
-                                if not name: continue
-                                name_lower = name.lower()
-                                
-                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): continue
-                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): continue
-                                if home and name_lower == home.lower(): continue
-                                if away and name_lower == away.lower(): continue
-                                if len(name) < 3 or len(name) > 30: continue
-                                
-                                kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
-                                if len(kursy) >= 2:
-                                    d = get_match_data(name)
-                                    if line_val not in d["over_under"]:
-                                        d["over_under"][line_val] = {"over": str(kursy[0]), "under": str(kursy[-1])}
+                            odds_links = soup_ou.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
+                            przetworzone_rzedy = set()
+
+                            for link in odds_links:
+                                row = link.parent
+                                for _ in range(5):
+                                    if not row or row.name in ['body', 'html']: break
+
+                                    odds_in_row = row.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
+                                    if 0 < len(odds_in_row) <= 4:
+                                        logo = row.find('img')
+                                        if logo:
+                                            name = wyciagnij_nazwe_buka(logo)
+                                            if name:
+                                                name_lower = name.lower()
+                                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): break
+                                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): break
+                                                if home and name_lower == home.lower(): break
+                                                if away and name_lower == away.lower(): break
+                                                if len(name) < 3 or len(name) > 30: break
+
+                                                row_id = id(row)
+                                                if row_id not in przetworzone_rzedy:
+                                                    przetworzone_rzedy.add(row_id)
+                                                    
+                                                    line_val = znajdz_wartosc_linii(row)
+                                                    if line_val:
+                                                        if nazwa_sportu == "Piłka nożna" and not line_val.endswith('.5'):
+                                                            break
+
+                                                        kursy = [parsuj_kurs(odd) for odd in odds_in_row if parsuj_kurs(odd) > 0]
+                                                        if len(kursy) >= 2:
+                                                            d = get_match_data(name)
+                                                            d["over_under"][line_val] = {"over": str(kursy[0]), "under": str(kursy[-1])}
+                                                break
+                                    row = row.parent
 
                         def parse_handicap(html_content):
                             soup_hc = BeautifulSoup(html_content, "html.parser")
-                            # Dodane AH do ulepszonego wychwytywania
-                            regex_hc = re.compile(r'(?:Asian Handicap|Handicap|AH)\s*([+-]?[0-9]+(?:\.[0-9]+)?)', re.IGNORECASE)
-                            
-                            rows = soup_hc.find_all('div', class_=re.compile(r'border-b|flex-row|table-row-item', re.IGNORECASE))
-                            seen_rows = set()
-                            
-                            for row in rows:
-                                if row in seen_rows: continue
-                                seen_rows.add(row)
-                                
-                                logo = row.find('img')
-                                if not logo: continue
-                                
-                                odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds'))
-                                if len(odds_elements) < 2: continue
-                                
-                                header_str = row.find_previous(string=regex_hc)
-                                if not header_str: continue
-                                    
-                                match = regex_hc.search(header_str)
-                                if not match: continue
-                                line_val = match.group(1)
-                                
-                                name = wyciagnij_nazwe_buka(logo)
-                                if not name: continue
-                                name_lower = name.lower()
-                                
-                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): continue
-                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): continue
-                                if home and name_lower == home.lower(): continue
-                                if away and name_lower == away.lower(): continue
-                                if len(name) < 3 or len(name) > 30: continue
-                                
-                                kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
-                                if len(kursy) >= 2:
-                                    d = get_match_data(name)
-                                    if line_val not in d["handicap"]:
-                                        d["handicap"][line_val] = {"1": str(kursy[0]), "2": str(kursy[-1])}
+                            odds_links = soup_hc.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
+                            przetworzone_rzedy = set()
+
+                            for link in odds_links:
+                                row = link.parent
+                                for _ in range(5):
+                                    if not row or row.name in ['body', 'html']: break
+
+                                    odds_in_row = row.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
+                                    if 0 < len(odds_in_row) <= 4:
+                                        logo = row.find('img')
+                                        if logo:
+                                            name = wyciagnij_nazwe_buka(logo)
+                                            if name:
+                                                name_lower = name.lower()
+                                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): break
+                                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): break
+                                                if home and name_lower == home.lower(): break
+                                                if away and name_lower == away.lower(): break
+                                                if len(name) < 3 or len(name) > 30: break
+
+                                                row_id = id(row)
+                                                if row_id not in przetworzone_rzedy:
+                                                    przetworzone_rzedy.add(row_id)
+                                                    
+                                                    line_val = znajdz_wartosc_linii(row)
+                                                    if line_val:
+                                                        kursy = [parsuj_kurs(odd) for odd in odds_in_row if parsuj_kurs(odd) > 0]
+                                                        if len(kursy) >= 2:
+                                                            d = get_match_data(name)
+                                                            d["handicap"][line_val] = {"1": str(kursy[0]), "2": str(kursy[-1])}
+                                                break
+                                    row = row.parent
 
                         # --- RYNKI POBOCZNE DLA PIŁKI NOŻNEJ ---
                         if nazwa_sportu == "Piłka nożna":
@@ -451,63 +507,21 @@ def pobierz_zagranicznych_z_oddsportal():
                             try:
                                 if wejdz_w_zakladke(page, "Over/Under"):
                                     page.evaluate("window.scrollBy(0, 300);")
-                                    page.wait_for_timeout(1000)
-                                    parse_ou(page.content())
-                                    
-                                    zebrane_linie = set()
-                                    for b_data in match_data.values():
-                                        if "over_under" in b_data:
-                                            zebrane_linie.update(b_data["over_under"].keys())
-                                    
-                                    try:
-                                        for i in range(0, 16):
-                                            linia_str = f"{i}.5"
-                                            if linia_str in zebrane_linie: continue
-                                                
-                                            regex_locator = f'text=/(Over\\/Under|Total)\\s*\\+{i}\\.5/i'
-                                            elements = page.locator(regex_locator).all()
-                                            
-                                            clicked_any = False
-                                            for el in elements:
-                                                try: 
-                                                    if el.is_visible() and len(el.inner_text().strip()) < 60:
-                                                        el.click(force=True, timeout=1000) 
-                                                        clicked_any = True
-                                                        break 
-                                                except: pass
-                                            
-                                            if clicked_any:
-                                                page.wait_for_timeout(200)
-                                    except: pass
-                                    
-                                    page.wait_for_timeout(1500) 
+                                    page.wait_for_timeout(500)
+                                    rozwin_ukryte_linie(page)
                                     parse_ou(page.content())
                             except Exception as e:
                                 print(f"      [!] Błąd ładowania O/U: {e}")
 
-                        # --- RYNKI POBOCZNE DLA KOSZYKÓWKI ---
+                        # --- RYNKI POBOCZNE DLA KOSZYKÓWKI (ORAZ INNYCH SPORTÓW) ---
                         elif nazwa_sportu == "Koszykówka":
                             # 1. OVER / UNDER
                             try:
                                 if wejdz_w_zakladke(page, "Over/Under") or wejdz_w_zakladke(page, "Over/Under Incl. OT"):
                                     page.evaluate("window.scrollBy(0, 300);")
-                                    page.wait_for_timeout(1500)
-                                    
-                                    # Parsujemy linię otwartą domyślnie
+                                    page.wait_for_timeout(500)
+                                    rozwin_ukryte_linie(page)
                                     parse_ou(page.content())
-                                    
-                                    try:
-                                        accordions = page.locator('div[class*="cursor-pointer"]:has-text("Over/Under"), div[class*="cursor-pointer"]:has-text("Total")').all()
-                                        for acc in accordions:
-                                            try:
-                                                if acc.is_visible():
-                                                    acc.click(force=True, timeout=1000)
-                                                    page.wait_for_timeout(200)
-                                            except: pass
-                                            
-                                        page.wait_for_timeout(2000) # Wydłużony czas po naklikaniu reszty
-                                        parse_ou(page.content())
-                                    except: pass
                             except Exception as e:
                                 print(f"      [!] Błąd ładowania O/U dla koszykówki: {e}")
 
@@ -515,23 +529,9 @@ def pobierz_zagranicznych_z_oddsportal():
                             try:
                                 if wejdz_w_zakladke(page, "Asian Handicap") or wejdz_w_zakladke(page, "Handicap") or wejdz_w_zakladke(page, "Handicap Incl. OT"):
                                     page.evaluate("window.scrollBy(0, 300);")
-                                    page.wait_for_timeout(1500)
-                                    
-                                    # Parsujemy linię otwartą domyślnie
+                                    page.wait_for_timeout(500)
+                                    rozwin_ukryte_linie(page)
                                     parse_handicap(page.content())
-                                    
-                                    try:
-                                        accordions = page.locator('div[class*="cursor-pointer"]:has-text("Handicap"), div[class*="cursor-pointer"]:has-text("AH")').all()
-                                        for acc in accordions:
-                                            try:
-                                                if acc.is_visible():
-                                                    acc.click(force=True, timeout=1000)
-                                                    page.wait_for_timeout(200)
-                                            except: pass
-                                            
-                                        page.wait_for_timeout(2000) # Wydłużony czas po naklikaniu reszty
-                                        parse_handicap(page.content())
-                                    except: pass
                             except Exception as e:
                                 print(f"      [!] Błąd ładowania Handicap dla koszykówki: {e}")
 
