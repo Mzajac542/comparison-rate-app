@@ -1,112 +1,676 @@
-export const calculateTop5 = (matches) => {
-  if (!matches || matches.length === 0) return [];
-  
-  const okazje = [];
-  const polishBookies = ["Betclic", "Superbet", "Fortuna", "STS", "LVBET", "BETFAN"];
-  const MATCH_DURATION_MINS = 120;
+const MIN_DIFFERENCE = 0.5;
+const MATCH_DURATION_MINS = 120;
+
+const POLISH_BOOKMAKERS = new Set([
+  "betclic",
+  "betclic.pl",
+  "superbet",
+  "superbet.pl",
+  "fortuna",
+  "fortuna.pl",
+  "efortuna",
+  "efortuna.pl",
+  "sts",
+  "sts.pl",
+  "lvbet",
+  "lvbet.pl",
+  "lv bet",
+  "lv bet.pl",
+  "betfan",
+  "betfan.pl",
+  "forbet",
+  "fuksiarz",
+  "fuksiarz.pl",
+  "totalbet",
+  "etoto",
+  "etoto.pl",
+  "goplusbet",
+  "betters"
+]);
+
+const MARKET_LABELS = {
+  "1x2": "1X2 / Home-Away",
+  btts: "BTTS",
+  podwojna_szansa: "Podwójna szansa",
+  over_under: "Over / Under",
+  handicap: "Handicap"
+};
+
+const OUTCOME_LABELS = {
+  "1": "Gospodarz / zawodnik 1",
+  X: "Remis (X)",
+  "2": "Gość / zawodnik 2",
+  tak: "Tak",
+  nie: "Nie",
+  "1X": "1X",
+  "12": "12",
+  X2: "X2",
+  over: "Over",
+  under: "Under"
+};
+
+const normalizeBookmakerName = (value) =>
+  String(value || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+
+const parseOdd = (value) => {
+  if (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    value === "-"
+  ) {
+    return null;
+  }
+
+  const parsed = Number.parseFloat(
+    String(value).replace(",", ".")
+  );
+
+  return Number.isFinite(parsed) && parsed > 0
+    ? parsed
+    : null;
+};
+
+const getBookmakerType = (bookmaker) => {
+  const explicitType = String(
+    bookmaker?.typ || ""
+  )
+    .toLowerCase()
+    .trim();
+
+  if (
+    explicitType === "polski" ||
+    explicitType === "zagraniczny"
+  ) {
+    return explicitType;
+  }
+
+  const normalizedName = normalizeBookmakerName(
+    bookmaker?.nazwa
+  );
+
+  return POLISH_BOOKMAKERS.has(normalizedName)
+    ? "polski"
+    : "zagraniczny";
+};
+
+const normalizeMatchDate = (match) => {
+  let value = String(
+    match?.dzien ||
+      match?.date ||
+      ""
+  ).trim();
+
+  if (value.includes(" ")) {
+    value = value.split(" ")[0];
+  }
+
+  if (value.includes("T")) {
+    value = value.split("T")[0];
+  }
+
+  if (value.includes(".")) {
+    const parts = value.split(".");
+
+    if (parts.length === 3) {
+      const [day, month, year] = parts;
+
+      value = `${year}-${month}-${day}`;
+    }
+  }
+
+  return value;
+};
+
+const getMatchTime = (match) => {
+  let value = String(
+    match?.godzina ||
+      match?.time ||
+      ""
+  ).trim();
+
+  if (
+    !value &&
+    String(match?.date || "").includes(" ")
+  ) {
+    value = String(match.date).split(" ")[1];
+  }
+
+  const matchResult = value.match(
+    /\b([01]\d|2[0-3]):[0-5]\d\b/
+  );
+
+  return matchResult
+    ? matchResult[0]
+    : "";
+};
+
+const getMatchStatus = (match) => {
   const now = new Date();
-  
-  const todayStr = now.getFullYear() + "-" + 
-                   String(now.getMonth() + 1).padStart(2, '0') + "-" + 
-                   String(now.getDate()).padStart(2, '0');
 
-  matches.forEach(match => {
-    let isFinished = false;
-    let isLive = match.isLive || false;
+  const todayString =
+    `${now.getFullYear()}-` +
+    `${String(now.getMonth() + 1).padStart(2, "0")}-` +
+    `${String(now.getDate()).padStart(2, "0")}`;
 
-    // 1. Sprawdzenie statusu tekstowego
-    const currentStatus = match.status ? match.status.toString().trim().toUpperCase() : "";
-    if (currentStatus === "ZAKOŃCZONO" || currentStatus === "ZAKONCZONO") isFinished = true;
-    if (currentStatus === "LIVE") isLive = true;
+  const status = String(
+    match?.status || ""
+  )
+    .toUpperCase()
+    .trim();
 
-    // 2. Normalizacja daty
-    let matchDateStr = match.dzien || match.date || "";
-    if (matchDateStr.includes(" ")) matchDateStr = matchDateStr.split(" ")[0];
-    if (matchDateStr.includes("T")) matchDateStr = matchDateStr.split("T")[0];
+  let isFinished =
+    status === "ZAKOŃCZONO" ||
+    status === "ZAKONCZONO" ||
+    status === "FINISHED";
 
-    if (matchDateStr && matchDateStr < todayStr) {
-      isFinished = true;
-    }
+  let isLive =
+    Boolean(match?.isLive) ||
+    status === "LIVE";
 
-    // 3. Normalizacja czasu
-    let timeStr = match.godzina || match.time || "";
-    if (!timeStr && match.date && match.date.includes(" ")) {
-      timeStr = match.date.split(" ")[1];
-    }
+  const matchDate = normalizeMatchDate(match);
+  const matchTime = getMatchTime(match);
 
-    const isToday = match.is_today || (matchDateStr === todayStr);
+  if (
+    matchDate &&
+    matchDate < todayString
+  ) {
+    isFinished = true;
+  }
 
-    // 4. Analiza minutowa meczu
-    if (isToday && timeStr && !isFinished) {
-      const timeParts = timeStr.split(':').map(Number);
-      if (timeParts.length >= 2 && !isNaN(timeParts[0]) && !isNaN(timeParts[1])) {
-        const [matchHour, matchMin] = timeParts;
-        const matchTime = new Date(now);
-        matchTime.setHours(matchHour, matchMin, 0, 0);
-        
-        const diffMins = (now.getTime() - matchTime.getTime()) / (1000 * 60);
+  const isToday =
+    Boolean(match?.is_today) ||
+    matchDate === todayString;
 
-        if (diffMins > MATCH_DURATION_MINS) {
-          isFinished = true;
-        } else if (diffMins >= 0 && diffMins <= MATCH_DURATION_MINS) {
-          isLive = true;
-        }
+  if (
+    isToday &&
+    matchTime &&
+    !isFinished
+  ) {
+    const [hour, minute] = matchTime
+      .split(":")
+      .map(Number);
+
+    if (
+      Number.isFinite(hour) &&
+      Number.isFinite(minute)
+    ) {
+      const matchDateTime = new Date(now);
+
+      matchDateTime.setHours(
+        hour,
+        minute,
+        0,
+        0
+      );
+
+      const differenceMinutes =
+        (
+          now.getTime() -
+          matchDateTime.getTime()
+        ) /
+        (1000 * 60);
+
+      if (
+        differenceMinutes >
+        MATCH_DURATION_MINS
+      ) {
+        isFinished = true;
+        isLive = false;
+      } else if (
+        differenceMinutes >= 0
+      ) {
+        isLive = true;
       }
     }
+  }
 
-    // 🚫 Filtrujemy zakończone mecze
-    if (isFinished) return;
+  return {
+    isFinished,
+    isLive,
+    matchDate,
+    matchTime
+  };
+};
 
-    const kursyObj = match.kursy || {};
-    const bookieNames = Object.keys(kursyObj);
+const getBookmakers = (match) => {
+  if (Array.isArray(match?.bukmacherzy)) {
+    return match.bukmacherzy;
+  }
 
-    const hasPolish = bookieNames.some(b => polishBookies.includes(b));
-    const hasForeign = bookieNames.some(b => !polishBookies.includes(b));
-    
-    if (!hasPolish || !hasForeign) return;
+  /*
+   * Awaryjna obsługa starszego formatu.
+   */
+  return Object.entries(
+    match?.kursy || {}
+  ).map(([name, data]) => ({
+    nazwa: name,
+    typ: POLISH_BOOKMAKERS.has(
+      normalizeBookmakerName(name)
+    )
+      ? "polski"
+      : "zagraniczny",
 
-    ['1', 'X', '2'].forEach(typ => {
-     let maxPL = 0;
-      let bukMaxPL = "";
-      let maxZAGR = 0; // POPRAWIONE NA MAX
-      let bukMaxZAGR = "";
+    kursy: {
+      "1x2": {
+        "1":
+          data?.["1"] ??
+          data?.home ??
+          null,
 
-      bookieNames.forEach(buk => {
-        const val = kursyObj[buk] ? kursyObj[buk][typ] : null;
-        if (val !== null && val !== undefined && val !== "-") {
-          const wartosc = parseFloat(val);
-          if (!isNaN(wartosc) && wartosc > 0) {
-            if (polishBookies.includes(buk)) {
-              if (wartosc > maxPL) { maxPL = wartosc; bukMaxPL = buk; }
-            } else {
-              if (wartosc > maxZAGR) { maxZAGR = wartosc; bukMaxZAGR = buk; } // ZMIENIONE NA WARTOSC > MAX
+        X:
+          data?.X ??
+          data?.draw ??
+          null,
+
+        "2":
+          data?.["2"] ??
+          data?.away ??
+          null
+      },
+
+      btts: data?.btts || {},
+
+      podwojna_szansa:
+        data?.podwojna_szansa || {},
+
+      over_under:
+        data?.over_under || {},
+
+      handicap:
+        data?.handicap || {}
+    }
+  }));
+};
+
+const collectOdds = (match) => {
+  const oddsMap = {};
+
+  const addOdd = (
+    market,
+    line,
+    outcome,
+    bookmakerName,
+    bookmakerType,
+    rawOdd
+  ) => {
+    const odd = parseOdd(rawOdd);
+
+    if (odd === null) {
+      return;
+    }
+
+    const marketKey = line
+      ? `${market}::${line}`
+      : market;
+
+    if (!oddsMap[marketKey]) {
+      oddsMap[marketKey] = {
+        market,
+        line: line || "",
+        outcomes: {}
+      };
+    }
+
+    if (!oddsMap[marketKey].outcomes[outcome]) {
+      oddsMap[marketKey].outcomes[outcome] = [];
+    }
+
+    oddsMap[marketKey].outcomes[outcome].push({
+      bookmaker: bookmakerName,
+      type: bookmakerType,
+      odd
+    });
+  };
+
+  getBookmakers(match).forEach(
+    (bookmaker) => {
+      const bookmakerName = String(
+        bookmaker?.nazwa || "Nieznany"
+      ).trim();
+
+      const bookmakerType =
+        getBookmakerType(bookmaker);
+
+      const markets =
+        bookmaker?.kursy || {};
+
+      Object.entries(markets).forEach(
+        ([market, marketData]) => {
+          if (
+            !marketData ||
+            typeof marketData !== "object"
+          ) {
+            return;
+          }
+
+          if (
+            market === "over_under" ||
+            market === "handicap"
+          ) {
+            Object.entries(marketData).forEach(
+              ([line, lineData]) => {
+                if (
+                  !lineData ||
+                  typeof lineData !== "object"
+                ) {
+                  return;
+                }
+
+                Object.entries(lineData).forEach(
+                  ([outcome, odd]) => {
+                    addOdd(
+                      market,
+                      line,
+                      outcome,
+                      bookmakerName,
+                      bookmakerType,
+                      odd
+                    );
+                  }
+                );
+              }
+            );
+
+            return;
+          }
+
+          Object.entries(marketData).forEach(
+            ([outcome, odd]) => {
+              addOdd(
+                market,
+                "",
+                outcome,
+                bookmakerName,
+                bookmakerType,
+                odd
+              );
+            }
+          );
+        }
+      );
+    }
+  );
+
+  return oddsMap;
+};
+
+const buildOpportunity = ({
+  match,
+  statusData,
+  market,
+  line,
+  outcome,
+  comparisonType,
+  lowEntry,
+  highEntry
+}) => {
+  const matchName =
+    match?.mecz ||
+    match?.match ||
+    match?.name ||
+    (
+      match?.home && match?.away
+        ? `${match.home} - ${match.away}`
+        : "Nieznany mecz"
+    );
+
+  const sport =
+    match?.dyscyplina ||
+    match?.sport ||
+    "Sport";
+
+  const difference =
+    highEntry.odd - lowEntry.odd;
+
+  const yieldPercent =
+    lowEntry.odd > 0
+      ? (
+          (
+            highEntry.odd /
+            lowEntry.odd -
+            1
+          ) * 100
+        )
+      : 0;
+
+  const marketLabel =
+    MARKET_LABELS[market] || market;
+
+  const outcomeLabel =
+    OUTCOME_LABELS[outcome] ||
+    outcome;
+
+  const typeLabel = line
+    ? `${marketLabel} ${line} | ${outcomeLabel}`
+    : `${marketLabel} | ${outcomeLabel}`;
+
+  const dateTime = [
+    statusData.matchDate,
+    statusData.matchTime
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const id = [
+    match?.id || matchName,
+    market,
+    line || "bez_linii",
+    outcome,
+    comparisonType,
+    lowEntry.bookmaker,
+    highEntry.bookmaker
+  ].join("::");
+
+  return {
+    id,
+    key: id,
+    mecz: matchName,
+    dyscyplina: sport,
+    data: dateTime || "Brak daty",
+    isLive: statusData.isLive,
+
+    okazja: {
+      rynek: marketLabel,
+      rynekID: market,
+      linia: line || "",
+      wybor: outcomeLabel,
+      wyborID: outcome,
+      typZwyciestwa: typeLabel,
+      rodzaj: comparisonType,
+
+      bukMin: lowEntry.bookmaker,
+      minTyp: lowEntry.type,
+      minKurs: lowEntry.odd.toFixed(2),
+
+      bukMax: highEntry.bookmaker,
+      maxTyp: highEntry.type,
+      maxKurs: highEntry.odd.toFixed(2),
+
+      roznica: difference.toFixed(2),
+      yield: yieldPercent.toFixed(1)
+    },
+
+    rawMatch: match
+  };
+};
+
+export const calculateTop5 = (matches) => {
+  if (!Array.isArray(matches)) {
+    return [];
+  }
+
+  const opportunities = [];
+  const seenOpportunities = new Set();
+
+  matches.forEach((match) => {
+    const statusData = getMatchStatus(match);
+
+    if (statusData.isFinished) {
+      return;
+    }
+
+    const oddsMap = collectOdds(match);
+
+    Object.values(oddsMap).forEach(
+      ({
+        market,
+        line,
+        outcomes
+      }) => {
+        Object.entries(outcomes).forEach(
+          ([outcome, odds]) => {
+            const polishOdds = odds.filter(
+              (entry) =>
+                entry.type === "polski"
+            );
+
+            const foreignOdds = odds.filter(
+              (entry) =>
+                entry.type === "zagraniczny"
+            );
+
+            /*
+             * 1. Polski kontra zagraniczny.
+             *
+             * Zgodnie z botem:
+             * najwyższy polski kurs
+             * kontra najniższy zagraniczny.
+             */
+            if (
+              polishOdds.length > 0 &&
+              foreignOdds.length > 0
+            ) {
+              const bestPolish = polishOdds.reduce(
+                (best, current) =>
+                  current.odd > best.odd
+                    ? current
+                    : best
+              );
+
+              const lowestForeign =
+                foreignOdds.reduce(
+                  (lowest, current) =>
+                    current.odd < lowest.odd
+                      ? current
+                      : lowest
+                );
+
+              const difference =
+                bestPolish.odd -
+                lowestForeign.odd;
+
+              if (
+                difference >=
+                MIN_DIFFERENCE
+              ) {
+                const opportunity =
+                  buildOpportunity({
+                    match,
+                    statusData,
+                    market,
+                    line,
+                    outcome,
+                    comparisonType:
+                      "Polski vs zagraniczny",
+                    lowEntry:
+                      lowestForeign,
+                    highEntry:
+                      bestPolish
+                  });
+
+                if (
+                  !seenOpportunities.has(
+                    opportunity.id
+                  )
+                ) {
+                  seenOpportunities.add(
+                    opportunity.id
+                  );
+
+                  opportunities.push(
+                    opportunity
+                  );
+                }
+              }
+            }
+
+            /*
+             * 2. Polski kontra polski.
+             */
+            if (polishOdds.length >= 2) {
+              const lowestPolish =
+                polishOdds.reduce(
+                  (lowest, current) =>
+                    current.odd < lowest.odd
+                      ? current
+                      : lowest
+                );
+
+              const highestPolish =
+                polishOdds.reduce(
+                  (highest, current) =>
+                    current.odd > highest.odd
+                      ? current
+                      : highest
+                );
+
+              const difference =
+                highestPolish.odd -
+                lowestPolish.odd;
+
+              if (
+                highestPolish.bookmaker !==
+                  lowestPolish.bookmaker &&
+                difference >= MIN_DIFFERENCE
+              ) {
+                const opportunity =
+                  buildOpportunity({
+                    match,
+                    statusData,
+                    market,
+                    line,
+                    outcome,
+                    comparisonType:
+                      "Polski vs polski",
+                    lowEntry:
+                      lowestPolish,
+                    highEntry:
+                      highestPolish
+                  });
+
+                if (
+                  !seenOpportunities.has(
+                    opportunity.id
+                  )
+                ) {
+                  seenOpportunities.add(
+                    opportunity.id
+                  );
+
+                  opportunities.push(
+                    opportunity
+                  );
+                }
+              }
             }
           }
-        }
-      });
-
-      const roznica = maxPL - maxZAGR; 
-      
-      if (maxPL > 0 && maxZAGR > 0 && roznica >= 0.50) {
-        okazje.push({
-          ...match, 
-          isLive: isLive, 
-          // POPRAWKA: Zmiana minZAGR na maxZAGR
-          key: `${match.mecz || match.name}-${matchDateStr}-${typ}-${maxPL}-${maxZAGR}`, 
-          okazja: {
-            typZwyciestwa: typ === '1' ? 'Gospodarz (1)' : typ === 'X' ? 'Remis (X)' : 'Gość (2)',
-            roznica: roznica.toFixed(2),
-            maxKurs: maxPL.toFixed(2),
-            bukMax: bukMaxPL,
-            // POPRAWKA: Zmiana na zaktualizowane zmienne zagraniczne
-            minKurs: maxZAGR.toFixed(2), 
-            bukMin: bukMaxZAGR, 
-            typID: typ
-          }
-        });
+        );
       }
-    });
+    );
+
   });
 
-  return okazje.sort((a, b) => parseFloat(b.okazja.roznica) - parseFloat(a.okazja.roznica));
+  return opportunities.sort(
+    (first, second) =>
+      Number.parseFloat(
+        second.okazja.roznica
+      ) -
+      Number.parseFloat(
+        first.okazja.roznica
+      )
+  );
 };

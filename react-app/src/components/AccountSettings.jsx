@@ -6,6 +6,57 @@ export default function AccountSettings({ user, onClose }) {
     const [newPassword, setNewPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [email, setEmail] =
+    useState(user?.email || "");
+
+    const [emailPassword, setEmailPassword] =
+        useState("");
+
+    
+    const handleSaveEmail = async (event) => {
+        event.preventDefault();
+
+        setMessage("");
+        setError("");
+
+        try {
+            const response = await fetch(
+                "http://localhost:3001/api/account/email",
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        email,
+                        password:
+                            emailPassword
+                    })
+                }
+            );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error ||
+                    "Nie udało się zapisać adresu e-mail."
+                );
+            }
+
+            setEmail(data.email);
+            setEmailPassword("");
+            setMessage(data.message);
+
+        } catch (requestError) {
+            setError(
+                requestError.message
+            );
+        }
+    };
 
     const handleChangePassword = async (e) => {
         e.preventDefault();
@@ -56,7 +107,52 @@ export default function AccountSettings({ user, onClose }) {
                         <label>Rola w systemie</label>
                         <input type="text" value={user.role.toUpperCase()} disabled className="disabled-input" />
                     </div>
+                    <form
+                        onSubmit={handleSaveEmail}
+                        className="email-form"
+                    >
+                        <div className="form-group">
+                            <label>
+                                Adres e-mail do odzyskiwania konta
+                            </label>
 
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(event) =>
+                                    setEmail(
+                                        event.target.value
+                                    )
+                                }
+                                placeholder="twoj@email.pl"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>
+                                Potwierdź hasłem
+                            </label>
+
+                            <input
+                                type="password"
+                                value={emailPassword}
+                                onChange={(event) =>
+                                    setEmailPassword(
+                                        event.target.value
+                                    )
+                                }
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="save-email-btn"
+                        >
+                            Zapisz adres e-mail
+                        </button>
+                    </form>
                     <hr />
                     <h3>Zmiana hasła</h3>
                     

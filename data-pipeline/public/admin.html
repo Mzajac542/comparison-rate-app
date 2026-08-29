@@ -5,12 +5,57 @@
     <title>Panel Administratora</title>
     <style>
         body { font-family: sans-serif; background-color: #121212; color: white; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; background: #1e1e1e; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            background: #1e1e1e;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            box-sizing: border-box;
+        }
+
+        .header h1 {
+            flex-shrink: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
         h1 { margin: 0; font-size: 1.5em; }
-        .btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; color: white; }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            color: white;
+            white-space: nowrap;
+        }
         .btn-run { background-color: #10b981; font-size: 1.1em; }
         .btn-run:hover { background-color: #059669; }
+        .btn-user-view {
+            background-color: #3b82f6;
+            font-size: 1.1em;
+        }
+
+        .btn-user-view:hover {
+            background-color: #2563eb;
+        }
         .btn-logout { background-color: #ef4444; }
         .btn-logout:hover { background-color: #b91c1c; }
         .btn-action { background-color: #3b82f6; padding: 5px 10px; font-size: 0.85em; }
@@ -26,21 +71,228 @@
         th { background-color: #2a2a2a; color: #aaa; font-size: 0.9em; text-transform: uppercase; }
         .badge { background-color: #3b82f6; color: white; font-size: 0.75em; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; }
         .badge-admin { background-color: #8b5cf6; }
+        .btn-reset {
+            background-color: #f59e0b;
+            padding: 5px 10px;
+            font-size: 0.85em;
+            margin-left: 5px;
+        }
+
+        .btn-reset:hover {
+            background-color: #d97706;
+        }
+
+        .empty-row {
+            padding: 24px !important;
+            color: #777;
+            text-align: center;
+        }
+
+        .reset-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            margin-left: 8px;
+            padding: 0 7px;
+            border-radius: 12px;
+            background: #f59e0b;
+            color: #111827;
+            font-size: 0.75em;
+            font-weight: 800;
+        }
+
+        .admin-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .admin-modal-overlay.visible {
+            display: flex;
+        }
+
+        .admin-modal {
+            position: relative;
+            width: 100%;
+            max-width: 430px;
+            padding: 25px;
+            border: 1px solid #3b3b3b;
+            border-radius: 14px;
+            background: #1e1e1e;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.65);
+        }
+
+        .admin-modal h2 {
+            margin: 0 0 8px;
+        }
+
+        .admin-modal p {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .admin-modal label {
+            display: block;
+            margin: 18px 0 7px;
+            color: #bbb;
+            font-size: 0.85em;
+        }
+
+        .admin-modal input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #444;
+            border-radius: 7px;
+            background: #111;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .admin-modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .admin-modal-actions .btn {
+            flex: 1;
+        }
+
+        .admin-modal-message {
+            display: none;
+            margin-top: 13px;
+            padding: 10px;
+            border-radius: 7px;
+        }
+
+        .admin-modal-message.error {
+            display: block;
+            color: #fca5a5;
+            background: #451a1a;
+            border: 1px solid #7f1d1d;
+        }
+
+        .admin-modal-message.success {
+            display: block;
+            color: #6ee7b7;
+            background: #064e3b;
+            border: 1px solid #065f46;
+        }
+        @media (max-width: 800px) {
+            body {
+                padding: 12px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .header-actions .btn {
+                flex: 1 1 180px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .header-actions {
+                flex-direction: column;
+            }
+
+            .header-actions .btn {
+                width: 100%;
+                flex: none;
+            }
+
+            .panel {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 650px;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <h1>Panel Administratora</h1>
-        <div>
-            <button class="btn btn-run" onclick="runScraper()">🚀 Uruchom Scrapera</button>
-            <button class="btn btn-logout" onclick="logout()" style="margin-left: 10px;">🚪 Wyloguj</button>
-        </div>
+<div class="header">
+    <h1>Panel Administratora</h1>
+
+    <div class="header-actions">
+        <button
+            type="button"
+            class="btn btn-run"
+            onclick="runScraper()"
+        >
+            🚀 Uruchom Scrapera
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-user-view"
+            onclick="openUserView()"
+        >
+            👁 Widok użytkownika
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-logout"
+            onclick="logout()"
+        >
+            🚪 Wyloguj
+        </button>
     </div>
+</div>
 
     <div class="panel">
         <p id="status">Skrypty są w gotowości. Oczekują na rozkaz.</p>
+    </div>
+
+    <div class="panel">
+        <h2>
+            Prośby o reset hasła
+            <span
+                id="reset-requests-count"
+                class="reset-count"
+            >
+                0
+            </span>
+        </h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Użytkownik</th>
+                    <th>Data zgłoszenia</th>
+                    <th>Akcja</th>
+                </tr>
+            </thead>
+
+            <tbody id="reset-requests-body">
+                <tr>
+                    <td
+                        colspan="3"
+                        class="empty-row"
+                    >
+                        Ładowanie próśb...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="panel">
@@ -60,7 +312,326 @@
     </div>
 </div>
 
+<div
+    id="reset-password-modal"
+    class="admin-modal-overlay"
+>
+    <div class="admin-modal">
+        <h2>
+            Ustaw hasło tymczasowe
+        </h2>
+
+        <p>
+            Użytkownik:
+            <strong id="reset-modal-username"></strong>
+        </p>
+
+        <label for="temporary-password">
+            Nowe hasło tymczasowe
+        </label>
+
+        <input
+            id="temporary-password"
+            type="password"
+            minlength="6"
+            autocomplete="new-password"
+            placeholder="Minimum 6 znaków"
+        >
+
+        <div
+            id="reset-modal-message"
+            class="admin-modal-message"
+        ></div>
+
+        <div class="admin-modal-actions">
+            <button
+                type="button"
+                class="btn btn-run"
+                onclick="completePasswordReset()"
+            >
+                Zapisz hasło
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-delete"
+                onclick="closeResetPasswordModal()"
+            >
+                Anuluj
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
+    let selectedResetRequestId = null;
+
+    async function loadPasswordResetRequests() {
+        const tbody =
+            document.getElementById(
+                "reset-requests-body"
+            );
+
+        const countElement =
+            document.getElementById(
+                "reset-requests-count"
+            );
+
+        try {
+            const response = await fetch(
+                "/api/admin/password-reset-requests",
+                {
+                    credentials: "include"
+                }
+            );
+
+            if (response.status === 403) {
+                window.location.href =
+                    "/login.html";
+
+                return;
+            }
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error ||
+                    "Nie udało się pobrać próśb."
+                );
+            }
+
+            countElement.innerText =
+                data.length;
+
+            tbody.innerHTML = "";
+
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="3"
+                            class="empty-row"
+                        >
+                            Brak oczekujących próśb.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            data.forEach((request) => {
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+                const createdAt = new Date(
+                    `${request.created_at}Z`
+                );
+
+                const formattedDate =
+                    Number.isNaN(
+                        createdAt.getTime()
+                    )
+                        ? request.created_at
+                        : createdAt.toLocaleString(
+                            "pl-PL"
+                        );
+
+                row.innerHTML = `
+                    <td>
+                        <strong>
+                            ${escapeHtml(request.username)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(formattedDate)}
+                    </td>
+
+                    <td>
+                        <button
+                            type="button"
+                            class="btn btn-reset"
+                            onclick='openResetPasswordModal(
+                                ${request.id},
+                                ${JSON.stringify(request.username)}
+                            )'
+                        >
+                            Ustaw hasło tymczasowe
+                        </button>
+                    </td>
+                `;
+
+                tbody.appendChild(row);
+            });
+
+        } catch (error) {
+            console.error(
+                "Błąd pobierania próśb:",
+                error
+            );
+
+            countElement.innerText = "0";
+
+            tbody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="3"
+                        class="empty-row"
+                    >
+                        Nie udało się pobrać próśb.
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function openResetPasswordModal(
+        requestId,
+        username
+    ) {
+        selectedResetRequestId =
+            requestId;
+
+        document.getElementById(
+            "reset-modal-username"
+        ).innerText = username;
+
+        document.getElementById(
+            "temporary-password"
+        ).value = "";
+
+        const message =
+            document.getElementById(
+                "reset-modal-message"
+            );
+
+        message.innerText = "";
+        message.className =
+            "admin-modal-message";
+
+        document.getElementById(
+            "reset-password-modal"
+        ).classList.add(
+            "visible"
+        );
+
+        setTimeout(() => {
+            document.getElementById(
+                "temporary-password"
+            ).focus();
+        }, 50);
+    }
+
+    function closeResetPasswordModal() {
+        selectedResetRequestId = null;
+
+        document.getElementById(
+            "reset-password-modal"
+        ).classList.remove(
+            "visible"
+        );
+    }
+
+    async function completePasswordReset() {
+        const password =
+            document.getElementById(
+                "temporary-password"
+            ).value;
+
+        const message =
+            document.getElementById(
+                "reset-modal-message"
+            );
+
+        message.innerText = "";
+        message.className =
+            "admin-modal-message";
+
+        if (!selectedResetRequestId) {
+            message.innerText =
+                "Nie wybrano prośby.";
+
+            message.className =
+                "admin-modal-message error";
+
+            return;
+        }
+
+        if (password.length < 6) {
+            message.innerText =
+                "Hasło musi mieć co najmniej 6 znaków.";
+
+            message.className =
+                "admin-modal-message error";
+
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `/api/admin/password-reset-requests/${selectedResetRequestId}/complete`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        newPassword: password
+                    })
+                }
+            );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error ||
+                    "Nie udało się zmienić hasła."
+                );
+            }
+
+            message.innerText =
+                data.message;
+
+            message.className =
+                "admin-modal-message success";
+
+            await loadPasswordResetRequests();
+
+            setTimeout(() => {
+                closeResetPasswordModal();
+            }, 1200);
+
+        } catch (error) {
+            message.innerText =
+                error.message;
+
+            message.className =
+                "admin-modal-message error";
+        }
+    }
+
+    function openUserView() {
+        window.location.href =
+            "http://localhost:5173";
+    }
     // Wylogowywanie
     async function logout() {
         await fetch('/api/logout', { method: 'POST' });
@@ -91,7 +662,12 @@
 
     // Pobieranie i wyświetlanie użytkowników
     async function loadUsers() {
-        const res = await fetch('/api/admin/users');
+        const res = await fetch(
+            "/api/admin/users",
+            {
+                credentials: "include"
+            }
+        );
         if (!res.ok) return;
 
         const users = await res.json();
@@ -107,53 +683,303 @@
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>#${user.id}</td>
-                <td><strong>${user.username}</strong></td>
-                <td><span class="${roleBadgeClass}">${user.role}</span></td>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(user.username)}
+                    </strong>
+                </td>
+
+                <td>
+                    <span class="${roleBadgeClass}">
+                        ${escapeHtml(user.role)}
+                    </span>
+                </td>
+
                 <td>
                     ${actionBtn}
-                    <button class="btn btn-delete" onclick="deleteUser(${user.id}, '${user.username}')">Usuń</button>
+
+                    <button
+                        type="button"
+                        class="btn btn-delete"
+                        data-delete-user-id="${user.id}"
+                        data-delete-username="${escapeHtml(
+                            user.username
+                        )}"
+                    >
+                        Usuń
+                    </button>
                 </td>
             `;
+
+            const deleteButton = tr.querySelector(
+                "[data-delete-user-id]"
+            );
+
+            deleteButton.addEventListener(
+                "click",
+                () => {
+                    const userId = Number.parseInt(
+                        deleteButton.dataset.deleteUserId,
+                        10
+                    );
+
+                    const username =
+                        deleteButton.dataset.username;
+
+                    deleteUser(
+                        userId,
+                        username,
+                        deleteButton
+                    );
+                }
+            );
+
             tbody.appendChild(tr);
         });
     }
 
     // Zmiana roli
     async function changeRole(userId, newRole) {
-        if (!confirm(`Czy na pewno chcesz zmienić rolę tego użytkownika na ${newRole.toUpperCase()}?`)) return;
+        const confirmed = confirm(
+            `Czy na pewno chcesz zmienić rolę ` +
+            `tego użytkownika na ${newRole.toUpperCase()}?`
+        );
 
-        const res = await fetch(`/api/admin/users/${userId}/role`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ role: newRole })
-        });
+        if (!confirmed) {
+            return;
+        }
 
-        const data = await res.json();
-        if (res.ok) {
-            loadUsers(); // Odśwież tabelę
-        } else {
-            alert("Błąd: " + data.error);
+        try {
+            const res = await fetch(
+                `/api/admin/users/${userId}/role`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        role: newRole
+                    })
+                }
+            );
+
+            const responseText = await res.text();
+
+            let data = {};
+
+            try {
+                data = responseText
+                    ? JSON.parse(responseText)
+                    : {};
+            } catch (parseError) {
+                data = {
+                    error:
+                        responseText ||
+                        "Serwer nie zwrócił poprawnego JSON-a."
+                };
+            }
+
+            console.log(
+                "[CHANGE ROLE]",
+                {
+                    status: res.status,
+                    ok: res.ok,
+                    userId,
+                    newRole,
+                    response: data
+                }
+            );
+
+            if (!res.ok) {
+                throw new Error(
+                    data.error ||
+                    data.message ||
+                    `HTTP ${res.status}`
+                );
+            }
+
+            alert(
+                data.message ||
+                `Rola została zmieniona na ${newRole.toUpperCase()}.`
+            );
+
+            await loadUsers();
+
+        } catch (error) {
+            console.error(
+                "Błąd zmiany roli:",
+                error
+            );
+
+            alert(
+                "Nie udało się zmienić roli.\n\n" +
+                error.message
+            );
         }
     }
 
     // Usuwanie użytkownika
-    async function deleteUser(userId, username) {
-        if (!confirm(`Czy NA PEWNO chcesz trwale usunąć konto użytkownika "${username}"?`)) return;
+    async function deleteUser(
+        userId,
+        username,
+        deleteButton
+    ) {
+        console.log(
+            "[DELETE USER] Kliknięto:",
+            {
+                userId,
+                username
+            }
+        );
 
-        const res = await fetch(`/api/admin/users/${userId}`, {
-            method: 'DELETE'
-        });
+        if (
+            !Number.isInteger(userId) ||
+            userId <= 0
+        ) {
+            alert(
+                "Nieprawidłowe ID użytkownika."
+            );
 
-        const data = await res.json();
-        if (res.ok) {
-            loadUsers(); // Odśwież tabelę
-        } else {
-            alert("Błąd: " + data.error);
+            return;
+        }
+
+        const confirmed = window.confirm(
+            `Czy na pewno chcesz trwale usunąć ` +
+            `konto użytkownika "${username}"?\n\n` +
+            `Tej operacji nie można cofnąć.`
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        const originalText =
+            deleteButton?.innerText ||
+            "Usuń";
+
+        if (deleteButton) {
+            deleteButton.disabled = true;
+            deleteButton.innerText =
+                "Usuwanie...";
+            deleteButton.style.opacity =
+                "0.65";
+            deleteButton.style.cursor =
+                "wait";
+        }
+
+        try {
+            const response = await fetch(
+                `/api/admin/users/${userId}`,
+                {
+                    method: "DELETE",
+                    credentials: "include",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
+
+            const responseText =
+                await response.text();
+
+            let data = {};
+
+            try {
+                data = responseText
+                    ? JSON.parse(responseText)
+                    : {};
+            } catch (parseError) {
+                data = {
+                    error:
+                        responseText ||
+                        "Serwer zwrócił nieprawidłową odpowiedź."
+                };
+            }
+
+            console.log(
+                "[DELETE USER] Odpowiedź:",
+                {
+                    status: response.status,
+                    ok: response.ok,
+                    data
+                }
+            );
+
+            if (response.status === 401) {
+                alert(
+                    "Sesja wygasła. Zaloguj się ponownie."
+                );
+
+                window.location.href =
+                    "/login.html";
+
+                return;
+            }
+
+            if (response.status === 403) {
+                alert(
+                    data.error ||
+                    "Nie masz uprawnień do usuwania użytkowników."
+                );
+
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error ||
+                    data.message ||
+                    `Błąd HTTP ${response.status}`
+                );
+            }
+
+            alert(
+                data.message ||
+                `Konto użytkownika "${username}" zostało usunięte.`
+            );
+
+            await loadUsers();
+            await loadPasswordResetRequests();
+
+        } catch (error) {
+            console.error(
+                "[DELETE USER] Błąd:",
+                error
+            );
+
+            alert(
+                "Nie udało się usunąć użytkownika.\n\n" +
+                error.message
+            );
+
+        } finally {
+            if (
+                deleteButton &&
+                document.body.contains(
+                    deleteButton
+                )
+            ) {
+                deleteButton.disabled = false;
+                deleteButton.innerText =
+                    originalText;
+                deleteButton.style.opacity =
+                    "1";
+                deleteButton.style.cursor =
+                    "pointer";
+            }
         }
     }
 
     // Odpal załadowanie użytkowników od razu po otwarciu strony
-    window.onload = loadUsers;
+    window.onload = async function() {
+        await Promise.all([
+            loadUsers(),
+            loadPasswordResetRequests()
+        ]);
+    };
 </script>
 </body>
 </html>

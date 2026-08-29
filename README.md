@@ -1,21 +1,55 @@
-# Odds Comparison App
+# Comparing Rates
 
-A web application for comparing betting odds across bookmakers.
+Aplikacja internetowa do pobierania i porównywania kursów sportowych polskich oraz zagranicznych bukmacherów.
 
-## Features
-- Browse sports, leagues and matches
-- Compare odds from multiple bookmakers
-- Highlight highest and lowest odds
-- Top 5 best betting opportunities
-- Responsive UI
+System automatycznie łączy odpowiadające sobie wydarzenia, porównuje kursy, wykrywa największe różnice i może wysyłać znalezione okazje na Discord.
 
-## Tech stack
+## Funkcje
+
+- pobieranie kursów od polskich bukmacherów,
+- pobieranie kursów od zagranicznych bukmacherów,
+- automatyczne łączenie odpowiadających sobie wydarzeń,
+- porównywanie kursów dla dostępnych rynków,
+- wyróżnianie najwyższych i najniższych kursów,
+- lista najlepszych okazji kursowych,
+- automatyczne alerty Discord,
+- konta użytkowników,
+- logowanie i rejestracja,
+- role użytkownika i administratora,
+- zapisywanie ulubionych wydarzeń,
+- zmiana hasła po zalogowaniu,
+- odzyskiwanie hasła przez jednorazowy link e-mail,
+- panel administratora,
+- automatyczne uruchamianie scraperów według harmonogramu,
+- responsywny interfejs.
+
+## Technologie
+
+### Frontend
+
+- React
+- Vite
+- JavaScript
+- HTML
+- CSS
+
+### Backend
+
 - Node.js
 - Express
-- Vanilla JavaScript
-- HTML / CSS
+- SQLite
+- better-sqlite3
+- bcrypt
+- express-session
+- connect-sqlite3
+- Nodemailer
+- dotenv
 
-## How to run locally
-```bash
-npm install
-node src/server.js
+### Pobieranie i przetwarzanie danych
+
+- Python
+- automatyczne scrapery kursów
+- łączenie i normalizacja wydarzeń
+- webhook Discord
+
+## Struktura projektu

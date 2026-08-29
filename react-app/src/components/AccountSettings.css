@@ -119,3 +119,24 @@
 
 .error-msg { background-color: #451a1a; color: #ef4444; border: 1px solid #7f1d1d; }
 .success-msg { background-color: #064e3b; color: #10b981; border: 1px solid #065f46; }
+
+.email-form {
+    margin-bottom: 20px;
+}
+
+.save-email-btn {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #10b981;
+    border-radius: 6px;
+    background:
+        rgba(16, 185, 129, 0.14);
+    color: #34d399;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-email-btn:hover {
+    background:
+        rgba(16, 185, 129, 0.24);
+}

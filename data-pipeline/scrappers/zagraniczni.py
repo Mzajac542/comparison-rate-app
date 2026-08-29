@@ -1,568 +1,2667 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 import time
 import json
 import os
 import re
-from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
 import sys
 import io
 import subprocess
 import requests
+from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+from urllib.parse import urljoin, urlparse
 
-# Wymuszamy kodowanie UTF-8 dla konsoli
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
-# ==========================================
-# 🌐 OBSŁUGA VPN
-# ==========================================
-def vpn_on():
-    print("🔄 Uruchamianie VPN...")
-    subprocess.run([r"C:\Users\mateu\Desktop\Programowanie\Projekt\start_vpn.bat"], shell=True)
-    time.sleep(15)
-
-def vpn_off():
-    print("⏹️ Wyłączanie VPN...")
-    subprocess.run([r"C:\Users\mateu\Desktop\Programowanie\Projekt\stop_vpn.bat"], shell=True)
-
-def sprawdz_ip():
-    try:
-        ip_info = requests.get('https://ipinfo.io/json', timeout=5).json()
-        if ip_info['country'] != 'NL':
-            print("UWAGA: Nie masz połączenia z NL! Przerwanie działania.")
-            exit()
-        else:
-            print(f"✅ Połączono z VPN. Zmiana IP na: {ip_info['ip']} ({ip_info['country']})")
-    except Exception as e:
-        print(f"Nie można sprawdzić IP: {e}")
-
-# ==========================================
-# ⚙️ USTAWIENIA I ZMIENNE
-# ==========================================
 SPORTY = {
     "Piłka nożna": "football",
     "Koszykówka": "basketball",
     "Tenis": "tennis",
     "Piłka ręczna": "handball",
-    "Boks": "boxing"
+    "Boks": "boxing",
 }
 
-WYKLUCZENI_BUKMACHERZY = [
-    "sts", "fortuna", "superbet", "betclic", "fuksiarz", "lv bet", "lvbet", 
-    "betfan", "etoto", "goplusbet", "totalbet", "betters", "comeon"
-]
+# Tryb testowy
+TRYB_TESTOWY = False
+SPORT_TESTOWY = None
+LIMIT_MECZOW_TESTOWYCH = 1
 
-SMIECIOWE_FRAZY = [
-    "18+", "onetrust", "logo", "data by", "cookie", "privacy", 
-    "tomorrow", "live", "today", "yesterday", "vs", "-",
-    "6", "8", "ie", "bg" 
-]
+BAZOWY_URL = "https://www.oddsportal.com"
+ZAPISUJ_DEBUG_HTML = False
+HEADLESS = True
 
-# ==========================================
-# 🛠️ FUNKCJE POMOCNICZE I PARSERY DOM
-# ==========================================
-def parsuj_kurs(element):
-    """Bezpieczny parser kursów z tekstów HTML"""
-    if not element:
-        return 0.0
-    tekst = element.text.strip()
-    if not tekst or tekst == "-":
-        return 0.0
+START_VPN_BAT = r"C:\Users\mateu\Desktop\Programowanie\Projekt\start_vpn.bat"
+STOP_VPN_BAT = r"C:\Users\mateu\Desktop\Programowanie\Projekt\stop_vpn.bat"
+WYMAGANY_KRAJ_VPN = "NL"
+
+ODRZUCANE_SEGMENTY = {
+    "results", "standings", "teams", "archive", "news", "bookmakers",
+    "predictions", "table", "in-play", "live", "outrights",
+}
+
+# Operatorzy, których nie zapisujemy w pliku zagranicznym.
+WYKLUCZENI_BUKMACHERZY = {
+    "sts", "sts.pl", "fortuna", "fortuna.pl", "efortuna", "efortuna.pl",
+    "superbet", "superbet.pl", "betclic", "betclic.pl", "fuksiarz",
+    "fuksiarz.pl", "lv bet", "lv bet.pl", "lvbet", "lvbet.pl", "betfan",
+    "betfan.pl", "etoto", "etoto.pl", "goplusbet", "totalbet", "betters",
+    "comeon",
+}
+
+ALIASES_BUKMACHEROW = {
+    "stake": "Stake.com",
+    "stakecom": "Stake.com",
+
+    "bet365nl": "bet365",
+    "bet365": "bet365",
+
+    "1xbet": "1xBet",
+    "22bet": "22Bet",
+    "888sport": "888sport",
+
+    "betathome": "bet-at-home",
+    "betsio": "Bets.io",
+    "betsson": "Betsson",
+    "betfury": "Betfury",
+    "cloudbet": "Cloudbet",
+    "duelbits": "Duelbits",
+    "ggbet": "GGBET",
+    "megapari": "Megapari",
+    "melbet": "Melbet",
+    "mozzartbet": "Mozzartbet",
+    "n1bet": "N1 Bet",
+    "rainbet": "Rainbet",
+    "roobet": "Roobet",
+    "shuffle": "Shuffle"
+}
+
+
+
+def vpn_on():
+    print("[VPN] Uruchamianie VPN...")
+    subprocess.run(START_VPN_BAT, shell=True, check=True)
+    time.sleep(15)
+
+
+def vpn_off():
+    print("[VPN] Wyłączanie VPN...")
     try:
-        oczyszczony = re.sub(r'[^\d.]', '', tekst)
-        return float(oczyszczony) if oczyszczony else 0.0
-    except ValueError:
-        return 0.0
+        subprocess.run(STOP_VPN_BAT, shell=True, check=False)
+    except Exception as blad:
+        print(f"[VPN] Nie udało się wyłączyć VPN: {blad}")
 
-def wyciagnij_nazwe_buka(logo):
-    zabronione = ["img", "logo", "bookmaker", ""]
-    
-    alt = logo.get('alt', '').strip()
-    if alt and alt.lower() not in zabronione: return alt
-        
-    title = logo.get('title', '').strip()
-    if title and title.lower() not in zabronione: return title
-        
-    parent = logo.parent
-    if parent:
-        p_title = parent.get('title', '').strip()
-        if p_title and p_title.lower() not in zabronione: return p_title
-            
-        p_tag = parent.find('p')
-        if p_tag:
-            p_text = p_tag.text.strip()
-            if p_text and p_text.lower() not in zabronione: return p_text
-                
-        p_text_direct = parent.text.strip()
-        if p_text_direct and p_text_direct.lower() not in zabronione:
-            return p_text_direct.split('\n')[0].strip()
-            
-    return ""
 
-def znajdz_wartosc_linii(element):
-    """Wspólny parser wartości linii (Over/Under, Handicap) idący w górę drzewa DOM."""
-    curr = element
-    for _ in range(6):
-        if not curr or curr.name in ['body', 'html']: break
-        
-        header = curr.find('div', class_=re.compile(r'cursor-pointer'))
-        if header:
-            tekst = header.get_text(separator=" ", strip=True)
-            
-            # 1. Dopasowanie linii tuż po nazwie rynku
-            match = re.search(r'(?:Over/Under|Handicap|Total|Asian Handicap|AH)\s*([\+\-]?\d+(?:\.\d+)?)', tekst, re.IGNORECASE)
-            if match:
-                val = match.group(1)
-                if not val.startswith(('+', '-')) and val != "0":
-                    val = '+' + val
-                return val
+def sprawdz_ip():
+    response = requests.get("https://ipinfo.io/json", timeout=10)
+    response.raise_for_status()
+    ip_info = response.json()
+    kraj = ip_info.get("country")
+    adres_ip = ip_info.get("ip", "brak")
+    if kraj != WYMAGANY_KRAJ_VPN:
+        raise RuntimeError(
+            f"VPN nie wskazuje kraju {WYMAGANY_KRAJ_VPN}. "
+            f"IP={adres_ip}, kraj={kraj}"
+        )
+    print(f"[VPN] Połączono. IP={adres_ip}, kraj={kraj}")
 
-            # 2. Fallback: Pobranie wartości liczbowej po odfiltrowaniu śmieci
-            tekst_czysty = re.sub(r'3\s*way|1st|2nd|payout|\d+%', '', tekst, flags=re.IGNORECASE)
-            matches = re.findall(r'([\+\-]\d{1,3}(?:\.\d+)?|\d{1,3}\.\d+)', tekst_czysty)
-            if not matches:
-                matches = re.findall(r'([\+\-]?\d{1,3})', tekst_czysty)
-                
-            matches = [m for m in matches if m and m not in ['+', '-']]
-            if matches:
-                val = matches[0]
-                if not val.startswith(('+', '-')) and val != "0":
-                    val = '+' + val
-                return val
-        curr = curr.parent
-    return None
 
-def parse_standard_odds(html_content, home="", away=""):
-    soup = BeautifulSoup(html_content, "html.parser")
-    wyniki = {}
-    
-    rows = soup.find_all('div', class_=re.compile(r'border-b|flex-row|table-row-item', re.IGNORECASE))
-    
-    for row in rows:
-        odds_elements = row.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
-        if not odds_elements: continue
-            
-        logo = row.find('img')
-        if not logo: continue
-            
-        name = wyciagnij_nazwe_buka(logo)
-        if not name: continue
-        name_lower = name.lower()
-        
-        if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): continue
-        if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): continue
-        if home and name_lower == home.lower(): continue
-        if away and name_lower == away.lower(): continue
-        if len(name) < 3 or len(name) > 30: continue
+def uprosc_nazwe(tekst):
+    tekst = re.sub(r"\s+", " ", str(tekst or "")).strip()
+    return tekst
 
-        kursy = [parsuj_kurs(odd) for odd in odds_elements if parsuj_kurs(odd) > 0]
-        if kursy:
-            wyniki[name] = kursy
-            
-    return wyniki
 
-def wejdz_w_zakladke(page_obj, tab_name):
-    tab = page_obj.locator(f'text="{tab_name}" >> visible=true').first
-    if tab.count() > 0:
-        tab.click(force=True)
-        page_obj.wait_for_timeout(2000)
-        return True
-        
-    more_btn = page_obj.locator('text="More" >> visible=true').first
-    if more_btn.count() > 0:
-        more_btn.click(force=True)
-        page_obj.wait_for_timeout(1000)
-        
-        tab_in_more = page_obj.locator(f'text="{tab_name}" >> visible=true').first
-        if tab_in_more.count() > 0:
-            tab_in_more.click(force=True)
-            page_obj.wait_for_timeout(2000)
+def klucz_nazwy_bukmachera(nazwa):
+    nazwa = uprosc_nazwe(
+        nazwa
+    ).lower()
+
+    nazwa = re.sub(
+        r"[^a-z0-9]+",
+        "",
+        nazwa
+    )
+
+    return nazwa
+
+
+def czy_bukmacher_zagraniczny(nazwa):
+    if not nazwa:
+        return False
+    klucz = klucz_nazwy_bukmachera(nazwa)
+    wykluczone = {klucz_nazwy_bukmachera(x) for x in WYKLUCZENI_BUKMACHERZY}
+    return klucz not in wykluczone
+
+
+def wyczysc_nazwe_bukmachera(tekst):
+    tekst = uprosc_nazwe(tekst)
+    if not tekst:
+        return ""
+
+    tekst = re.sub(
+        r"\b(?:zgarnij|claim|get)\s+(?:bonus|offer)\b.*$",
+        "",
+        tekst,
+        flags=re.IGNORECASE,
+    ).strip()
+
+    # Komórka często zawiera logo oraz właściwą nazwę tekstową.
+    kandydaci = re.findall(
+        r"[A-Za-z0-9][A-Za-z0-9 .&+'_-]{1,35}(?:\.[A-Za-z]{2,3})?",
+        tekst,
+    )
+    kandydaci = [uprosc_nazwe(x).strip(" -|") for x in kandydaci]
+    kandydaci = [x for x in kandydaci if 2 <= len(x) <= 40]
+
+    if not kandydaci:
+        return tekst[:40].strip()
+
+    # Najczęściej ostatni sensowny fragment jest nazwą wyświetlaną, np. Bet365.nl.
+    for kandydat in reversed(kandydaci):
+        maly = kandydat.lower()
+        if not any(x in maly for x in ["bonus", "bookmaker", "payout", "kurs"]):
+            return kandydat
+
+    return kandydaci[-1]
+
+
+def obsluz_baner_cookies(page_obj):
+    przyciski = [
+        "#onetrust-reject-all-handler",
+        "#onetrust-accept-btn-handler",
+        ".onetrust-close-btn-handler",
+    ]
+
+    for selektor in przyciski:
+        try:
+            przycisk = page_obj.locator(
+                selektor
+            ).first
+
+            if (
+                przycisk.count() > 0
+                and przycisk.is_visible()
+            ):
+                przycisk.click(
+                    timeout=3000,
+                    force=True
+                )
+
+                page_obj.wait_for_timeout(500)
+
+                print(
+                    f"      [COOKIES] "
+                    f"Zamknięto OneTrust: "
+                    f"{selektor}"
+                )
+
+                return True
+
+        except Exception:
+            continue
+
+    try:
+        usunieto = page_obj.evaluate(
+            """
+            () => {
+                const selektory = [
+                    "#onetrust-consent-sdk",
+                    ".onetrust-pc-dark-filter",
+                    "#onetrust-banner-sdk"
+                ];
+
+                let liczba = 0;
+
+                for (const selektor of selektory) {
+                    const elementy =
+                        document.querySelectorAll(
+                            selektor
+                        );
+
+                    for (const element of elementy) {
+                        element.remove();
+                        liczba++;
+                    }
+                }
+
+                if (document.body) {
+                    document.body.style.overflow = "auto";
+                    document.body.style.pointerEvents = "auto";
+                }
+
+                if (document.documentElement) {
+                    document.documentElement.style.overflow = "auto";
+                }
+
+                return liczba;
+            }
+            """
+        )
+
+        if usunieto > 0:
+            print(
+                f"      [COOKIES] "
+                f"Awaryjnie usunięto "
+                f"{usunieto} elementów OneTrust."
+            )
+
+            page_obj.wait_for_timeout(300)
             return True
-            
+
+    except Exception as blad:
+        print(
+            f"      [DEBUG COOKIES] "
+            f"Nie udało się usunąć banera: "
+            f"{blad}"
+        )
+
     return False
 
-def rozwin_ukryte_linie(page_obj):
-    """Rozwija zablokowane/ukryte akordiony dla O/U i Handicap za pomocą JS."""
-    js_skrypt = """
-    () => {
-        let klikniete = 0;
-        let naglowki = document.querySelectorAll('div.cursor-pointer');
-        for (let el of naglowki) {
-            let tekst = el.innerText || "";
-            if (tekst.includes("Over/Under") || tekst.includes("Handicap") || tekst.includes("Total") || tekst.includes("Asian Handicap")) {
-                let rodzic = el.parentElement;
-                let nastepny = el.nextElementSibling;
-                let czy_otwarte = (rodzic && rodzic.innerText && rodzic.innerText.includes("Bookmakers")) || 
-                                  (nastepny && nastepny.innerText && nastepny.innerText.includes("Bookmakers"));
-                if (!czy_otwarte) {
-                    el.click();
-                    klikniete++;
-                }
-            }
-        }
-        return klikniete;
-    }
-    """
-    for proba in range(6):
-        page_obj.wait_for_timeout(500)
-        ile_kliknieto = page_obj.evaluate(js_skrypt)
-        if ile_kliknieto > 0:
-            print(f"      [~] Rozwinięto {ile_kliknieto} ukrytych linii kursowych (próba {proba+1})...")
-            page_obj.wait_for_timeout(2000)
-        else:
-            break
 
-# ==========================================
-# 🚀 GŁÓWNY PROCES SCRAPOWANIA
-# ==========================================
-def pobierz_zagranicznych_z_oddsportal():
-    vpn_on()
-    sprawdz_ip()
-    
-    print("\n-> [ZAGRANICZNI BUKMACHERZY - ODDSPORTAL] START (Jutro + Pojutrze)")
+def bezpieczne_klikniecie(
+    page_obj,
+    element,
+    timeout_ms=5000
+):
+    obsluz_baner_cookies(page_obj)
 
-    baza_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    output = os.path.join(baza_dir, "data", "zagraniczni.json")
-    os.makedirs(os.path.dirname(output), exist_ok=True)
-
-    wszystkie_mecze = []
-    data_dzis = datetime.now()
-    data_jutro_url = (data_dzis + timedelta(days=1)).strftime("%Y%m%d")
-    data_jutro_str = (data_dzis + timedelta(days=1)).strftime("%d.%m.%Y")
-    data_pojutrze_url = (data_dzis + timedelta(days=2)).strftime("%Y%m%d")
-    data_pojutrze_str = (data_dzis + timedelta(days=2)).strftime("%d.%m.%Y")
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            viewport={"width": 1920, "height": 1080},
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    try:
+        element.scroll_into_view_if_needed(
+            timeout=3000
         )
-        
-        page = context.new_page()
+
+        element.click(
+            timeout=timeout_ms
+        )
+
+        return True
+
+    except Exception as pierwszy_blad:
+        tekst_bledu = str(
+            pierwszy_blad
+        ).lower()
+
+        if (
+            "onetrust" in tekst_bledu
+            or "intercepts pointer events" in tekst_bledu
+        ):
+            obsluz_baner_cookies(
+                page_obj
+            )
 
         try:
+            element.click(
+                timeout=timeout_ms,
+                force=True
+            )
+
+            print(
+                "      [CLICK] "
+                "Użyto kliknięcia wymuszonego."
+            )
+
+            return True
+
+        except Exception:
+            pass
+
+        try:
+            element.evaluate(
+                """
+                element => element.click()
+                """
+            )
+
+            print(
+                "      [CLICK] "
+                "Użyto kliknięcia JavaScript."
+            )
+
+            return True
+
+        except Exception as drugi_blad:
+            print(
+                f"      [WARN CLICK] "
+                f"Nie udało się kliknąć: "
+                f"{drugi_blad}"
+            )
+
+            return False
+
+def bezpieczny_id(tekst):
+    tekst = str(tekst).lower().strip()
+    tekst = re.sub(r"[^a-z0-9ąćęłńóśźż]+", "_", tekst)
+    return tekst.strip("_")
+
+
+def liczba_kursow_glownych(nazwa_sportu):
+    if nazwa_sportu in {"Piłka nożna", "Piłka ręczna"}:
+        return 3
+    if nazwa_sportu in {"Koszykówka", "Tenis", "Boks"}:
+        return 2
+    return 0
+
+
+def normalizuj_link_meczu(href, sciezka_sportu):
+    if href is None:
+        return None
+    href = str(href).strip()
+    if not href or href.startswith(("javascript:", "mailto:", "tel:", "#")):
+        return None
+
+    pelny_url = urljoin(BAZOWY_URL + "/", href)
+    parsed = urlparse(pelny_url)
+    if not parsed.netloc.lower().endswith("oddsportal.com"):
+        return None
+
+    parts = [x.strip() for x in parsed.path.split("/") if x.strip()]
+    lower = [x.lower() for x in parts]
+    if not parts:
+        return None
+
+    jezyki = {"pl", "en", "de", "es", "fr", "it", "pt", "cz", "sk", "nl"}
+    indeks = 1 if lower[0] in jezyki else 0
+    if indeks >= len(lower) or lower[indeks] != sciezka_sportu.lower():
+        return None
+    if indeks + 1 >= len(lower) or lower[indeks + 1] != "h2h":
+        return None
+    if indeks + 3 >= len(parts):
+        return None
+
+    event_id = parsed.fragment.strip().strip("/")
+    if not event_id or not (6 <= len(event_id) <= 24) or not event_id.isalnum():
+        return None
+
+    scheme = parsed.scheme or "https"
+    return f"{scheme}://{parsed.netloc}/{'/'.join(parts)}/#{event_id}"
+
+
+def pobierz_tekst_strony(page_obj):
+    try:
+        return page_obj.locator("body").inner_text(timeout=3000)
+    except Exception:
+        return ""
+
+
+def wykryj_blad_oddsportal(page_obj):
+    tekst = pobierz_tekst_strony(page_obj).lower()
+    komunikaty = [
+        "failed to fetch data", "invalid encrypted ajax payload",
+        "unexpected response format", "access denied", "temporarily unavailable",
+    ]
+    return any(x in tekst for x in komunikaty)
+
+
+def czy_tabela_kursow_jest(page_obj):
+    try:
+        if page_obj.url.startswith("chrome-error://"):
+            return False
+        return page_obj.evaluate(
+            r"""
+            () => {
+                const body = document.body;
+                if (!body) return false;
+                const text = (body.innerText || '').toLowerCase();
+                if (text.includes('failed to fetch data') ||
+                    text.includes('invalid encrypted ajax payload') ||
+                    text.includes('unexpected response format') ||
+                    text.includes('access denied') ||
+                    text.includes('temporarily unavailable')) return false;
+                const odds = Array.from(document.querySelectorAll(
+                    '[data-testid="odd-container-default"], [data-testid="odd-container"]'
+                )).filter(el => /^\d{1,3}[.,]\d{2,3}$/.test((el.textContent || '').trim()));
+                return odds.length >= 2 &&
+                    (text.includes('bookmakers') || text.includes('bukmacherzy'));
+            }
+            """
+        )
+    except Exception:
+        return False
+
+
+def czekaj_na_tabele_kursow(page_obj, timeout_ms=15000):
+    start = time.time()
+    while (time.time() - start) * 1000 < timeout_ms:
+        if wykryj_blad_oddsportal(page_obj):
+            return False, "blad_ajax"
+        if czy_tabela_kursow_jest(page_obj):
+            return True, "ok"
+        try:
+            page_obj.mouse.wheel(0, 250)
+        except Exception:
+            pass
+        page_obj.wait_for_timeout(750)
+    return False, "timeout"
+
+
+def zapisz_debug_html(page_obj, output_dir, nazwa):
+    if not ZAPISUJ_DEBUG_HTML:
+        return
+    try:
+        nazwa = re.sub(r"[^A-Za-z0-9_.-]+", "_", nazwa)
+        sciezka = os.path.join(output_dir, f"debug_{nazwa}.html")
+        with open(sciezka, "w", encoding="utf-8") as plik:
+            plik.write(page_obj.content())
+        print(f"      [DEBUG] Zapisano HTML: {sciezka}")
+    except Exception as blad:
+        print(f"      [DEBUG] Nie zapisano HTML: {blad}")
+
+
+def pobierz_godzine_z_elementu(element):
+    try:
+        tekst = element.inner_text(timeout=1000)
+    except Exception:
+        tekst = ""
+    match = re.search(r"\b([01]\d|2[0-3]):[0-5]\d\b", tekst)
+    return match.group(0) if match else "00:00"
+
+
+def pobierz_linki_meczow_z_listy(page_obj, sciezka_sportu, dzien, debug_dir):
+    znalezione = []
+    widziane = set()
+    wiersze = page_obj.locator('[data-testid="game-row"]')
+    try:
+        liczba = wiersze.count()
+    except Exception:
+        liczba = 0
+
+    print(f"    [INFO] Wykryto {liczba} wierszy data-testid=game-row")
+    for indeks in range(liczba):
+        try:
+            wiersz = wiersze.nth(indeks)
+            link_element = wiersz.locator('a[href*="/h2h/"][href*="#"]').first
+            if link_element.count() == 0:
+                continue
+            href = link_element.get_attribute("href")
+            url = normalizuj_link_meczu(href, sciezka_sportu)
+            if not url:
+                continue
+            godzina = pobierz_godzine_z_elementu(wiersz)
+            klucz = (url, dzien)
+            if klucz in widziane:
+                continue
+            widziane.add(klucz)
+            znalezione.append((url, dzien, godzina))
+        except Exception as blad:
+            print(f"      [WARN] Błąd wiersza {indeks + 1}: {blad}")
+
+    if not znalezione:
+        zapisz_debug_html(page_obj, debug_dir, f"lista_{sciezka_sportu}_{dzien}")
+    return znalezione
+
+
+def wyczysc_tytul_meczu(title_raw):
+    if not title_raw:
+        return ""
+    tytul = re.sub(r"\s+", " ", str(title_raw)).strip()
+    tytul = re.sub(r"\s+vs\.?\s+", " - ", tytul, flags=re.IGNORECASE)
+    wzorce = [
+        r"\s*-\s*(?:kursy|typy|prognozy)(?:\s*,\s*|\s+).*?$",
+        r"\s*-\s*odds\s*,\s*predictions.*?$",
+        r"\s*-\s*(?:odds|predictions|results|h2h).*?$",
+    ]
+    for wzorzec in wzorce:
+        tytul = re.sub(wzorzec, "", tytul, flags=re.IGNORECASE)
+    return tytul.strip(" -")
+
+
+def wejdz_w_zakladke(page_obj, tab_name):
+    warianty = {
+        "1X2": [
+            "1X2"
+        ],
+        "Home/Away": [
+            "Home/Away",
+            "Home / Away",
+            "Moneyline",
+            "12"
+        ],
+        "Both Teams to Score": [
+            "Both Teams to Score",
+            "BTTS",
+            "Obie drużyny strzelą"
+        ],
+        "Double Chance": [
+            "Double Chance",
+            "Podwójna szansa",
+            "Podwojna szansa"
+        ],
+        "Over/Under": [
+            "Over/Under",
+            "Totals",
+            "Powyżej/Poniżej",
+            "Powyżej / Poniżej"
+        ],
+        "Asian Handicap": [
+            "Asian Handicap",
+            "Handicap",
+            "Handicap azjatycki",
+            "Games Handicap",
+            "Game Handicap"
+        ]
+    }
+
+    nazwy = warianty.get(
+        tab_name,
+        [tab_name]
+    )
+
+    def kliknij(locator, opis):
+        try:
+            liczba = locator.count()
+        except Exception:
+            liczba = 0
+
+        for indeks in range(liczba):
+            try:
+                element = locator.nth(
+                    indeks
+                )
+
+                if not element.is_visible():
+                    continue
+
+                if not bezpieczne_klikniecie(
+                    page_obj,
+                    element,
+                    timeout_ms=5000
+                ):
+                    continue
+
+                page_obj.wait_for_timeout(
+                    2500
+                )
+
+                print(
+                    f"      [INFO] Kliknięto: "
+                    f"{opis}"
+                )
+
+                return True
+
+            except Exception as blad:
+                print(
+                    f"      [DEBUG TAB] "
+                    f"Nie udało się kliknąć "
+                    f"{opis!r}: {blad}"
+                )
+
+        return False
+
+    for nazwa in nazwy:
+        locator = page_obj.locator(
+            '[data-testid="sports-nav"] button'
+        ).filter(
+            has_text=re.compile(
+                rf"^\s*{re.escape(nazwa)}\s*$",
+                re.IGNORECASE
+            )
+        )
+
+        if kliknij(
+            locator,
+            nazwa
+        ):
+            return True
+
+    for menu in [
+        "Więcej",
+        "More"
+    ]:
+        locator_menu = page_obj.get_by_text(
+            menu,
+            exact=True
+        )
+
+        if not kliknij(
+            locator_menu,
+            menu
+        ):
+            continue
+
+        page_obj.wait_for_timeout(
+            750
+        )
+
+        for nazwa in nazwy:
+            locator = page_obj.get_by_text(
+                nazwa,
+                exact=True
+            )
+
+            if kliknij(
+                locator,
+                nazwa
+            ):
+                return True
+
+    print(
+        f"      [INFO] Nie znaleziono "
+        f"zakładki: {tab_name}"
+    )
+
+    return False
+
+
+def pobierz_aktywny_rynek(page_obj):
+    try:
+        aktywny = page_obj.locator('[data-testid="sports-nav-active-tab"]').first
+        if aktywny.count() == 0:
+            return ""
+        return aktywny.inner_text(timeout=2000).strip()
+    except Exception:
+        return ""
+
+
+def pobierz_widoczna_tabele_glowna(page_obj, nazwa_sportu):
+    tabele = page_obj.locator("table")
+    try:
+        liczba = tabele.count()
+    except Exception:
+        liczba = 0
+
+    for indeks in range(liczba):
+        tabela = tabele.nth(indeks)
+        try:
+            if not tabela.is_visible():
+                continue
+            naglowek = tabela.locator("thead").inner_text(timeout=1500)
+            naglowek = re.sub(r"\s+", " ", naglowek).strip().lower()
+        except Exception:
+            continue
+
+        if any(x in naglowek for x in ["over", "under", "handicap"]):
+            continue
+
+        ma_1 = bool(re.search(r"(^|\s)1(?:\s|$)", naglowek))
+        ma_x = bool(re.search(r"(^|\s)x(?:\s|$)", naglowek))
+        ma_2 = bool(re.search(r"(^|\s)2(?:\s|$)", naglowek))
+
+        if nazwa_sportu in {"Piłka nożna", "Piłka ręczna"}:
+            if ma_1 and ma_x and ma_2:
+                return tabela
+        else:
+            ma_bukmacherow = "bookmakers" in naglowek or "bukmacherzy" in naglowek
+            ma_payout = any(x in naglowek for x in ["payout", "wypłata", "wyplata"])
+            if ma_bukmacherow and ma_1 and ma_2 and not ma_x and ma_payout:
+                return tabela
+    return None
+
+def czy_poprawna_nazwa_bukmachera(nazwa):
+    nazwa = uprosc_nazwe(
+        nazwa
+    )
+
+    if not nazwa:
+        return False
+
+    if len(nazwa) < 2 or len(nazwa) > 40:
+        return False
+
+    maly = nazwa.lower().strip()
+
+    niedozwolone_fragmenty = [
+        "asian handicap",
+        "over/under",
+        "over under",
+        "double chance",
+        "both teams to score",
+        "home/away",
+        "home / away",
+        "moneyline",
+        "best odds",
+        "opening odds",
+        "show more"
+    ]
+
+    if any(
+        fragment in maly
+        for fragment in niedozwolone_fragmenty
+    ):
+        return False
+
+    niedozwolone_dokladne = {
+        "handicap",
+        "payout",
+        "bookmakers",
+        "bookmaker",
+        "bukmacherzy",
+        "więcej",
+        "more",
+        "kursy",
+        "odds",
+        "total",
+        "totals",
+        "featured",
+        "average",
+        "maximum",
+        "minimum",
+        "live",
+        "suspended",
+        "closed",
+        "market",
+        "result",
+        "results",
+        "draw",
+        "home",
+        "away",
+        "yes",
+        "no",
+        "tak",
+        "nie"
+    }
+
+    if maly in niedozwolone_dokladne:
+        return False
+
+    if re.match(
+        r"^(?:asian\s+handicap|handicap|"
+        r"over\s*/?\s*under)"
+        r"\s*[+-]?\d",
+        maly
+    ):
+        return False
+
+    if re.fullmatch(
+        r"[+-]?\d+(?:[.,]\d+)?"
+        r"(?:\s+\d+)?",
+        maly
+    ):
+        return False
+
+    if not re.search(
+        r"[a-z]",
+        maly
+    ):
+        return False
+
+    slowa = re.findall(
+        r"[a-z0-9]+",
+        maly
+    )
+
+    if len(slowa) > 5:
+        return False
+
+    liczby = re.findall(
+        r"[+-]?\d+(?:[.,]\d+)?",
+        maly
+    )
+
+    if len(liczby) >= 2:
+        return False
+
+    return czy_bukmacher_zagraniczny(
+        nazwa
+    )
+
+
+
+def pobierz_nazwe_bukmachera_z_rzedu_playwright(
+    rzad
+):
+    kandydaci = []
+
+    selektory = [
+        '[data-testid="outrights-expanded-bookmaker-name"]',
+        '[data-testid*="bookmaker-name"]',
+        'a[href*="/bookmaker/"]',
+        'a[href*="/bookmakers/"]',
+        "td:first-child"
+    ]
+
+    for selektor in selektory:
+        try:
+            elementy = rzad.locator(
+                selektor
+            )
+
+            liczba_elementow = (
+                elementy.count()
+            )
+
+        except Exception:
+            continue
+
+        for indeks in range(
+            liczba_elementow
+        ):
+            element = elementy.nth(
+                indeks
+            )
+
+            try:
+                tekst = element.inner_text(
+                    timeout=1000
+                )
+
+                if tekst:
+                    kandydaci.append(
+                        tekst
+                    )
+
+            except Exception:
+                pass
+
+            for atrybut in [
+                "title",
+                "aria-label",
+                "alt"
+            ]:
+                try:
+                    wartosc = (
+                        element.get_attribute(
+                            atrybut
+                        )
+                    )
+
+                    if wartosc:
+                        kandydaci.append(
+                            wartosc
+                        )
+
+                except Exception:
+                    pass
+
+            try:
+                obrazki = element.locator(
+                    "img"
+                )
+
+                for indeks_obrazka in range(
+                    obrazki.count()
+                ):
+                    obrazek = obrazki.nth(
+                        indeks_obrazka
+                    )
+
+                    for atrybut in [
+                        "alt",
+                        "title",
+                        "aria-label"
+                    ]:
+                        wartosc = (
+                            obrazek.get_attribute(
+                                atrybut
+                            )
+                        )
+
+                        if wartosc:
+                            kandydaci.append(
+                                wartosc
+                            )
+
+            except Exception:
+                pass
+
+    # Najpierw usuwamy powtarzające się wartości.
+    unikalni_kandydaci = []
+
+    for kandydat in kandydaci:
+        kandydat = uprosc_nazwe(
+            kandydat
+        )
+
+        if (
+            kandydat
+            and kandydat
+            not in unikalni_kandydaci
+        ):
+            unikalni_kandydaci.append(
+                kandydat
+            )
+
+    for tekst in unikalni_kandydaci:
+        # Najpierw próbujemy znaleźć nazwę
+        # przed napisem dotyczącym bonusu.
+        oczyszczony = re.split(
+            r"\b(?:ZGARNIJ|CLAIM|GET)\b",
+            tekst,
+            maxsplit=1,
+            flags=re.IGNORECASE
+        )[0]
+
+        oczyszczony = uprosc_nazwe(
+            oczyszczony
+        )
+
+        # Usunięcie powtórzonej nazwy z logo:
+        # "22Bet 22Bet" -> "22Bet"
+        slowa = oczyszczony.split()
+
+        if (
+            len(slowa) >= 2
+            and slowa[0].lower()
+            == slowa[1].lower()
+        ):
+            oczyszczony = " ".join(
+                slowa[1:]
+            )
+
+        nazwa = wyczysc_nazwe_bukmachera(
+            oczyszczony
+        )
+
+        nazwa = normalizuj_nazwe_bukmachera(
+            nazwa
+        )
+
+        if czy_poprawna_nazwa_bukmachera(
+            nazwa
+        ):
+            return nazwa
+
+    return None
+
+
+def normalizuj_nazwe_bukmachera(nazwa):
+    nazwa = uprosc_nazwe(
+        nazwa
+    )
+
+    klucz = klucz_nazwy_bukmachera(
+        nazwa
+    )
+
+    return ALIASES_BUKMACHEROW.get(
+        klucz,
+        nazwa
+    )
+
+def pobierz_kursy_z_locatorow(locator):
+    kursy = []
+    for indeks in range(locator.count()):
+        try:
+            tekst = locator.nth(indeks).inner_text(timeout=1000).replace(",", ".")
+        except Exception:
+            continue
+        match = re.search(r"(?<!\d)(\d{1,3}(?:\.\d{1,3})?)(?!\d)", tekst)
+        if not match:
+            continue
+        try:
+            kurs = float(match.group(1))
+        except ValueError:
+            continue
+        if 1.0 <= kurs <= 1000:
+            kursy.append(kurs)
+    return kursy
+
+
+def pobierz_kursy_glowne_playwright(
+    page_obj,
+    nazwa_sportu
+):
+    tabela = pobierz_widoczna_tabele_glowna(
+        page_obj,
+        nazwa_sportu
+    )
+
+    if tabela is None:
+        print(
+            "      [WARN MAIN] "
+            "Nie znaleziono głównej tabeli."
+        )
+        return {}
+
+    wymagane = liczba_kursow_glownych(
+        nazwa_sportu
+    )
+
+    wyniki = {}
+
+    rzedy = tabela.locator(
+        "tbody tr"
+    )
+
+    try:
+        liczba_rzedow = rzedy.count()
+    except Exception:
+        liczba_rzedow = 0
+
+    print(
+        f"      [DEBUG MAIN] "
+        f"Wiersze w głównej tabeli: "
+        f"{liczba_rzedow}"
+    )
+
+    for indeks in range(
+        liczba_rzedow
+    ):
+        rzad = rzedy.nth(
+            indeks
+        )
+
+        try:
+            tekst_rzedu = rzad.inner_text(
+                timeout=1500
+            )
+
+            tekst_rzedu = re.sub(
+                r"\s+",
+                " ",
+                tekst_rzedu
+            ).strip()
+
+        except Exception:
+            tekst_rzedu = ""
+
+        nazwa = (
+            pobierz_nazwe_bukmachera_z_rzedu_playwright(
+                rzad
+            )
+        )
+
+        if not nazwa:
+            print(
+                f"      [SKIP MAIN NAME] "
+                f"Wiersz {indeks + 1}: "
+                f"{tekst_rzedu!r}"
+            )
+            continue
+
+        nazwa = normalizuj_nazwe_bukmachera(
+            nazwa
+        )
+
+        kursy_locator = rzad.locator(
+            '[data-testid="odd-container-default"], '
+            '[data-testid="odd-container"]'
+        )
+
+        kursy = pobierz_kursy_z_locatorow(
+            kursy_locator
+        )
+
+        # Fallback: odczyt kursów bezpośrednio
+        # z kolejnych komórek tabeli.
+        if len(kursy) < wymagane:
+            kursy = []
+
+            komorki = rzad.locator(
+                "td"
+            )
+
+            try:
+                liczba_komorek = komorki.count()
+            except Exception:
+                liczba_komorek = 0
+
+            # Pierwsza komórka zawiera bukmachera.
+            # Następne zawierają kursy i payout.
+            for indeks_komorki in range(
+                1,
+                liczba_komorek
+            ):
+                komorka = komorki.nth(
+                    indeks_komorki
+                )
+
+                try:
+                    tekst = komorka.inner_text(
+                        timeout=1000
+                    )
+
+                    tekst = tekst.replace(
+                        ",",
+                        "."
+                    ).strip()
+
+                except Exception:
+                    continue
+
+                # Pomijamy procent payout.
+                if "%" in tekst:
+                    continue
+
+                dopasowanie = re.search(
+                    r"(?<!\d)"
+                    r"(\d{1,3}(?:\.\d{1,3})?)"
+                    r"(?!\d)",
+                    tekst
+                )
+
+                if not dopasowanie:
+                    continue
+
+                try:
+                    kurs = float(
+                        dopasowanie.group(1)
+                    )
+                except ValueError:
+                    continue
+
+                if 1.0 <= kurs <= 1000:
+                    kursy.append(
+                        kurs
+                    )
+
+                if len(kursy) >= wymagane:
+                    break
+
+        print(
+            f"      [MAIN ROW] "
+            f"wiersz={indeks + 1} | "
+            f"bukmacher={nazwa!r} | "
+            f"kursy={kursy} | "
+            f"tekst={tekst_rzedu!r}"
+        )
+
+        if len(kursy) < wymagane:
+            print(
+                f"      [SKIP MAIN ODDS] "
+                f"{nazwa!r}: znaleziono "
+                f"{len(kursy)} kursów, "
+                f"wymagane {wymagane}."
+            )
+            continue
+
+        wyniki[nazwa] = kursy[
+            :wymagane
+        ]
+
+    print(
+        f"      [MAIN RESULT] "
+        f"Zapisano {len(wyniki)} "
+        f"bukmacherów: "
+        f"{list(wyniki.keys())}"
+    )
+
+    return wyniki
+
+
+def czekaj_na_glowny_rynek(page_obj, nazwa_sportu, timeout_ms=15000):
+    start = time.time()
+    wymagane = liczba_kursow_glownych(nazwa_sportu)
+    while (time.time() - start) * 1000 < timeout_ms:
+        tabela = pobierz_widoczna_tabele_glowna(page_obj, nazwa_sportu)
+        if tabela is not None:
+            rzedy = tabela.locator("tbody tr")
+            for indeks in range(rzedy.count()):
+                rzad = rzedy.nth(indeks)
+                if not pobierz_nazwe_bukmachera_z_rzedu_playwright(rzad):
+                    continue
+                ile = rzad.locator('[data-testid="odd-container-default"]').count()
+                if ile < wymagane:
+                    ile = rzad.locator('[data-testid="odd-container"]').count()
+                if ile >= wymagane:
+                    return True, "ok"
+        page_obj.wait_for_timeout(500)
+    return False, "timeout"
+
+
+def pobierz_glowny_rynek(page_obj, nazwa_sportu):
+    if nazwa_sportu in {"Koszykówka", "Tenis", "Boks"}:
+        nazwa_rynku = "Home/Away"
+        dozwolone = {"home/away", "home-away", "moneyline", "12"}
+    else:
+        nazwa_rynku = "1X2"
+        dozwolone = {"1x2"}
+
+    for proba in range(1, 3):
+        if not wejdz_w_zakladke(page_obj, nazwa_rynku):
+            if proba < 2:
+                continue
+            return {}
+
+        aktywny = re.sub(r"\s+", "", pobierz_aktywny_rynek(page_obj).lower())
+        if aktywny not in dozwolone:
+            if proba < 2:
+                continue
+            return {}
+
+        ok, _ = czekaj_na_glowny_rynek(page_obj, nazwa_sportu)
+        if not ok:
+            if proba < 2:
+                continue
+            return {}
+
+        wyniki = pobierz_kursy_glowne_playwright(page_obj, nazwa_sportu)
+        if wyniki:
+            return wyniki
+    return {}
+
+
+def parsuj_standardowy_rynek_playwright(
+    page_obj,
+    wymagane,
+    kontener=None
+):
+    wyniki = {}
+
+    if kontener is None:
+        rzedy = page_obj.locator(
+            "table tbody tr"
+        )
+    else:
+        try:
+            tag_name = kontener.evaluate(
+                "element => element.tagName.toLowerCase()"
+            )
+        except Exception:
+            tag_name = ""
+
+        if tag_name == "tr":
+            rzedy = kontener
+        else:
+            rzedy = kontener.locator(
+                "tbody tr"
+            )
+
+            if rzedy.count() == 0:
+                rzedy = kontener.locator(
+                    "tr"
+                )
+
+    try:
+        liczba_rzedow = rzedy.count()
+    except Exception:
+        liczba_rzedow = 0
+
+    for indeks in range(
+        liczba_rzedow
+    ):
+        rzad = rzedy.nth(
+            indeks
+        )
+
+        try:
+            nazwa = (
+                pobierz_nazwe_bukmachera_z_rzedu_playwright(
+                    rzad
+                )
+            )
+
+            if not nazwa:
+                continue
+
+            loc = rzad.locator(
+                '[data-testid="odd-container-default"]'
+            )
+
+            if loc.count() < wymagane:
+                loc = rzad.locator(
+                    '[data-testid="odd-container"]'
+                )
+
+            if loc.count() < wymagane:
+                loc = rzad.locator(
+                    "td a"
+                )
+
+            kursy = pobierz_kursy_z_locatorow(
+                loc
+            )
+
+            if len(kursy) < wymagane:
+                continue
+
+            wyniki[nazwa] = kursy[
+                :wymagane
+            ]
+
+        except Exception:
+            continue
+
+    return wyniki
+
+
+def znajdz_tabele_ou(page_obj):
+    oznaczona = page_obj.locator(
+        'table[data-scraper-market-lines="over-under"]'
+    ).first
+
+    try:
+        if (
+            oznaczona.count() > 0
+            and oznaczona.is_visible()
+        ):
+            return oznaczona
+    except Exception:
+        pass
+
+    tabele = page_obj.locator(
+        "table"
+    )
+
+    for i in range(
+        tabele.count()
+    ):
+        tabela = tabele.nth(i)
+
+        try:
+            if not tabela.is_visible():
+                continue
+
+            naglowek = tabela.locator(
+                "thead"
+            ).inner_text(
+                timeout=1000
+            ).lower()
+
+        except Exception:
+            continue
+
+        if (
+            "over" in naglowek
+            and "under" in naglowek
+        ):
+            return tabela
+
+    return None
+
+
+def znajdz_tabele_kursow_dla_wiersza(
+    page_obj,
+    wiersz_rynku=None,
+    wymagane=2,
+    timeout_ms=7000
+):
+    start = time.time()
+
+    while (
+        time.time() - start
+    ) * 1000 < timeout_ms:
+        tabele = page_obj.locator(
+            "table"
+        )
+
+        najlepsza_tabela = None
+        najlepszy_wynik = 0
+        najlepszy_naglowek = ""
+
+        try:
+            liczba_tabel = tabele.count()
+        except Exception:
+            liczba_tabel = 0
+
+        for indeks in range(
+            liczba_tabel
+        ):
+            tabela = tabele.nth(
+                indeks
+            )
+
+            try:
+                if not tabela.is_visible():
+                    continue
+
+                # Pomijamy oznaczoną tabelę wyboru linii.
+                typ_tabeli = tabela.get_attribute(
+                    "data-scraper-market-lines"
+                )
+
+                if typ_tabeli:
+                    continue
+
+                try:
+                    naglowek = tabela.locator(
+                        "thead"
+                    ).inner_text(
+                        timeout=1000
+                    )
+                except Exception:
+                    naglowek = ""
+
+                naglowek = re.sub(
+                    r"\s+",
+                    " ",
+                    naglowek
+                ).strip()
+
+                naglowek_maly = naglowek.lower()
+
+                ma_1 = bool(
+                    re.search(
+                        r"(^|\s)1(?:\s|$)",
+                        naglowek_maly
+                    )
+                )
+
+                ma_x = bool(
+                    re.search(
+                        r"(^|\s)x(?:\s|$)",
+                        naglowek_maly
+                    )
+                )
+
+                ma_2 = bool(
+                    re.search(
+                        r"(^|\s)2(?:\s|$)",
+                        naglowek_maly
+                    )
+                )
+
+                # Pomijamy piłkarską tabelę 1X2.
+                if ma_1 and ma_x and ma_2:
+                    continue
+
+                rzedy = tabela.locator(
+                    "tbody tr"
+                )
+
+                poprawne_rzedy = 0
+
+                for indeks_rzedu in range(
+                    rzedy.count()
+                ):
+                    rzad = rzedy.nth(
+                        indeks_rzedu
+                    )
+
+                    nazwa = (
+                        pobierz_nazwe_bukmachera_z_rzedu_playwright(
+                            rzad
+                        )
+                    )
+
+                    if not nazwa:
+                        continue
+
+                    kursy_locator = rzad.locator(
+                        '[data-testid="odd-container-default"]'
+                    )
+
+                    if (
+                        kursy_locator.count()
+                        < wymagane
+                    ):
+                        kursy_locator = rzad.locator(
+                            '[data-testid="odd-container"]'
+                        )
+
+                    kursy = pobierz_kursy_z_locatorow(
+                        kursy_locator
+                    )
+
+                    if len(kursy) >= wymagane:
+                        poprawne_rzedy += 1
+
+                if poprawne_rzedy > najlepszy_wynik:
+                    najlepszy_wynik = (
+                        poprawne_rzedy
+                    )
+                    najlepsza_tabela = tabela
+                    najlepszy_naglowek = naglowek
+
+            except Exception as blad:
+                print(
+                    f"      [DEBUG MARKET TABLE] "
+                    f"Błąd tabeli {indeks}: {blad}"
+                )
+                continue
+
+        if (
+            najlepsza_tabela is not None
+            and najlepszy_wynik > 0
+        ):
+            print(
+                f"      [DEBUG MARKET TABLE] "
+                f"Znaleziono tabelę kursów: "
+                f"{najlepszy_wynik} "
+                f"wierszy bukmacherów."
+            )
+
+            print(
+                f"      [DEBUG MARKET HEADER] "
+                f"{najlepszy_naglowek!r}"
+            )
+
+            return najlepsza_tabela
+
+        page_obj.wait_for_timeout(
+            350
+        )
+
+    return None
+    
+
+
+def znajdz_widoczna_tabele_z_kursami(
+    page_obj,
+    wymagane
+):
+    tabele = page_obj.locator(
+        "table"
+    )
+
+    for indeks in range(
+        tabele.count()
+    ):
+        tabela = tabele.nth(
+            indeks
+        )
+
+        try:
+            if not tabela.is_visible():
+                continue
+
+            rzedy = tabela.locator(
+                "tbody tr"
+            )
+
+            for indeks_rzedu in range(
+                rzedy.count()
+            ):
+                rzad = rzedy.nth(
+                    indeks_rzedu
+                )
+
+                nazwa = (
+                    pobierz_nazwe_bukmachera_z_rzedu_playwright(
+                        rzad
+                    )
+                )
+
+                if not nazwa:
+                    continue
+
+                ile = rzad.locator(
+                    '[data-testid="odd-container-default"]'
+                ).count()
+
+                if ile < wymagane:
+                    ile = rzad.locator(
+                        '[data-testid="odd-container"]'
+                    ).count()
+
+                if ile >= wymagane:
+                    return tabela
+
+        except Exception:
+            continue
+
+    return None
+
+def pobierz_over_under(
+    page_obj,
+    get_match_data
+):
+    tabela = znajdz_tabele_ou(
+        page_obj
+    )
+
+    if tabela is None:
+        print(
+            "      [WARN O/U] "
+            "Nie znaleziono tabeli O/U."
+        )
+        return 0
+
+    try:
+        tabela.evaluate(
+            """
+            element => {
+                element.setAttribute(
+                    "data-scraper-market-lines",
+                    "over-under"
+                );
+            }
+            """
+        )
+    except Exception as blad:
+        print(
+            f"      [WARN O/U] "
+            f"Nie oznaczono tabeli linii: {blad}"
+        )
+
+    znalezione = []
+    rzedy = tabela.locator("tbody > tr")
+    for i in range(rzedy.count()):
+        try:
+            tekst = rzedy.nth(i).inner_text(timeout=1000)
+        except Exception:
+            continue
+        match = re.search(r"(?:Over/Under|O/U)\s*\+?(\d+(?:[.,]\d+)?)", tekst, re.I)
+        if not match:
+            continue
+        wartosc = match.group(1).replace(",", ".")
+        if not wartosc.endswith(".5"):
+            continue
+        if wartosc not in znalezione:
+            znalezione.append(wartosc)
+
+    zapisane = 0
+    print(
+        f"      [DEBUG O/U LINES] "
+        f"Znalezione linie: {znalezione}"
+    )
+
+    for wartosc in znalezione:
+        tabela = znajdz_tabele_ou(page_obj)
+        if tabela is None:
+            break
+        rzedy = tabela.locator("tbody > tr")
+        cel = None
+        for i in range(rzedy.count()):
+            rzad = rzedy.nth(i)
+            try:
+                tekst = rzad.inner_text(timeout=1000)
+            except Exception:
+                continue
+            match = re.search(r"(?:Over/Under|O/U)\s*\+?(\d+(?:[.,]\d+)?)", tekst, re.I)
+            if match and match.group(1).replace(",", ".") == wartosc:
+                cel = rzad
+                break
+        if cel is None:
+            continue
+
+        komorka = cel.locator("td").first
+
+        if not bezpieczne_klikniecie(
+            page_obj,
+            komorka,
+            timeout_ms=5000
+        ):
+            print(
+                f"      [WARN O/U] "
+                f"Nie udało się rozwinąć "
+                f"linii {wartosc}."
+            )
+            continue
+
+        print(
+            f"      [DEBUG O/U CLICK] "
+            f"Rozwinięto linię {wartosc}."
+        )
+
+        page_obj.wait_for_timeout(
+            800
+        )
+
+        kontener_linii = (
+            znajdz_tabele_kursow_dla_wiersza(
+                page_obj,
+                cel,
+                wymagane=2,
+                timeout_ms=7000
+            )
+        )
+
+        if kontener_linii is None:
+            print(
+                f"      [WARN O/U] "
+                f"Nie znaleziono rozwiniętych kursów "
+                f"dla linii {wartosc}."
+            )
+
+            try:
+                obsluz_baner_cookies(
+                    page_obj
+                )
+
+                komorka.click(
+                    timeout=2000,
+                    force=True
+                )
+
+                page_obj.wait_for_timeout(
+                    500
+                )
+
+            except Exception:
+                try:
+                    komorka.evaluate(
+                        """
+                        element => element.click()
+                        """
+                    )
+
+                    page_obj.wait_for_timeout(
+                        500
+                    )
+
+                except Exception:
+                    pass
+
+            continue
+
+        wyniki = parsuj_standardowy_rynek_playwright(
+            page_obj,
+            2,
+            kontener=kontener_linii
+        )
+
+        print(
+            f"      [DEBUG O/U {wartosc}] "
+            f"{wyniki}"
+        )
+        znaleziono = False
+        for buk, kursy in wyniki.items():
+            dane = get_match_data(buk)
+            if dane is None:
+                continue
+            dane["over_under"][f"+{wartosc}"] = {
+                "over": str(kursy[0]), "under": str(kursy[1])
+            }
+            znaleziono = True
+        if znaleziono:
+            zapisane += 1
+        try:
+            obsluz_baner_cookies(
+                page_obj
+            )
+
+            komorka.click(
+                timeout=3000,
+                force=True
+            )
+
+            page_obj.wait_for_timeout(1200)
+
+        except Exception:
+            try:
+                komorka.evaluate(
+                    """
+                    element => element.click()
+                    """
+                )
+
+                page_obj.wait_for_timeout(1200)
+
+            except Exception:
+                pass
+    return zapisane
+
+
+def znajdz_tabele_hc(page_obj):
+    oznaczona = page_obj.locator(
+        'table[data-scraper-market-lines="handicap"]'
+    ).first
+
+    try:
+        if (
+            oznaczona.count() > 0
+            and oznaczona.is_visible()
+        ):
+            return oznaczona
+    except Exception:
+        pass
+
+    tabele = page_obj.locator(
+        "table"
+    )
+
+    try:
+        liczba_tabel = tabele.count()
+    except Exception:
+        liczba_tabel = 0
+
+    for indeks in range(
+        liczba_tabel
+    ):
+        tabela = tabele.nth(
+            indeks
+        )
+
+        try:
+            if not tabela.is_visible():
+                continue
+
+            naglowek = tabela.locator(
+                "thead"
+            ).inner_text(
+                timeout=1000
+            )
+
+            naglowek = re.sub(
+                r"\s+",
+                " ",
+                naglowek
+            ).strip().lower()
+
+        except Exception:
+            continue
+
+        ma_handicap = (
+            "handicap" in naglowek
+        )
+
+        ma_over_under = (
+            "over" in naglowek
+            or "under" in naglowek
+        )
+
+        if not ma_handicap:
+            continue
+
+        if ma_over_under:
+            continue
+
+        rzedy = tabela.locator(
+            "tbody > tr"
+        )
+
+        try:
+            liczba_rzedow = rzedy.count()
+        except Exception:
+            liczba_rzedow = 0
+
+        liczba_linii = 0
+
+        for indeks_rzedu in range(
+            liczba_rzedow
+        ):
+            try:
+                tekst = rzedy.nth(
+                    indeks_rzedu
+                ).inner_text(
+                    timeout=500
+                )
+            except Exception:
+                continue
+
+            if re.search(
+                r"(?:Asian Handicap|"
+                r"Games? Handicap|"
+                r"Handicap|AH)"
+                r"\s*[+-]?\d+(?:[.,]\d+)?",
+                tekst,
+                re.IGNORECASE
+            ):
+                liczba_linii += 1
+
+        if liczba_linii > 0:
+            print(
+                f"      [DEBUG HC TABLE] "
+                f"Znaleziono tabelę z "
+                f"{liczba_linii} liniami."
+            )
+
+            return tabela
+
+    return None
+
+
+def pobierz_asian_handicap(
+    page_obj,
+    get_match_data
+):
+    tabela = znajdz_tabele_hc(
+        page_obj
+    )
+
+    if tabela is None:
+        print(
+            "      [WARN HC] "
+            "Nie znaleziono tabeli handicapu."
+        )
+        return 0
+
+    try:
+        tabela.evaluate(
+            """
+            element => {
+                element.setAttribute(
+                    "data-scraper-market-lines",
+                    "handicap"
+                );
+            }
+            """
+        )
+    except Exception as blad:
+        print(
+            f"      [WARN HC] "
+            f"Nie oznaczono tabeli linii: {blad}"
+        )
+
+    znalezione = []
+
+    rzedy = tabela.locator(
+        "tbody > tr"
+    )
+
+    for i in range(
+        rzedy.count()
+    ):
+        try:
+            tekst = rzedy.nth(
+                i
+            ).inner_text(
+                timeout=1000
+            )
+        except Exception:
+            continue
+
+        match = re.search(
+            r"(?:Asian Handicap|"
+            r"Games? Handicap|"
+            r"Handicap|AH)"
+            r"\s*([+-]?\d+(?:[.,]\d+)?)",
+            tekst,
+            re.IGNORECASE
+        )
+
+        if not match:
+            continue
+
+        wartosc = (
+            match.group(1)
+            .replace(",", ".")
+        )
+
+        if wartosc not in znalezione:
+            znalezione.append(
+                wartosc
+            )
+
+    print(
+        f"      [DEBUG HC LINES] "
+        f"Znalezione linie: {znalezione}"
+    )
+
+    zapisane = 0
+    for wartosc in znalezione:
+        tabela = znajdz_tabele_hc(page_obj)
+        if tabela is None:
+            break
+        rzedy = tabela.locator("tbody > tr")
+        cel = None
+        for i in range(rzedy.count()):
+            rzad = rzedy.nth(i)
+            try:
+                tekst = rzad.inner_text(timeout=1000)
+            except Exception:
+                continue
+            match = re.search(
+                r"(?:Asian Handicap|Games? Handicap|Handicap|AH)\s*([+-]?\d+(?:[.,]\d+)?)",
+                tekst,
+                re.I,
+            )
+            if match and match.group(1).replace(",", ".") == wartosc:
+                cel = rzad
+                break
+        if cel is None:
+            continue
+
+        komorka = cel.locator("td").first
+
+        if not bezpieczne_klikniecie(
+            page_obj,
+            komorka,
+            timeout_ms=5000
+        ):
+            print(
+                f"      [WARN HC] "
+                f"Nie udało się rozwinąć "
+                f"linii {wartosc}."
+            )
+            continue
+
+        print(
+            f"      [DEBUG HC CLICK] "
+            f"Rozwinięto linię {wartosc}."
+        )
+
+        page_obj.wait_for_timeout(800)
+        kontener_linii = (
+            znajdz_tabele_kursow_dla_wiersza(
+                page_obj,
+                cel,
+                wymagane=2,
+                timeout_ms=7000
+            )
+        )
+
+        if kontener_linii is None:
+            print(
+                f"      [WARN HC] "
+                f"Nie znaleziono rozwiniętych kursów "
+                f"dla linii {wartosc}."
+            )
+
+            try:
+                obsluz_baner_cookies(
+                    page_obj
+                )
+
+                komorka.click(
+                    timeout=2000,
+                    force=True
+                )
+
+                page_obj.wait_for_timeout(
+                    500
+                )
+
+            except Exception:
+                try:
+                    komorka.evaluate(
+                        """
+                        element => element.click()
+                        """
+                    )
+
+                    page_obj.wait_for_timeout(
+                        500
+                    )
+
+                except Exception:
+                    pass
+
+            continue
+
+        wyniki = parsuj_standardowy_rynek_playwright(
+            page_obj,
+            2,
+            kontener=kontener_linii
+        )
+
+        print(
+            f"      [DEBUG HC {wartosc}] "
+            f"{wyniki}"
+        )
+        klucz = wartosc if wartosc.startswith(("+", "-")) else f"+{wartosc}"
+        znaleziono = False
+        for buk, kursy in wyniki.items():
+            dane = get_match_data(buk)
+            if dane is None:
+                continue
+            dane["handicap"][klucz] = {"1": str(kursy[0]), "2": str(kursy[1])}
+            znaleziono = True
+        if znaleziono:
+            zapisane += 1
+        try:
+            obsluz_baner_cookies(
+                page_obj
+            )
+
+            komorka.click(
+                timeout=3000,
+                force=True
+            )
+
+            page_obj.wait_for_timeout(1200)
+
+        except Exception:
+            try:
+                komorka.evaluate(
+                    """
+                    element => element.click()
+                    """
+                )
+
+                page_obj.wait_for_timeout(1200)
+
+            except Exception:
+                pass
+    return zapisane
+
+
+def bezpieczne_goto(
+    page_obj,
+    url,
+    timeout_ms=45000,
+    max_prob=3
+):
+    ostatni_blad = None
+
+    for proba in range(
+        1,
+        max_prob + 1
+    ):
+        try:
+            if page_obj.is_closed():
+                return (
+                    False,
+                    None,
+                    RuntimeError(
+                        "Strona Playwright jest zamknięta."
+                    )
+                )
+
+            print(
+                f"      [GOTO] Próba "
+                f"{proba}/{max_prob}: {url}"
+            )
+
+            response = page_obj.goto(
+                url,
+                wait_until="commit",
+                timeout=timeout_ms
+            )
+
+            try:
+                page_obj.wait_for_load_state(
+                    "domcontentloaded",
+                    timeout=15000
+                )
+            except PlaywrightTimeoutError:
+                pass
+
+            aktualny_url = page_obj.url
+
+            if aktualny_url.startswith(
+                "chrome-error://"
+            ):
+                raise RuntimeError(
+                    "Chromium otworzył stronę błędu."
+                )
+
+            if (
+                response is not None
+                and response.status >= 400
+            ):
+                raise RuntimeError(
+                    f"HTTP {response.status}"
+                )
+
+            page_obj.wait_for_timeout(
+                1500
+            )
+
+            return True, response, None
+
+        except Exception as blad:
+            ostatni_blad = blad
+
+            print(
+                f"      [WARN GOTO] Próba "
+                f"{proba}/{max_prob} nieudana: "
+                f"{blad}"
+            )
+
+            if proba < max_prob:
+                opoznienie = proba * 5000
+
+                print(
+                    f"      [GOTO] Ponowna próba "
+                    f"za {opoznienie // 1000} s."
+                )
+
+                page_obj.wait_for_timeout(
+                    opoznienie
+                )
+
+    return False, None, ostatni_blad
+
+
+def pobierz_zagranicznych_z_oddsportal():
+    vpn_wlaczony = False
+    browser = None
+    try:
+        vpn_on()
+        vpn_wlaczony = True
+        sprawdz_ip()
+
+        print("-> [ZAGRANICZNI BUKMACHERZY - ODDSPORTAL] START")
+        baza_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        output = os.path.join(baza_dir, "data", "zagraniczni.json")
+        os.makedirs(os.path.dirname(output), exist_ok=True)
+
+        wszystkie_mecze = []
+        data_dzis = datetime.now()
+        dni = {
+            (data_dzis + timedelta(days=1)).strftime("%d.%m.%Y"):
+                (data_dzis + timedelta(days=1)).strftime("%Y%m%d"),
+            (data_dzis + timedelta(days=2)).strftime("%d.%m.%Y"):
+                (data_dzis + timedelta(days=2)).strftime("%Y%m%d"),
+        }
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=HEADLESS
+            )
+            context = browser.new_context(
+                viewport={"width": 1920, "height": 1080},
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0.0.0 Safari/537.36"
+                ),
+            )
+
+            def utworz_strone():
+                return context.new_page()
+
+            page = utworz_strone()
+
             for nazwa_sportu, sciezka_sportu in SPORTY.items():
-                print(f"\n=== ROZPOCZĘTO SKANOWANIE SPORTU: {nazwa_sportu} ===")
-                
-                strony = {
-                    data_jutro_str: f"https://www.oddsportal.com/matches/{sciezka_sportu}/{data_jutro_url}/",
-                    data_pojutrze_str: f"https://www.oddsportal.com/matches/{sciezka_sportu}/{data_pojutrze_url}/"
-                }
+                if TRYB_TESTOWY and SPORT_TESTOWY and nazwa_sportu != SPORT_TESTOWY:
+                    continue
 
-                linki_z_danymi = []
-                for dzien, url in strony.items():
+                print(f"\n=== SPORT: {nazwa_sportu} ===")
+                try:
+                    response_ip = requests.get(
+                        "https://ipinfo.io/json",
+                        timeout=10
+                    )
+
+                    response_ip.raise_for_status()
+
+                    aktualny_kraj = response_ip.json().get(
+                        "country"
+                    )
+
+                    print(
+                        f"    [VPN CHECK] "
+                        f"Kraj={aktualny_kraj}"
+                    )
+
+                    if aktualny_kraj != WYMAGANY_KRAJ_VPN:
+                        raise RuntimeError(
+                            f"VPN zmienił kraj na "
+                            f"{aktualny_kraj}"
+                        )
+
+                except Exception as blad:
+                    print(
+                        f"    [WARN VPN] "
+                        f"Problem z połączeniem: {blad}"
+                    )
+                linki = []
+                for dzien, data_url in dni.items():
+                    url = f"{BAZOWY_URL}/matches/{sciezka_sportu}/{data_url}/"
                     try:
                         if page.is_closed():
-                            page = context.new_page()
+                            page = utworz_strone()
 
-                        print(f" -> Pobieranie listy spotkań dla dnia: {dzien} | URL: {url}")
-                        page.goto(url, wait_until="domcontentloaded", timeout=30000)
-                        
-                        max_prob = 6
-                        dzienne_linki_count = 0
-                        soup = None
-                        
-                        for proba in range(max_prob):
-                            page.evaluate("window.scrollBy(0, 800);")
-                            time.sleep(1.5)
-                            soup = BeautifulSoup(page.content(), "html.parser")
-                            
-                            test_links_count = 0
-                            for a in soup.find_all('a', href=True):
-                                href_clean = a['href'].split('?')[0].strip('/')
-                                parts = href_clean.split('/')
-                                if len(parts) >= 4 and parts[0] == sciezka_sportu:
-                                    if not any(x in parts for x in ['results', 'standings', 'teams', 'archive']):
-                                        test_links_count += 1
-                            
-                            if test_links_count > 0 or "no matches" in soup.text.lower() or "brak spotkań" in soup.text.lower():
-                                break
-                            print(f"    [INFO] Brak wyrenderowanych meczów w próbie {proba+1}/{max_prob}. Przewijam dalej...")
+                        ok, response, blad = bezpieczne_goto(
+                            page,
+                            url,
+                            timeout_ms=45000,
+                            max_prob=3
+                        )
 
-                        page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
-                        time.sleep(1.0)
-                        soup = BeautifulSoup(page.content(), "html.parser")
-                        
-                        rows = soup.find_all('div', class_=re.compile(r'eventRow'))
-                        if rows:
-                            for row in rows:
-                                time_elem = row.find('div', class_=re.compile(r'time'))
-                                godzina = time_elem.text.strip() if time_elem else "00:00"
-                                
-                                for a in row.find_all('a', href=True):
-                                    href_clean = a['href'].split('?')[0].strip('/')
-                                    parts = href_clean.split('/')
-                                    
-                                    if len(parts) >= 4 and parts[0] == sciezka_sportu:
-                                        if not any(x in parts for x in ['results', 'standings', 'teams', 'archive']):
-                                            match_url = "https://www.oddsportal.com/" + href_clean + "/"
-                                            linki_z_danymi.append((match_url, dzien, godzina))
-                                            dzienne_linki_count += 1
-                        
-                        if dzienne_linki_count == 0:
-                            for a in soup.find_all('a', href=True):
-                                href_clean = a['href'].split('?')[0].strip('/')
-                                parts = href_clean.split('/')
-                                
-                                if len(parts) >= 4 and parts[0] == sciezka_sportu:
-                                    if not any(x in parts for x in ['results', 'standings', 'teams', 'archive']):
-                                        match_url = "https://www.oddsportal.com/" + href_clean + "/"
-                                        godzina = "00:00"
-                                        parent = a.parent
-                                        for _ in range(3):
-                                            if not parent: break
-                                            parent_text = parent.text if parent else ""
-                                            time_match = re.search(r'\b\d{2}:\d{2}\b', parent_text)
-                                            if time_match:
-                                                godzina = time_match.group(0)
-                                                break
-                                            parent = parent.parent
-                                        
-                                        linki_z_danymi.append((match_url, dzien, godzina))
-                                        dzienne_linki_count += 1
-                                        
-                        print(f"    [*] Wykryto {dzienne_linki_count} surowych odnośników do meczów na dzień {dzien}")
-                        time.sleep(1.5)
-                                        
-                    except Exception as e:
-                        print(f"    [!] Błąd podczas parsowania listy głównej: {e}")
+                        if not ok:
+                            print(
+                                f"    [WARN] Nie udało się "
+                                f"załadować listy {dzien}: {blad}"
+                            )
 
-                unikalne = list({(l[0], l[1], l[2]): l for l in linki_z_danymi}.values())
-                print(f" -> Znaleziono {len(unikalne)} unikalnych meczów dla dyscypliny {nazwa_sportu}. Przechodzę do pobierania kursów...")
+                            try:
+                                page.close()
+                            except Exception:
+                                pass
 
-                for idx, (link, dzien, godzina) in enumerate(unikalne, start=1):
-                    try:
-                        if page.is_closed():
-                            page = context.new_page()
-
-                        print(f"\n    [{idx}/{len(unikalne)}] Ładowanie meczu: {link}")
-                        page.goto(link, wait_until="domcontentloaded", timeout=25000)
-                        
-                        tabela_zaladowana = False
-                        for _ in range(6):
-                            page.evaluate("window.scrollBy(0, 200);")
-                            time.sleep(1.0)
-                            soup = BeautifulSoup(page.content(), "html.parser")
-                            
-                            ma_logo = soup.find('img', class_=re.compile(r'bookmaker-logo|provider-logo', re.IGNORECASE))
-                            ma_kursy = soup.find('a', class_=re.compile(r'odds-link|odds'))
-                            if ma_logo or ma_kursy:
-                                tabela_zaladowana = True
-                                break
-                        
-                        if not tabela_zaladowana:
-                            print(f"      [!] Timeout: Tabela kursów nie wyrenderowała się na czas. Pomijam.")
+                            page = utworz_strone()
                             continue
-                        
-                        h1 = soup.find('h1')
-                        if not h1: continue
-                        
-                        title_raw = h1.text.strip()
-                        title_clean = re.sub(r'\s*-\s*Odds,\s*Predictions.*$', '', title_raw, flags=re.IGNORECASE).replace(" vs ", " - ")
-                        
-                        if " - " in title_clean:
-                            home, away = title_clean.split(" - ", 1)
+
+                        page.wait_for_timeout(
+                            1500
+                        )
+
+                        obsluz_baner_cookies(
+                            page
+                        )
+
+                        page.wait_for_timeout(1000)
+                        zebrane = []
+                        poprzednia = -1
+                        bez_zmiany = 0
+                        for _ in range(30):
+                            zebrane.extend(
+                                pobierz_linki_meczow_z_listy(
+                                    page, sciezka_sportu, dzien, os.path.dirname(output)
+                                )
+                            )
+                            mapa = {}
+                            for element in zebrane:
+                                klucz = (element[0], element[1])
+                                if klucz not in mapa or (
+                                    mapa[klucz][2] == "00:00" and element[2] != "00:00"
+                                ):
+                                    mapa[klucz] = element
+                            zebrane = list(mapa.values())
+                            if len(zebrane) == poprzednia:
+                                bez_zmiany += 1
+                            else:
+                                poprzednia = len(zebrane)
+                                bez_zmiany = 0
+                            if bez_zmiany >= 3:
+                                break
+                            page.mouse.wheel(0, 1000)
+                            page.wait_for_timeout(1000)
+                        linki.extend(zebrane)
+                        print(f"    [INFO] {dzien}: {len(zebrane)} meczów")
+                    except Exception as blad:
+                        print(
+                            f"    [WARN] Lista {dzien}: "
+                            f"{blad}"
+                        )
+
+                        try:
+                            if not page.is_closed():
+                                page.close()
+                        except Exception:
+                            pass
+
+                        page = utworz_strone()
+
+                        time.sleep(5)
+
+                mapa = {}
+                for element in linki:
+                    klucz = (element[0], element[1])
+                    if klucz not in mapa or (mapa[klucz][2] == "00:00" and element[2] != "00:00"):
+                        mapa[klucz] = element
+                unikalne = list(mapa.values())
+                if TRYB_TESTOWY:
+                    unikalne = unikalne[:LIMIT_MECZOW_TESTOWYCH]
+                    print(f"[TEST] Ograniczono do {len(unikalne)} meczów")
+
+                for idx, (link, dzien, godzina) in enumerate(unikalne, 1):
+                    try:
+                        if page.is_closed():
+                            page = utworz_strone()
+                        print(f"\n[{idx}/{len(unikalne)}] {link}")
+                        ok, response, blad = bezpieczne_goto(
+                            page,
+                            link
+                        )
+
+                        if not ok:
+                            print(
+                                f"    [WARN] Pomijam mecz po "
+                                f"nieudanych próbach: {blad}"
+                            )
+
+                            try:
+                                if not page.is_closed():
+                                    page.close()
+                            except Exception:
+                                pass
+
+                            page = utworz_strone()
+
+                            time.sleep(5)
+                            continue
+
+
+                        if response is not None and response.status >= 400:
+                            continue
+
+                        page.wait_for_timeout(500)
+
+                        obsluz_baner_cookies(
+                            page
+                        )
+
+                        page.wait_for_timeout(1000)
+                        tabela_ok, _ = czekaj_na_tabele_kursow(page)
+                        if not tabela_ok:
+                            continue
+
+                        soup = BeautifulSoup(page.content(), "html.parser")
+                        h1 = soup.find("h1")
+                        if not h1:
+                            continue
+                        title = wyczysc_tytul_meczu(h1.get_text(" ", strip=True))
+                        if " - " in title:
+                            home, away = title.split(" - ", 1)
                         else:
-                            home, away = title_clean, "Brak"
+                            home, away = title, "Brak"
 
                         match_data = {}
 
-                        def get_match_data(buk_name):
-                            if buk_name not in match_data:
-                                match_data[buk_name] = {
-                                    "id": f"oddsportal_{home.strip()}_{away.strip()}_{buk_name}",
-                                    "mecz": f"{home.strip()} - {away.strip()}",
+                        def get_match_data(bukmacher):
+                            bukmacher = normalizuj_nazwe_bukmachera(
+                                bukmacher
+                            )
+
+                            if not czy_poprawna_nazwa_bukmachera(
+                                bukmacher
+                            ):
+                                print(
+                                    f"      [WARN BOOKMAKER] "
+                                    f"Odrzucono nazwę: "
+                                    f"{bukmacher!r}"
+                                )
+
+                                return None
+
+                            if bukmacher not in match_data:
+                                match_data[bukmacher] = {
+                                    "id": (
+                                        f"{bezpieczny_id(bukmacher)}_"
+                                        f"{bezpieczny_id(home)}_"
+                                        f"{bezpieczny_id(away)}"
+                                    ),
+                                    "mecz": (
+                                        f"{home.strip()} - "
+                                        f"{away.strip()}"
+                                    ),
                                     "dyscyplina": nazwa_sportu,
                                     "dzien": dzien,
                                     "godzina": godzina,
                                     "home": home.strip(),
                                     "away": away.strip(),
-                                    "bukmacher": buk_name,
-                                    "kurs_1": 0.0,
+                                    "bukmacher": bukmacher,
+                                    "kurs_1": None,
                                     "kurs_X": None,
-                                    "kurs_2": 0.0,
+                                    "kurs_2": None,
                                     "btts": {},
                                     "podwojna_szansa": {},
                                     "over_under": {},
                                     "handicap": {}
                                 }
-                            return match_data[buk_name]
 
-                        # --- 1. GŁÓWNY RYNEK (1X2 / 12) ---
-                        wyniki_1x2 = parse_standard_odds(page.content(), home, away)
-                        for buk, kursy_list in wyniki_1x2.items():
-                            if nazwa_sportu in ["Piłka nożna", "Piłka ręczna"] and len(kursy_list) >= 3:
-                                d = get_match_data(buk)
-                                d["kurs_1"] = kursy_list[0]
-                                d["kurs_X"] = kursy_list[1]
-                                d["kurs_2"] = kursy_list[2]
-                            elif len(kursy_list) >= 2:
-                                d = get_match_data(buk)
-                                d["kurs_1"] = kursy_list[0]
-                                d["kurs_2"] = kursy_list[-1]
+                            return match_data[bukmacher]
 
-                        # --- FUNKCJE DLA RYNKÓW POBOCZNYCH (O/U & HANDICAP) ---
-                        def parse_ou(html_content):
-                            soup_ou = BeautifulSoup(html_content, "html.parser")
-                            odds_links = soup_ou.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
-                            przetworzone_rzedy = set()
+                        glowne = pobierz_glowny_rynek(page, nazwa_sportu)
+                        for buk, kursy in glowne.items():
+                            d = get_match_data(buk)
 
-                            for link in odds_links:
-                                row = link.parent
-                                for _ in range(5):
-                                    if not row or row.name in ['body', 'html']: break
+                            if d is None:
+                                continue
 
-                                    odds_in_row = row.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
-                                    if 0 < len(odds_in_row) <= 4:
-                                        logo = row.find('img')
-                                        if logo:
-                                            name = wyciagnij_nazwe_buka(logo)
-                                            if name:
-                                                name_lower = name.lower()
-                                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): break
-                                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): break
-                                                if home and name_lower == home.lower(): break
-                                                if away and name_lower == away.lower(): break
-                                                if len(name) < 3 or len(name) > 30: break
+                            if (
+                                nazwa_sportu in {
+                                    "Piłka nożna",
+                                    "Piłka ręczna"
+                                }
+                                and len(kursy) >= 3
+                            ):
+                                d["kurs_1"] = kursy[0]
+                                d["kurs_X"] = kursy[1]
+                                d["kurs_2"] = kursy[2]
 
-                                                row_id = id(row)
-                                                if row_id not in przetworzone_rzedy:
-                                                    przetworzone_rzedy.add(row_id)
-                                                    
-                                                    line_val = znajdz_wartosc_linii(row)
-                                                    if line_val:
-                                                        if nazwa_sportu == "Piłka nożna" and not line_val.endswith('.5'):
-                                                            break
+                            elif (
+                                nazwa_sportu in {
+                                    "Koszykówka",
+                                    "Tenis",
+                                    "Boks"
+                                }
+                                and len(kursy) >= 2
+                            ):
+                                d["kurs_1"] = kursy[0]
+                                d["kurs_X"] = None
+                                d["kurs_2"] = kursy[1]
 
-                                                        kursy = [parsuj_kurs(odd) for odd in odds_in_row if parsuj_kurs(odd) > 0]
-                                                        if len(kursy) >= 2:
-                                                            d = get_match_data(name)
-                                                            d["over_under"][line_val] = {"over": str(kursy[0]), "under": str(kursy[-1])}
-                                                break
-                                    row = row.parent
-
-                        def parse_handicap(html_content):
-                            soup_hc = BeautifulSoup(html_content, "html.parser")
-                            odds_links = soup_hc.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
-                            przetworzone_rzedy = set()
-
-                            for link in odds_links:
-                                row = link.parent
-                                for _ in range(5):
-                                    if not row or row.name in ['body', 'html']: break
-
-                                    odds_in_row = row.find_all('a', class_=re.compile(r'odds-link|odds', re.IGNORECASE))
-                                    if 0 < len(odds_in_row) <= 4:
-                                        logo = row.find('img')
-                                        if logo:
-                                            name = wyciagnij_nazwe_buka(logo)
-                                            if name:
-                                                name_lower = name.lower()
-                                                if any(w in name_lower for w in WYKLUCZENI_BUKMACHERZY): break
-                                                if any(fraz in name_lower for fraz in SMIECIOWE_FRAZY): break
-                                                if home and name_lower == home.lower(): break
-                                                if away and name_lower == away.lower(): break
-                                                if len(name) < 3 or len(name) > 30: break
-
-                                                row_id = id(row)
-                                                if row_id not in przetworzone_rzedy:
-                                                    przetworzone_rzedy.add(row_id)
-                                                    
-                                                    line_val = znajdz_wartosc_linii(row)
-                                                    if line_val:
-                                                        kursy = [parsuj_kurs(odd) for odd in odds_in_row if parsuj_kurs(odd) > 0]
-                                                        if len(kursy) >= 2:
-                                                            d = get_match_data(name)
-                                                            d["handicap"][line_val] = {"1": str(kursy[0]), "2": str(kursy[-1])}
-                                                break
-                                    row = row.parent
-
-                        # --- RYNKI POBOCZNE DLA PIŁKI NOŻNEJ ---
                         if nazwa_sportu == "Piłka nożna":
-                            try:
-                                if wejdz_w_zakladke(page, "Both Teams to Score"):
-                                    wyniki_btts = parse_standard_odds(page.content(), home, away)
-                                    for buk, kursy_list in wyniki_btts.items():
-                                        if len(kursy_list) >= 2:
-                                            d = get_match_data(buk)
-                                            d["btts"]["tak"] = str(kursy_list[0])
-                                            d["btts"]["nie"] = str(kursy_list[1])
-                            except Exception as e:
-                                print(f"      [!] Błąd ładowania BTTS: {e}")
+                            if wejdz_w_zakladke(
+                                page,
+                                "Both Teams to Score"
+                            ):
+                                tabela_btts = znajdz_widoczna_tabele_z_kursami(
+                                    page,
+                                    2
+                                )
 
-                            try:
-                                if wejdz_w_zakladke(page, "Double Chance"):
-                                    wyniki_dc = parse_standard_odds(page.content(), home, away)
-                                    for buk, kursy_list in wyniki_dc.items():
-                                        if len(kursy_list) >= 3:
-                                            d = get_match_data(buk)
-                                            d["podwojna_szansa"]["1X"] = str(kursy_list[0])
-                                            d["podwojna_szansa"]["12"] = str(kursy_list[1])
-                                            d["podwojna_szansa"]["X2"] = str(kursy_list[2])
-                            except Exception as e:
-                                print(f"      [!] Błąd ładowania Double Chance: {e}")
+                                if tabela_btts is not None:
+                                    wyniki_btts = (
+                                        parsuj_standardowy_rynek_playwright(
+                                            page,
+                                            2,
+                                            kontener=tabela_btts
+                                        )
+                                    )
 
-                            try:
-                                if wejdz_w_zakladke(page, "Over/Under"):
-                                    page.evaluate("window.scrollBy(0, 300);")
-                                    page.wait_for_timeout(500)
-                                    rozwin_ukryte_linie(page)
-                                    parse_ou(page.content())
-                            except Exception as e:
-                                print(f"      [!] Błąd ładowania O/U: {e}")
+                                    for buk, kursy in wyniki_btts.items():
+                                        d = get_match_data(
+                                            buk
+                                        )
 
-                        # --- RYNKI POBOCZNE DLA KOSZYKÓWKI (ORAZ INNYCH SPORTÓW) ---
-                        elif nazwa_sportu == "Koszykówka":
-                            # 1. OVER / UNDER
-                            try:
-                                if wejdz_w_zakladke(page, "Over/Under") or wejdz_w_zakladke(page, "Over/Under Incl. OT"):
-                                    page.evaluate("window.scrollBy(0, 300);")
-                                    page.wait_for_timeout(500)
-                                    rozwin_ukryte_linie(page)
-                                    parse_ou(page.content())
-                            except Exception as e:
-                                print(f"      [!] Błąd ładowania O/U dla koszykówki: {e}")
+                                        if d is None:
+                                            continue
 
-                            # 2. HANDICAP
-                            try:
-                                if wejdz_w_zakladke(page, "Asian Handicap") or wejdz_w_zakladke(page, "Handicap") or wejdz_w_zakladke(page, "Handicap Incl. OT"):
-                                    page.evaluate("window.scrollBy(0, 300);")
-                                    page.wait_for_timeout(500)
-                                    rozwin_ukryte_linie(page)
-                                    parse_handicap(page.content())
-                            except Exception as e:
-                                print(f"      [!] Błąd ładowania Handicap dla koszykówki: {e}")
+                                        d["btts"] = {
+                                            "tak": str(kursy[0]),
+                                            "nie": str(kursy[1])
+                                        }
 
-                        # Zapis finalnych danych
-                        if match_data:
-                            for d in match_data.values():
-                                if d["kurs_1"] > 0 or d["over_under"] or d["handicap"]: 
-                                    wszystkie_mecze.append(d)
-                                    print(f"      [+] Zapisano: {d['bukmacher']:<12} | O/U: {len(d['over_under'])} linii | HC: {len(d['handicap'])} linii | BTTS: {bool(d['btts'])} | DC: {bool(d['podwojna_szansa'])}")
-                        else:
-                            print("      [INFO] Brak zagranicznych kursów dla tego spotkania.")
 
-                    except Exception as e:
-                        print(f"    [!] Krytyczny błąd przy przetwarzaniu meczu {link}: {e}")
-                        if "closed" in str(e).lower() or page.is_closed():
-                            try: page.close() 
-                            except: pass
-                        continue
+                            if wejdz_w_zakladke(
+                                page,
+                                "Double Chance"
+                            ):
+                                tabela_dc = (
+                                    znajdz_widoczna_tabele_z_kursami(
+                                        page,
+                                        3
+                                    )
+                                )
 
-                time.sleep(2.0) 
+                                if tabela_dc is not None:
+                                    wyniki_dc = (
+                                        parsuj_standardowy_rynek_playwright(
+                                            page,
+                                            3,
+                                            kontener=tabela_dc
+                                        )
+                                    )
 
-        finally:
-            print("\n-> Zamykanie przeglądarki...")
-            try: browser.close()
-            except: pass
-            
+                                    for buk, kursy in wyniki_dc.items():
+                                        d = get_match_data(
+                                            buk
+                                        )
+
+                                        if d is None:
+                                            continue
+
+                                        d["podwojna_szansa"] = {
+                                            "1X": str(kursy[0]),
+                                            "12": str(kursy[1]),
+                                            "X2": str(kursy[2])
+                                        }
+
+                        if nazwa_sportu in {"Piłka nożna", "Koszykówka", "Tenis"}:
+                            if wejdz_w_zakladke(page, "Over/Under"):
+                                pobierz_over_under(page, get_match_data)
+
+                        if nazwa_sportu in {
+                            "Koszykówka",
+                            "Tenis"
+                        }:
+                            if wejdz_w_zakladke(
+                                page,
+                                "Asian Handicap"
+                            ):
+                                aktywny_hc = re.sub(
+                                    r"\s+",
+                                    " ",
+                                    pobierz_aktywny_rynek(
+                                        page
+                                    ).lower()
+                                ).strip()
+
+                                dozwolone_hc = {
+                                    "asian handicap",
+                                    "handicap",
+                                    "handicap azjatycki",
+                                    "games handicap",
+                                    "game handicap"
+                                }
+
+                                if aktywny_hc not in dozwolone_hc:
+                                    print(
+                                        f"      [WARN HC] "
+                                        f"Niewłaściwy aktywny rynek: "
+                                        f"{aktywny_hc!r}"
+                                    )
+                                else:
+                                    pobierz_asian_handicap(
+                                        page,
+                                        get_match_data
+                                    )
+
+                        for nazwa in list(
+                            match_data.keys()
+                        ):
+                            if not czy_poprawna_nazwa_bukmachera(
+                                nazwa
+                            ):
+                                print(
+                                    f"      [WARN BOOKMAKER] "
+                                    f"Usuwam błędny rekord: "
+                                    f"{nazwa!r}"
+                                )
+
+                                del match_data[nazwa]
+
+                        for dane in match_data.values():
+                            if not czy_poprawna_nazwa_bukmachera(
+                                dane.get("bukmacher")
+                            ):
+                                continue
+
+                            ma_glowne = (
+                                isinstance(
+                                    dane["kurs_1"],
+                                    (int, float)
+                                )
+                                and dane["kurs_1"] > 0
+                                and isinstance(
+                                    dane["kurs_2"],
+                                    (int, float)
+                                )
+                                and dane["kurs_2"] > 0
+                            )
+
+                            ma_inne = any([
+                                dane["btts"],
+                                dane["podwojna_szansa"],
+                                dane["over_under"],
+                                dane["handicap"]
+                            ])
+
+                            if ma_glowne or ma_inne:
+                                wszystkie_mecze.append(
+                                    dane
+                                )
+
+                        with open(output, "w", encoding="utf-8") as plik:
+                            json.dump(wszystkie_mecze, plik, indent=4, ensure_ascii=False)
+                        print(f"      [CHECKPOINT] {len(wszystkie_mecze)} rekordów")
+                        page.wait_for_timeout(
+                            1500
+                        )
+                        if idx % 20 == 0:
+                            print(
+                                "      [PAUZA] 15 sekund "
+                                "po 20 meczach."
+                            )
+
+                            page.wait_for_timeout(
+                                15000
+                            )
+                    except Exception as blad:
+                        print(
+                            f"    [WARN] Mecz: {blad}"
+                        )
+
+                        try:
+                            if not page.is_closed():
+                                page.close()
+                        except Exception:
+                            pass
+
+                        page = utworz_strone()
+
+                        time.sleep(5)
+
+            with open(output, "w", encoding="utf-8") as plik:
+                json.dump(wszystkie_mecze, plik, indent=4, ensure_ascii=False)
+            print(f"\n[OK] Zapisano {len(wszystkie_mecze)} rekordów do {output}")
+
+    finally:
+        if browser is not None:
+            try:
+                browser.close()
+            except Exception:
+                pass
+        if vpn_wlaczony:
             vpn_off()
 
-    with open(output, "w", encoding="utf-8") as f:
-        json.dump(wszystkie_mecze, f, indent=4, ensure_ascii=False)
-    print(f"\n[OK] PROCES ZAKOŃCZONY - Zapisano łącznie {len(wszystkie_mecze)} rekordów kursów do pliku: {output}")
 
 if __name__ == "__main__":
     pobierz_zagranicznych_z_oddsportal()

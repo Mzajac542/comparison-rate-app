@@ -10,7 +10,9 @@
         /* ✅ Nowe style dla kontenerów inputów */
         .input-group { position: relative; width: 90%; margin: 10px auto; }
         
-        input[type="text"], input[type="password"] { 
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] { 
             width: 100%; 
             padding: 10px; 
             border: 1px solid #444; 
@@ -46,6 +48,223 @@
         .remember-container { display: flex; align-items: center; justify-content: flex-start; margin-top: 5px; text-align: left; padding-left: 5%; }
         .remember-container input { width: auto; margin-right: 8px; cursor: pointer; }
         .remember-container label { font-size: 0.9em; color: #aaa; cursor: pointer; user-select: none; }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(3, 7, 18, 0.82);
+            backdrop-filter: blur(6px);
+            box-sizing: border-box;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal-card {
+            position: relative;
+            width: 100%;
+            max-width: 410px;
+            padding: 30px;
+            border: 1px solid #374151;
+            border-radius: 16px;
+            background: #171a21;
+            color: #f8fafc;
+            text-align: center;
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.65),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
+            box-sizing: border-box;
+            animation: modal-enter 0.2s ease-out;
+        }
+
+        @keyframes modal-enter {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            width: 34px;
+            height: 34px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: #252a34;
+            color: #ffffff;
+        }
+
+        .modal-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 17px;
+            border-radius: 50%;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .modal-icon-error {
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.14);
+            border: 1px solid rgba(239, 68, 68, 0.38);
+        }
+
+        .modal-icon-success {
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.14);
+            border: 1px solid rgba(16, 185, 129, 0.38);
+        }
+
+        .modal-icon-info {
+            color: #60a5fa;
+            background: rgba(59, 130, 246, 0.14);
+            border: 1px solid rgba(59, 130, 246, 0.38);
+        }
+
+        .modal-card h2 {
+            margin: 0 0 10px;
+            color: #ffffff;
+            font-size: 1.35rem;
+        }
+
+        .modal-card > p {
+            margin: 0;
+            color: #aeb8c7;
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 23px;
+        }
+
+        .modal-primary-button,
+        .modal-secondary-button,
+        .modal-link-button {
+            width: 100%;
+            margin: 0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .modal-primary-button {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+
+        .modal-primary-button:hover {
+            background: #2563eb;
+        }
+
+        .modal-primary-button:disabled {
+            cursor: wait;
+            opacity: 0.65;
+        }
+
+        .modal-secondary-button {
+            background: #252a34;
+            color: #dbe4f0;
+            border: 1px solid #3c4452;
+        }
+
+        .modal-secondary-button:hover {
+            background: #303642;
+        }
+
+        .modal-link-button {
+            background: transparent;
+            color: #60a5fa;
+            border: 1px solid transparent;
+        }
+
+        .modal-link-button:hover {
+            background: rgba(59, 130, 246, 0.08);
+            border-color: rgba(59, 130, 246, 0.24);
+        }
+
+        .reset-description {
+            margin-bottom: 20px !important;
+        }
+
+        .reset-input-group {
+            text-align: left;
+        }
+
+        .reset-input-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #b9c3d1;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .reset-input-group input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #414958;
+            border-radius: 8px;
+            outline: none;
+            background: #101319;
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .reset-input-group input:focus {
+            border-color: #3b82f6;
+            box-shadow:
+                0 0 0 3px rgba(59, 130, 246, 0.14);
+        }
+
+        .reset-status {
+            display: none;
+            margin: 14px 0 0 !important;
+            padding: 10px;
+            border-radius: 7px;
+            text-align: left;
+            font-size: 0.85rem !important;
+        }
+
+        .reset-status.error {
+            display: block;
+            color: #fca5a5;
+            background: rgba(127, 29, 29, 0.35);
+            border: 1px solid #7f1d1d;
+        }
+
+        .reset-status.success {
+            display: block;
+            color: #6ee7b7;
+            background: rgba(6, 78, 59, 0.35);
+            border: 1px solid #065f46;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +275,18 @@
     <form onsubmit="event.preventDefault(); submitForm();">
         <div class="input-group">
             <input type="text" id="username" placeholder="Login" required>
+        </div>
+        <div
+            class="input-group"
+            id="email-group"
+            style="display: none;"
+        >
+            <input
+                type="email"
+                id="email"
+                placeholder="Adres e-mail"
+                autocomplete="email"
+            >
         </div>
         
         <div class="input-group">
@@ -80,11 +311,155 @@
         <button id="action-btn" class="btn-login" type="submit">Zaloguj się</button>
     </form>
     
-    <div class="toggle-text" onclick="toggleMode()">Nie masz konta? Zarejestruj się</div>
+    <div
+        id="mode-toggle"
+        class="toggle-text"
+        onclick="toggleMode()"
+    >
+        Nie masz konta? Zarejestruj się
+    </div>
 
     <div id="guest-box" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #444;">
         <div class="toggle-text" style="color: #3b82f6; margin-top: 0; text-decoration: none; font-weight: bold;" onclick="continueAsGuest()">
             Kontynuuj jako gość &rarr;
+        </div>
+    </div>
+</div>
+
+<div
+    id="message-modal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+>
+    <div class="modal-card">
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeMessageModal()"
+            aria-label="Zamknij"
+        >
+            ×
+        </button>
+
+        <div
+            id="modal-icon"
+            class="modal-icon modal-icon-error"
+        >
+            !
+        </div>
+
+        <h2 id="modal-title">
+            Nie udało się zalogować
+        </h2>
+
+        <p id="modal-message">
+            Podany login lub hasło jest nieprawidłowe.
+        </p>
+
+        <div
+            id="login-error-actions"
+            class="modal-actions"
+        >
+            <button
+                type="button"
+                class="modal-primary-button"
+                onclick="retryLogin()"
+            >
+                Spróbuj ponownie
+            </button>
+
+            <button
+                type="button"
+                class="modal-link-button"
+                onclick="openPasswordReset()"
+            >
+                Nie pamiętam hasła
+            </button>
+        </div>
+
+        <div
+            id="default-modal-actions"
+            class="modal-actions"
+            style="display: none;"
+        >
+            <button
+                type="button"
+                class="modal-primary-button"
+                onclick="closeMessageModal()"
+            >
+                Rozumiem
+            </button>
+        </div>
+    </div>
+</div>
+
+<div
+    id="password-reset-modal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="reset-title"
+>
+    <div class="modal-card">
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closePasswordReset()"
+            aria-label="Zamknij"
+        >
+            ×
+        </button>
+
+        <div class="modal-icon modal-icon-info">
+            ?
+        </div>
+
+        <h2 id="reset-title">
+            Odzyskiwanie hasła
+        </h2>
+
+        <p class="reset-description">
+            Wpisz adres e-mail przypisany do konta.
+            Wyślemy jednorazowy link do ustawienia nowego hasła.
+        </p>
+
+        <div class="reset-input-group">
+            <label for="reset-email">
+                Adres e-mail
+            </label>
+
+            <input
+                type="email"
+                id="reset-email"
+                placeholder="Wpisz adres e-mail"
+                autocomplete="email"
+            >
+        </div>
+
+        <p
+            id="reset-status"
+            class="reset-status"
+        ></p>
+
+        <div class="modal-actions">
+            <button
+                id="reset-submit-button"
+                type="button"
+                class="modal-primary-button"
+                onclick="submitPasswordReset()"
+            >
+                Wyślij link
+            </button>
+
+            <button
+                type="button"
+                class="modal-secondary-button"
+                onclick="closePasswordReset()"
+            >
+                Anuluj
+            </button>
         </div>
     </div>
 </div>
@@ -133,7 +508,28 @@
         document.getElementById('form-title').innerText = isLoginMode ? "Logowanie" : "Rejestracja";
         document.getElementById('action-btn').innerText = isLoginMode ? "Zaloguj się" : "Stwórz konto";
         document.getElementById('action-btn').className = isLoginMode ? "btn-login" : "btn-register";
-        document.querySelectorAll('.toggle-text').innerText = isLoginMode ? "Nie masz konta? Zarejestruj się" : "Masz już konto? Zaloguj się";
+        document.getElementById(
+            "mode-toggle"
+        ).innerText = isLoginMode
+            ? "Nie masz konta? Zarejestruj się"
+            : "Masz już konto? Zaloguj się";
+        const emailGroup =
+            document.getElementById(
+                "email-group"
+            );
+
+        const emailInput =
+            document.getElementById(
+                "email"
+            );
+
+        emailGroup.style.display =
+            isLoginMode
+                ? "none"
+                : "block";
+
+        emailInput.required =
+            !isLoginMode;    
         
         document.getElementById('remember-box').style.display = isLoginMode ? "flex" : "none";
         
@@ -146,50 +542,385 @@
         window.location.href = 'http://localhost:5173';
     }
 
-    async function submitForm() {
-        const user = document.getElementById('username').value;
-        const pass = document.getElementById('password').value;
-        const remember = document.getElementById('rememberMe').checked; 
-        const endpoint = isLoginMode ? '/api/login' : '/api/register';
+    function showMessageModal({
+        title,
+        message,
+        type = "error",
+        loginError = false
+    }) {
+        const modal =
+            document.getElementById(
+                "message-modal"
+            );
 
-        // Prosta walidacja przed wysłaniem
-        if (!user || !pass) return;
+        const icon =
+            document.getElementById(
+                "modal-icon"
+            );
 
-        const btn = document.getElementById('action-btn');
-        const originalText = btn.innerText;
-        btn.innerText = "Ładowanie...";
-        btn.disabled = true;
+        document.getElementById(
+            "modal-title"
+        ).innerText = title;
+
+        document.getElementById(
+            "modal-message"
+        ).innerText = message;
+
+        icon.className =
+            "modal-icon " +
+            (
+                type === "success"
+                    ? "modal-icon-success"
+                    : type === "info"
+                        ? "modal-icon-info"
+                        : "modal-icon-error"
+            );
+
+        icon.innerText =
+            type === "success"
+                ? "✓"
+                : type === "info"
+                    ? "i"
+                    : "!";
+
+        document.getElementById(
+            "login-error-actions"
+        ).style.display = loginError
+            ? "flex"
+            : "none";
+
+        document.getElementById(
+            "default-modal-actions"
+        ).style.display = loginError
+            ? "none"
+            : "flex";
+
+        modal.classList.add(
+            "visible"
+        );
+    }
+
+    function closeMessageModal() {
+        document.getElementById(
+            "message-modal"
+        ).classList.remove(
+            "visible"
+        );
+    }
+
+    function retryLogin() {
+        closeMessageModal();
+
+        const passwordInput =
+            document.getElementById(
+                "password"
+            );
+
+        passwordInput.value = "";
+        passwordInput.focus();
+    }
+
+    function openPasswordReset() {
+        closeMessageModal();
+
+        const resetInput =
+            document.getElementById(
+                "reset-email"
+            );
+
+        const registrationEmail =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+        const resetStatus =
+            document.getElementById(
+                "reset-status"
+            );
+
+        resetInput.value =
+            registrationEmail;
+
+        resetInput.disabled = false;
+
+        resetStatus.innerText = "";
+        resetStatus.className =
+            "reset-status";
+
+        const button =
+            document.getElementById(
+                "reset-submit-button"
+            );
+
+        button.disabled = false;
+        button.style.display = "block";
+        button.innerText =
+            "Wyślij link";
+
+        document.getElementById(
+            "password-reset-modal"
+        ).classList.add(
+            "visible"
+        );
+
+        setTimeout(() => {
+            resetInput.focus();
+        }, 50);
+    }
+
+    function closePasswordReset() {
+        document.getElementById(
+            "password-reset-modal"
+        ).classList.remove(
+            "visible"
+        );
+    }
+
+    async function submitPasswordReset() {
+        const email =
+            document.getElementById(
+                "reset-email"
+            ).value.trim();
+
+        const statusElement =
+            document.getElementById(
+                "reset-status"
+            );
+
+        const button =
+            document.getElementById(
+                "reset-submit-button"
+            );
+
+        statusElement.innerText = "";
+        statusElement.className =
+            "reset-status";
+
+        if (!email) {
+            statusElement.innerText =
+                "Wpisz adres e-mail.";
+
+            statusElement.className =
+                "reset-status error";
+
+            return;
+        }
+
+        const originalText =
+            button.innerText;
+
+        button.disabled = true;
+        button.innerText =
+            "Wysyłanie...";
 
         try {
-            const res = await fetch(`http://localhost:3001${endpoint}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ username: user, password: pass, rememberMe: remember }) 
+            const response = await fetch(
+                "http://localhost:3001/api/password-reset/request",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        email
+                    })
+                }
+            );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error ||
+                    "Nie udało się wysłać linku."
+                );
+            }
+
+            statusElement.innerText =
+                data.message;
+
+            statusElement.className =
+                "reset-status success";
+
+            document.getElementById(
+                "reset-email"
+            ).disabled = true;
+
+            button.style.display =
+                "none";
+
+        } catch (error) {
+            statusElement.innerText =
+                error.message;
+
+            statusElement.className =
+                "reset-status error";
+
+        } finally {
+            button.disabled = false;
+            button.innerText =
+                originalText;
+        }
+    }
+    async function submitForm() {
+        const user = document
+            .getElementById("username")
+            .value
+            .trim();
+
+        const email = document
+            .getElementById("email")
+            .value
+            .trim();
+
+        const pass = document
+            .getElementById("password")
+            .value;
+
+        const remember = document
+            .getElementById("rememberMe")
+            .checked;
+
+        const endpoint = isLoginMode
+            ? "/api/login"
+            : "/api/register";
+
+        if (
+            !user ||
+            !pass ||
+            (!isLoginMode && !email)
+        ) {
+            showMessageModal({
+                title: "Uzupełnij dane",
+                message: isLoginMode
+                    ? "Wpisz login i hasło."
+                    : "Wpisz login, adres e-mail i hasło.",
+                type: "error",
+                loginError: false
             });
 
-            const data = await res.json();
+            return;
+        }
 
-            if (res.ok) {
-                if (isLoginMode) {
-                    if (data.role === 'admin') {
-                        window.location.href = '/admin.html';
-                    } else {
-                        window.location.href = 'http://localhost:5173'; 
-                    }
-                } else {
-                    alert(data.message);
-                    toggleMode();
+        const button =
+            document.getElementById(
+                "action-btn"
+            );
+
+        const originalText =
+            button.innerText;
+
+        button.innerText =
+            isLoginMode
+                ? "Logowanie..."
+                : "Tworzenie konta...";
+
+        button.disabled = true;
+
+        try {
+            const response = await fetch(
+                `http://localhost:3001${endpoint}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        username: user,
+                        email: isLoginMode
+                            ? undefined
+                            : email,
+                        password: pass,
+                        rememberMe: remember
+                    })
                 }
-            } else {
-                alert("Błąd: " + data.error);
+            );
+
+            const responseText =
+                await response.text();
+
+            let data = {};
+
+            try {
+                data = responseText
+                    ? JSON.parse(responseText)
+                    : {};
+            } catch (parseError) {
+                throw new Error(
+                    "Serwer zwrócił nieprawidłową odpowiedź."
+                );
             }
-        } catch (err) {
-            alert("❌ Błąd połączenia z serwerem! Sprawdź terminal.");
-            console.error("Szczegóły:", err);
+
+            if (!response.ok) {
+                showMessageModal({
+                    title: isLoginMode
+                        ? "Nie udało się zalogować"
+                        : "Nie udało się utworzyć konta",
+
+                    message:
+                        data.error ||
+                        "Sprawdź wprowadzone dane i spróbuj ponownie.",
+
+                    type: "error",
+                    loginError: isLoginMode
+                });
+
+                return;
+            }
+
+            if (isLoginMode) {
+                if (data.role === "admin") {
+                    window.location.href =
+                        "/admin.html";
+                } else {
+                    window.location.href =
+                        "http://localhost:5173";
+                }
+
+                return;
+            }
+
+            showMessageModal({
+                title: "Konto utworzone",
+                message:
+                    data.message ||
+                    "Konto zostało utworzone. Możesz się teraz zalogować.",
+                type: "success",
+                loginError: false
+            });
+
+            document.getElementById(
+                "password"
+            ).value = "";
+
+            toggleMode();
+
+        } catch (error) {
+            console.error(
+                "Błąd formularza:",
+                error
+            );
+
+            showMessageModal({
+                title:
+                    "Brak połączenia z serwerem",
+                message:
+                    error.message ||
+                    "Nie udało się połączyć z backendem.",
+                type: "error",
+                loginError: false
+            });
+
         } finally {
-            btn.innerText = originalText;
-            btn.disabled = false;
+            button.innerText =
+                originalText;
+
+            button.disabled = false;
         }
     }
 </script>

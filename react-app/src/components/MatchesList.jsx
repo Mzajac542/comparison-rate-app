@@ -1,72 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-// Słownik czasów trwania meczów w minutach dla poszczególnych dyscyplin
-const SPORT_DURATIONS = {
-  "piłka nożna": 120,
-  "⚽ piłka nożna": 120,
-  "tenis": 150,
-  "🎾 tenis": 150,
-  "koszykówka": 120,
-  "🏀 koszykówka": 120,
-  "siatkówka": 120,
-  "🏐 siatkówka": 120,
-  "piłka ręczna": 120,
-  "🏐 piłka ręczna": 120,
-  "hokej": 150
-};
-
-export const getMatchStatus = (match) => {
-  let dateStr = match.dzien || match.date;
-  let timeStr = match.godzina || match.time || "00:00";
-  
-  if (!dateStr) return { text: "ZAPLANOWANY", color: "#718096" };
-
-  dateStr = String(dateStr).trim();
-  timeStr = String(timeStr).trim();
-
-  let year, month, day;
-  if (dateStr.includes('.')) {
-    const parts = dateStr.split('.');
-    day = parseInt(parts[0], 10);
-    month = parseInt(parts[1], 10);
-    year = parseInt(parts[2], 10);
-  } else if (dateStr.includes('-')) {
-    const parts = dateStr.split('-');
-    year = parseInt(parts[0], 10);
-    month = parseInt(parts[1], 10);
-    day = parseInt(parts[2], 10);
-  } else {
-    return { text: "ZAPLANOWANY", color: "#718096" };
-  }
-
-  const timeParts = timeStr.split(':');
-  const hours = parseInt(timeParts[0], 10) || 0;
-  const minutes = parseInt(timeParts[1], 10) || 0;
-
-  const matchStart = new Date(year, month - 1, day, hours, minutes, 0);
-  if (isNaN(matchStart.getTime())) return { text: "ZAPLANOWANY", color: "#718096" };
-
-  const now = new Date();
-  const diffInMinutes = (now - matchStart) / 1000 / 60;
-
-  const sportKey = String(match.dyscyplina || match.sport || "").toLowerCase().trim();
-  const duration = SPORT_DURATIONS[sportKey] || 120;
-
-  if (diffInMinutes < 0) {
-    const isToday = matchStart.getFullYear() === now.getFullYear() &&
-                    matchStart.getMonth() === now.getMonth() &&
-                    matchStart.getDate() === now.getDate();
-                    
-    return isToday ? { text: "OCZEKUJE", color: "#ffa500" } : { text: "ZAPLANOWANY", color: "#718096" };
-  } else if (diffInMinutes >= 0 && diffInMinutes < duration) {
-    return { text: "LIVE", color: "#e53e3e" };
-  } else {
-    return { text: "ZAKOŃCZONO", color: "#4a5568" };
-  }
-};
 
 function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySport }) {
-  const [tick, setTick] = useState(0);
   
   const [currentPage, setCurrentPage] = useState(() => {
     const savedPage = localStorage.getItem('matchesListPage');
@@ -74,11 +9,6 @@ function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySp
   });
 
   const matchesPerPage = 20;
-
-  useEffect(() => {
-    const interval = setInterval(() => setTick(t => t + 1), 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('matchesListPage', currentPage.toString());
@@ -109,9 +39,98 @@ function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySp
   };
 };
 
-  // --- FILTROWANIE --- 
-  // Odrzucamy wszystkie zakończone mecze przed operacjami na paginacji
-  const activeMatches = matches ? matches.filter(match => getMatchStatus(match).text !== "ZAKOŃCZONO") : [];
+  // --- FILTROWANIE ---
+  // Ostateczna blokada po stronie listy.
+  // Wyświetlamy wyłącznie mecze na jutro i pojutrze.
+  const activeMatches = matches
+    ? matches.filter((match) => {
+        const dateStr =
+          match.dzien ||
+          match.date;
+
+        if (!dateStr) {
+          return false;
+        }
+
+        const datePart = String(dateStr)
+          .split(" ")[0]
+          .split(",")[0]
+          .trim();
+
+        let matchDate = null;
+
+        if (datePart.includes(".")) {
+          const parts = datePart.split(".");
+
+          if (parts.length === 3) {
+            const [day, month, year] = parts;
+
+            matchDate = new Date(
+              Number(year),
+              Number(month) - 1,
+              Number(day)
+            );
+          }
+        } else if (datePart.includes("-")) {
+          const parts = datePart.split("-");
+
+          if (parts.length === 3) {
+            const [year, month, day] = parts;
+
+            matchDate = new Date(
+              Number(year),
+              Number(month) - 1,
+              Number(day)
+            );
+          }
+        }
+
+        if (
+          !matchDate ||
+          Number.isNaN(
+            matchDate.getTime()
+          )
+        ) {
+          return false;
+        }
+
+        const today = new Date();
+
+        today.setHours(
+          0,
+          0,
+          0,
+          0
+        );
+
+        matchDate.setHours(
+          0,
+          0,
+          0,
+          0
+        );
+
+        const differenceInDays =
+          Math.round(
+            (
+              matchDate.getTime() -
+              today.getTime()
+            ) /
+            (
+              1000 *
+              60 *
+              60 *
+              24
+            )
+          );
+
+        const isTomorrowOrDayAfter =
+          differenceInDays === 1 ||
+          differenceInDays === 2;
+
+        return isTomorrowOrDayAfter;
+      })
+    : [];
 
   const hasMatches = activeMatches.length > 0;
   const totalPages = hasMatches ? Math.ceil(activeMatches.length / matchesPerPage) : 0;
@@ -133,17 +152,47 @@ function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySp
     return range;
   };
 
-  return (
-    <div className="matches-list">
-      <style>{`
-        @keyframes liveDotPulse {
-          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.7); }
-          70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(229, 62, 62, 0); }
-          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(229, 62, 62, 0); }
-        }
-        .live-pulse-dot { width: 8px; height: 8px; background-color: #e53e3e; border-radius: 50%; display: inline-block; animation: liveDotPulse 1.8s infinite ease-in-out; }
-      `}</style>
+  const visiblePages =
+    getPaginationRange();
 
+  const changePage = (pageNumber) => {
+    const safePage = Math.min(
+      Math.max(pageNumber, 1),
+      totalPages
+    );
+
+    setCurrentPage(safePage);
+
+    window.requestAnimationFrame(() => {
+      const listElement =
+        document.getElementById(
+          "matches-list-start"
+        );
+
+      if (listElement) {
+        const elementPosition =
+          listElement.getBoundingClientRect()
+            .top +
+          window.scrollY -
+          120;
+
+        window.scrollTo({
+          top: Math.max(
+            elementPosition,
+            0
+          ),
+          behavior: "smooth"
+        });
+      }
+    });
+  };
+
+
+  return (
+    <div
+      id="matches-list-start"
+      className="matches-list"
+    >
       {!hasMatches && (
         <p style={{ padding: "40px", textAlign: "center", color: "#aaa", fontSize: "1.2em" }}>
           Brak aktywnych meczów do wyświetlenia.
@@ -157,8 +206,6 @@ function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySp
         const matchDate = match.date || match.dzien || "-";
         const matchTime = match.time || match.godzina || "";
         const isFav = favorites && favorites.includes(matchTitle);
-        const status = getMatchStatus(match);
-        const isLive = status && status.text === "LIVE";
         const bestText = best.draw !== "-" ? `${best.home} / ${best.draw} / ${best.away}` : `${best.home} / ${best.away}`;
 
         return (
@@ -172,18 +219,6 @@ function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySp
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              {status && isLive && (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <span className="live-pulse-dot" />
-                  <span style={{ backgroundColor: status.color, color: "#fff", padding: "3px 8px", borderRadius: "4px", fontWeight: "bold", fontSize: "0.85em" }}>{status.text}</span>
-                </div>
-              )}
-              {/* Opcjonalny fallback: Jeśli jednak przez jakiś powód mignie inny status na frontendzie */}
-              {status && !isLive && status.text !== "ZAKOŃCZONO" && (
-                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                   <span style={{ backgroundColor: status.color, color: "#fff", padding: "3px 8px", borderRadius: "4px", fontWeight: "bold", fontSize: "0.85em" }}>{status.text}</span>
-                 </div>
-              )}
               <div onClick={(e) => { e.stopPropagation(); onToggleFavorite(matchTitle); }} style={{ cursor: "pointer", fontSize: "1.5em" }}>{isFav ? "⭐" : "☆"}</div>
             </div>
           </div>
@@ -191,12 +226,232 @@ function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySp
       })}
 
       {hasMatches && totalPages > 1 && (
-        <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "20px" }}>
-          <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} style={{ padding: "8px", background: "#333", color: "#fff", border: "none", cursor: "pointer" }}>&lt;</button>
-          {getPaginationRange().map(p => (
-            <button key={p} onClick={() => setCurrentPage(p)} style={{ padding: "8px 12px", backgroundColor: currentPage === p ? "#22c55e" : "#333", color: "#fff", border: "none", cursor: "pointer" }}>{p}</button>
-          ))}
-          <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} style={{ padding: "8px", background: "#333", color: "#fff", border: "none", cursor: "pointer" }}>&gt;</button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "8px",
+            flexWrap: "wrap",
+            marginTop: "30px",
+            paddingTop: "20px",
+            borderTop:
+              "1px solid #2a313c"
+          }}
+        >
+          <button
+            type="button"
+            onClick={() =>
+              changePage(
+                currentPage - 1
+              )
+            }
+            disabled={currentPage === 1}
+            aria-label="Poprzednia strona"
+            style={{
+              minWidth: "38px",
+              height: "38px",
+              padding: "0 12px",
+              borderRadius: "6px",
+              border:
+                "1px solid #3b3b3b",
+              backgroundColor:
+                currentPage === 1
+                  ? "#1f2937"
+                  : "#333",
+              color:
+                currentPage === 1
+                  ? "#64748b"
+                  : "#fff",
+              cursor:
+                currentPage === 1
+                  ? "not-allowed"
+                  : "pointer",
+              fontWeight: "bold",
+              opacity:
+                currentPage === 1
+                  ? 0.55
+                  : 1,
+              transition:
+                "all 0.2s ease"
+            }}
+          >
+            {"<"}
+          </button>
+
+          {visiblePages[0] > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() =>
+                  changePage(1)
+                }
+                style={{
+                  minWidth: "38px",
+                  height: "38px",
+                  padding: "0 12px",
+                  borderRadius: "6px",
+                  border:
+                    "1px solid #3b3b3b",
+                  backgroundColor: "#333",
+                  color: "#fff",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  transition:
+                    "all 0.2s ease"
+                }}
+              >
+                1
+              </button>
+
+              {visiblePages[0] > 2 && (
+                <span
+                  style={{
+                    color: "#64748b",
+                    padding: "0 2px",
+                    userSelect: "none"
+                  }}
+                >
+                  …
+                </span>
+              )}
+            </>
+          )}
+
+          {visiblePages.map(
+            (pageNumber) => {
+              const isActive =
+                currentPage ===
+                pageNumber;
+
+              return (
+                <button
+                  type="button"
+                  key={pageNumber}
+                  onClick={() =>
+                    changePage(
+                      pageNumber
+                    )
+                  }
+                  aria-current={
+                    isActive
+                      ? "page"
+                      : undefined
+                  }
+                  style={{
+                    minWidth: "38px",
+                    height: "38px",
+                    padding: "0 12px",
+                    borderRadius: "6px",
+                    border: isActive
+                      ? "1px solid #10b981"
+                      : "1px solid #3b3b3b",
+                    backgroundColor:
+                      isActive
+                        ? "#10b981"
+                        : "#333",
+                    color: "#fff",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    boxShadow: isActive
+                      ? "0 0 12px rgba(16, 185, 129, 0.25)"
+                      : "none",
+                    transition:
+                      "all 0.2s ease"
+                  }}
+                >
+                  {pageNumber}
+                </button>
+              );
+            }
+          )}
+
+          {visiblePages[
+            visiblePages.length - 1
+          ] < totalPages && (
+            <>
+              {visiblePages[
+                visiblePages.length - 1
+              ] < totalPages - 1 && (
+                <span
+                  style={{
+                    color: "#64748b",
+                    padding: "0 2px",
+                    userSelect: "none"
+                  }}
+                >
+                  …
+                </span>
+              )}
+
+              <button
+                type="button"
+                onClick={() =>
+                  changePage(
+                    totalPages
+                  )
+                }
+                style={{
+                  minWidth: "38px",
+                  height: "38px",
+                  padding: "0 12px",
+                  borderRadius: "6px",
+                  border:
+                    "1px solid #3b3b3b",
+                  backgroundColor: "#333",
+                  color: "#fff",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  transition:
+                    "all 0.2s ease"
+                }}
+              >
+                {totalPages}
+              </button>
+            </>
+          )}
+
+          <button
+            type="button"
+            onClick={() =>
+              changePage(
+                currentPage + 1
+              )
+            }
+            disabled={
+              currentPage === totalPages
+            }
+            aria-label="Następna strona"
+            style={{
+              minWidth: "38px",
+              height: "38px",
+              padding: "0 12px",
+              borderRadius: "6px",
+              border:
+                "1px solid #3b3b3b",
+              backgroundColor:
+                currentPage === totalPages
+                  ? "#1f2937"
+                  : "#333",
+              color:
+                currentPage === totalPages
+                  ? "#64748b"
+                  : "#fff",
+              cursor:
+                currentPage === totalPages
+                  ? "not-allowed"
+                  : "pointer",
+              fontWeight: "bold",
+              opacity:
+                currentPage === totalPages
+                  ? 0.55
+                  : 1,
+              transition:
+                "all 0.2s ease"
+            }}
+          >
+            {">"}
+          </button>
         </div>
       )}
     </div>

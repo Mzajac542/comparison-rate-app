@@ -1,5 +1,14 @@
 import React from 'react';
 
+const SPORT_ICONS = {
+  "Piłka nożna": "⚽",
+  "Koszykówka": "🏀",
+  "Tenis": "🎾",
+  "Piłka ręczna": "🤾",
+  "Boks": "🥊"
+};
+
+
 function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport, onSelectLeague, showOnlyCommon, onToggleCommon }) {
   
   // Funkcja grupująca i zliczająca mecze dla wybranego sportu (TYLKO jeśli mają zapisaną ligę)
@@ -97,7 +106,26 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
                   transition: "all 0.2s"
                 }}
               >
-                {sport}
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "9px"
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      fontSize: "1.2em",
+                      width: "22px",
+                      textAlign: "center"
+                    }}
+                  >
+                    {SPORT_ICONS[sport] || "🏆"}
+                  </span>
+
+                  <span>{sport}</span>
+                </span>
               </button>
 
               {/* ROZWIJANA LISTA LIG (Pojawia się tylko gdy sport jest aktywny) */}
