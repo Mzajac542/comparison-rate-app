@@ -10,6 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from urllib.parse import urljoin, urlparse
+from scrape_report import ScrapeReport
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
@@ -25,7 +26,7 @@ SPORTY = {
 # Tryb testowy
 TRYB_TESTOWY = False
 SPORT_TESTOWY = None
-LIMIT_MECZOW_TESTOWYCH = 1
+LIMIT_MECZOW_TESTOWYCH = 3
 
 BAZOWY_URL = "https://www.oddsportal.com"
 ZAPISUJ_DEBUG_HTML = False
@@ -125,12 +126,21 @@ def klucz_nazwy_bukmachera(nazwa):
     return nazwa
 
 
+WYKLUCZONE_KLUCZE = {
+    klucz_nazwy_bukmachera(nazwa)
+    for nazwa in WYKLUCZENI_BUKMACHERZY
+}
+
+
 def czy_bukmacher_zagraniczny(nazwa):
     if not nazwa:
         return False
-    klucz = klucz_nazwy_bukmachera(nazwa)
-    wykluczone = {klucz_nazwy_bukmachera(x) for x in WYKLUCZENI_BUKMACHERZY}
-    return klucz not in wykluczone
+
+    klucz = klucz_nazwy_bukmachera(
+        nazwa
+    )
+
+    return klucz not in WYKLUCZONE_KLUCZE
 
 
 def wyczysc_nazwe_bukmachera(tekst):
@@ -394,43 +404,149 @@ def wykryj_blad_oddsportal(page_obj):
 
 def czy_tabela_kursow_jest(page_obj):
     try:
-        if page_obj.url.startswith("chrome-error://"):
+        if page_obj.url.startswith(
+            "chrome-error://"
+        ):
             return False
+
         return page_obj.evaluate(
-            r"""
+            """
             () => {
                 const body = document.body;
-                if (!body) return false;
-                const text = (body.innerText || '').toLowerCase();
-                if (text.includes('failed to fetch data') ||
-                    text.includes('invalid encrypted ajax payload') ||
-                    text.includes('unexpected response format') ||
-                    text.includes('access denied') ||
-                    text.includes('temporarily unavailable')) return false;
-                const odds = Array.from(document.querySelectorAll(
-                    '[data-testid="odd-container-default"], [data-testid="odd-container"]'
-                )).filter(el => /^\d{1,3}[.,]\d{2,3}$/.test((el.textContent || '').trim()));
-                return odds.length >= 2 &&
-                    (text.includes('bookmakers') || text.includes('bukmacherzy'));
+
+                if (!body) {
+                    return false;
+                }
+
+                const tekst = (
+                    body.innerText || ""
+                ).toLowerCase();
+
+                if (
+                    tekst.includes("failed to fetch data") ||
+                    tekst.includes("invalid encrypted ajax payload") ||
+                    tekst.includes("unexpected response format") ||
+                    tekst.includes("access denied") ||
+                    tekst.includes("temporarily unavailable")
+                ) {
+                    return false;
+                }
+
+                const tabele = Array.from(
+                    document.querySelectorAll("table")
+                );
+
+                for (const tabela of tabele) {
+                    const naglowki = Array.from(
+                        tabela.querySelectorAll(
+                            "thead th, thead td"
+                        )
+                    ).map(element => (
+                        element.textContent || ""
+                    ).trim().toLowerCase());
+
+                    const maBukmacherow = naglowki.some(
+                        naglowek =>
+                            naglowek.includes("bookmakers") ||
+                            naglowek.includes("bukmacherzy")
+                    );
+
+                    const maKolumne1 =
+                        naglowki.includes("1");
+
+                    const maKolumne2 =
+                        naglowki.includes("2");
+
+                    const linkiKursow = Array.from(
+                        tabela.querySelectorAll(
+                            'a[href*="/betslip/"]'
+                        )
+                    ).filter(element => {
+                        const wartosc = (
+                            element.textContent || ""
+                        ).trim();
+
+                        return /^\\d{1,3}[.,]\\d{1,3}$/.test(
+                            wartosc
+                        );
+                    });
+
+                    if (
+                        maBukmacherow &&
+                        maKolumne1 &&
+                        maKolumne2 &&
+                        linkiKursow.length >= 2
+                    ) {
+                        return true;
+                    }
+                }
+
+                return false;
             }
             """
         )
-    except Exception:
+
+    except Exception as blad:
+        print(
+            f"      [DEBUG TABLE READY] "
+            f"{blad}"
+        )
         return False
 
 
-def czekaj_na_tabele_kursow(page_obj, timeout_ms=15000):
-    start = time.time()
-    while (time.time() - start) * 1000 < timeout_ms:
-        if wykryj_blad_oddsportal(page_obj):
+def czekaj_na_tabele_kursow(
+    page_obj,
+    timeout_ms=20000
+):
+    start = time.monotonic()
+    numer_proby = 0
+
+    while (
+        time.monotonic() - start
+    ) * 1000 < timeout_ms:
+        numer_proby += 1
+
+        if wykryj_blad_oddsportal(
+            page_obj
+        ):
             return False, "blad_ajax"
-        if czy_tabela_kursow_jest(page_obj):
+
+        if czy_tabela_kursow_jest(
+            page_obj
+        ):
             return True, "ok"
+
         try:
-            page_obj.mouse.wheel(0, 250)
-        except Exception:
-            pass
-        page_obj.wait_for_timeout(750)
+            liczba_tabel = page_obj.locator(
+                "table"
+            ).count()
+
+            liczba_kursow = page_obj.locator(
+                'a[href*="/betslip/"]'
+            ).count()
+
+            liczba_bukmacherow = page_obj.locator(
+                'a[href*="/proxy/bookmakers/"]'
+                '[href$="/link/"]'
+            ).count()
+
+            print(
+                f"      [WAIT ODDS {numer_proby}] "
+                f"table={liczba_tabel} | "
+                f"odds={liczba_kursow} | "
+                f"bookmakers={liczba_bukmacherow}"
+            )
+
+        except Exception as blad:
+            print(
+                f"      [DEBUG WAIT ODDS] "
+                f"{blad}"
+            )
+
+        page_obj.wait_for_timeout(
+            750
+        )
+
     return False, "timeout"
 
 
@@ -456,37 +572,104 @@ def pobierz_godzine_z_elementu(element):
     return match.group(0) if match else "00:00"
 
 
-def pobierz_linki_meczow_z_listy(page_obj, sciezka_sportu, dzien, debug_dir):
+def pobierz_linki_meczow_z_listy(
+    page_obj,
+    sciezka_sportu,
+    dzien,
+    debug_dir
+):
     znalezione = []
     widziane = set()
-    wiersze = page_obj.locator('[data-testid="game-row"]')
-    try:
-        liczba = wiersze.count()
-    except Exception:
-        liczba = 0
 
-    print(f"    [INFO] Wykryto {liczba} wierszy data-testid=game-row")
-    for indeks in range(liczba):
+    selektor_linkow = (
+        f'a[href*="/{sciezka_sportu}/h2h/"]'
+        f'[href*="#"]'
+    )
+
+    linki = page_obj.locator(
+        selektor_linkow
+    )
+
+    try:
+        liczba_linkow = linki.count()
+    except Exception:
+        liczba_linkow = 0
+
+    print(
+        f"    [INFO] Wykryto {liczba_linkow} "
+        f"linków H2H dla sportu "
+        f"{sciezka_sportu}"
+    )
+
+    for indeks in range(liczba_linkow):
         try:
-            wiersz = wiersze.nth(indeks)
-            link_element = wiersz.locator('a[href*="/h2h/"][href*="#"]').first
-            if link_element.count() == 0:
+            link_element = linki.nth(
+                indeks
+            )
+
+            href = link_element.get_attribute(
+                "href"
+            )
+
+            poprawny_url = normalizuj_link_meczu(
+                href,
+                sciezka_sportu
+            )
+
+            if indeks < 5:
+                print(
+                    f"      [DEBUG LINK] "
+                    f"link={indeks + 1} | "
+                    f"href={href!r} | "
+                    f"wynik={poprawny_url!r}"
+                )
+
+            if not poprawny_url:
                 continue
-            href = link_element.get_attribute("href")
-            url = normalizuj_link_meczu(href, sciezka_sportu)
-            if not url:
-                continue
-            godzina = pobierz_godzine_z_elementu(wiersz)
-            klucz = (url, dzien)
+
+            godzina = pobierz_godzine_z_elementu(
+                link_element
+            )
+
+            klucz = (
+                poprawny_url,
+                dzien
+            )
+
             if klucz in widziane:
                 continue
-            widziane.add(klucz)
-            znalezione.append((url, dzien, godzina))
+
+            widziane.add(
+                klucz
+            )
+
+            znalezione.append(
+                (
+                    poprawny_url,
+                    dzien,
+                    godzina
+                )
+            )
+
         except Exception as blad:
-            print(f"      [WARN] Błąd wiersza {indeks + 1}: {blad}")
+            print(
+                f"      [WARN] Błąd linku "
+                f"{indeks + 1}: {blad}"
+            )
+
+    print(
+        f"    [INFO] Po walidacji zebrano "
+        f"{len(znalezione)} unikalnych "
+        f"linków do meczów."
+    )
 
     if not znalezione:
-        zapisz_debug_html(page_obj, debug_dir, f"lista_{sciezka_sportu}_{dzien}")
+        zapisz_debug_html(
+            page_obj,
+            debug_dir,
+            f"lista_{sciezka_sportu}_{dzien}"
+        )
+
     return znalezione
 
 
@@ -569,7 +752,7 @@ def wejdz_w_zakladke(page_obj, tab_name):
                     continue
 
                 page_obj.wait_for_timeout(
-                    2500
+                    1000
                 )
 
                 print(
@@ -590,13 +773,16 @@ def wejdz_w_zakladke(page_obj, tab_name):
 
     for nazwa in nazwy:
         locator = page_obj.locator(
-            '[data-testid="sports-nav"] button'
+            "li.tab-item, "
+            '[role="tab"], '
+            "button"
         ).filter(
             has_text=re.compile(
                 rf"^\s*{re.escape(nazwa)}\s*$",
                 re.IGNORECASE
             )
         )
+
 
         if kliknij(
             locator,
@@ -644,13 +830,41 @@ def wejdz_w_zakladke(page_obj, tab_name):
 
 
 def pobierz_aktywny_rynek(page_obj):
-    try:
-        aktywny = page_obj.locator('[data-testid="sports-nav-active-tab"]').first
-        if aktywny.count() == 0:
-            return ""
-        return aktywny.inner_text(timeout=2000).strip()
-    except Exception:
-        return ""
+    selektory = [
+        "li.tab-item.active-item-feed",
+        "li.active-item-feed",
+        '[role="tab"][aria-selected="true"]',
+        '[aria-selected="true"]'
+    ]
+
+    for selektor in selektory:
+        try:
+            elementy = page_obj.locator(
+                selektor
+            )
+
+            for indeks in range(
+                elementy.count()
+            ):
+                element = elementy.nth(
+                    indeks
+                )
+
+                if not element.is_visible():
+                    continue
+
+                tekst = element.inner_text(
+                    timeout=1500
+                ).strip()
+
+                if tekst:
+                    return tekst
+
+        except Exception:
+            continue
+
+    return ""
+
 
 
 def pobierz_widoczna_tabele_glowna(page_obj, nazwa_sportu):
@@ -800,101 +1014,100 @@ def czy_poprawna_nazwa_bukmachera(nazwa):
 def pobierz_nazwe_bukmachera_z_rzedu_playwright(
     rzad
 ):
-    kandydaci = []
+    try:
+        dane = rzad.evaluate(
+            """
+            rzad => {
+                const linkBukmachera =
+                    rzad.querySelector(
+                        'a[href*="/proxy/bookmakers/"]'
+                    );
 
-    selektory = [
-        '[data-testid="outrights-expanded-bookmaker-name"]',
-        '[data-testid*="bookmaker-name"]',
-        'a[href*="/bookmaker/"]',
-        'a[href*="/bookmakers/"]',
-        "td:first-child"
+                const pierwszaKomorka =
+                    rzad.querySelector(
+                        "td:first-child"
+                    );
+
+                const obrazek =
+                    pierwszaKomorka
+                        ? pierwszaKomorka.querySelector(
+                            "img"
+                        )
+                        : null;
+
+                return {
+                    tekstLinku:
+                        linkBukmachera
+                            ? (
+                                linkBukmachera.innerText
+                                || ""
+                            )
+                            : "",
+
+                    titleLinku:
+                        linkBukmachera
+                            ? (
+                                linkBukmachera.getAttribute(
+                                    "title"
+                                )
+                                || ""
+                            )
+                            : "",
+
+                    ariaLinku:
+                        linkBukmachera
+                            ? (
+                                linkBukmachera.getAttribute(
+                                    "aria-label"
+                                )
+                                || ""
+                            )
+                            : "",
+
+                    tekstKomorki:
+                        pierwszaKomorka
+                            ? (
+                                pierwszaKomorka.innerText
+                                || ""
+                            )
+                            : "",
+
+                    altObrazka:
+                        obrazek
+                            ? (
+                                obrazek.getAttribute(
+                                    "alt"
+                                )
+                                || ""
+                            )
+                            : "",
+
+                    titleObrazka:
+                        obrazek
+                            ? (
+                                obrazek.getAttribute(
+                                    "title"
+                                )
+                                || ""
+                            )
+                            : ""
+                };
+            }
+            """
+        )
+
+    except Exception:
+        return None
+
+    kandydaci = [
+        dane.get("tekstLinku", ""),
+        dane.get("titleLinku", ""),
+        dane.get("ariaLinku", ""),
+        dane.get("altObrazka", ""),
+        dane.get("titleObrazka", ""),
+        dane.get("tekstKomorki", "")
     ]
 
-    for selektor in selektory:
-        try:
-            elementy = rzad.locator(
-                selektor
-            )
-
-            liczba_elementow = (
-                elementy.count()
-            )
-
-        except Exception:
-            continue
-
-        for indeks in range(
-            liczba_elementow
-        ):
-            element = elementy.nth(
-                indeks
-            )
-
-            try:
-                tekst = element.inner_text(
-                    timeout=1000
-                )
-
-                if tekst:
-                    kandydaci.append(
-                        tekst
-                    )
-
-            except Exception:
-                pass
-
-            for atrybut in [
-                "title",
-                "aria-label",
-                "alt"
-            ]:
-                try:
-                    wartosc = (
-                        element.get_attribute(
-                            atrybut
-                        )
-                    )
-
-                    if wartosc:
-                        kandydaci.append(
-                            wartosc
-                        )
-
-                except Exception:
-                    pass
-
-            try:
-                obrazki = element.locator(
-                    "img"
-                )
-
-                for indeks_obrazka in range(
-                    obrazki.count()
-                ):
-                    obrazek = obrazki.nth(
-                        indeks_obrazka
-                    )
-
-                    for atrybut in [
-                        "alt",
-                        "title",
-                        "aria-label"
-                    ]:
-                        wartosc = (
-                            obrazek.get_attribute(
-                                atrybut
-                            )
-                        )
-
-                        if wartosc:
-                            kandydaci.append(
-                                wartosc
-                            )
-
-            except Exception:
-                pass
-
-    # Najpierw usuwamy powtarzające się wartości.
     unikalni_kandydaci = []
 
     for kandydat in kandydaci:
@@ -904,16 +1117,13 @@ def pobierz_nazwe_bukmachera_z_rzedu_playwright(
 
         if (
             kandydat
-            and kandydat
-            not in unikalni_kandydaci
+            and kandydat not in unikalni_kandydaci
         ):
             unikalni_kandydaci.append(
                 kandydat
             )
 
     for tekst in unikalni_kandydaci:
-        # Najpierw próbujemy znaleźć nazwę
-        # przed napisem dotyczącym bonusu.
         oczyszczony = re.split(
             r"\b(?:ZGARNIJ|CLAIM|GET)\b",
             tekst,
@@ -925,8 +1135,6 @@ def pobierz_nazwe_bukmachera_z_rzedu_playwright(
             oczyszczony
         )
 
-        # Usunięcie powtórzonej nazwy z logo:
-        # "22Bet 22Bet" -> "22Bet"
         slowa = oczyszczony.split()
 
         if (
@@ -970,20 +1178,42 @@ def normalizuj_nazwe_bukmachera(nazwa):
 
 def pobierz_kursy_z_locatorow(locator):
     kursy = []
-    for indeks in range(locator.count()):
-        try:
-            tekst = locator.nth(indeks).inner_text(timeout=1000).replace(",", ".")
-        except Exception:
+
+    try:
+        teksty = locator.all_inner_texts()
+    except Exception:
+        return kursy
+
+    for tekst in teksty:
+        tekst = str(
+            tekst
+        ).replace(
+            ",",
+            "."
+        ).strip()
+
+        dopasowanie = re.search(
+            r"(?<!\d)"
+            r"(\d{1,3}(?:\.\d{1,3})?)"
+            r"(?!\d)",
+            tekst
+        )
+
+        if not dopasowanie:
             continue
-        match = re.search(r"(?<!\d)(\d{1,3}(?:\.\d{1,3})?)(?!\d)", tekst)
-        if not match:
-            continue
+
         try:
-            kurs = float(match.group(1))
+            kurs = float(
+                dopasowanie.group(1)
+            )
         except ValueError:
             continue
+
         if 1.0 <= kurs <= 1000:
-            kursy.append(kurs)
+            kursy.append(
+                kurs
+            )
+
     return kursy
 
 
@@ -1062,10 +1292,17 @@ def pobierz_kursy_glowne_playwright(
         nazwa = normalizuj_nazwe_bukmachera(
             nazwa
         )
+        if not czy_poprawna_nazwa_bukmachera(
+            nazwa
+        ):
+            print(
+                f"      [SKIP MAIN FOREIGN] "
+                f"Odrzucono nazwę: {nazwa!r}"
+            )
+            continue
 
         kursy_locator = rzad.locator(
-            '[data-testid="odd-container-default"], '
-            '[data-testid="odd-container"]'
+            'a[href*="/betslip/"]'
         )
 
         kursy = pobierz_kursy_z_locatorow(
@@ -1180,9 +1417,14 @@ def czekaj_na_glowny_rynek(page_obj, nazwa_sportu, timeout_ms=15000):
                 rzad = rzedy.nth(indeks)
                 if not pobierz_nazwe_bukmachera_z_rzedu_playwright(rzad):
                     continue
-                ile = rzad.locator('[data-testid="odd-container-default"]').count()
+                ile = rzad.locator(
+                    'a[href*="/betslip/"]'
+                ).count()
+
                 if ile < wymagane:
-                    ile = rzad.locator('[data-testid="odd-container"]').count()
+                    ile = rzad.locator(
+                        "td:not(:first-child) a"
+                    ).count()
                 if ile >= wymagane:
                     return True, "ok"
         page_obj.wait_for_timeout(500)
@@ -1275,17 +1517,12 @@ def parsuj_standardowy_rynek_playwright(
                 continue
 
             loc = rzad.locator(
-                '[data-testid="odd-container-default"]'
+                'a[href*="/betslip/"]'
             )
 
             if loc.count() < wymagane:
                 loc = rzad.locator(
-                    '[data-testid="odd-container"]'
-                )
-
-            if loc.count() < wymagane:
-                loc = rzad.locator(
-                    "td a"
+                    "td:not(:first-child) a"
                 )
 
             kursy = pobierz_kursy_z_locatorow(
@@ -1354,7 +1591,7 @@ def znajdz_tabele_kursow_dla_wiersza(
     page_obj,
     wiersz_rynku=None,
     wymagane=2,
-    timeout_ms=7000
+    timeout_ms=4000
 ):
     start = time.time()
 
@@ -1435,46 +1672,50 @@ def znajdz_tabele_kursow_dla_wiersza(
                 if ma_1 and ma_x and ma_2:
                     continue
 
-                rzedy = tabela.locator(
-                    "tbody tr"
+                poprawne_rzedy = tabela.evaluate(
+                    """
+                    (tabela, wymagane) => {
+                        const rzedy = Array.from(
+                            tabela.querySelectorAll(
+                                "tbody tr"
+                            )
+                        );
+
+                        let poprawne = 0;
+
+                        for (const rzad of rzedy) {
+                            const linkBukmachera =
+                                rzad.querySelector(
+                                    'a[href*="/proxy/bookmakers/"]'
+                                );
+
+                            const kursy = Array.from(
+                                rzad.querySelectorAll(
+                                    'a[href*="/betslip/"]'
+                                )
+                            ).filter(element => {
+                                const tekst = (
+                                    element.textContent || ""
+                                ).trim();
+
+                                return /^\\d{1,3}[.,]\\d{1,3}$/.test(
+                                    tekst
+                                );
+                            });
+
+                            if (
+                                linkBukmachera
+                                && kursy.length >= wymagane
+                            ) {
+                                poprawne++;
+                            }
+                        }
+
+                        return poprawne;
+                    }
+                    """,
+                    wymagane
                 )
-
-                poprawne_rzedy = 0
-
-                for indeks_rzedu in range(
-                    rzedy.count()
-                ):
-                    rzad = rzedy.nth(
-                        indeks_rzedu
-                    )
-
-                    nazwa = (
-                        pobierz_nazwe_bukmachera_z_rzedu_playwright(
-                            rzad
-                        )
-                    )
-
-                    if not nazwa:
-                        continue
-
-                    kursy_locator = rzad.locator(
-                        '[data-testid="odd-container-default"]'
-                    )
-
-                    if (
-                        kursy_locator.count()
-                        < wymagane
-                    ):
-                        kursy_locator = rzad.locator(
-                            '[data-testid="odd-container"]'
-                        )
-
-                    kursy = pobierz_kursy_z_locatorow(
-                        kursy_locator
-                    )
-
-                    if len(kursy) >= wymagane:
-                        poprawne_rzedy += 1
 
                 if poprawne_rzedy > najlepszy_wynik:
                     najlepszy_wynik = (
@@ -1524,8 +1765,13 @@ def znajdz_widoczna_tabele_z_kursami(
         "table"
     )
 
+    try:
+        liczba_tabel = tabele.count()
+    except Exception:
+        liczba_tabel = 0
+
     for indeks in range(
-        tabele.count()
+        liczba_tabel
     ):
         tabela = tabele.nth(
             indeks
@@ -1535,41 +1781,48 @@ def znajdz_widoczna_tabele_z_kursami(
             if not tabela.is_visible():
                 continue
 
-            rzedy = tabela.locator(
-                "tbody tr"
+            liczba_poprawnych = tabela.evaluate(
+                """
+                (tabela, wymagane) => {
+                    const rzedy = Array.from(
+                        tabela.querySelectorAll(
+                            "tbody tr"
+                        )
+                    );
+
+                    let poprawne = 0;
+
+                    for (const rzad of rzedy) {
+                        const linkBukmachera =
+                            rzad.querySelector(
+                                'a[href*="/proxy/bookmakers/"]'
+                            );
+
+                        const kursy =
+                            rzad.querySelectorAll(
+                                'a[href*="/betslip/"]'
+                            );
+
+                        if (
+                            linkBukmachera
+                            && kursy.length >= wymagane
+                        ) {
+                            poprawne++;
+                        }
+                    }
+
+                    return poprawne;
+                }
+                """,
+                wymagane
             )
 
-            for indeks_rzedu in range(
-                rzedy.count()
-            ):
-                rzad = rzedy.nth(
-                    indeks_rzedu
-                )
-
-                nazwa = (
-                    pobierz_nazwe_bukmachera_z_rzedu_playwright(
-                        rzad
-                    )
-                )
-
-                if not nazwa:
-                    continue
-
-                ile = rzad.locator(
-                    '[data-testid="odd-container-default"]'
-                ).count()
-
-                if ile < wymagane:
-                    ile = rzad.locator(
-                        '[data-testid="odd-container"]'
-                    ).count()
-
-                if ile >= wymagane:
-                    return tabela
+            if liczba_poprawnych > 0:
+                return tabela
 
         except Exception:
             continue
-
+            
     return None
 
 def pobierz_over_under(
@@ -1665,7 +1918,7 @@ def pobierz_over_under(
         )
 
         page_obj.wait_for_timeout(
-            800
+            400
         )
 
         kontener_linii = (
@@ -1673,7 +1926,7 @@ def pobierz_over_under(
                 page_obj,
                 cel,
                 wymagane=2,
-                timeout_ms=7000
+                timeout_ms=4000
             )
         )
 
@@ -1746,7 +1999,7 @@ def pobierz_over_under(
                 force=True
             )
 
-            page_obj.wait_for_timeout(1200)
+            page_obj.wait_for_timeout(500)
 
         except Exception:
             try:
@@ -1756,7 +2009,7 @@ def pobierz_over_under(
                     """
                 )
 
-                page_obj.wait_for_timeout(1200)
+                page_obj.wait_for_timeout(500)
 
             except Exception:
                 pass
@@ -1872,6 +2125,24 @@ def znajdz_tabele_hc(page_obj):
     return None
 
 
+def czy_linia_polowkowa(wartosc):
+    if wartosc is None:
+        return False
+
+    tekst = str(
+        wartosc
+    ).strip().replace(
+        ",",
+        "."
+    )
+
+    return bool(
+        re.fullmatch(
+            r"[+-]?\d+\.5",
+            tekst
+        )
+    )
+
 def pobierz_asian_handicap(
     page_obj,
     get_match_data
@@ -1939,6 +2210,16 @@ def pobierz_asian_handicap(
             .replace(",", ".")
         )
 
+        if not czy_linia_polowkowa(
+            wartosc
+        ):
+            print(
+                f"      [SKIP HC LINE] "
+                f"Pomijam linię całkowitą: "
+                f"{wartosc}"
+            )
+            continue
+
         if wartosc not in znalezione:
             znalezione.append(
                 wartosc
@@ -1950,8 +2231,16 @@ def pobierz_asian_handicap(
     )
 
     zapisane = 0
+
     for wartosc in znalezione:
-        tabela = znajdz_tabele_hc(page_obj)
+        if not czy_linia_polowkowa(
+            wartosc
+        ):
+            continue
+
+        tabela = znajdz_tabele_hc(
+            page_obj
+        )
         if tabela is None:
             break
         rzedy = tabela.locator("tbody > tr")
@@ -1992,13 +2281,13 @@ def pobierz_asian_handicap(
             f"Rozwinięto linię {wartosc}."
         )
 
-        page_obj.wait_for_timeout(800)
+        page_obj.wait_for_timeout(400)
         kontener_linii = (
             znajdz_tabele_kursow_dla_wiersza(
                 page_obj,
                 cel,
                 wymagane=2,
-                timeout_ms=7000
+                timeout_ms=4000
             )
         )
 
@@ -2050,7 +2339,24 @@ def pobierz_asian_handicap(
             f"      [DEBUG HC {wartosc}] "
             f"{wyniki}"
         )
-        klucz = wartosc if wartosc.startswith(("+", "-")) else f"+{wartosc}"
+        if not czy_linia_polowkowa(
+            wartosc
+        ):
+            print(
+                f"      [SKIP HC SAVE] "
+                f"Nie zapisuję linii całkowitej: "
+                f"{wartosc}"
+            )
+            continue
+
+        klucz = (
+            wartosc
+            if wartosc.startswith(
+                ("+", "-")
+            )
+            else f"+{wartosc}"
+        )
+
         znaleziono = False
         for buk, kursy in wyniki.items():
             dane = get_match_data(buk)
@@ -2070,7 +2376,7 @@ def pobierz_asian_handicap(
                 force=True
             )
 
-            page_obj.wait_for_timeout(1200)
+            page_obj.wait_for_timeout(500)
 
         except Exception:
             try:
@@ -2080,7 +2386,7 @@ def pobierz_asian_handicap(
                     """
                 )
 
-                page_obj.wait_for_timeout(1200)
+                page_obj.wait_for_timeout(500)
 
             except Exception:
                 pass
@@ -2176,8 +2482,11 @@ def bezpieczne_goto(
 
 
 def pobierz_zagranicznych_z_oddsportal():
+    proces_zakonczony = False
     vpn_wlaczony = False
     browser = None
+    report = None
+    wszystkie_mecze = []
     try:
         vpn_on()
         vpn_wlaczony = True
@@ -2186,9 +2495,19 @@ def pobierz_zagranicznych_z_oddsportal():
         print("-> [ZAGRANICZNI BUKMACHERZY - ODDSPORTAL] START")
         baza_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         output = os.path.join(baza_dir, "data", "zagraniczni.json")
+        report_path = os.path.join(
+            baza_dir,
+            "data",
+            "zagraniczni_scrape_report.json"
+        )
+
+        report = ScrapeReport(
+            scraper_name="zagraniczni",
+            report_path=report_path,
+            test_mode=TRYB_TESTOWY
+        )
         os.makedirs(os.path.dirname(output), exist_ok=True)
 
-        wszystkie_mecze = []
         data_dzis = datetime.now()
         dni = {
             (data_dzis + timedelta(days=1)).strftime("%d.%m.%Y"):
@@ -2267,6 +2586,11 @@ def pobierz_zagranicznych_z_oddsportal():
                                 f"    [WARN] Nie udało się "
                                 f"załadować listy {dzien}: {blad}"
                             )
+                            report.add_error(
+                                nazwa_sportu,
+                                "list_navigation",
+                                blad
+                            )
 
                             try:
                                 page.close()
@@ -2277,7 +2601,7 @@ def pobierz_zagranicznych_z_oddsportal():
                             continue
 
                         page.wait_for_timeout(
-                            1500
+                            500
                         )
 
                         obsluz_baner_cookies(
@@ -2307,16 +2631,32 @@ def pobierz_zagranicznych_z_oddsportal():
                             else:
                                 poprzednia = len(zebrane)
                                 bez_zmiany = 0
-                            if bez_zmiany >= 3:
+                            if len(zebrane) > 0 and bez_zmiany >= 3:
+                                print(
+                                    f"    [INFO] Lista przestała się "
+                                    f"powiększać. Zebrano "
+                                    f"{len(zebrane)} spotkań."
+                                )
+                                break
+                            if len(zebrane) == 0 and bez_zmiany >= 7:
+                                print(
+                                    "    [WARN] Po kilku próbach nadal "
+                                    "nie znaleziono linków H2H."
+                                )
                                 break
                             page.mouse.wheel(0, 1000)
-                            page.wait_for_timeout(1000)
+                            page.wait_for_timeout(600)
                         linki.extend(zebrane)
                         print(f"    [INFO] {dzien}: {len(zebrane)} meczów")
                     except Exception as blad:
                         print(
                             f"    [WARN] Lista {dzien}: "
                             f"{blad}"
+                        )
+                        report.add_error(
+                            nazwa_sportu,
+                            "list_navigation",
+                            blad
                         )
 
                         try:
@@ -2334,12 +2674,40 @@ def pobierz_zagranicznych_z_oddsportal():
                     klucz = (element[0], element[1])
                     if klucz not in mapa or (mapa[klucz][2] == "00:00" and element[2] != "00:00"):
                         mapa[klucz] = element
-                unikalne = list(mapa.values())
+                unikalne = list(
+                    mapa.values()
+                )
+
+                report.add_found(
+                    nazwa_sportu,
+                    len(unikalne)
+                )
+
+                if not unikalne:
+                    report.add_error(
+                        nazwa_sportu,
+                        "list_navigation",
+                        (
+                            "Nie znaleziono żadnego wydarzenia "
+                            "w obu sprawdzanych dniach."
+                        )
+                    )
+
                 if TRYB_TESTOWY:
-                    unikalne = unikalne[:LIMIT_MECZOW_TESTOWYCH]
-                    print(f"[TEST] Ograniczono do {len(unikalne)} meczów")
+                    unikalne = unikalne[
+                        :LIMIT_MECZOW_TESTOWYCH
+                    ]
+
 
                 for idx, (link, dzien, godzina) in enumerate(unikalne, 1):
+
+                    report.add_attempted(
+                        nazwa_sportu
+                    )
+
+                    liczba_rekordow_przed = len(
+                        wszystkie_mecze
+                    )
                     try:
                         if page.is_closed():
                             page = utworz_strone()
@@ -2355,6 +2723,12 @@ def pobierz_zagranicznych_z_oddsportal():
                                 f"nieudanych próbach: {blad}"
                             )
 
+                            report.add_error(
+                                nazwa_sportu,
+                                "match_navigation",
+                                blad
+                            )
+
                             try:
                                 if not page.is_closed():
                                     page.close()
@@ -2367,7 +2741,15 @@ def pobierz_zagranicznych_z_oddsportal():
                             continue
 
 
-                        if response is not None and response.status >= 400:
+                        if (
+                            response is not None
+                            and response.status >= 400
+                        ):
+                            report.add_error(
+                                nazwa_sportu,
+                                "http_error",
+                                f"HTTP {response.status}"
+                            )
                             continue
 
                         page.wait_for_timeout(500)
@@ -2377,13 +2759,51 @@ def pobierz_zagranicznych_z_oddsportal():
                         )
 
                         page.wait_for_timeout(1000)
-                        tabela_ok, _ = czekaj_na_tabele_kursow(page)
+                        tabela_ok, powod = czekaj_na_tabele_kursow(
+                            page
+                        )
+
                         if not tabela_ok:
+                            print(
+                                f"      [WARN] Nie rozpoznano "
+                                f"tabeli kursów. Powód: {powod}"
+                            )
+
+                            if powod == "blad_ajax":
+                                report.add_error(
+                                    nazwa_sportu,
+                                    "ajax_error",
+                                    powod
+                                )
+                            else:
+                                report.add_error(
+                                    nazwa_sportu,
+                                    "table_timeout",
+                                    powod
+                                )
+
+                            zapisz_debug_html(
+                                page,
+                                os.path.dirname(output),
+                                f"zagraniczni_brak_tabeli_"
+                                f"{sciezka_sportu}_{idx}"
+                            )
+
                             continue
+
+                        report.add_table_loaded(
+                            nazwa_sportu
+                        )
 
                         soup = BeautifulSoup(page.content(), "html.parser")
                         h1 = soup.find("h1")
+
                         if not h1:
+                            report.add_error(
+                                nazwa_sportu,
+                                "missing_title",
+                                link
+                            )
                             continue
                         title = wyczysc_tytul_meczu(h1.get_text(" ", strip=True))
                         if " - " in title:
@@ -2619,11 +3039,32 @@ def pobierz_zagranicznych_z_oddsportal():
                                     dane
                                 )
 
+                        liczba_rekordow_po = len(
+                            wszystkie_mecze
+                        )
+
+                        dodane_rekordy = (
+                            liczba_rekordow_po
+                            - liczba_rekordow_przed
+                        )
+
+                        if dodane_rekordy > 0:
+                            report.add_saved(
+                                nazwa_sportu,
+                                dodane_rekordy
+                            )
+                        else:
+                            report.add_error(
+                                nazwa_sportu,
+                                "no_records",
+                                link
+                            )
+
                         with open(output, "w", encoding="utf-8") as plik:
                             json.dump(wszystkie_mecze, plik, indent=4, ensure_ascii=False)
                         print(f"      [CHECKPOINT] {len(wszystkie_mecze)} rekordów")
                         page.wait_for_timeout(
-                            1500
+                            500
                         )
                         if idx % 20 == 0:
                             print(
@@ -2637,6 +3078,11 @@ def pobierz_zagranicznych_z_oddsportal():
                     except Exception as blad:
                         print(
                             f"    [WARN] Mecz: {blad}"
+                        )
+                        report.add_error(
+                            nazwa_sportu,
+                            "unexpected",
+                            blad
                         )
 
                         try:
@@ -2652,6 +3098,7 @@ def pobierz_zagranicznych_z_oddsportal():
             with open(output, "w", encoding="utf-8") as plik:
                 json.dump(wszystkie_mecze, plik, indent=4, ensure_ascii=False)
             print(f"\n[OK] Zapisano {len(wszystkie_mecze)} rekordów do {output}")
+            proces_zakonczony = True
 
     finally:
         if browser is not None:
@@ -2659,6 +3106,32 @@ def pobierz_zagranicznych_z_oddsportal():
                 browser.close()
             except Exception:
                 pass
+
+        if report is not None:
+            try:
+                report.finish(
+                    status=(
+                        "completed"
+                        if proces_zakonczony
+                        else "failed"
+                    ),
+                    records_saved=len(
+                        wszystkie_mecze
+                    )
+                )
+
+                print(
+                    f"[REPORT] Zapisano raport: "
+                    f"{report.report_path}"
+                )
+
+            except Exception as blad_raportu:
+                print(
+                    f"[REPORT] Nie udało się "
+                    f"zapisać raportu: "
+                    f"{blad_raportu}"
+                )
+
         if vpn_wlaczony:
             vpn_off()
 

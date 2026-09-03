@@ -101,6 +101,12 @@ const SCRAPERS_DIR = path.join(
     "scrappers"
 );
 
+const VALIDATORS_DIR = path.join(
+    PIPELINE_DIR,
+    "validators"
+);
+
+
 /*
  * Katalog data musi istnieć przed
  * utworzeniem bazy SQLite.
@@ -136,10 +142,26 @@ const ZAGRANICZNI_SCRIPT = path.join(
     "zagraniczni.py"
 );
 
+const VALIDATE_SCRIPT = path.join(
+    VALIDATORS_DIR,
+    "validate_scrapers.py"
+);
+
 const COMPARE_SCRIPT = path.join(
     SCRAPERS_DIR,
     "compare_odds.py"
 );
+
+const POLSCY_REPORT_PATH = path.join(
+    DATA_DIR,
+    "polscy_scrape_report.json"
+);
+
+const ZAGRANICZNI_REPORT_PATH = path.join(
+    DATA_DIR,
+    "zagraniczni_scrape_report.json"
+);
+
 
 const APP_URL =
     process.env.APP_URL ||
@@ -278,7 +300,10 @@ const cleanDeadFavorites = () => {
         }
         if (deletedCount > 0) console.log(`🧹 [CLEANUP] Usunięto ${deletedCount} wpisów z ulubionych.`);
     } catch (error) {
-        console.error("❌ [CLEANUP] Błąd:", error);
+        throw new Error(
+            `Nie udało się usunąć starego raportu ` +
+            `${reportPath}: ${error.message}`
+        );
     }
 };
 
@@ -426,10 +451,35 @@ const validateMergedData = () => {
     return parsedData;
 };
 
+const removeOldScrapeReports = () => {
+    const reportPaths = [
+        POLSCY_REPORT_PATH,
+        ZAGRANICZNI_REPORT_PATH
+    ];
+
+    for (const reportPath of reportPaths) {
+        try {
+            if (fs.existsSync(reportPath)) {
+                fs.unlinkSync(reportPath);
+
+                console.log(
+                    `🧹 [REPORT] Usunięto stary raport: ${reportPath}`
+                );
+            }
+        } catch (error) {
+            console.error(
+                `❌ [REPORT] Nie udało się usunąć raportu ${reportPath}:`,
+                error
+            );
+        }
+    }
+};
+
 const runScraper = async () => {
     if (isScraping) {
         console.log(
-            "⚠️ [SCRAPER] Proces już trwa. Pomijam kolejne uruchomienie."
+            "⚠️ [SCRAPER] Proces już trwa. " +
+            "Pomijam kolejne uruchomienie."
         );
 
         return {
@@ -441,6 +491,12 @@ const runScraper = async () => {
     isScraping = true;
 
     const startedAt = Date.now();
+
+    let polscySuccess = false;
+    let zagraniczniSuccess = false;
+    let validationSuccess = false;
+
+    const pipelineErrors = [];
 
     try {
         console.log("");
@@ -457,29 +513,128 @@ const runScraper = async () => {
             "=================================================="
         );
 
+        /*
+         * Usuwamy wyłącznie stare raporty wykonania.
+         * Poprzednie poprawne dane pozostają dostępne.
+         */
+        removeOldScrapeReports();
+
+        /*
+         * FAZA 1: polski scraper.
+         */
         console.log("");
         console.log(
-            "🇵🇱 [FAZA 1/3] Pobieranie polskich bukmacherów"
+            "🇵🇱 [FAZA 1/4] Pobieranie polskich bukmacherów"
         );
 
-        await runPythonScript(
-            POLSCY_SCRIPT,
-            "polscy.py"
-        );
+        try {
+            await runPythonScript(
+                POLSCY_SCRIPT,
+                "polscy.py"
+            );
 
+            polscySuccess = true;
+
+        } catch (error) {
+            pipelineErrors.push(
+                `polscy.py: ${error.message}`
+            );
+
+            console.error(
+                "❌ [POLSCY] Scraper zakończył się błędem:",
+                error
+            );
+        }
+
+        /*
+         * FAZA 2: zagraniczny scraper.
+         *
+         * Uruchamiamy go nawet wtedy, gdy polski scraper
+         * zakończył się błędem. Dzięki temu walidator
+         * otrzyma możliwie pełny obraz sytuacji.
+         */
         console.log("");
         console.log(
-            "🌍 [FAZA 2/3] Pobieranie zagranicznych bukmacherów"
+            "🌍 [FAZA 2/4] Pobieranie zagranicznych bukmacherów"
         );
 
-        await runPythonScript(
-            ZAGRANICZNI_SCRIPT,
-            "zagraniczni.py"
-        );
+        try {
+            await runPythonScript(
+                ZAGRANICZNI_SCRIPT,
+                "zagraniczni.py"
+            );
 
+            zagraniczniSuccess = true;
+
+        } catch (error) {
+            pipelineErrors.push(
+                `zagraniczni.py: ${error.message}`
+            );
+
+            console.error(
+                "❌ [ZAGRANICZNI] Scraper zakończył się błędem:",
+                error
+            );
+        }
+
+        /*
+         * FAZA 3: walidacja.
+         *
+         * Walidator uruchamiamy zawsze, nawet jeśli jeden
+         * ze scraperów zakończył się błędem. Brak raportu
+         * lub uszkodzony plik powinien wtedy spowodować
+         * alert na Discordzie.
+         */
         console.log("");
         console.log(
-            "🔗 [FAZA 3/3] Łączenie wyników"
+            "🩺 [FAZA 3/4] Walidacja wyników scraperów"
+        );
+
+        try {
+            await runPythonScript(
+                VALIDATE_SCRIPT,
+                "validate_scrapers.py"
+            );
+
+            validationSuccess = true;
+
+        } catch (error) {
+            pipelineErrors.push(
+                `validate_scrapers.py: ${error.message}`
+            );
+
+            console.error(
+                "❌ [VALIDATOR] Walidacja wykryła problem:",
+                error
+            );
+        }
+
+        /*
+         * Nie publikujemy nowych danych, jeśli:
+         * - którykolwiek scraper się nie powiódł,
+         * - walidator zwrócił ostrzeżenie,
+         * - walidator zwrócił błąd krytyczny.
+         */
+        if (
+            !polscySuccess ||
+            !zagraniczniSuccess ||
+            !validationSuccess
+        ) {
+            throw new Error(
+                "Pipeline nie przeszedł pełnej walidacji. " +
+                "Plik publikowany na stronie nie został zaktualizowany."
+            );
+        }
+
+        /*
+         * FAZA 4: łączenie danych.
+         *
+         * Ta faza uruchamia się dopiero po poprawnym
+         * zakończeniu obu scraperów i walidatora.
+         */
+        console.log("");
+        console.log(
+            "🔗 [FAZA 4/4] Łączenie zwalidowanych wyników"
         );
 
         await runPythonScript(
@@ -518,20 +673,46 @@ const runScraper = async () => {
         return {
             started: true,
             success: true,
+            validationSuccess: true,
             matches: mergedMatches.length,
             durationSeconds:
                 Number(durationSeconds)
         };
+
     } catch (error) {
+        const durationSeconds = (
+            (Date.now() - startedAt) /
+            1000
+        ).toFixed(1);
+
         console.error("");
         console.error(
             "❌ [PIPELINE] Aktualizacja nie powiodła się:"
         );
 
-        console.error(error);
+        console.error(
+            error
+        );
+
+        if (pipelineErrors.length > 0) {
+            console.error(
+                "❌ [PIPELINE] Zarejestrowane problemy:"
+            );
+
+            for (const pipelineError of pipelineErrors) {
+                console.error(
+                    `   • ${pipelineError}`
+                );
+            }
+        }
 
         console.error(
-            "⚠️ Poprzedni poprawny plik JSON nie został celowo usunięty."
+            "⚠️ Poprzedni poprawny plik JSON " +
+            "nie został celowo usunięty."
+        );
+
+        console.error(
+            `⏱️ Czas do przerwania: ${durationSeconds} s`
         );
 
         console.error("");
@@ -539,8 +720,15 @@ const runScraper = async () => {
         return {
             started: true,
             success: false,
-            error: error.message
+            validationSuccess,
+            polscySuccess,
+            zagraniczniSuccess,
+            error: error.message,
+            errors: pipelineErrors,
+            durationSeconds:
+                Number(durationSeconds)
         };
+
     } finally {
         isScraping = false;
     }
@@ -2274,11 +2462,15 @@ app.listen(PORT, () => {
     );
 
     console.log(
-        `🐍 Polscy: ${POLSCY_SCRIPT}`
+    `🐍 Polscy: ${POLSCY_SCRIPT}`
     );
 
     console.log(
         `🐍 Zagraniczni: ${ZAGRANICZNI_SCRIPT}`
+    );
+
+    console.log(
+        `🩺 Walidator: ${VALIDATE_SCRIPT}`
     );
 
     console.log(

@@ -6,7 +6,7 @@ import unicodedata
 import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-
+from dotenv import load_dotenv
 
 
 print(
@@ -18,6 +18,22 @@ print(
 # ============================================================
 # ŚCIEŻKI
 # ============================================================
+
+
+DATA_PIPELINE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.abspath(__file__)
+    )
+)
+
+ENV_PATH = os.path.join(
+    DATA_PIPELINE_DIR,
+    ".env"
+)
+
+load_dotenv(
+    dotenv_path=ENV_PATH
+)
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -91,7 +107,25 @@ DOZWOLONE_DATY = {
     POJUTRZE_STR
 }
 
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1519387089991635166/s_ia-i77r-FqI2Qf5QZ_JwJMnLNLNjUbQhI8loRV3uSE_55OXycSYnZeFaOcBXr5EpMa"
+DISCORD_WEBHOOK_URL = os.getenv(
+    "DISCORD_ODDS_WEBHOOK_URL",
+    ""
+).strip()
+
+if not DISCORD_WEBHOOK_URL:
+    raise RuntimeError(
+        "Brak DISCORD_ODDS_WEBHOOK_URL "
+        "w pliku data-pipeline/.env."
+    )
+
+if not DISCORD_WEBHOOK_URL.startswith(
+    "https://discord.com/api/webhooks/"
+):
+    raise RuntimeError(
+        "DISCORD_ODDS_WEBHOOK_URL nie wygląda "
+        "jak prawidłowy webhook Discorda."
+    )
+
 MIN_EDGE = 0.5
 DISCORD_DELAY_SECONDS = 3.0
 DISCORD_MAX_RETRIES = 5

@@ -96,3 +96,10 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+
+# Raporty monitoringu scraperów
+data/*_scrape_report.json
+data/scraper_validation_history.json
+data/scraper_alert_state.json
+data/scraper_validation_report.json
