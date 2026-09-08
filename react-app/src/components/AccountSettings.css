@@ -15,10 +15,12 @@
     background-color: #1e1e1e;
     border: 1px solid #333;
     border-radius: 12px;
-    width: 400px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    width: min(520px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
     color: white;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .settings-header {
@@ -139,4 +141,102 @@
 .save-email-btn:hover {
     background:
         rgba(16, 185, 129, 0.24);
+}
+
+.premium-section {
+    margin-bottom: 24px;
+    padding: 20px;
+    border: 1px solid #d9e2f2;
+    border-radius: 14px;
+    background:
+        linear-gradient(
+            135deg,
+            #f7f9ff 0%,
+            #eefcf9 100%
+        );
+}
+
+.premium-section__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.premium-section__header h3 {
+    margin: 0 0 8px;
+    color: #172554;
+}
+
+.premium-section__header p {
+    margin: 0;
+    color: #526077;
+    line-height: 1.5;
+}
+
+.premium-status {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.premium-status--active {
+    color: #065f46;
+    background: #d1fae5;
+}
+
+.premium-status--demo {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+.premium-price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.premium-price strong {
+    color: #172554;
+    font-size: 30px;
+}
+
+.premium-price span {
+    color: #64748b;
+}
+
+.premium-buy-button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 10px;
+    color: #ffffff;
+    background:
+        linear-gradient(
+            90deg,
+            #172554,
+            #0f766e
+        );
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.premium-buy-button:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+
+.premium-buy-button:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.premium-email-hint,
+.premium-expiration {
+    margin: 12px 0 0;
+    color: #475569;
+    font-size: 13px;
 }

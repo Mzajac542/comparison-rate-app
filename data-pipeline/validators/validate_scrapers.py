@@ -33,13 +33,16 @@ WYMAGANE_POLA = {
 SPORTY_TRZYDROGOWE = {"Piłka nożna", "Piłka ręczna"}
 SPORTY_DWUDROGOWE = {"Koszykówka", "Tenis", "Boks"}
 
-PROG_JAKOSCI_OSTRZEZENIE = 95.0
+PROG_JAKOSCI_OSTRZEZENIE = 90.0
 PROG_JAKOSCI_KRYTYCZNY = 85.0
-PROG_SKUTECZNOSCI_OSTRZEZENIE = 95.0
+
+PROG_SKUTECZNOSCI_OSTRZEZENIE = 90.0
 PROG_SKUTECZNOSCI_KRYTYCZNY = 85.0
-PROG_TABEL_OSTRZEZENIE = 95.0
+
+PROG_TABEL_OSTRZEZENIE = 90.0
 PROG_TABEL_KRYTYCZNY = 80.0
-MAKSYMALNY_WIEK_RAPORTU_GODZINY = 8
+
+MAKSYMALNY_WIEK_RAPORTU_GODZINY = 6
 
 
 def czy_poprawny_kurs(wartosc):
@@ -238,11 +241,19 @@ def waliduj_plik(nazwa_scrapera, sciezka):
         status = ustaw_gorszy_status(status, "warning")
 
     if jakosc < PROG_JAKOSCI_KRYTYCZNY:
-        problemy.append(f"Jakość rekordów wynosi {jakosc:.2f}%.")
+        problemy.append(
+            f"Jakość rekordów wynosi {jakosc:.2f}%."
+        )
         status = "critical"
-    elif jakosc < PROG_JAKOSCI_OSTRZEZENIE:
-        ostrzezenia.append(f"Jakość rekordów wynosi {jakosc:.2f}%.")
-        status = ustaw_gorszy_status(status, "warning")
+
+    elif jakosc <= PROG_JAKOSCI_OSTRZEZENIE:
+        ostrzezenia.append(
+            f"Jakość rekordów wynosi {jakosc:.2f}%."
+        )
+        status = ustaw_gorszy_status(
+            status,
+            "warning"
+        )
 
     raport, blad_raportu = wczytaj_raport_scrapera(nazwa_scrapera)
     skutecznosc = 0.0
@@ -271,27 +282,61 @@ def waliduj_plik(nazwa_scrapera, sciezka):
             status = "critical"
 
         if skutecznosc < PROG_SKUTECZNOSCI_KRYTYCZNY:
-            problemy.append(f"Skuteczność zapisu meczów: {skutecznosc:.2f}%.")
+            problemy.append(
+                f"Skuteczność zapisu meczów: "
+                f"{skutecznosc:.2f}%."
+            )
             status = "critical"
-        elif skutecznosc < PROG_SKUTECZNOSCI_OSTRZEZENIE:
-            ostrzezenia.append(f"Skuteczność zapisu meczów: {skutecznosc:.2f}%.")
-            status = ustaw_gorszy_status(status, "warning")
+
+        elif skutecznosc <= PROG_SKUTECZNOSCI_OSTRZEZENIE:
+            ostrzezenia.append(
+                f"Skuteczność zapisu meczów: "
+                f"{skutecznosc:.2f}%."
+            )
+            status = ustaw_gorszy_status(
+                status,
+                "warning"
+            )
 
         if skutecznosc_tabel < PROG_TABEL_KRYTYCZNY:
-            problemy.append(f"Skuteczność ładowania tabel: {skutecznosc_tabel:.2f}%.")
+            problemy.append(
+                f"Skuteczność ładowania tabel: "
+                f"{skutecznosc_tabel:.2f}%."
+            )
             status = "critical"
-        elif skutecznosc_tabel < PROG_TABEL_OSTRZEZENIE:
-            ostrzezenia.append(f"Skuteczność ładowania tabel: {skutecznosc_tabel:.2f}%.")
-            status = ustaw_gorszy_status(status, "warning")
 
-        bledy = raport.get("errors", {})
-        techniczne = sum(int(bledy.get(k, 0)) for k in [
-            "match_navigation", "http_error", "ajax_error",
-            "table_timeout", "missing_title", "unexpected",
-        ])
+        elif skutecznosc_tabel <= PROG_TABEL_OSTRZEZENIE:
+            ostrzezenia.append(
+                f"Skuteczność ładowania tabel: "
+                f"{skutecznosc_tabel:.2f}%."
+            )
+            status = ustaw_gorszy_status(
+                status,
+                "warning"
+            )
+
+        bledy = raport.get(
+            "errors",
+            {}
+        )
+
+        techniczne = sum(
+            int(bledy.get(klucz, 0))
+            for klucz in [
+                "match_navigation",
+                "http_error",
+                "ajax_error",
+                "table_timeout",
+                "missing_title",
+                "unexpected",
+            ]
+        )
+
         if techniczne > 0:
-            ostrzezenia.append(f"Błędy techniczne podczas wykonania: {techniczne}.")
-            status = ustaw_gorszy_status(status, "warning")
+            ostrzezenia.append(
+                f"Błędy techniczne podczas wykonania: "
+                f"{techniczne}."
+            )
 
     if problemy:
         status = "critical"

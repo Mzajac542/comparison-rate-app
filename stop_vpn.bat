@@ -1,6 +1,16 @@
 @echo off
-:: Wymuszenie zamknięcia procesu WireGuard
-taskkill /f /im wireguard.exe
+setlocal
 
-:: Wyłączenie interfejsu sieciowego VPN
-netsh interface set interface "proton_eu-NL-FREE-197" disable
+set "WIREGUARD=C:\Program Files\WireGuard\wireguard.exe"
+set "TUNNEL_NAME=scraper_nl_new"
+
+echo [VPN] Wylaczanie tunelu %TUNNEL_NAME%...
+"%WIREGUARD%" /uninstalltunnelservice "%TUNNEL_NAME%" >nul 2>&1
+
+if errorlevel 1 (
+    echo [VPN] Tunel byl juz wylaczony albo usluga nie istniala.
+    exit /b 0
+)
+
+echo [VPN] Tunel zostal wylaczony.
+exit /b 0

@@ -3,7 +3,6 @@ import React, {
   useState
 } from "react";
 
-const MIN_DIFFERENCE = 0.5;
 const ITEMS_PER_PAGE = 20;
 const VISIBLE_PAGE_BUTTONS = 5;
 
@@ -1355,7 +1354,7 @@ const availableSports = sportOrder
 
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
                     <span style={{ fontSize: "0.65em", color: "#aaa", textTransform: "uppercase" }}>EDGE</span>
-                    <span style={{ fontSize: "1.2em", color: "#fbbf24", fontWeight: "bold" }}>+{okazja.roznica}</span>
+                    <span style={{ fontSize: "1.2em", color: "#fbbf24", fontWeight: "bold" }}>+{okazja.yield}%</span>
                   </div>
                 </div>
               </div>

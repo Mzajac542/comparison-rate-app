@@ -311,8 +311,11 @@ function App() {
     const loadMatches = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/matches?t=${Date.now()}`
-        );
+          "http://localhost:3001/api/matches",
+          {
+              credentials: "include"
+          }
+      )
 
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
@@ -913,13 +916,13 @@ function App() {
         <div
           style={{
             position: "absolute",
-            right: "150px",
+            right: "230px",
             top: "50%",
             transform:
               "translateY(-50%)",
             display: "flex",
             alignItems: "center",
-            gap: "15px",
+            gap: "12px",
             zIndex: 100
           }}
         >

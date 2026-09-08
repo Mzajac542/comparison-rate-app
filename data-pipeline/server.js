@@ -232,6 +232,80 @@ if (!usersColumns.includes("email_verified")) {
     );
 }
 
+if (!usersColumns.includes("access_expires_at")) {
+    db.exec(
+        `
+        ALTER TABLE users
+        ADD COLUMN access_expires_at TEXT
+        `
+    );
+
+    console.log(
+        "✅ [DB] Dodano kolumnę users.access_expires_at."
+    );
+}
+
+db.exec(`
+    CREATE TABLE IF NOT EXISTS payments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        user_id INTEGER NOT NULL,
+
+        provider TEXT NOT NULL
+            DEFAULT '1koszyk',
+
+        provider_order_id TEXT,
+        provider_order_number TEXT,
+
+        product_reference TEXT,
+
+        amount TEXT NOT NULL,
+        currency TEXT NOT NULL
+            DEFAULT 'PLN',
+
+        status TEXT NOT NULL
+            DEFAULT 'pending',
+
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+
+        paid_at TEXT,
+        access_granted_at TEXT,
+
+        raw_callback TEXT,
+
+        FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE
+    )
+`);
+
+db.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS
+    idx_payments_provider_order_id
+    ON payments(provider_order_id)
+    WHERE provider_order_id IS NOT NULL
+`);
+
+db.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS
+    idx_payments_provider_order_number
+    ON payments(provider_order_number)
+    WHERE provider_order_number IS NOT NULL
+`);
+
+db.exec(`
+    CREATE INDEX IF NOT EXISTS
+    idx_payments_user_id
+    ON payments(user_id)
+`);
+
+db.exec(`
+    CREATE INDEX IF NOT EXISTS
+    idx_payments_status
+    ON payments(status)
+`);
+
 db.exec(`
     CREATE UNIQUE INDEX IF NOT EXISTS
     idx_users_email_unique
@@ -249,7 +323,25 @@ app.use(
 );
 
 
-app.use(express.json());
+app.use(
+    express.json({
+        verify: (
+            req,
+            res,
+            buffer
+        ) => {
+            if (
+                req.originalUrl ===
+                "/api/payments/1koszyk/callback"
+            ) {
+                req.rawBody = Buffer.from(
+                    buffer
+                );
+            }
+        }
+    })
+);
+
 
 app.use(
     express.static(
@@ -282,6 +374,1017 @@ app.use(
 // ==========================================
 // FUNKCJE POMOCNICZE
 // ==========================================
+const getAccessInfo = (user) => {
+    if (!user) {
+        return {
+            hasPremiumAccess: false,
+            accessType: "demo",
+            accessExpiresAt: null
+        };
+    }
+
+    if (user.role === "admin") {
+        return {
+            hasPremiumAccess: true,
+            accessType: "admin",
+            accessExpiresAt: null
+        };
+    }
+
+    if (!user.access_expires_at) {
+        return {
+            hasPremiumAccess: false,
+            accessType: "demo",
+            accessExpiresAt: null
+        };
+    }
+
+    const expiresTimestamp = new Date(
+        user.access_expires_at
+    ).getTime();
+
+    const validDate = Number.isFinite(
+        expiresTimestamp
+    );
+
+    const hasPremiumAccess = (
+        validDate
+        && expiresTimestamp > Date.now()
+    );
+
+    return {
+        hasPremiumAccess,
+        accessType:
+            hasPremiumAccess
+                ? "premium"
+                : "demo",
+        accessExpiresAt:
+            validDate
+                ? user.access_expires_at
+                : null
+    };
+};
+
+const parseMatchDateForDemo = (dateValue) => {
+    if (!dateValue) {
+        return null;
+    }
+
+    const text = String(dateValue).trim();
+
+    const polishFormat = text.match(
+        /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/
+    );
+
+    if (polishFormat) {
+        const day = Number(polishFormat[1]);
+        const month = Number(polishFormat[2]) - 1;
+        const year = Number(polishFormat[3]);
+
+        const date = new Date(
+            year,
+            month,
+            day
+        );
+
+        if (!Number.isNaN(date.getTime())) {
+            return date;
+        }
+    }
+
+    const fallbackDate = new Date(text);
+
+    if (Number.isNaN(fallbackDate.getTime())) {
+        return null;
+    }
+
+    return fallbackDate;
+};
+
+
+const getUpcomingMatchesForDemo = (matches) => {
+    if (!Array.isArray(matches)) {
+        return [];
+    }
+
+    const today = new Date();
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+    return matches.filter((match) => {
+        const matchDate = parseMatchDateForDemo(
+            match?.dzien || match?.date
+        );
+
+        if (!matchDate) {
+            return false;
+        }
+
+        matchDate.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+        const differenceInDays = Math.round(
+            (
+                matchDate.getTime() -
+                today.getTime()
+            ) /
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
+        );
+
+        return (
+            differenceInDays === 1 ||
+            differenceInDays === 2
+        );
+    });
+};
+
+
+const getDemoMatches = (matches) => {
+    const upcomingMatches =
+        getUpcomingMatchesForDemo(matches);
+
+    if (upcomingMatches.length === 0) {
+        return [];
+    }
+
+    const demoCount = Math.max(
+        1,
+        Math.ceil(
+            upcomingMatches.length * 0.05
+        )
+    );
+
+    return upcomingMatches.slice(
+        0,
+        demoCount
+    );
+};
+
+const normalizeEmail = (value) => {
+    return String(value || "")
+        .trim()
+        .toLowerCase();
+};
+
+
+const moneyToCents = (value) => {
+    const amount = Number.parseInt(
+        String(value ?? "").trim(),
+        10
+    );
+
+    if (
+        !Number.isSafeInteger(amount) ||
+        amount < 0
+    ) {
+        return null;
+    }
+
+    return amount;
+};
+
+const safeStringEqual = (
+    firstValue,
+    secondValue
+) => {
+    const firstBuffer = Buffer.from(
+        String(firstValue || ""),
+        "utf8"
+    );
+
+    const secondBuffer = Buffer.from(
+        String(secondValue || ""),
+        "utf8"
+    );
+
+    if (
+        firstBuffer.length !==
+        secondBuffer.length
+    ) {
+        return false;
+    }
+
+    return crypto.timingSafeEqual(
+        firstBuffer,
+        secondBuffer
+    );
+};
+
+const verifyOneCartDigest = (req) => {
+    const digestHeader = String(
+        req.get("Digest") || ""
+    ).trim();
+
+    if (!digestHeader) {
+        return {
+            valid: false,
+            reason:
+                "Brak nagłówka Digest."
+        };
+    }
+
+    if (
+        !Buffer.isBuffer(req.rawBody)
+    ) {
+        return {
+            valid: false,
+            reason:
+                "Brak surowej treści callbacka."
+        };
+    }
+
+    const expectedDigest =
+        "SHA-512=" +
+        crypto
+            .createHash("sha512")
+            .update(req.rawBody)
+            .digest("base64");
+
+    if (
+        !safeStringEqual(
+            digestHeader,
+            expectedDigest
+        )
+    ) {
+        return {
+            valid: false,
+            reason:
+                "Nagłówek Digest jest nieprawidłowy."
+        };
+    }
+
+    return {
+        valid: true
+    };
+};
+
+const parseOneCartSignatureHeader = (
+    signatureHeader
+) => {
+    const values = {};
+
+    const parts = String(
+        signatureHeader || ""
+    ).match(
+        /(?:[^,"]|"[^"]*")+/g
+    ) || [];
+
+    for (const part of parts) {
+        const separatorIndex =
+            part.indexOf("=");
+
+        if (separatorIndex === -1) {
+            continue;
+        }
+
+        const name = part
+            .slice(0, separatorIndex)
+            .trim();
+
+        const value = part
+            .slice(separatorIndex + 1)
+            .trim()
+            .replace(/^"|"$/g, "");
+
+        if (name) {
+            values[name] = value;
+        }
+    }
+
+    return values;
+};
+
+const verifyOneCartSignature = (req) => {
+    const signingKey = String(
+        process.env.ONECART_SIGNING_KEY || ""
+    ).trim();
+
+    const expectedClientId = String(
+        process.env.ONECART_CLIENT_ID || ""
+    ).trim();
+
+    if (!signingKey) {
+        return {
+            valid: false,
+            reason:
+                "Brak ONECART_SIGNING_KEY."
+        };
+    }
+        if (
+        !/^[0-9a-fA-F]{64}$/.test(
+            signingKey
+        )
+    ) {
+        return {
+            valid: false,
+            reason:
+                "ONECART_SIGNING_KEY nie ma " +
+                "oczekiwanego formatu 64 znaków hex."
+        };
+    }
+
+    if (!expectedClientId) {
+        return {
+            valid: false,
+            reason:
+                "Brak ONECART_CLIENT_ID."
+        };
+    }
+
+    const dateHeader = String(
+        req.get("Date") || ""
+    ).trim();
+
+    const digestHeader = String(
+        req.get("Digest") || ""
+    ).trim();
+
+    const signatureHeader = String(
+        req.get("Signature") || ""
+    ).trim();
+
+    if (
+        !dateHeader ||
+        !digestHeader ||
+        !signatureHeader
+    ) {
+        return {
+            valid: false,
+            reason:
+                "Brak nagłówków Date, Digest " +
+                "lub Signature."
+        };
+    }
+
+    const signatureValues =
+        parseOneCartSignatureHeader(
+            signatureHeader
+        );
+
+    const keyId = String(
+        signatureValues.keyId || ""
+    ).trim();
+
+    const algorithm = String(
+        signatureValues.algorithm || ""
+    )
+        .trim()
+        .toLowerCase();
+
+    const headers = String(
+        signatureValues.headers || ""
+    )
+        .trim()
+        .toLowerCase();
+
+    const receivedSignature = String(
+        signatureValues.signature || ""
+    ).trim();
+
+    if (!keyId) {
+        return {
+            valid: false,
+            reason:
+                "Brak keyId w nagłówku Signature."
+        };
+    }
+
+    if (
+        !safeStringEqual(
+            keyId,
+            expectedClientId
+        )
+    ) {
+        return {
+            valid: false,
+            reason:
+                "Nieprawidłowy keyId."
+        };
+    }
+
+    if (algorithm !== "sha3-512") {
+        return {
+            valid: false,
+            reason:
+                `Nieobsługiwany algorytm: ` +
+                `${algorithm || "brak"}.`
+        };
+    }
+
+    if (
+        headers !==
+        "(request-target) date digest"
+    ) {
+        return {
+            valid: false,
+            reason:
+                `Nieprawidłowa lista podpisanych ` +
+                `nagłówków: ${headers || "brak"}.`
+        };
+    }
+
+    if (!receivedSignature) {
+        return {
+            valid: false,
+            reason:
+                "Brak wartości podpisu."
+        };
+    }
+
+/*
+ * 1koszyk podpisuje callback w nietypowy sposób:
+ *
+ * - klucz podpisujący jest używany jako surowy tekst UTF-8,
+ * - separatorem są dosłowne znaki "\" i "n",
+ * - request-target zawiera metodę POST i pustą ścieżkę.
+ */
+const requestTarget =
+    req.originalUrl;
+
+const signingString =
+    `(request-target): post ${requestTarget}` +
+    "\\n" +
+    `Date: ${dateHeader}` +
+    "\\n" +
+    `Digest: ${digestHeader}`;
+
+let hexadecimalSignature;
+
+try {
+    hexadecimalSignature = crypto
+        .createHmac(
+            "sha3-512",
+            signingKey
+        )
+        .update(
+            signingString,
+            "utf8"
+        )
+        .digest("hex");
+    } catch (error) {
+        return {
+            valid: false,
+            reason:
+                `Nie udało się obliczyć podpisu: ` +
+                `${error.message}`
+        };
+    }
+
+    /*
+     * Dokumentacja 1koszyk opisuje podpis jako:
+     * 1. wynik SHA3-512,
+     * 2. zapis szesnastkowy,
+     * 3. zakodowanie zapisu szesnastkowego
+     *    przez Base64.
+     */
+    const expectedSignature =
+        Buffer.from(
+            hexadecimalSignature,
+            "utf8"
+        ).toString("base64");
+
+    if (
+        !safeStringEqual(
+            receivedSignature,
+            expectedSignature
+        )
+    ) {
+        return {
+            valid: false,
+            reason:
+                "Podpis kryptograficzny jest " +
+                "nieprawidłowy."
+        };
+    }
+
+    return {
+        valid: true
+    };
+};
+
+
+
+const getOneCartConfiguration = () => {
+    const apiBaseUrl = String(
+        process.env.ONECART_API_BASE_URL ||
+        "https://api.1cart.eu/v1"
+    )
+        .trim()
+        .replace(/\/+$/, "");
+
+    const apiKey = String(
+        process.env.ONECART_API_KEY || ""
+    ).trim();
+
+    const clientId = String(
+        process.env.ONECART_CLIENT_ID || ""
+    ).trim();
+
+    const productId = String(
+        process.env.ONECART_PRODUCT_ID ||
+        "dostep-na-30-dni"
+    ).trim();
+
+    const price = Number(
+        process.env.ONECART_ACCESS_PRICE || 50
+    );
+
+    const accessDays = Number(
+        process.env.ONECART_ACCESS_DAYS || 30
+    );
+
+    const pendingMaxAgeHours = Number(
+        process.env.ONECART_PENDING_MAX_AGE_HOURS ||
+        24
+    );
+
+    return {
+        apiBaseUrl,
+        apiKey,
+        clientId,
+        productId,
+        price,
+        accessDays,
+        pendingMaxAgeHours
+    };
+};
+
+
+const fetchOneCartOrder = async (
+    orderNumber
+) => {
+    const config =
+        getOneCartConfiguration();
+
+    if (
+        !config.apiKey ||
+        !config.clientId
+    ) {
+        throw new Error(
+            "Brak danych dostępowych API 1koszyk."
+        );
+    }
+
+    if (!orderNumber) {
+        throw new Error(
+            "Brak numeru zamówienia 1koszyk."
+        );
+    }
+
+    const response = await fetch(
+        `${config.apiBaseUrl}/orders`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type":
+                    "application/json",
+                "Accept":
+                    "application/json",
+                "X-API-key":
+                    config.apiKey,
+                "X-client-id":
+                    config.clientId
+            },
+            body: JSON.stringify([
+                orderNumber
+            ])
+        }
+    );
+
+    const responseText =
+        await response.text();
+
+    if (!response.ok) {
+        throw new Error(
+            `API 1koszyk zwróciło HTTP ` +
+            `${response.status}: ` +
+            `${responseText.slice(0, 500)}`
+        );
+    }
+
+    let responseData;
+
+    try {
+        responseData =
+            JSON.parse(responseText);
+    } catch {
+        throw new Error(
+            "API 1koszyk zwróciło " +
+            "nieprawidłową odpowiedź JSON."
+        );
+    }
+
+    if (
+        !Array.isArray(responseData) ||
+        responseData.length !== 1
+    ) {
+        throw new Error(
+            "Nie znaleziono jednoznacznego " +
+            "zamówienia w API 1koszyk."
+        );
+    }
+
+    return responseData[0];
+};
+
+
+const verifyOneCartOrder = (order) => {
+    const config =
+        getOneCartConfiguration();
+
+    if (
+        !order ||
+        typeof order !== "object"
+    ) {
+        return {
+            valid: false,
+            reason:
+                "Brak danych zamówienia."
+        };
+    }
+
+    const orderId = String(
+        order.id || ""
+    ).trim();
+
+    const orderNumber = String(
+        order.number || ""
+    ).trim();
+
+    const paymentState = String(
+        order.payment_state || ""
+    ).trim();
+
+    const customerEmail =
+        normalizeEmail(
+            order.customer?.email
+        );
+
+    const currency = String(
+        order.total?.currency || ""
+    )
+        .trim()
+        .toUpperCase();
+
+    const orderAmountCents =
+        moneyToCents(
+            order.total?.amount
+        );
+
+    const expectedAmountCents =
+        Math.round(
+            config.price * 100
+        );
+
+    if (!orderId || !orderNumber) {
+        return {
+            valid: false,
+            reason:
+                "Brak identyfikatora zamówienia."
+        };
+    }
+
+    if (!customerEmail) {
+        return {
+            valid: false,
+            reason:
+                "Brak adresu e-mail kupującego."
+        };
+    }
+
+    if (order.cancelled_at) {
+        return {
+            valid: false,
+            reason:
+                "Zamówienie zostało anulowane."
+        };
+    }
+
+    if (currency !== "PLN") {
+        return {
+            valid: false,
+            reason:
+                `Nieprawidłowa waluta: ${currency}.`
+        };
+    }
+
+    if (
+        orderAmountCents !==
+        expectedAmountCents
+    ) {
+        return {
+            valid: false,
+            reason:
+                `Nieprawidłowa kwota: ` +
+                `${order.total?.amount} ${currency}.`
+        };
+    }
+
+    const items = Array.isArray(
+        order.items
+    )
+        ? order.items
+        : [];
+
+    const matchingItems = items.filter(
+        (item) => {
+            const sellerId = String(
+                item?.product?.seller_id || ""
+            ).trim();
+
+            return (
+                sellerId === config.productId
+            );
+        }
+    );
+
+    if (matchingItems.length !== 1) {
+        return {
+            valid: false,
+            reason:
+                "Zamówienie nie zawiera " +
+                "właściwego produktu."
+        };
+    }
+
+    const quantity = Number(
+        matchingItems[0]?.quantity
+    );
+
+    if (quantity !== 1) {
+        return {
+            valid: false,
+            reason:
+                `Nieprawidłowa ilość produktu: ` +
+                `${quantity}.`
+        };
+    }
+
+    return {
+        valid: true,
+        orderId,
+        orderNumber,
+        paymentState,
+        customerEmail,
+        amount:
+            config.price.toFixed(2),
+        currency,
+        accessDays:
+            config.accessDays
+    };
+};
+
+const grantPremiumForOneCartOrder =
+    db.transaction(
+        (
+            verifiedOrder,
+            fullOrder
+        ) => {
+            const existingByOrder = db
+                .prepare(
+                    `
+                    SELECT
+                        id,
+                        user_id,
+                        status,
+                        access_granted_at
+                    FROM payments
+                    WHERE provider = '1koszyk'
+                      AND (
+                        provider_order_id = ?
+                        OR provider_order_number = ?
+                      )
+                    LIMIT 1
+                    `
+                )
+                .get(
+                    verifiedOrder.orderId,
+                    verifiedOrder.orderNumber
+                );
+
+            if (
+                existingByOrder?.access_granted_at
+            ) {
+                return {
+                    status:
+                        "already_granted",
+                    paymentId:
+                        existingByOrder.id,
+                    userId:
+                        existingByOrder.user_id
+                };
+            }
+
+            let localPayment =
+                existingByOrder;
+
+            if (!localPayment) {
+                const config =
+                    getOneCartConfiguration();
+
+                const oldestAllowedDate =
+                    new Date(
+                        Date.now() -
+                        (
+                            config
+                                .pendingMaxAgeHours *
+                            60 *
+                            60 *
+                            1000
+                        )
+                    ).toISOString();
+
+                localPayment = db
+                    .prepare(
+                        `
+                        SELECT
+                            p.id,
+                            p.user_id,
+                            p.status,
+                            p.access_granted_at
+                        FROM payments p
+                        INNER JOIN users u
+                            ON u.id = p.user_id
+                        WHERE p.provider = '1koszyk'
+                          AND p.status = 'pending'
+                          AND p.created_at >= ?
+                          AND LOWER(
+                                TRIM(u.email)
+                              ) = ?
+                        ORDER BY
+                            p.created_at DESC,
+                            p.id DESC
+                        LIMIT 1
+                        `
+                    )
+                    .get(
+                        oldestAllowedDate,
+                        verifiedOrder.customerEmail
+                    );
+            }
+
+            if (!localPayment) {
+                throw new Error(
+                    "Nie znaleziono oczekującej " +
+                    "płatności powiązanej z e-mailem " +
+                    "kupującego."
+                );
+            }
+
+            const user = db
+                .prepare(
+                    `
+                    SELECT
+                        id,
+                        username,
+                        email,
+                        access_expires_at
+                    FROM users
+                    WHERE id = ?
+                    `
+                )
+                .get(
+                    localPayment.user_id
+                );
+
+            if (!user) {
+                throw new Error(
+                    "Nie znaleziono użytkownika " +
+                    "dla lokalnej płatności."
+                );
+            }
+
+            if (
+                normalizeEmail(user.email) !==
+                verifiedOrder.customerEmail
+            ) {
+                throw new Error(
+                    "Adres e-mail zamówienia " +
+                    "nie odpowiada użytkownikowi."
+                );
+            }
+
+            const now = new Date();
+            const nowIso =
+                now.toISOString();
+
+            let accessBase = now;
+
+            if (user.access_expires_at) {
+                const currentExpiration =
+                    new Date(
+                        user.access_expires_at
+                    );
+
+                if (
+                    Number.isFinite(
+                        currentExpiration.getTime()
+                    ) &&
+                    currentExpiration > now
+                ) {
+                    accessBase =
+                        currentExpiration;
+                }
+            }
+
+            const newExpiration =
+                new Date(
+                    accessBase.getTime() +
+                    (
+                        verifiedOrder.accessDays *
+                        24 *
+                        60 *
+                        60 *
+                        1000
+                    )
+                );
+
+            db.prepare(
+                `
+                UPDATE users
+                SET access_expires_at = ?
+                WHERE id = ?
+                `
+            ).run(
+                newExpiration.toISOString(),
+                user.id
+            );
+
+            db.prepare(
+                `
+                UPDATE payments
+                SET
+                    provider_order_id = ?,
+                    provider_order_number = ?,
+                    amount = ?,
+                    currency = ?,
+                    status = 'paid',
+                    updated_at = ?,
+                    paid_at = COALESCE(
+                        paid_at,
+                        ?
+                    ),
+                    access_granted_at = ?,
+                    raw_callback = ?
+                WHERE id = ?
+                  AND access_granted_at IS NULL
+                `
+            ).run(
+                verifiedOrder.orderId,
+                verifiedOrder.orderNumber,
+                verifiedOrder.amount,
+                verifiedOrder.currency,
+                nowIso,
+                nowIso,
+                nowIso,
+                JSON.stringify(fullOrder),
+                localPayment.id
+            );
+
+            return {
+                status:
+                    "granted",
+                paymentId:
+                    localPayment.id,
+                userId:
+                    user.id,
+                username:
+                    user.username,
+                accessExpiresAt:
+                    newExpiration.toISOString()
+            };
+        }
+    );
+
+const requireLoggedInUser = (
+    req,
+    res,
+    next
+) => {
+    if (!req.session?.user?.id) {
+        return res.status(401).json({
+            error:
+                "Musisz być zalogowany, aby rozpocząć zakup."
+        });
+    }
+
+    next();
+};
+
 const cleanDeadFavorites = () => {
     try {
         if (!fs.existsSync(DATA_PATH)) return;
@@ -1430,12 +2533,6 @@ db.exec(`
     ON password_reset_tokens(token_hash)
 `);
 
-
-const normalizeEmail = (value) =>
-    String(value || "")
-        .trim()
-        .toLowerCase();
-
 const isValidEmail = (value) => {
     const email = normalizeEmail(value);
 
@@ -2051,7 +3148,8 @@ app.get(
                     username,
                     email,
                     email_verified,
-                    role
+                    role,
+                    access_expires_at
                 FROM users
                 WHERE id = ?
                 `
@@ -2065,6 +3163,7 @@ app.get(
                 loggedIn: false
             });
         }
+        const accessInfo = getAccessInfo(user);
 
         return res.json({
             loggedIn: true,
@@ -2078,7 +3177,13 @@ app.get(
                     Boolean(
                         user.email_verified
                     ),
-                role: user.role
+                role: user.role,
+                    hasPremiumAccess:
+                        accessInfo.hasPremiumAccess,
+                    accessType:
+                        accessInfo.accessType,
+                    accessExpiresAt:
+                        accessInfo.accessExpiresAt
             }
         });
     }
@@ -2338,6 +3443,698 @@ app.delete('/api/favorites/:matchName', (req, res) => {
     res.json({ success: true });
 });
 
+app.post(
+    "/api/payments/1koszyk/callback",
+    async (req, res) => {
+        try {
+            const dateHeader = String(
+                req.get("Date") || ""
+            ).trim();
+
+            const digestHeader = String(
+                req.get("Digest") || ""
+            ).trim();
+
+            const signatureHeader = String(
+                req.get("Signature") || ""
+            ).trim();
+
+            if (
+                !dateHeader ||
+                !digestHeader ||
+                !signatureHeader
+            ) {
+                console.warn(
+                    "⚠️ [1KOSZYK SECURITY] " +
+                    "Brak podpisanych nagłówków callbacka."
+                );
+
+                return res
+                    .status(401)
+                    .type("text/plain")
+                    .send("INVALID SIGNATURE");
+            }
+
+            const requestDate =
+                Date.parse(dateHeader);
+
+            if (
+                !Number.isFinite(requestDate)
+            ) {
+                return res
+                    .status(401)
+                    .type("text/plain")
+                    .send("INVALID DATE");
+            }
+
+            const maximumClockDifference =
+                5 * 60 * 1000;
+
+            if (
+                Math.abs(
+                    Date.now() - requestDate
+                ) > maximumClockDifference
+            ) {
+                console.warn(
+                    "⚠️ [1KOSZYK SECURITY] " +
+                    "Data callbacka jest zbyt stara."
+                );
+
+                return res
+                    .status(401)
+                    .type("text/plain")
+                    .send("EXPIRED CALLBACK");
+            }
+
+            const digestVerification =
+                verifyOneCartDigest(req);
+
+            if (!digestVerification.valid) {
+                console.warn(
+                    "⚠️ [1KOSZYK SECURITY]",
+                    digestVerification.reason
+                );
+
+                return res
+                    .status(401)
+                    .type("text/plain")
+                    .send("INVALID DIGEST");
+            }
+
+            const signatureVerification =
+                verifyOneCartSignature(req);
+
+            if (!signatureVerification.valid) {
+                console.warn(
+                    "⚠️ [1KOSZYK SECURITY]",
+                    signatureVerification.reason
+                );
+
+                return res
+                    .status(401)
+                    .type("text/plain")
+                    .send("INVALID SIGNATURE");
+            }
+            const callback = req.body;
+
+            if (
+                !callback ||
+                typeof callback !== "object"
+            ) {
+                console.warn(
+                    "⚠️ [1KOSZYK CALLBACK] " +
+                    "Nieprawidłowy JSON."
+                );
+
+                return res.status(400).send(
+                    "INVALID BODY"
+                );
+            }
+
+            const event = String(
+                callback.event || ""
+            ).trim();
+
+            const callbackOrder =
+                callback.order;
+
+            const orderId = String(
+                callbackOrder?.id || ""
+            ).trim();
+
+            const orderNumber = String(
+                callbackOrder?.number || ""
+            ).trim();
+
+            if (
+                !event ||
+                !orderId ||
+                !orderNumber
+            ) {
+                console.warn(
+                    "⚠️ [1KOSZYK CALLBACK] " +
+                    "Brak wymaganych danych.",
+                    {
+                        event,
+                        orderId,
+                        orderNumber
+                    }
+                );
+
+                return res.status(400).send(
+                    "INVALID CALLBACK"
+                );
+            }
+
+            const allowedEvents = new Set([
+                "orderCreated",
+                "paymentStateChanged",
+                "orderCancelled"
+            ]);
+
+            if (!allowedEvents.has(event)) {
+                console.warn(
+                    "⚠️ [1KOSZYK CALLBACK] " +
+                    `Nieobsługiwane zdarzenie: ${event}`
+                );
+
+                return res
+                    .status(200)
+                    .type("text/plain")
+                    .send("OK");
+            }
+
+            console.log(
+                "📩 [1KOSZYK CALLBACK]",
+                {
+                    event,
+                    orderId,
+                    orderNumber,
+                    callbackPaymentState:
+                        callbackOrder
+                            ?.payment_state
+                }
+            );
+
+            /*
+             * Callback jest tylko sygnałem.
+             * Zamówienie zawsze pobieramy ponownie
+             * z autoryzowanego API 1koszyk.
+             */
+            const fullOrder =
+                await fetchOneCartOrder(
+                    orderNumber
+                );
+
+            if (
+                String(fullOrder.id) !==
+                orderId
+            ) {
+                throw new Error(
+                    "Identyfikator zamówienia " +
+                    "z API nie odpowiada callbackowi."
+                );
+            }
+
+            const verification =
+                verifyOneCartOrder(
+                    fullOrder
+                );
+
+            if (!verification.valid) {
+                console.warn(
+                    "⚠️ [1KOSZYK VERIFY]",
+                    {
+                        event,
+                        orderNumber,
+                        reason:
+                            verification.reason
+                    }
+                );
+
+                if (
+                    event ===
+                    "orderCancelled"
+                ) {
+                    db.prepare(
+                        `
+                        UPDATE payments
+                        SET
+                            status = 'cancelled',
+                            updated_at = ?,
+                            provider_order_id =
+                                COALESCE(
+                                    provider_order_id,
+                                    ?
+                                ),
+                            provider_order_number =
+                                COALESCE(
+                                    provider_order_number,
+                                    ?
+                                ),
+                            raw_callback = ?
+                        WHERE provider = '1koszyk'
+                          AND access_granted_at
+                                IS NULL
+                          AND (
+                            provider_order_id = ?
+                            OR provider_order_number = ?
+                          )
+                        `
+                    ).run(
+                        new Date().toISOString(),
+                        orderId,
+                        orderNumber,
+                        JSON.stringify(fullOrder),
+                        orderId,
+                        orderNumber
+                    );
+                }
+
+                return res
+                    .status(200)
+                    .type("text/plain")
+                    .send("OK");
+            }
+
+            /*
+             * orderCreated oraz płatność w toku
+             * mogą przypisać numer zamówienia,
+             * lecz nie przyznają Premium.
+             */
+            if (
+                verification.paymentState !==
+                "completed"
+            ) {
+                const pendingPayment = db
+                    .prepare(
+                        `
+                        SELECT
+                            p.id
+                        FROM payments p
+                        INNER JOIN users u
+                            ON u.id = p.user_id
+                        WHERE p.provider = '1koszyk'
+                          AND p.status = 'pending'
+                          AND p.access_granted_at
+                                IS NULL
+                          AND LOWER(
+                                TRIM(u.email)
+                              ) = ?
+                        ORDER BY
+                            p.created_at DESC,
+                            p.id DESC
+                        LIMIT 1
+                        `
+                    )
+                    .get(
+                        verification.customerEmail
+                    );
+
+                if (pendingPayment) {
+                    db.prepare(
+                        `
+                        UPDATE payments
+                        SET
+                            provider_order_id = ?,
+                            provider_order_number = ?,
+                            updated_at = ?,
+                            raw_callback = ?
+                        WHERE id = ?
+                          AND access_granted_at
+                                IS NULL
+                        `
+                    ).run(
+                        verification.orderId,
+                        verification.orderNumber,
+                        new Date().toISOString(),
+                        JSON.stringify(fullOrder),
+                        pendingPayment.id
+                    );
+                }
+
+                console.log(
+                    "⏳ [1KOSZYK] Zamówienie " +
+                    `${orderNumber} ma status ` +
+                    `${verification.paymentState}.`
+                );
+
+                return res
+                    .status(200)
+                    .type("text/plain")
+                    .send("OK");
+            }
+
+            const result =
+                grantPremiumForOneCartOrder(
+                    verification,
+                    fullOrder
+                );
+
+            if (
+                result.status ===
+                "already_granted"
+            ) {
+                console.log(
+                    "ℹ️ [1KOSZYK] Dostęp był " +
+                    "już przyznany dla zamówienia " +
+                    `${orderNumber}.`
+                );
+            } else {
+                console.log(
+                    "✅ [1KOSZYK PREMIUM]",
+                    {
+                        orderNumber,
+                        paymentId:
+                            result.paymentId,
+                        userId:
+                            result.userId,
+                        username:
+                            result.username,
+                        accessExpiresAt:
+                            result.accessExpiresAt
+                    }
+                );
+            }
+
+            return res
+                .status(200)
+                .type("text/plain")
+                .send("OK");
+
+        } catch (error) {
+            console.error(
+                "❌ [1KOSZYK CALLBACK] Błąd:",
+                error
+            );
+
+            /*
+             * 500 spowoduje ponowienie callbacka,
+             * co jest pożądane przy tymczasowym
+             * błędzie API lub bazy danych.
+             */
+            return res
+                .status(500)
+                .type("text/plain")
+                .send("ERROR");
+        }
+    }
+);
+
+
+app.get(
+    "/api/premium/discord-invite",
+    requireLoggedInUser,
+    (req, res) => {
+        try {
+            const user = db
+                .prepare(
+                    `
+                    SELECT
+                        id,
+                        username,
+                        role,
+                        access_expires_at
+                    FROM users
+                    WHERE id = ?
+                    `
+                )
+                .get(req.session.user.id);
+
+            if (!user) {
+                return res.status(404).json({
+                    error:
+                        "Nie znaleziono konta użytkownika."
+                });
+            }
+
+            const accessInfo =
+                getAccessInfo(user);
+
+            if (
+                !accessInfo.hasPremiumAccess
+            ) {
+                return res.status(403).json({
+                    error:
+                        "Serwer Discord jest dostępny wyłącznie dla użytkowników Premium.",
+                    requiresPremium: true
+                });
+            }
+
+            const inviteUrl = String(
+                process.env
+                    .DISCORD_PREMIUM_INVITE_URL ||
+                ""
+            ).trim();
+
+            if (!inviteUrl) {
+                console.error(
+                    "❌ [DISCORD PREMIUM] " +
+                    "Brak DISCORD_PREMIUM_INVITE_URL."
+                );
+
+                return res.status(503).json({
+                    error:
+                        "Zaproszenie Discord jest obecnie niedostępne."
+                });
+            }
+
+            let parsedUrl;
+
+            try {
+                parsedUrl = new URL(
+                    inviteUrl
+                );
+            } catch {
+                console.error(
+                    "❌ [DISCORD PREMIUM] " +
+                    "Nieprawidłowy adres zaproszenia."
+                );
+
+                return res.status(500).json({
+                    error:
+                        "Zaproszenie Discord ma nieprawidłową konfigurację."
+                });
+            }
+
+            const allowedHosts = new Set([
+                "discord.gg",
+                "discord.com",
+                "www.discord.com"
+            ]);
+
+            if (
+                parsedUrl.protocol !==
+                    "https:" ||
+                !allowedHosts.has(
+                    parsedUrl.hostname
+                        .toLowerCase()
+                )
+            ) {
+                console.error(
+                    "❌ [DISCORD PREMIUM] " +
+                    "Adres nie prowadzi do Discorda."
+                );
+
+                return res.status(500).json({
+                    error:
+                        "Zaproszenie Discord ma nieprawidłową konfigurację."
+                });
+            }
+
+            console.log(
+                "💬 [DISCORD PREMIUM] " +
+                `Użytkownik ${user.id} ` +
+                `(${user.username}) pobrał zaproszenie.`
+            );
+
+            return res.json({
+                success: true,
+                inviteUrl:
+                    parsedUrl.toString()
+            });
+
+        } catch (error) {
+            console.error(
+                "❌ [DISCORD PREMIUM] Błąd:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Nie udało się pobrać zaproszenia Discord."
+            });
+        }
+    }
+);
+
+app.get(
+    "/api/payments/config",
+    (req, res) => {
+        return res.json({
+            price: Number(
+                process.env.ONECART_ACCESS_PRICE || 50
+            ),
+            currency: "PLN",
+            accessDays: Number(
+                process.env.ONECART_ACCESS_DAYS || 30
+            )
+        });
+    }
+);
+
+app.post(
+    "/api/payments/1koszyk/start",
+    requireLoggedInUser,
+    (req, res) => {
+        try {
+            const user = db
+                .prepare(
+                    `
+                    SELECT
+                        id,
+                        username,
+                        email,
+                        email_verified,
+                        role,
+                        access_expires_at
+                    FROM users
+                    WHERE id = ?
+                    `
+                )
+                .get(req.session.user.id);
+
+            if (!user) {
+                return res.status(404).json({
+                    error:
+                        "Nie znaleziono konta użytkownika."
+                });
+            }
+
+            if (!user.email) {
+                return res.status(400).json({
+                    error:
+                        "Przed zakupem dodaj adres e-mail w ustawieniach konta."
+                });
+            }
+
+            if (!Boolean(user.email_verified)) {
+                return res.status(400).json({
+                    error:
+                        "Przed zakupem zweryfikuj adres e-mail przypisany do konta."
+                });
+            }
+
+            const productUrl = String(
+                process.env.ONECART_PRODUCT_URL || ""
+            ).trim();
+
+            if (!productUrl) {
+                console.error(
+                    "❌ [1KOSZYK] Brak ONECART_PRODUCT_URL."
+                );
+
+                return res.status(503).json({
+                    error:
+                        "Płatności są obecnie niedostępne."
+                });
+            }
+
+            const price = Number(
+                process.env.ONECART_ACCESS_PRICE || 50
+            );
+
+            const accessDays = Number(
+                process.env.ONECART_ACCESS_DAYS || 30
+            );
+
+            if (
+                !Number.isFinite(price) ||
+                price <= 0 ||
+                !Number.isInteger(accessDays) ||
+                accessDays <= 0
+            ) {
+                console.error(
+                    "❌ [1KOSZYK] Nieprawidłowa konfiguracja ceny lub czasu dostępu."
+                );
+
+                return res.status(500).json({
+                    error:
+                        "Płatności mają nieprawidłową konfigurację."
+                });
+            }
+
+            const now = new Date().toISOString();
+
+            /*
+             * Anulujemy wyłącznie stare lokalne intencje,
+             * które nie zostały jeszcze połączone
+             * z zamówieniem operatora.
+             */
+            db.prepare(
+                `
+                UPDATE payments
+                SET
+                    status = 'cancelled',
+                    updated_at = ?
+                WHERE user_id = ?
+                  AND provider = '1koszyk'
+                  AND status = 'pending'
+                  AND provider_order_id IS NULL
+                  AND provider_order_number IS NULL
+                `
+            ).run(
+                now,
+                user.id
+            );
+
+            const result = db.prepare(
+                `
+                INSERT INTO payments (
+                    user_id,
+                    provider,
+                    product_reference,
+                    amount,
+                    currency,
+                    status,
+                    created_at,
+                    updated_at
+                )
+                VALUES (
+                    ?,
+                    '1koszyk',
+                    ?,
+                    ?,
+                    'PLN',
+                    'pending',
+                    ?,
+                    ?
+                )
+                `
+            ).run(
+                user.id,
+                "dostep-na-30-dni",
+                price.toFixed(2),
+                now,
+                now
+            );
+
+            console.log(
+                `🛒 [1KOSZYK] Użytkownik ${user.id} ` +
+                `rozpoczął zakup. ` +
+                `Lokalna płatność: ${result.lastInsertRowid}.`
+            );
+
+            return res.json({
+                success: true,
+                paymentId:
+                    Number(result.lastInsertRowid),
+                checkoutUrl:
+                    productUrl,
+                price,
+                currency:
+                    "PLN",
+                accessDays,
+                requiredEmail:
+                    user.email,
+                message:
+                    "W 1koszyk użyj tego samego adresu e-mail, który jest przypisany do Twojego konta."
+            });
+
+        } catch (error) {
+            console.error(
+                "❌ [1KOSZYK START] Błąd:",
+                error
+            );
+
+            return res.status(500).json({
+                error:
+                    "Nie udało się rozpocząć zakupu."
+            });
+        }
+    }
+);
+
 app.get(
     "/api/matches",
     (req, res) => {
@@ -2372,7 +4169,52 @@ app.get(
                 "no-store, no-cache, must-revalidate"
             );
 
-            return res.json(matches);
+            let accessInfo = {
+                hasPremiumAccess: false,
+                accessType: "demo",
+                accessExpiresAt: null
+            };
+
+            if (req.session.user) {
+                const currentUser = db
+                    .prepare(
+                        `
+                        SELECT
+                            id,
+                            role,
+                            access_expires_at
+                        FROM users
+                        WHERE id = ?
+                        `
+                    )
+                    .get(req.session.user.id);
+
+                accessInfo = getAccessInfo(
+                    currentUser
+                );
+            }
+
+            const visibleMatches =
+                accessInfo.hasPremiumAccess
+                    ? matches
+                    : getDemoMatches(matches);
+
+            res.setHeader(
+                "X-Access-Type",
+                accessInfo.accessType
+            );
+
+            res.setHeader(
+                "X-Total-Matches",
+                String(matches.length)
+            );
+
+            res.setHeader(
+                "X-Visible-Matches",
+                String(visibleMatches.length)
+            );
+
+            return res.json(visibleMatches);
         } catch (error) {
             console.error(
                 "❌ [API MATCHES] Błąd:",

@@ -9,7 +9,7 @@
     background-color: #2d2d2d;
     color: white;
     border: 1px solid #444;
-    padding: 10px 20px;
+    padding: 10px 14px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
@@ -111,4 +111,60 @@
 .admin-panel-btn:hover {
     color: #ffffff !important;
     background-color: #4c1d95 !important;
+}
+
+.user-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+
+.header-plan-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 7px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+/* Konto bez aktywnego dostępu */
+.header-plan-badge--demo {
+    color: #fbbf24;
+    border-color: rgba(251, 191, 36, 0.45);
+    background-color: rgba(251, 191, 36, 0.12);
+}
+
+/* Konto z aktywnym dostępem */
+.header-plan-badge--premium {
+    color: #5eead4;
+    border-color: rgba(45, 212, 191, 0.5);
+    background-color: rgba(20, 184, 166, 0.16);
+    box-shadow:
+        0 0 10px rgba(20, 184, 166, 0.14);
+}
+
+/* Konto administratora */
+.header-plan-badge--admin {
+    color: #c4b5fd;
+    border-color: rgba(139, 92, 246, 0.5);
+    background-color: rgba(124, 58, 237, 0.18);
+}
+
+.header-user-name {
+    color: #ffffff;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.header-user-arrow {
+    color: #cbd5e1;
+    font-size: 10px;
 }

@@ -1,4 +1,4 @@
-const MIN_DIFFERENCE = 0.5;
+const MIN_DIFFERENCE_PERCENT = 0.15;
 const MATCH_DURATION_MINS = 120;
 
 const POLISH_BOOKMAKERS = new Set([
@@ -563,10 +563,18 @@ export const calculateTop5 = (matches) => {
                 bestPolish.odd -
                 lowestForeign.odd;
 
-              if (
-                difference >=
-                MIN_DIFFERENCE
-              ) {
+            const differencePercent =
+                lowestForeign.odd > 0
+                    ? difference /
+                      lowestForeign.odd
+                    : 0;
+
+            if (
+                bestPolish.odd >
+                    lowestForeign.odd &&
+                differencePercent >=
+                    MIN_DIFFERENCE_PERCENT
+            ) {
                 const opportunity =
                   buildOpportunity({
                     match,
@@ -619,13 +627,22 @@ export const calculateTop5 = (matches) => {
                 );
 
               const difference =
-                highestPolish.odd -
-                lowestPolish.odd;
+                  highestPolish.odd -
+                  lowestPolish.odd;
+
+              const differencePercent =
+                  lowestPolish.odd > 0
+                      ? difference /
+                        lowestPolish.odd
+                      : 0;
 
               if (
-                highestPolish.bookmaker !==
-                  lowestPolish.bookmaker &&
-                difference >= MIN_DIFFERENCE
+                  highestPolish.bookmaker !==
+                      lowestPolish.bookmaker &&
+                  highestPolish.odd >
+                      lowestPolish.odd &&
+                  differencePercent >=
+                      MIN_DIFFERENCE_PERCENT
               ) {
                 const opportunity =
                   buildOpportunity({
@@ -665,12 +682,12 @@ export const calculateTop5 = (matches) => {
   });
 
   return opportunities.sort(
-    (first, second) =>
-      Number.parseFloat(
-        second.okazja.roznica
-      ) -
-      Number.parseFloat(
-        first.okazja.roznica
-      )
+      (first, second) =>
+          Number.parseFloat(
+              second.okazja.yield
+          ) -
+          Number.parseFloat(
+              first.okazja.yield
+          )
   );
 };

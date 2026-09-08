@@ -39,6 +39,12 @@ LIMIT_MECZOW_TESTOWYCH = 3
 BAZOWY_URL = "https://www.oddsportal.com"
 ZAPISUJ_DEBUG_HTML = False
 
+MAKSYMALNA_LICZBA_PROB_MECZU = 3
+TIMEOUT_TABELI_PIERWSZA_PROBA_MS = 12000
+TIMEOUT_TABELI_KOLEJNA_PROBA_MS = 18000
+ODSTEP_MIEDZY_PROBAMI_MS = 3000
+ODSWIEZ_KARTE_CO_MECZOW = 25
+
 ODRZUCANE_SEGMENTY = {
     "results",
     "standings",
@@ -192,99 +198,21 @@ def wykryj_blad_oddsportal(page_obj):
     return any(komunikat in tekst for komunikat in komunikaty_bledow)
 
 
-def czy_tabela_kursow_jest(page_obj):
-    try:
-        if page_obj.url.startswith("chrome-error://"):
-            return False
 
-        return page_obj.evaluate(
-            """
-            () => {
-                const body = document.body;
-
-                if (!body) {
-                    return false;
-                }
-
-                const tekst = (
-                    body.innerText || ""
-                ).toLowerCase();
-
-                if (
-                    tekst.includes("failed to fetch data") ||
-                    tekst.includes("invalid encrypted ajax payload") ||
-                    tekst.includes("unexpected response format") ||
-                    tekst.includes("access denied") ||
-                    tekst.includes("temporarily unavailable")
-                ) {
-                    return false;
-                }
-
-                const tabele = Array.from(
-                    document.querySelectorAll("table")
-                );
-
-                for (const tabela of tabele) {
-                    const naglowki = Array.from(
-                        tabela.querySelectorAll("thead th")
-                    ).map(element => (
-                        element.textContent || ""
-                    ).trim().toLowerCase());
-
-                    const maBukmacherow = naglowki.some(
-                        tekstNaglowka =>
-                            tekstNaglowka.includes("bookmakers") ||
-                            tekstNaglowka.includes("bukmacherzy")
-                    );
-
-                    const maKolumne1 = naglowki.includes("1");
-                    const maKolumne2 = naglowki.includes("2");
-
-                    const linkiKursow = Array.from(
-                        tabela.querySelectorAll(
-                            'a[href*="/betslip/"]'
-                        )
-                    ).filter(element => {
-                        const wartosc = (
-                            element.textContent || ""
-                        ).trim();
-
-                        return /^\\d{1,3}[.,]\\d{1,3}$/.test(
-                            wartosc
-                        );
-                    });
-
-                    if (
-                        maBukmacherow &&
-                        maKolumne1 &&
-                        maKolumne2 &&
-                        linkiKursow.length >= 2
-                    ) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-            """
-        )
-
-    except Exception as blad:
-        print(
-            f"      [DEBUG] "
-            f"Błąd sprawdzania tabeli: {blad}"
-        )
-        return False
 
 def czekaj_na_glowny_rynek(
     page_obj,
     nazwa_sportu,
     timeout_ms=15000
 ):
-    czas_start = time.time()
+    start = time.monotonic()
+
+    wymagane = liczba_kursow_glownych(
+        nazwa_sportu
+    )
 
     while (
-        time.time() - czas_start
+        time.monotonic() - start
     ) * 1000 < timeout_ms:
         if wykryj_blad_oddsportal(
             page_obj
@@ -297,54 +225,31 @@ def czekaj_na_glowny_rynek(
         )
 
         if tabela is not None:
-            wymagane = liczba_kursow_glownych(
-                nazwa_sportu
+            rzedy = tabela.locator(
+                "tbody tr"
             )
 
-            try:
-                rzedy = tabela.locator(
-                    "tbody tr"
-                )
+            for indeks in range(
+                rzedy.count()
+            ):
+                rzad = rzedy.nth(indeks)
 
-                for indeks in range(
-                    rzedy.count()
-                ):
-                    rzad = rzedy.nth(indeks)
-
-                    tekst = rzad.inner_text(
-                        timeout=1000
-                    ).lower()
-
-                    bukmacher = (
-                        rozpoznaj_bukmachera_z_rzedu_playwright(
-                            rzad
-                        )
+                nazwa = (
+                    pobierz_nazwe_bukmachera_z_rzedu_playwright(
+                        rzad
                     )
-
-                    if not bukmacher:
-                        continue
-
-                    if bukmacher not in DOZWOLENI_BUKMACHERZY:
-                        continue
-
-                    liczba_kursow = rzad.locator(
-                        'a[href*="/betslip/"]'
-                    ).count()
-
-                    if liczba_kursow < wymagane:
-                        liczba_kursow = rzad.locator(
-                            "td:not(:first-child) a"
-                        ).count()
-
-                    if liczba_kursow >= wymagane:
-                        return True, "ok"
-
-            except Exception as blad:
-                print(
-                    f"      [DEBUG MAIN WAIT] "
-                    f"Błąd sprawdzania tabeli: "
-                    f"{blad}"
                 )
+
+                if not nazwa:
+                    continue
+
+                kursy = pobierz_kursy_z_rzedu_playwright(
+                    rzad,
+                    wymagane=wymagane
+                )
+
+                if len(kursy) >= wymagane:
+                    return True, "ok"
 
         page_obj.wait_for_timeout(500)
 
@@ -414,76 +319,404 @@ def wyczysc_tytul_meczu(title_raw):
     return tytul.strip(" -")
 
 
+def sprawdz_stan_tabeli_kursow(page_obj):
+    """
+    Zwraca słownik:
+    - stan='gotowa'    -> tabela zawiera bukmacherów i kursy,
+    - stan='pusta'     -> tabela jest wyrenderowana, ale nie ma bukmacherów,
+    - stan='ladowanie' -> tabela jeszcze się doczytuje.
+    """
+
+    try:
+        if page_obj.url.startswith("chrome-error://"):
+            return {
+                "stan": "ladowanie",
+                "tabele": 0,
+                "wiersze_bukmacherow": 0,
+                "kursy": 0,
+            }
+
+        return page_obj.evaluate(
+            """
+            () => {
+                const wynik = {
+                    stan: "ladowanie",
+                    tabele: 0,
+                    wiersze_bukmacherow: 0,
+                    kursy: 0,
+                };
+
+                const body = document.body;
+
+                if (!body) {
+                    return wynik;
+                }
+
+                const tekstStrony = (
+                    body.innerText || ""
+                ).toLowerCase();
+
+                const komunikatyBledu = [
+                    "failed to fetch data",
+                    "invalid encrypted ajax payload",
+                    "unexpected response format",
+                    "access denied",
+                    "temporarily unavailable",
+                ];
+
+                if (
+                    komunikatyBledu.some(
+                        komunikat =>
+                            tekstStrony.includes(komunikat)
+                    )
+                ) {
+                    wynik.stan = "blad_ajax";
+                    return wynik;
+                }
+
+                const tabele = Array.from(
+                    document.querySelectorAll("table")
+                ).filter(tabela => {
+                    const styl = window.getComputedStyle(tabela);
+
+                    return (
+                        styl.display !== "none"
+                        && styl.visibility !== "hidden"
+                        && tabela.offsetParent !== null
+                    );
+                });
+
+                wynik.tabele = tabele.length;
+
+                let znalezionoTabeleKursow = false;
+                let znalezionoWierszBukmachera = false;
+                let maksymalnaLiczbaKursow = 0;
+                let liczbaWierszyBukmacherow = 0;
+
+                const wzorzecKursu =
+                    /(?<!\\d)(\\d{1,3}[.,]\\d{1,3})(?!\\d)/g;
+
+                for (const tabela of tabele) {
+                    const naglowekElement =
+                        tabela.querySelector("thead");
+
+                    const naglowek = (
+                        naglowekElement
+                            ? naglowekElement.innerText
+                            : tabela.innerText
+                    )
+                        .replace(/\\s+/g, " ")
+                        .trim()
+                        .toLowerCase();
+
+                    const maNaglowekBukmacherow =
+                        naglowek.includes("bookmakers")
+                        || naglowek.includes("bookmaker")
+                        || naglowek.includes("bukmacherzy");
+
+                    if (!maNaglowekBukmacherow) {
+                        continue;
+                    }
+
+                    znalezionoTabeleKursow = true;
+
+                    const rzedy = Array.from(
+                        tabela.querySelectorAll("tbody tr")
+                    );
+
+                    for (const rzad of rzedy) {
+                        const linkBukmachera =
+                            rzad.querySelector(
+                                'a[href*="/proxy/bookmakers/"]'
+                            );
+
+                        if (!linkBukmachera) {
+                            continue;
+                        }
+
+                        znalezionoWierszBukmachera = true;
+                        liczbaWierszyBukmacherow++;
+
+                        const komorki = Array.from(
+                            rzad.querySelectorAll("td")
+                        );
+
+                        let liczbaKursowWRzedzie = 0;
+
+                        /*
+                         * Pierwsza komórka zawiera bukmachera.
+                         * Pozostałe zawierają kursy i payout.
+                         */
+                        for (
+                            let indeks = 1;
+                            indeks < komorki.length;
+                            indeks++
+                        ) {
+                            const tekstKomorki = (
+                                komorki[indeks].innerText || ""
+                            )
+                                .replace(/\\s+/g, " ")
+                                .trim();
+
+                            if (!tekstKomorki) {
+                                continue;
+                            }
+
+                            if (tekstKomorki.includes("%")) {
+                                continue;
+                            }
+
+                            const znalezione = Array.from(
+                                tekstKomorki.matchAll(
+                                    wzorzecKursu
+                                )
+                            );
+
+                            for (const dopasowanie of znalezione) {
+                                const wartosc = Number(
+                                    dopasowanie[1].replace(",", ".")
+                                );
+
+                                if (
+                                    Number.isFinite(wartosc)
+                                    && wartosc >= 1.01
+                                    && wartosc <= 1000
+                                ) {
+                                    liczbaKursowWRzedzie++;
+                                    wynik.kursy++;
+                                }
+                            }
+                        }
+
+                        maksymalnaLiczbaKursow = Math.max(
+                            maksymalnaLiczbaKursow,
+                            liczbaKursowWRzedzie
+                        );
+                    }
+                }
+
+                wynik.wiersze_bukmacherow =
+                    liczbaWierszyBukmacherow;
+
+                if (
+                    znalezionoWierszBukmachera
+                    && maksymalnaLiczbaKursow >= 2
+                ) {
+                    wynik.stan = "gotowa";
+                    return wynik;
+                }
+
+                /*
+                 * Nagłówek tabeli istnieje, ale nie ma żadnego
+                 * prawdziwego wiersza bukmachera.
+                 */
+                if (
+                    znalezionoTabeleKursow
+                    && !znalezionoWierszBukmachera
+                ) {
+                    wynik.stan = "pusta";
+                    return wynik;
+                }
+
+                /*
+                 * Są wiersze bukmacherów, ale nie ma jeszcze
+                 * wartości. To nie jest pusta tabela.
+                 * Trzeba nadal czekać.
+                 */
+                wynik.stan = "ladowanie";
+                return wynik;
+            }
+            """
+        )
+
+    except Exception as blad:
+        print(
+            f"      [DEBUG TABLE STATE] "
+            f"Nie udało się sprawdzić tabeli: {blad}"
+        )
+
+        return {
+            "stan": "ladowanie",
+            "tabele": 0,
+            "wiersze_bukmacherow": 0,
+            "kursy": 0,
+        }
+
 def czekaj_na_tabele_kursow(
     page_obj,
     timeout_ms=20000
 ):
-    czas_start = time.monotonic()
+    start = time.monotonic()
     numer_proby = 0
 
+    kolejne_potwierdzenia_gotowej = 0
+    kolejne_potwierdzenia_pustej = 0
+
     while (
-        time.monotonic() - czas_start
+        time.monotonic() - start
     ) * 1000 < timeout_ms:
         numer_proby += 1
 
-        if wykryj_blad_oddsportal(
+        stan = sprawdz_stan_tabeli_kursow(
             page_obj
-        ):
+        )
+
+        rodzaj = stan.get(
+            "stan",
+            "ladowanie"
+        )
+
+        liczba_tabel = stan.get(
+            "tabele",
+            0
+        )
+
+        liczba_wierszy = stan.get(
+            "wiersze_bukmacherow",
+            0
+        )
+
+        liczba_kursow = stan.get(
+            "kursy",
+            0
+        )
+
+        print(
+            f"      [WAIT ODDS {numer_proby}] "
+            f"stan={rodzaj} | "
+            f"table={liczba_tabel} | "
+            f"bookmaker-rows={liczba_wierszy} | "
+            f"odds={liczba_kursow}"
+        )
+
+        if rodzaj == "blad_ajax":
             return False, "blad_ajax"
 
-        if czy_tabela_kursow_jest(
-            page_obj
-        ):
-            return True, "ok"
-
-        try:
-            liczba_tabel = page_obj.locator(
-                "table"
-            ).count()
-
-            liczba_starych_kursow = (
-                page_obj.locator(
-                    '[data-testid="odd-container-default"]'
-                ).count()
-            )
-
-            liczba_ogolnych_kursow = (
-                page_obj.locator(
-                    'a[href*="/betslip/"]'
-                ).count()
-            )
-
-            liczba_bukmacherow = (
-                page_obj.locator(
-                    'a[href*="/proxy/bookmakers/"]'
-                    '[href$="/link/"]'
-                ).count()
-            )
+        if rodzaj == "gotowa":
+            kolejne_potwierdzenia_gotowej += 1
+            kolejne_potwierdzenia_pustej = 0
 
             print(
-                f"      [WAIT ODDS {numer_proby}] "
-                f"table={liczba_tabel} | "
-                f"odd-default="
-                f"{liczba_starych_kursow} | "
-                f"odd-all="
-                f"{liczba_ogolnych_kursow} | "
-                f"bookmaker-testid="
-                f"{liczba_bukmacherow}"
+                f"      [READY TABLE CHECK] "
+                f"Potwierdzenie kompletnej tabeli "
+                f"{kolejne_potwierdzenia_gotowej}/2"
             )
 
-        except Exception as blad:
+            if kolejne_potwierdzenia_gotowej >= 2:
+                print(
+                    f"      [TABLE READY] "
+                    f"Tabela zawiera "
+                    f"{liczba_wierszy} wierszy "
+                    f"bukmacherów i "
+                    f"{liczba_kursow} kursów."
+                )
+
+                return True, "ok"
+
+        elif rodzaj == "pusta":
+            kolejne_potwierdzenia_pustej += 1
+            kolejne_potwierdzenia_gotowej = 0
+
             print(
-                f"      [DEBUG WAIT ODDS] "
-                f"{blad}"
+                f"      [EMPTY TABLE CHECK] "
+                f"Potwierdzenie pustej tabeli "
+                f"{kolejne_potwierdzenia_pustej}/3"
             )
 
-        # Nie przewijamy podczas oczekiwania.
-        # Przewijanie nie ładuje danych meczu,
-        # tylko przesuwa stronę w dół.
-        page_obj.wait_for_timeout(400)
+            if kolejne_potwierdzenia_pustej >= 3:
+                print(
+                    "      [EMPTY TABLE] "
+                    "Tabela została załadowana, "
+                    "ale nie ma żadnego rzeczywistego "
+                    "wiersza bukmachera. Pomijam mecz."
+                )
+
+                return False, "pusta_tabela"
+
+        else:
+            kolejne_potwierdzenia_gotowej = 0
+            kolejne_potwierdzenia_pustej = 0
+
+        page_obj.wait_for_timeout(500)
+
+    ostatni_stan = sprawdz_stan_tabeli_kursow(
+        page_obj
+    )
+
+    print(
+        f"      [TABLE TIMEOUT] "
+        f"Ostatni stan: {ostatni_stan}"
+    )
 
     return False, "timeout"
 
+
+def pobierz_kursy_z_rzedu_playwright(
+    rzad,
+    wymagane=None
+):
+    kursy = []
+
+    try:
+        komorki = rzad.locator("td")
+        liczba_komorek = komorki.count()
+    except Exception:
+        return kursy
+
+    if liczba_komorek < 2:
+        return kursy
+
+    # Pierwsza komórka zawiera bukmachera.
+    for indeks in range(1, liczba_komorek):
+        komorka = komorki.nth(indeks)
+
+        try:
+            tekst = komorka.inner_text(
+                timeout=1000
+            )
+        except Exception:
+            continue
+
+        tekst = re.sub(
+            r"\s+",
+            " ",
+            str(tekst)
+        ).strip()
+
+        if not tekst:
+            continue
+
+        # Payout nie jest kursem.
+        if "%" in tekst:
+            continue
+
+        dopasowania = re.findall(
+            r"(?<!\d)"
+            r"(\d{1,3}[.,]\d{1,3})"
+            r"(?!\d)",
+            tekst
+        )
+
+        for dopasowanie in dopasowania:
+            try:
+                kurs = float(
+                    dopasowanie.replace(",", ".")
+                )
+            except ValueError:
+                continue
+
+            if not 1.01 <= kurs <= 1000:
+                continue
+
+            kursy.append(kurs)
+
+            if (
+                wymagane is not None
+                and len(kursy) >= wymagane
+            ):
+                return kursy[:wymagane]
+
+    return kursy
 
 def zapisz_debug_html(page_obj, output_dir, nazwa):
     if not ZAPISUJ_DEBUG_HTML:
@@ -801,27 +1034,47 @@ def bezpieczny_id(tekst):
 def pobierz_kursy_z_rzedu(row):
     kursy = []
 
-    elementy_kursow = row.select(
-        'a[href*="/betslip/"]'
+    komorki = row.find_all(
+        "td",
+        recursive=False
     )
 
-    if not elementy_kursow:
-        komorki = row.find_all(
-            "td",
-            recursive=False
+    if len(komorki) < 2:
+        return kursy
+
+    for komorka in komorki[1:]:
+        tekst = re.sub(
+            r"\s+",
+            " ",
+            komorka.get_text(
+                " ",
+                strip=True
+            )
+        ).strip()
+
+        if not tekst or "%" in tekst:
+            continue
+
+        dopasowania = re.findall(
+            r"(?<!\d)"
+            r"(\d{1,3}[.,]\d{1,3})"
+            r"(?!\d)",
+            tekst
         )
 
-        elementy_kursow = []
+        for dopasowanie in dopasowania:
+            try:
+                kurs = float(
+                    dopasowanie.replace(
+                        ",",
+                        "."
+                    )
+                )
+            except ValueError:
+                continue
 
-        for komorka in komorki[1:]:
-            for link in komorka.select("a"):
-                elementy_kursow.append(link)
-
-    for element in elementy_kursow:
-        kurs = parsuj_kurs(element)
-
-        if kurs > 0:
-            kursy.append(kurs)
+            if 1.01 <= kurs <= 1000:
+                kursy.append(kurs)
 
     return kursy
 
@@ -1226,25 +1479,11 @@ def pobierz_kursy_glowne_playwright(
             if bukmacher not in DOZWOLENI_BUKMACHERZY:
                 continue
 
-            elementy_kursow = rzad.locator(
-                'a[href*="/betslip/"]'
+            kursy = pobierz_kursy_z_rzedu_playwright(
+                rzad,
+                wymagane=wymagane_kursy
             )
 
-            if elementy_kursow.count() < wymagane_kursy:
-                elementy_kursow = rzad.locator(
-                    "td:not(:first-child) a"
-                )
-
-            print(
-                f"      [MAIN CONTAINERS] "
-                f"{bukmacher} | "
-                f"liczba elementów="
-                f"{elementy_kursow.count()}"
-            )
-
-            kursy = pobierz_kursy_z_locatorow_playwright(
-                elementy_kursow
-            )
 
             print(
                 f"      [MAIN ROW] "
@@ -2017,14 +2256,6 @@ def pobierz_glowny_rynek(
             "Boks"
         }:
             nazwa_rynku = "Home/Away"
-
-            dozwolone_rynki = {
-                "home/away",
-                "home-away",
-                "moneyline",
-                "12"
-            }
-
             wymagane_kursy = 2
 
         elif nazwa_sportu in {
@@ -2032,11 +2263,6 @@ def pobierz_glowny_rynek(
             "Piłka ręczna"
         }:
             nazwa_rynku = "1X2"
-
-            dozwolone_rynki = {
-                "1x2"
-            }
-
             wymagane_kursy = 3
 
         else:
@@ -2047,18 +2273,49 @@ def pobierz_glowny_rynek(
             )
             return {}
 
-        # Maksymalnie dwie próby:
-        # pierwsza standardowa i jedna ponowna.
-        for numer_proby in range(1, 3):
-            aktywny_przed = pobierz_aktywny_rynek(
-                page_obj
+        # Najpierw sprawdzamy tabelę już widoczną.
+        # OddsPortal bardzo często domyślnie otwiera 1X2
+        # albo Home/Away, więc nie trzeba ponownie klikać.
+        tabela = pobierz_widoczna_tabele_glowna(
+            page_obj,
+            nazwa_sportu
+        )
+
+        if tabela is not None:
+            print(
+                f"      [GŁÓWNY] Rynek {nazwa_rynku} "
+                f"jest już widoczny. Odczytuję kursy "
+                f"bez ponownego klikania."
             )
 
+            wyniki = pobierz_stabilne_kursy_glowne(
+                page_obj,
+                nazwa_sportu,
+                timeout_ms=10000,
+                wymagane_stabilne_odczyty=2
+            )
+
+            poprawne_wyniki = {
+                bukmacher: kursy[:wymagane_kursy]
+                for bukmacher, kursy in wyniki.items()
+                if len(kursy) >= wymagane_kursy
+            }
+
+            if poprawne_wyniki:
+                print(
+                    f"      [DEBUG GŁÓWNY] "
+                    f"{nazwa_rynku}: "
+                    f"{poprawne_wyniki}"
+                )
+                return poprawne_wyniki
+
+        # Jeśli właściwej tabeli nie ma, próbujemy
+        # przełączyć rynek maksymalnie dwa razy.
+        for numer_proby in range(1, 3):
             print(
                 f"      [DEBUG GŁÓWNY] "
-                f"Próba {numer_proby}/2 | "
-                f"rynek przed przełączeniem: "
-                f"{aktywny_przed!r}"
+                f"Próba {numer_proby}/2 otwarcia "
+                f"rynku {nazwa_rynku!r}."
             )
 
             kliknieto = wejdz_w_zakladke(
@@ -2073,40 +2330,19 @@ def pobierz_glowny_rynek(
                     f"{nazwa_rynku!r}."
                 )
 
-                if numer_proby < 2:
-                    page_obj.wait_for_timeout(1500)
-                    continue
-
-                return {}
-
-            aktywny_po = pobierz_aktywny_rynek(
-                page_obj
-            )
-
-            aktywny_normalized = re.sub(
-                r"\s+",
-                "",
-                aktywny_po.lower()
-            )
-
-            print(
-                f"      [DEBUG GŁÓWNY] "
-                f"Rynek po przełączeniu: "
-                f"{aktywny_po!r}"
-            )
-
-            if aktywny_normalized not in dozwolone_rynki:
-                print(
-                    f"      [WARN GŁÓWNY] "
-                    f"Aktywny jest niewłaściwy "
-                    f"rynek: {aktywny_po!r}"
+                # Kliknięcie mogło nie być potrzebne,
+                # ponieważ zakładka może być już aktywna.
+                tabela = pobierz_widoczna_tabele_glowna(
+                    page_obj,
+                    nazwa_sportu
                 )
 
-                if numer_proby < 2:
-                    page_obj.wait_for_timeout(1500)
-                    continue
+                if tabela is None:
+                    if numer_proby < 2:
+                        page_obj.wait_for_timeout(1500)
+                        continue
 
-                return {}
+                    return {}
 
             tabela_ok, powod = czekaj_na_glowny_rynek(
                 page_obj,
@@ -2117,9 +2353,8 @@ def pobierz_glowny_rynek(
             if not tabela_ok:
                 print(
                     f"      [WARN GŁÓWNY] "
-                    f"Nie załadowano właściwej "
-                    f"tabeli {nazwa_rynku}. "
-                    f"Powód: {powod}"
+                    f"Nie załadowano właściwej tabeli "
+                    f"{nazwa_rynku}. Powód: {powod}"
                 )
 
                 if numer_proby < 2:
@@ -2135,16 +2370,15 @@ def pobierz_glowny_rynek(
                 wymagane_stabilne_odczyty=2
             )
 
-
             poprawne_wyniki = {}
 
             for bukmacher, kursy in wyniki.items():
                 if len(kursy) < wymagane_kursy:
                     print(
                         f"      [WARN GŁÓWNY] "
-                        f"{bukmacher} ma za mało "
-                        f"kursów dla rynku "
-                        f"{nazwa_rynku}: {kursy}"
+                        f"{bukmacher} ma za mało kursów "
+                        f"dla rynku {nazwa_rynku}: "
+                        f"{kursy}"
                     )
                     continue
 
@@ -3146,6 +3380,161 @@ def bezpieczne_goto(page_obj, url, timeout_ms=30000):
         return False, None, blad
 
 
+def zaladuj_mecz_z_retry(
+    page_obj,
+    utworz_strone,
+    context_obj,
+    url
+):
+    ostatni_powod = "nieznany"
+    ostatnia_odpowiedz = None
+
+    for numer_proby in range(
+        1,
+        MAKSYMALNA_LICZBA_PROB_MECZU + 1
+    ):
+        if numer_proby > 1:
+            print(
+                f"      [RETRY MATCH] Próba "
+                f"{numer_proby}/"
+                f"{MAKSYMALNA_LICZBA_PROB_MECZU}. "
+                "Otwieram wydarzenie na świeżej karcie."
+            )
+
+            try:
+                if not page_obj.is_closed():
+                    page_obj.close()
+            except Exception:
+                pass
+
+            page_obj = utworz_strone(
+                context_obj
+            )
+
+            page_obj.wait_for_timeout(
+                ODSTEP_MIEDZY_PROBAMI_MS
+            )
+
+        nawigacja_ok, odpowiedz, blad = (
+            bezpieczne_goto(
+                page_obj,
+                url,
+                timeout_ms=30000
+            )
+        )
+
+        ostatnia_odpowiedz = odpowiedz
+
+        if not nawigacja_ok:
+            ostatni_powod = (
+                f"nawigacja: {blad}"
+            )
+
+            print(
+                f"      [RETRY MATCH] Próba "
+                f"{numer_proby} nieudana: "
+                f"{ostatni_powod}"
+            )
+
+            continue
+
+        if (
+            odpowiedz is not None
+            and odpowiedz.status >= 400
+        ):
+            ostatni_powod = (
+                f"HTTP {odpowiedz.status}"
+            )
+
+            print(
+                f"      [RETRY MATCH] Próba "
+                f"{numer_proby} nieudana: "
+                f"{ostatni_powod}"
+            )
+
+            continue
+
+        page_obj.wait_for_timeout(
+            500
+        )
+
+        obsluz_baner_cookies(
+            page_obj
+        )
+
+        page_obj.wait_for_timeout(
+            1000
+        )
+
+        if wykryj_blad_oddsportal(
+            page_obj
+        ):
+            ostatni_powod = "blad_ajax"
+
+            print(
+                f"      [RETRY MATCH] Próba "
+                f"{numer_proby}: OddsPortal "
+                "zwrócił błąd danych."
+            )
+
+            continue
+
+        if numer_proby == 1:
+            timeout_tabeli = (
+                TIMEOUT_TABELI_PIERWSZA_PROBA_MS
+            )
+        else:
+            timeout_tabeli = (
+                TIMEOUT_TABELI_KOLEJNA_PROBA_MS
+            )
+
+        tabela_ok, powod = (
+            czekaj_na_tabele_kursow(
+                page_obj,
+                timeout_ms=timeout_tabeli
+            )
+        )
+
+        if powod == "pusta_tabela":
+            return (
+                page_obj,
+                False,
+                odpowiedz,
+                "pusta_tabela"
+            )
+
+        if tabela_ok:
+            if numer_proby > 1:
+                print(
+                    f"      [RETRY OK] Tabela "
+                    f"kursów pojawiła się przy "
+                    f"próbie {numer_proby}/"
+                    f"{MAKSYMALNA_LICZBA_PROB_MECZU}."
+                )
+
+            return (
+                page_obj,
+                True,
+                odpowiedz,
+                "ok"
+            )
+
+        ostatni_powod = powod
+
+        print(
+            f"      [RETRY MATCH] Próba "
+            f"{numer_proby}/"
+            f"{MAKSYMALNA_LICZBA_PROB_MECZU}: "
+            f"brak tabeli, powód={powod}."
+        )
+
+    return (
+        page_obj,
+        False,
+        ostatnia_odpowiedz,
+        ostatni_powod
+    )
+
 def pobierz_widoczny_rynek_playwright(
     page_obj,
     wymagane_kursy,
@@ -3212,17 +3601,9 @@ def pobierz_widoczny_rynek_playwright(
                     if bukmacher not in DOZWOLENI_BUKMACHERZY:
                         continue
 
-                    locatory_kursow = rzad.locator(
-                        'a[href*="/betslip/"]'
-                    )
-
-                    if locatory_kursow.count() < wymagane_kursy:
-                        locatory_kursow = rzad.locator(
-                            "td:not(:first-child) a"
-                        )
-
-                    kursy = pobierz_kursy_z_locatorow_playwright(
-                        locatory_kursow
+                    kursy = pobierz_kursy_z_rzedu_playwright(
+                        rzad,
+                        wymagane=wymagane_kursy
                     )
 
                     if len(kursy) < wymagane_kursy:
@@ -3655,33 +4036,70 @@ def pobierz_polskich_z_oddsportal():
 
                             continue
 
-                        nawigacja_ok, odpowiedz_glowna, blad_nawigacji = (
-                            bezpieczne_goto(
-                                page,
-                                poprawny_link,
-                                timeout_ms=30000
-                            )
+
+                        blad_nawigacji = None
+
+                        (
+                            page,
+                            tabela_zaladowana,
+                            odpowiedz_glowna,
+                            powod
+                        ) = zaladuj_mecz_z_retry(
+                            page_obj=page,
+                            utworz_strone=utworz_strone,
+                            context_obj=context,
+                            url=poprawny_link
                         )
 
-                        if not nawigacja_ok:
-                            print(
-                                f"      [WARN] Nawigacja nie powiodła się: "
-                                f"{blad_nawigacji}"
-                            )
-                            report.add_error(
-                                nazwa_sportu,
-                                "match_navigation",
-                                blad_nawigacji
+                        if not tabela_zaladowana:
+                            if powod == "pusta_tabela":
+                                print(
+                                    "      [SKIP EMPTY TABLE] "
+                                    "Tabela została załadowana, ale "
+                                    "nie zawiera bukmacherów. "
+                                    "Mecz pominięty bez błędu."
+                                )
+
+                                report.add_table_loaded(
+                                    nazwa_sportu
+                                )
+
+                                continue
+
+                            if powod == "blad_ajax":
+                                report.add_error(
+                                    nazwa_sportu,
+                                    "ajax_error",
+                                    powod
+                                )
+                            elif str(powod).startswith("HTTP"):
+                                report.add_error(
+                                    nazwa_sportu,
+                                    "http_error",
+                                    powod
+                                )
+                            elif str(powod).startswith("nawigacja"):
+                                report.add_error(
+                                    nazwa_sportu,
+                                    "match_navigation",
+                                    powod
+                                )
+                            else:
+                                report.add_error(
+                                    nazwa_sportu,
+                                    "table_timeout",
+                                    powod
+                                )
+
+                            zapisz_debug_html(
+                                page,
+                                os.path.dirname(output),
+                                (
+                                    f"mecz_po_retry_"
+                                    f"{sciezka_sportu}_{idx}"
+                                )
                             )
 
-                            try:
-                                if not page.is_closed():
-                                    page.close()
-                            except Exception:
-                                pass
-
-                            page = utworz_strone(context)
-                            page.wait_for_timeout(3000)
                             continue
 
                         page.wait_for_timeout(500)
@@ -3796,72 +4214,7 @@ def pobierz_polskich_z_oddsportal():
                             )
                             continue
 
-                        tabela_zaladowana, powod = czekaj_na_tabele_kursow(
-                            page,
-                            timeout_ms=15000
-                        )
-
-                        if not tabela_zaladowana:
-                            print(
-                                f"      [!] Nie rozpoznano tabeli kursów. "
-                                f"Powód: {powod}"
-                            )
-                            if powod == "blad_ajax":
-                                report.add_error(
-                                    nazwa_sportu,
-                                    "ajax_error",
-                                    powod
-                                )
-                            else:
-                                report.add_error(
-                                    nazwa_sportu,
-                                    "table_timeout",
-                                    powod
-                                )
-
-                            if ZAPISUJ_DEBUG_HTML:
-                                debug_html = os.path.join(
-                                    os.path.dirname(output),
-                                    f"debug_mecz_{sciezka_sportu}_{idx}.html"
-                                )
-
-                                debug_png = os.path.join(
-                                    os.path.dirname(output),
-                                    f"debug_mecz_{sciezka_sportu}_{idx}.png"
-                                )
-
-                                try:
-                                    with open(
-                                        debug_html,
-                                        "w",
-                                        encoding="utf-8"
-                                    ) as plik:
-                                        plik.write(
-                                            page.content()
-                                        )
-
-                                    page.screenshot(
-                                        path=debug_png,
-                                        full_page=True
-                                    )
-
-                                    print(
-                                        f"      [DEBUG] Zapisano HTML: "
-                                        f"{debug_html}"
-                                    )
-
-                                    print(
-                                        f"      [DEBUG] Zapisano zrzut: "
-                                        f"{debug_png}"
-                                    )
-
-                                except Exception as blad:
-                                    print(
-                                        f"      [DEBUG] Błąd zapisu "
-                                        f"strony meczu: {blad}"
-                                    )
-
-                            continue
+                        
                         
                         report.add_table_loaded(
                             nazwa_sportu
@@ -4370,6 +4723,19 @@ def pobierz_polskich_z_oddsportal():
                                     and d["kurs_2"] > 0
                                 )
 
+                                if nazwa_sportu in {
+                                    "Piłka nożna",
+                                    "Piłka ręczna"
+                                }:
+                                    ma_kursy_glowne = (
+                                        ma_kursy_glowne
+                                        and isinstance(
+                                            d["kurs_X"],
+                                            (int, float)
+                                        )
+                                        and d["kurs_X"] > 0
+                                    )
+
                                 ma_inne_rynki = (
                                     bool(d["over_under"])
                                     or bool(d["btts"])
@@ -4377,16 +4743,24 @@ def pobierz_polskich_z_oddsportal():
                                     or bool(d["handicap"])
                                 )
 
-                                if ma_kursy_glowne or ma_inne_rynki:
+                                if ma_kursy_glowne:
                                     wszystkie_mecze.append(d)
 
                                     print(
                                         f"      [+] Zapisano: "
                                         f"{d['bukmacher']:<8} | "
                                         f"1={d['kurs_1']} | "
+                                        f"X={d['kurs_X']} | "
                                         f"2={d['kurs_2']} | "
                                         f"O/U: {len(d['over_under'])} | "
                                         f"HC: {len(d['handicap'])}"
+                                    )
+                                else:
+                                    print(
+                                        f"      [SKIP NO MAIN ODDS] "
+                                        f"{d['bukmacher']}: brak kompletnego "
+                                        f"rynku głównego. Rekord nie zostanie "
+                                        f"zapisany do JSON."
                                     )
                         else:
                             print(

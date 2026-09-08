@@ -103,7 +103,29 @@ export default function UserMenu() {
                     )
                 }
             >
-                👤 {user.username} ▼
+                <span
+                    className={
+                        isAdmin
+                            ? "header-plan-badge header-plan-badge--admin"
+                            : user.hasPremiumAccess
+                                ? "header-plan-badge header-plan-badge--premium"
+                                : "header-plan-badge header-plan-badge--demo"
+                    }
+                >
+                    {isAdmin
+                        ? "ADMIN"
+                        : user.hasPremiumAccess
+                            ? "PREMIUM"
+                            : "DEMO"}
+                </span>
+
+                <span className="header-user-name">
+                    👤 {user.username}
+                </span>
+
+                <span className="header-user-arrow">
+                    ▼
+                </span>
             </button>
 
             {isOpen && (

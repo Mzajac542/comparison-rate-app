@@ -126,7 +126,7 @@ if not DISCORD_WEBHOOK_URL.startswith(
         "jak prawidłowy webhook Discorda."
     )
 
-MIN_EDGE = 0.5
+MIN_EDGE_PERCENT = 0.15
 DISCORD_DELAY_SECONDS = 3.0
 DISCORD_MAX_RETRIES = 5
 DISCORD_RETRY_BUFFER_SECONDS = 0.5
@@ -298,10 +298,18 @@ def utworz_podpis_kursow(okazja):
         )
     )
 
+    edge_percent = float(
+        okazja.get(
+            "edge_percent",
+            0
+        )
+    )
+
     return (
         f"{niski_kurs:.4f}|"
         f"{wysoki_kurs:.4f}|"
-        f"{edge:.4f}"
+        f"{edge:.4f}|"
+        f"{edge_percent:.4f}"
     )
 
 
@@ -453,7 +461,7 @@ def wyslij_naglowek_discord(
 def znajdz_i_wyslij_okazje(
     matches,
     webhook_url,
-    min_edge=0.5
+    min_edge_percent=0.15
 ):
     if not webhook_url:
         print(
@@ -691,7 +699,15 @@ def znajdz_i_wyslij_okazje(
                         - zagraniczny_kurs
                     )
 
-                    if edge >= min_edge:
+                    edge_percent = (
+                        edge
+                        / zagraniczny_kurs
+                    )
+
+                    if (
+                        polski_kurs > zagraniczny_kurs
+                        and edge_percent >= min_edge_percent
+                    ):
                         okazje.append({
                             "mecz": mecz_nazwa,
                             "sport": sport,
@@ -707,7 +723,8 @@ def znajdz_i_wyslij_okazje(
                             "wysoki_buk": polski_buk,
                             "wysoki_typ": "polski",
                             "wysoki_kurs": polski_kurs,
-                            "edge": edge
+                            "edge": edge,
+                            "edge_percent": edge_percent * 100
                         })
 
                 # ============================================
@@ -739,9 +756,15 @@ def znajdz_i_wyslij_okazje(
                         - niski_kurs
                     )
 
+                    edge_percent = (
+                        edge
+                        / niski_kurs
+                    )
+
                     if (
                         niski_buk != wysoki_buk
-                        and edge >= min_edge
+                        and wysoki_kurs > niski_kurs
+                        and edge_percent >= min_edge_percent
                     ):
                         okazje.append({
                             "mecz": mecz_nazwa,
@@ -758,12 +781,15 @@ def znajdz_i_wyslij_okazje(
                             "wysoki_buk": wysoki_buk,
                             "wysoki_typ": "polski",
                             "wysoki_kurs": wysoki_kurs,
-                            "edge": edge
+                            "edge": edge,
+                            "edge_percent": edge_percent * 100
                         })
 
     # Największe różnice będą wysyłane jako pierwsze.
     okazje.sort(
-        key=lambda okazja: okazja["edge"],
+        key=lambda okazja: okazja[
+            "edge_percent"
+        ],
         reverse=True
     )
 
@@ -870,8 +896,10 @@ def znajdz_i_wyslij_okazje(
         for okazja in paczka:
             tytul = (
                 "🔥 Okazja! | "
-                f"Różnica = {okazja['edge']:.2f}"
+                f"Różnica = "
+                f"{okazja['edge_percent']:.1f}%"
             )
+
 
             kolor = 3447003
 
@@ -914,7 +942,9 @@ def znajdz_i_wyslij_okazje(
                         ),
                         "value": (
                             f"**{okazja['wysoki_kurs']:.2f}**\n"
-                            f"Różnica: **+{okazja['edge']:.2f}**"
+                            f"Różnica: "
+                            f"**+{okazja['edge_percent']:.1f}%** "
+                            f"(+{okazja['edge']:.2f})"
                         ),
                         "inline": True
                     },
@@ -2487,4 +2517,8 @@ print(
 )
 
 # Uruchomienie skanera i wysyłka alertów
-znajdz_i_wyslij_okazje(final_matches, DISCORD_WEBHOOK_URL, MIN_EDGE)
+znajdz_i_wyslij_okazje(
+    final_matches,
+    DISCORD_WEBHOOK_URL,
+    MIN_EDGE_PERCENT
+)
