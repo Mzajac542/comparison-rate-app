@@ -40,7 +40,7 @@ PROG_SKUTECZNOSCI_OSTRZEZENIE = 90.0
 PROG_SKUTECZNOSCI_KRYTYCZNY = 85.0
 
 PROG_TABEL_OSTRZEZENIE = 90.0
-PROG_TABEL_KRYTYCZNY = 80.0
+PROG_TABEL_KRYTYCZNY = 85.0
 
 MAKSYMALNY_WIEK_RAPORTU_GODZINY = 6
 
@@ -267,6 +267,23 @@ def waliduj_plik(nazwa_scrapera, sciezka):
         skutecznosc_tabel = float(raport.get("table_rate", 0))
         status_raportu = raport.get("status")
         attempted = int(raport.get("matches_attempted", 0))
+        skipped_no_supported = int(
+            raport.get(
+                "matches_skipped_no_supported_bookmakers",
+                0
+            )
+        )
+
+        qualifying_matches = int(
+            raport.get(
+                "matches_qualifying",
+                max(
+                    attempted
+                    - skipped_no_supported,
+                    0
+                )
+            )
+        )
         records_report = int(raport.get("records_saved", 0))
 
         if status_raportu != "completed":
@@ -355,6 +372,28 @@ def waliduj_plik(nazwa_scrapera, sciezka):
         "matches_with_over_under": len(mecze_ou),
         "matches_with_handicap": len(mecze_hc),
         "match_success_rate": round(skutecznosc, 2),
+        "skipped_no_supported_bookmakers":
+            int(
+                raport.get(
+                    "matches_skipped_no_supported_bookmakers",
+                    0
+                )
+            )
+            if raport
+            else 0,
+
+        "qualifying_matches":
+            int(
+                raport.get(
+                    "matches_qualifying",
+                    raport.get(
+                        "matches_attempted",
+                        0
+                    )
+                )
+            )
+            if raport
+            else 0,
         "table_success_rate": round(skutecznosc_tabel, 2),
         "execution_report": raport,
         "problems": problemy,
@@ -428,6 +467,10 @@ def main():
             f"Skuteczność tabel: {wynik['table_success_rate']:.2f}%\n"
             f"Znaleziono: {wykonanie.get('matches_found', 0)}\n"
             f"Próbowano: {wykonanie.get('matches_attempted', 0)}\n"
+            f"Kwalifikujące się: "
+            f"{wykonanie.get('matches_qualifying', wykonanie.get('matches_attempted', 0))}\n"
+            f"Pominięto bez naszych bukmacherów: "
+            f"{wykonanie.get('matches_skipped_no_supported_bookmakers', 0)}\n"
             f"Zapisano meczów: {wykonanie.get('matches_saved', 0)}\n"
             f"Timeouty tabel: {bledy.get('table_timeout', 0)}\n"
             f"Błędy AJAX: {bledy.get('ajax_error', 0)}\n"

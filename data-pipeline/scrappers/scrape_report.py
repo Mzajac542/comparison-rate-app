@@ -32,6 +32,10 @@ class ScrapeReport:
         self.matches_saved = 0
         self.records_saved = 0
 
+        # Mecze poprawnie sprawdzone, ale bez bukmacherów
+        # obsługiwanych przez aplikację.
+        self.matches_skipped_no_supported_bookmakers = 0
+
         self.errors = {
             "list_navigation": 0,
             "invalid_match_url": 0,
@@ -56,6 +60,7 @@ class ScrapeReport:
                 "tables_loaded": 0,
                 "saved": 0,
                 "records": 0,
+                "skipped_no_supported_bookmakers": 0,
                 "errors": {
                     "list_navigation": 0,
                     "invalid_match_url": 0,
@@ -105,6 +110,27 @@ class ScrapeReport:
         sport_data["saved"] += 1
         sport_data["records"] += records_added
 
+    
+    def add_skipped_no_supported_bookmakers(
+        self,
+        sport
+    ):
+        """
+        Rejestruje mecz, którego strona i tabela
+        zostały poprawnie załadowane, ale tabela
+        nie zawiera żadnego bukmachera obsługiwanego
+        przez aplikację.
+
+        Nie jest to błąd scrapera.
+        """
+        self.matches_skipped_no_supported_bookmakers += 1
+
+        sport_data = self._sport(sport)
+
+        sport_data[
+            "skipped_no_supported_bookmakers"
+        ] += 1
+
     def add_error(
         self,
         sport,
@@ -125,12 +151,22 @@ class ScrapeReport:
             )[:1000]
 
     def to_dict(self):
+        qualifying_matches = max(
+            self.matches_attempted
+            - self.matches_skipped_no_supported_bookmakers,
+            0
+        )
+
         success_rate = (
             self.matches_saved
-            / self.matches_attempted
+            / qualifying_matches
             * 100
-            if self.matches_attempted
-            else 0.0
+            if qualifying_matches
+            else (
+                100.0
+                if self.matches_attempted > 0
+                else 0.0
+            )
         )
 
         table_rate = (
@@ -153,6 +189,9 @@ class ScrapeReport:
             "matches_with_table": self.matches_with_table,
             "matches_saved": self.matches_saved,
             "records_saved": self.records_saved,
+            "matches_skipped_no_supported_bookmakers":
+                self.matches_skipped_no_supported_bookmakers,
+            "matches_qualifying": qualifying_matches,
             "success_rate": round(
                 success_rate,
                 2

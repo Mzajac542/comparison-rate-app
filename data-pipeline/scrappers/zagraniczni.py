@@ -24,9 +24,9 @@ SPORTY = {
 }
 
 # Tryb testowy
-TRYB_TESTOWY = False
+TRYB_TESTOWY = True
 SPORT_TESTOWY = None
-LIMIT_MECZOW_TESTOWYCH = 3
+LIMIT_MECZOW_TESTOWYCH = 10
 
 BAZOWY_URL = "https://www.oddsportal.com"
 ZAPISUJ_DEBUG_HTML = False
@@ -807,7 +807,8 @@ def czekaj_na_tabele_kursow(
 
 def pobierz_kursy_z_rzedu_playwright(
     rzad,
-    wymagane=None
+    wymagane=None,
+    od_konca=False
 ):
     kursy = []
 
@@ -867,8 +868,16 @@ def pobierz_kursy_z_rzedu_playwright(
             if (
                 wymagane is not None
                 and len(kursy) >= wymagane
+                and not od_konca
             ):
                 return kursy[:wymagane]
+
+    if (
+        wymagane is not None
+        and od_konca
+        and len(kursy) >= wymagane
+    ):
+        return kursy[-wymagane:]
 
     return kursy
 
@@ -1837,7 +1846,8 @@ def pobierz_glowny_rynek(
 def parsuj_standardowy_rynek_playwright(
     page_obj,
     wymagane,
-    kontener=None
+    kontener=None,
+    kursy_od_konca=False
 ):
     wyniki = {}
 
@@ -1889,7 +1899,8 @@ def parsuj_standardowy_rynek_playwright(
 
             kursy = pobierz_kursy_z_rzedu_playwright(
                 rzad,
-                wymagane=wymagane
+                wymagane=wymagane,
+                od_konca=kursy_od_konca
             )
 
             if len(kursy) < wymagane:
@@ -2282,7 +2293,8 @@ def pobierz_over_under(
         wyniki = parsuj_standardowy_rynek_playwright(
             page_obj,
             2,
-            kontener=kontener_linii
+            kontener=kontener_linii,
+            kursy_od_konca=True
         )
 
         print(
@@ -2643,7 +2655,8 @@ def pobierz_asian_handicap(
         wyniki = parsuj_standardowy_rynek_playwright(
             page_obj,
             2,
-            kontener=kontener_linii
+            kontener=kontener_linii,
+            kursy_od_konca=True
         )
 
         print(

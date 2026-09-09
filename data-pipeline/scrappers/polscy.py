@@ -32,9 +32,9 @@ DOZWOLENI_BUKMACHERZY = {
 }
 
 #Testowanie
-TRYB_TESTOWY = False
+TRYB_TESTOWY = True
 SPORT_TESTOWY = None
-LIMIT_MECZOW_TESTOWYCH = 3
+LIMIT_MECZOW_TESTOWYCH = 10
 
 BAZOWY_URL = "https://www.oddsportal.com"
 ZAPISUJ_DEBUG_HTML = False
@@ -1413,6 +1413,85 @@ def pobierz_kursy_z_locatorow_playwright(
             )
 
     return kursy
+
+def znajdz_dozwolonych_bukmacherow_w_glownej_tabeli(
+    page_obj,
+    nazwa_sportu
+):
+    """
+    Sprawdza, którzy obsługiwani bukmacherzy
+    są widoczni w tabeli rynku głównego.
+
+    Funkcja nie wymaga prawidłowych kursów.
+    Sprawdza samą obecność wiersza bukmachera.
+    """
+    tabela = pobierz_widoczna_tabele_glowna(
+        page_obj,
+        nazwa_sportu
+    )
+
+    if tabela is None:
+        return None
+
+    znalezieni = set()
+    liczba_bledow_wierszy = 0
+
+    try:
+        rzedy = tabela.locator("tbody tr")
+        liczba_rzedow = rzedy.count()
+    except Exception as blad:
+        print(
+            "      [SUPPORTED BOOKMAKERS ERROR] "
+            f"Nie udało się odczytać tabeli: {blad}"
+        )
+
+        return None
+
+    for indeks in range(liczba_rzedow):
+        try:
+            rzad = rzedy.nth(indeks)
+
+            bukmacher = (
+                rozpoznaj_bukmachera_z_rzedu_playwright(
+                    rzad
+                )
+            )
+
+            if (
+                bukmacher
+                and bukmacher
+                in DOZWOLENI_BUKMACHERZY
+            ):
+                znalezieni.add(bukmacher)
+
+        except Exception as blad:
+            liczba_bledow_wierszy += 1
+
+            if (
+                liczba_rzedow > 0
+                and liczba_bledow_wierszy
+                    == liczba_rzedow
+            ):
+                print(
+                    "      [SUPPORTED BOOKMAKERS ERROR] "
+                    "Nie udało się odczytać żadnego "
+                    "wiersza tabeli."
+                )
+
+                return None
+
+            print(
+                "      [DEBUG SUPPORTED BOOKMAKER] "
+                f"Wiersz {indeks + 1}: {blad}"
+            )
+
+    print(
+        "      [SUPPORTED BOOKMAKERS] "
+        f"Widoczni obsługiwani bukmacherzy: "
+        f"{sorted(znalezieni)}"
+    )
+
+    return znalezieni
 
 def pobierz_kursy_glowne_playwright(
     page_obj,
@@ -4287,6 +4366,58 @@ def pobierz_polskich_z_oddsportal():
                         # --- 1. POBIERANIE RYNKU GŁÓWNEGO ---
                         # Koszykówka i tenis: Home/Away
                         # Piłka nożna: 1X2
+                        dozwoleni_w_glownej_tabeli = (
+                            znajdz_dozwolonych_bukmacherow_w_glownej_tabeli(
+                                page,
+                                nazwa_sportu
+                            )
+                        )
+
+                        if dozwoleni_w_glownej_tabeli is None:
+                            print(
+                                "      [TABLE ERROR] "
+                                "Nie udało się odczytać głównej tabeli. "
+                                "Mecz nie zostanie uznany za oczekiwane "
+                                "pominięcie."
+                            )
+
+                            report.add_error(
+                                nazwa_sportu,
+                                "table_timeout",
+                                link
+                            )
+
+                            continue
+
+                        if not dozwoleni_w_glownej_tabeli:
+                            print(
+                                "      [EXPECTED SKIP] "
+                                "Tabela została poprawnie załadowana, "
+                                "ale nie zawiera żadnego bukmachera "
+                                "obsługiwanego przez aplikację. "
+                                "Mecz pominięty bez błędu."
+                            )
+
+                            report.add_skipped_no_supported_bookmakers(
+                                nazwa_sportu
+                            )
+
+                            # Zapisujemy checkpoint bez zmian,
+                            # aby zachować dotychczasowe poprawne dane.
+                            with open(
+                                output,
+                                "w",
+                                encoding="utf-8"
+                            ) as f:
+                                json.dump(
+                                    wszystkie_mecze,
+                                    f,
+                                    indent=4,
+                                    ensure_ascii=False
+                                )
+
+                            continue
+
                         wyniki_glowne = pobierz_glowny_rynek(
                             page,
                             nazwa_sportu
