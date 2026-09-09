@@ -1,27 +1,69 @@
-import { useState } from 'react';
-import './AccountSettings.css';
+import { useState } from "react";
+import "./AccountSettings.css";
+
+const maskEmail = (value) => {
+    const email = String(value || "").trim();
+    const separator = email.indexOf("@");
+
+    if (separator <= 0) {
+        return "Nie przypisano";
+    }
+
+    const local = email.slice(0, separator);
+    const domain = email.slice(separator + 1);
+    const visibleStart = local.slice(0, Math.min(3, local.length));
+    const hiddenLength = Math.max(4, local.length - visibleStart.length);
+
+    return `${visibleStart}${"*".repeat(hiddenLength)}@${domain}`;
+};
 
 export default function AccountSettings({ user, onClose }) {
-    const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
-    const [email, setEmail] =
-    useState(user?.email || "");
-    const [purchaseLoading, setPurchaseLoading] =
+    const [activeTab, setActiveTab] =
+        useState("account");
+
+    const [showFullEmail, setShowFullEmail] =
         useState(false);
 
-    const [emailPassword, setEmailPassword] =
+
+
+    const [oldPassword, setOldPassword] =
         useState("");
 
-    const handleStartPurchase = async () => {
+    const [newPassword, setNewPassword] =
+        useState("");
+
+    const [confirmNewPassword, setConfirmNewPassword] =
+        useState("");
+
+    const [passwordEmail, setPasswordEmail] =
+        useState(user?.email || "");
+
+
+    const [showPasswordForm, setShowPasswordForm] =
+        useState(false);
+
+    const [message, setMessage] =
+        useState("");
+
+    const [error, setError] =
+        useState("");
+
+    const clearMessages = () => {
         setMessage("");
         setError("");
-        setPurchaseLoading(true);
+    };
+
+    const handleTabChange = (tab) => {
+        clearMessages();
+        setActiveTab(tab);
+    };
+
+    const handleRequestEmailChange = async () => {
+        clearMessages();
 
         try {
             const response = await fetch(
-                "http://localhost:3001/api/payments/1koszyk/start",
+                "http://localhost:3001/api/account/email-change/request",
                 {
                     method: "POST",
                     credentials: "include"
@@ -33,272 +75,355 @@ export default function AccountSettings({ user, onClose }) {
             if (!response.ok) {
                 throw new Error(
                     data.error ||
-                    "Nie udało się rozpocząć zakupu."
+                    "Nie udało się wysłać linku zmiany adresu."
                 );
             }
 
-            const confirmed = window.confirm(
-                `Za chwilę przejdziesz do płatności 1koszyk.\n\n` +
-                `Cena: ${data.price.toFixed(2)} ${data.currency}\n` +
-                `Dostęp: ${data.accessDays} dni\n\n` +
-                `W formularzu zakupu użyj dokładnie adresu:\n` +
-                `${data.requiredEmail}\n\n` +
-                `Czy przejść do płatności?`
-            );
-
-            if (!confirmed) {
-                return;
-            }
-
-            window.location.href =
-                data.checkoutUrl;
-
+            setMessage(data.message);
         } catch (requestError) {
-            setError(
-                requestError.message
-            );
-        } finally {
-            setPurchaseLoading(false);
+            setError(requestError.message);
         }
     };
-    
-    const handleSaveEmail = async (event) => {
-        event.preventDefault();
 
-        setMessage("");
-        setError("");
+    const handleChangePassword = async (event) => {
+        event.preventDefault();
+        clearMessages();
+
+        if (newPassword.length < 6) {
+            setError(
+                "Nowe hasło musi mieć co najmniej 6 znaków."
+            );
+            return;
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            setError("Nowe hasła nie są identyczne.");
+            return;
+        }
 
         try {
             const response = await fetch(
-                "http://localhost:3001/api/account/email",
+                "http://localhost:3001/api/change-password",
                 {
-                    method: "PUT",
+                    method: "POST",
                     headers: {
-                        "Content-Type":
-                            "application/json"
+                        "Content-Type": "application/json"
                     },
                     credentials: "include",
                     body: JSON.stringify({
-                        email,
-                        password:
-                            emailPassword
+                        email: passwordEmail,
+                        oldPassword,
+                        newPassword,
+                        confirmPassword: confirmNewPassword
                     })
                 }
             );
 
-            const data =
-                await response.json();
+            const data = await response.json();
 
             if (!response.ok) {
                 throw new Error(
                     data.error ||
-                    "Nie udało się zapisać adresu e-mail."
+                    "Nie udało się zmienić hasła."
                 );
             }
 
-            setEmail(data.email);
-            setEmailPassword("");
-            setMessage(data.message);
-
-        } catch (requestError) {
-            setError(
-                requestError.message
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmNewPassword("");
+            setShowPasswordForm(false);
+            setMessage(
+                data.message ||
+                "Hasło zostało zmienione."
             );
+        } catch (requestError) {
+            setError(requestError.message);
         }
     };
 
-    const handleChangePassword = async (e) => {
-        e.preventDefault();
-        setMessage('');
-        setError('');
-
-        if (newPassword.length < 6) {
-            return setError("Nowe hasło musi mieć co najmniej 6 znaków.");
-        }
-
-        try {
-            const res = await fetch('http://localhost:3001/api/change-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ oldPassword, newPassword })
-            });
-
-            const data = await res.json();
-
-            if (res.ok) {
-                setMessage(data.message);
-                setOldPassword('');
-                setNewPassword('');
-            } else {
-                setError(data.error);
-            }
-        } catch (err) {
-            setError("Błąd połączenia z serwerem.");
-        }
-    };
+    const accessLabel =
+        user?.accessType === "admin"
+            ? "ADMIN"
+            : user?.hasPremiumAccess
+                ? "PREMIUM"
+                : "DEMO";
 
     return (
-        <div className="settings-overlay">
-            <div className="settings-modal">
+        <div
+            className="settings-overlay"
+            onClick={onClose}
+        >
+            <div
+                className="settings-modal"
+                onClick={(event) =>
+                    event.stopPropagation()
+                }
+            >
                 <div className="settings-header">
                     <h2>Ustawienia konta</h2>
-                    <button className="close-btn" onClick={onClose}>✕</button>
-                </div>
-                
-                <div className="settings-content">
-                    <div className="info-group">
-                        <label>Nazwa użytkownika (Login)</label>
-                        <input type="text" value={user.username} disabled className="disabled-input" />
-                    </div>
-                    
-                    <div className="info-group">
-                        <label>Rola w systemie</label>
-                        <input type="text" value={user.role.toUpperCase()} disabled className="disabled-input" />
-                    </div>
-                    <form
-                        onSubmit={handleSaveEmail}
-                        className="email-form"
+
+                    <button
+                        type="button"
+                        className="close-btn"
+                        onClick={onClose}
+                        aria-label="Zamknij ustawienia"
                     >
-                        <div className="form-group">
-                            <label>
-                                Adres e-mail do odzyskiwania konta
-                            </label>
+                        ×
+                    </button>
+                </div>
 
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(event) =>
-                                    setEmail(
-                                        event.target.value
-                                    )
-                                }
-                                placeholder="twoj@email.pl"
-                                required
-                            />
-                        </div>
+                <div className="settings-tabs">
+                    <button
+                        type="button"
+                        className={
+                            activeTab === "account"
+                                ? "settings-tab settings-tab--active"
+                                : "settings-tab"
+                        }
+                        onClick={() =>
+                            handleTabChange("account")
+                        }
+                    >
+                        Konto
+                    </button>
 
-                        <div className="form-group">
-                            <label>
-                                Potwierdź hasłem
-                            </label>
+                    <button
+                        type="button"
+                        className={
+                            activeTab === "security"
+                                ? "settings-tab settings-tab--active"
+                                : "settings-tab"
+                        }
+                        onClick={() =>
+                            handleTabChange("security")
+                        }
+                    >
+                        Dane i bezpieczeństwo
+                    </button>
+                </div>
 
-                            <input
-                                type="password"
-                                value={emailPassword}
-                                onChange={(event) =>
-                                    setEmailPassword(
-                                        event.target.value
-                                    )
-                                }
-                                required
-                            />
-                        </div>
+                <div className="settings-content">
+                    {message && (
+                        <p className="msg success-msg">
+                            {message}
+                        </p>
+                    )}
 
-                        <button
-                            type="submit"
-                            className="save-email-btn"
-                        >
-                            Zapisz adres e-mail
-                        </button>
-                    </form>
-                    <hr />
-                    <section className="premium-section">
-                        <div className="premium-section__header">
-                            <div>
-                                <h3>Dostęp Premium</h3>
+                    {error && (
+                        <p className="msg error-msg">
+                            {error}
+                        </p>
+                    )}
 
-                                <p>
-                                    Pełna wersja aplikacji przez 30 dni.
-                                    Zakup jednorazowy, bez automatycznego
-                                    odnawiania.
-                                </p>
+                    {activeTab === "account" && (
+                        <div className="account-overview">
+                            <div className="account-overview-card">
+                                <span className="account-overview-label">
+                                    Nazwa użytkownika
+                                </span>
+                                <strong>
+                                    {user?.username || "Brak"}
+                                </strong>
                             </div>
 
-                            <span
-                                className={
-                                    user?.hasPremiumAccess
-                                        ? "premium-status premium-status--active"
-                                        : "premium-status premium-status--demo"
-                                }
-                            >
-                                {user?.accessType === "admin"
-                                    ? "ADMIN"
-                                    : user?.hasPremiumAccess
-                                        ? "PREMIUM"
-                                        : "DEMO"}
-                            </span>
-                        </div>
-
-                        {user?.hasPremiumAccess &&
-                        user?.accessType !== "admin" &&
-                        user?.accessExpiresAt && (
-                            <p className="premium-expiration">
-                                Dostęp ważny do:{" "}
+                            <div className="account-overview-card">
+                                <span className="account-overview-label">
+                                    Rola w systemie
+                                </span>
                                 <strong>
-                                    {new Date(
-                                        user.accessExpiresAt
-                                    ).toLocaleString("pl-PL")}
+                                    {String(
+                                        user?.role || "user"
+                                    ).toUpperCase()}
                                 </strong>
-                            </p>
-                        )}
+                            </div>
 
-                        {user?.accessType !== "admin" && (
-                            <>
-                                <div className="premium-price">
-                                    <strong>50 zł</strong>
-                                    <span>za 30 dni</span>
+                            <div className="account-overview-card">
+                                <span className="account-overview-label">
+                                    Rodzaj dostępu
+                                </span>
+                                <strong>{accessLabel}</strong>
+                            </div>
+
+                            {user?.hasPremiumAccess &&
+                             user?.accessExpiresAt && (
+                                <div className="account-overview-card">
+                                    <span className="account-overview-label">
+                                        Dostęp ważny do
+                                    </span>
+                                    <strong>
+                                        {new Date(
+                                            user.accessExpiresAt
+                                        ).toLocaleString("pl-PL")}
+                                    </strong>
+                                </div>
+                            )}
+
+                            <div className="account-overview-card account-email-card">
+                                <span className="account-overview-label">
+                                    Adres e-mail
+                                </span>
+
+                                <div className="account-email-value">
+                                    <strong>
+                                        {showFullEmail
+                                            ? user?.email || "Nie przypisano"
+                                            : maskEmail(user?.email)}
+                                    </strong>
+
+                                    {user?.email && (
+                                        <button
+                                            type="button"
+                                            className="email-visibility-button"
+                                            onClick={() =>
+                                                setShowFullEmail(
+                                                    (previous) => !previous
+                                                )
+                                            }
+                                            aria-pressed={showFullEmail}
+                                        >
+                                            {showFullEmail ? "Ukryj" : "Pokaż"}
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="account-overview-card">
+                                <span className="account-overview-label">
+                                    Hasło
+                                </span>
+                                <strong className="masked-password">
+                                    ••••••••••••
+                                </strong>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === "security" && (
+                        <div className="security-sections">
+                            <section className="security-card">
+                                <div className="security-card-header">
+                                    <div>
+                                        <h3>Adres e-mail</h3>
+                                        <p>Aktualnie przypisany adres:</p>
+                                        <strong>
+                                            {maskEmail(user?.email)}
+                                        </strong>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        className="security-action-button"
+                                        onClick={handleRequestEmailChange}
+                                    >
+                                        Zmień e-mail
+                                    </button>
                                 </div>
 
-                                <button
-                                    type="button"
-                                    className="premium-buy-button"
-                                    onClick={handleStartPurchase}
-                                    disabled={purchaseLoading}
-                                >
-                                    {purchaseLoading
-                                        ? "Przygotowywanie zakupu..."
-                                        : user?.hasPremiumAccess
-                                            ? "Przedłuż dostęp o 30 dni"
-                                            : "Kup dostęp na 30 dni"}
-                                </button>
-
-                                <p className="premium-email-hint">
-                                    Podczas zakupu użyj adresu:
-                                    <strong>
-                                        {" "}
-                                        {user?.email || "brak adresu e-mail"}
-                                    </strong>
+                                <p className="email-change-hint">
+                                    Link do ustawienia nowego adresu zostanie wysłany na aktualną skrzynkę. Link będzie ważny przez 30 minut.
                                 </p>
-                            </>
-                        )}
-                    </section>
-                    <h3>Zmiana hasła</h3>
-                    <form onSubmit={handleChangePassword}>
-                        <div className="form-group">
-                            <label>Obecne hasło</label>
-                            <input 
-                                type="password" 
-                                value={oldPassword} 
-                                onChange={(e) => setOldPassword(e.target.value)} 
-                                required 
-                            />
+                            </section>
+
+                            <section className="security-card">
+                                <div className="security-card-header">
+                                    <div>
+                                        <h3>Hasło</h3>
+                                        <p>Aktualne hasło:</p>
+                                        <strong className="masked-password">
+                                            ••••••••••••
+                                        </strong>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        className="security-action-button"
+                                        onClick={() => {
+                                            clearMessages();
+                                            setShowPasswordForm(
+                                                (previous) => !previous
+                                            );
+                                        }}
+                                    >
+                                        {showPasswordForm
+                                            ? "Anuluj"
+                                            : "Zmień hasło"}
+                                    </button>
+                                </div>
+
+                                {showPasswordForm && (
+                                    <form
+                                        className="security-form"
+                                        onSubmit={handleChangePassword}
+                                    >
+                                        <div className="form-group">
+                                            <label>Adres e-mail konta</label>
+                                            <input
+                                                type="email"
+                                                value={passwordEmail}
+                                                onChange={(event) =>
+                                                    setPasswordEmail(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>Obecne hasło</label>
+                                            <input
+                                                type="password"
+                                                value={oldPassword}
+                                                onChange={(event) =>
+                                                    setOldPassword(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>Nowe hasło</label>
+                                            <input
+                                                type="password"
+                                                value={newPassword}
+                                                onChange={(event) =>
+                                                    setNewPassword(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                minLength={6}
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>Powtórz nowe hasło</label>
+                                            <input
+                                                type="password"
+                                                value={confirmNewPassword}
+                                                onChange={(event) =>
+                                                    setConfirmNewPassword(
+                                                        event.target.value
+                                                    )
+                                                }
+                                                minLength={6}
+                                                required
+                                            />
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            className="save-btn"
+                                        >
+                                            Zmień hasło
+                                        </button>
+                                    </form>
+                                )}
+                            </section>
                         </div>
-                        <div className="form-group">
-                            <label>Nowe hasło</label>
-                            <input 
-                                type="password" 
-                                value={newPassword} 
-                                onChange={(e) => setNewPassword(e.target.value)} 
-                                required 
-                            />
-                        </div>
-                        
-                        {error && <p className="msg error-msg">{error}</p>}
-                        {message && <p className="msg success-msg">{message}</p>}
-                        
-                        <button type="submit" className="save-btn">Zmień hasło</button>
-                    </form>
+                    )}
                 </div>
             </div>
         </div>

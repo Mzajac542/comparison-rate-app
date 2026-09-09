@@ -173,6 +173,9 @@ const PASSWORD_RESET_TOKEN_LIFETIME_MINUTES =
 const PASSWORD_RESET_REQUEST_COOLDOWN_MINUTES =
     2;
 
+const EMAIL_CHANGE_TOKEN_LIFETIME_MINUTES = 30;
+const EMAIL_CHANGE_REQUEST_COOLDOWN_MINUTES = 2;
+
 const PASSWORD_RESET_GENERIC_MESSAGE =
     "Jeżeli konto z podanym adresem istnieje, wysłaliśmy wiadomość z instrukcją zmiany hasła.";
 
@@ -2533,6 +2536,26 @@ db.exec(`
     ON password_reset_tokens(token_hash)
 `);
 
+db.exec(`
+    CREATE TABLE IF NOT EXISTS email_change_tokens (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        token_hash TEXT NOT NULL UNIQUE,
+        created_at TEXT NOT NULL,
+        expires_at TEXT NOT NULL,
+        used_at TEXT,
+        requested_ip TEXT,
+        FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE
+    )
+`);
+
+db.exec(`
+    CREATE INDEX IF NOT EXISTS idx_email_change_tokens_user
+    ON email_change_tokens(user_id)
+`);
+
 const isValidEmail = (value) => {
     const email = normalizeEmail(value);
 
@@ -2693,6 +2716,44 @@ const sendPasswordResetEmail = async ({
                     Jeżeli prośba nie pochodziła od
                     Ciebie, zignoruj tę wiadomość.
                 </p>
+            </div>
+        `
+    });
+};
+
+
+const sendEmailChangeEmail = async ({
+    email,
+    username,
+    rawToken
+}) => {
+    const transporter = getMailTransporter();
+    const changeUrl =
+        `${APP_URL}/change-email.html` +
+        `?token=${encodeURIComponent(rawToken)}`;
+    const fromName = process.env.MAIL_FROM_NAME || "Comparing Rates";
+    const fromAddress = process.env.MAIL_FROM_ADDRESS || process.env.SMTP_USER;
+
+    await transporter.sendMail({
+        from: `"${fromName}" <${fromAddress}>`,
+        to: email,
+        subject: "Zmiana adresu e-mail w Comparing Rates",
+        text: [
+            `Cześć ${username},`,
+            "",
+            "Otrzymaliśmy prośbę o zmianę adresu e-mail.",
+            "Otwórz poniższy link i wpisz nowy adres:",
+            changeUrl,
+            "",
+            "Link jest ważny przez 30 minut i może zostać użyty tylko raz.",
+            "Jeżeli prośba nie pochodziła od Ciebie, zignoruj tę wiadomość."
+        ].join("\n"),
+        html: `
+            <div style="max-width:560px;margin:0 auto;padding:28px;border-radius:14px;background:#171a21;color:#f8fafc;font-family:Arial,sans-serif">
+                <h2 style="margin:0 0 16px">Zmiana adresu e-mail</h2>
+                <p style="color:#cbd5e1;line-height:1.6">Cześć <strong>${username}</strong>. Otrzymaliśmy prośbę o zmianę adresu e-mail konta.</p>
+                <a href="${changeUrl}" style="display:inline-block;margin:12px 0 18px;padding:12px 18px;border-radius:8px;background:#3b82f6;color:#fff;text-decoration:none;font-weight:bold">Ustaw nowy adres e-mail</a>
+                <p style="color:#94a3b8;font-size:14px;line-height:1.6">Link jest ważny przez 30 minut i może zostać użyty tylko raz. Jeśli prośba nie pochodziła od Ciebie, zignoruj tę wiadomość.</p>
             </div>
         `
     });
@@ -2887,11 +2948,168 @@ app.post(
 );
 
 
-app.put(
-    "/api/account/email",
+app.post(
+    "/api/account/email-change/request",
     async (req, res) => {
         try {
-            if (!req.session.user) {
+            if (!req.session?.user?.id) {
+                return res.status(401).json({ error: "Musisz być zalogowany." });
+            }
+
+            const user = db.prepare(`
+                SELECT id, username, email
+                FROM users
+                WHERE id = ?
+            `).get(req.session.user.id);
+
+            if (!user?.email) {
+                return res.status(400).json({ error: "Konto nie ma przypisanego adresu e-mail." });
+            }
+
+            const cooldownStart = new Date(
+                Date.now() - EMAIL_CHANGE_REQUEST_COOLDOWN_MINUTES * 60 * 1000
+            ).toISOString();
+            const recent = db.prepare(`
+                SELECT id FROM email_change_tokens
+                WHERE user_id = ? AND created_at >= ?
+                ORDER BY id DESC LIMIT 1
+            `).get(user.id, cooldownStart);
+
+            if (recent) {
+                return res.status(429).json({
+                    error: "Link został już niedawno wysłany. Spróbuj ponownie za chwilę."
+                });
+            }
+
+            const rawToken = crypto.randomBytes(32).toString("hex");
+            const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+            const createdAt = new Date().toISOString();
+            const expiresAt = new Date(
+                Date.now() + EMAIL_CHANGE_TOKEN_LIFETIME_MINUTES * 60 * 1000
+            ).toISOString();
+
+            const createRequest = db.transaction(() => {
+                db.prepare(`
+                    UPDATE email_change_tokens
+                    SET used_at = ?
+                    WHERE user_id = ? AND used_at IS NULL
+                `).run(createdAt, user.id);
+                db.prepare(`
+                    INSERT INTO email_change_tokens (
+                        user_id, token_hash, created_at, expires_at, requested_ip
+                    ) VALUES (?, ?, ?, ?, ?)
+                `).run(user.id, tokenHash, createdAt, expiresAt, req.ip || "");
+            });
+            createRequest();
+
+            try {
+                await sendEmailChangeEmail({
+                    email: user.email,
+                    username: user.username,
+                    rawToken
+                });
+            } catch (mailError) {
+                db.prepare("DELETE FROM email_change_tokens WHERE token_hash = ?")
+                    .run(tokenHash);
+                throw mailError;
+            }
+
+            return res.json({
+                success: true,
+                message: "Link do zmiany adresu został wysłany na aktualny e-mail. Jest ważny przez 30 minut."
+            });
+        } catch (error) {
+            console.error("Błąd wysyłania linku zmiany e-maila:", error);
+            return res.status(500).json({ error: "Nie udało się wysłać linku zmiany adresu." });
+        }
+    }
+);
+
+app.get(
+    "/api/account/email-change/validate",
+    (req, res) => {
+        const rawToken = String(req.query?.token || "").trim();
+        if (!rawToken) return res.status(400).json({ valid: false, error: "Brak tokenu." });
+        const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+        const token = db.prepare(`
+            SELECT id, expires_at, used_at
+            FROM email_change_tokens
+            WHERE token_hash = ?
+        `).get(tokenHash);
+        if (!token || token.used_at || new Date(token.expires_at).getTime() <= Date.now()) {
+            return res.status(400).json({ valid: false, error: "Link jest nieprawidłowy, wykorzystany albo wygasł." });
+        }
+        return res.json({ valid: true });
+    }
+);
+
+app.post(
+    "/api/account/email-change/complete",
+    (req, res) => {
+        try {
+            const rawToken = String(req.body?.token || "").trim();
+            const newEmail = normalizeEmail(req.body?.newEmail);
+            const confirmEmail = normalizeEmail(req.body?.confirmEmail);
+
+            if (!rawToken) return res.status(400).json({ error: "Brak tokenu." });
+            if (!isValidEmail(newEmail)) return res.status(400).json({ error: "Wpisz prawidłowy adres e-mail." });
+            if (newEmail !== confirmEmail) return res.status(400).json({ error: "Adresy e-mail nie są identyczne." });
+
+            const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+            const token = db.prepare(`
+                SELECT id, user_id, expires_at, used_at
+                FROM email_change_tokens
+                WHERE token_hash = ?
+            `).get(tokenHash);
+
+            if (!token || token.used_at || new Date(token.expires_at).getTime() <= Date.now()) {
+                return res.status(400).json({ error: "Link jest nieprawidłowy, wykorzystany albo wygasł." });
+            }
+
+            const owner = db.prepare(`
+                SELECT id FROM users
+                WHERE LOWER(email) = LOWER(?) AND id != ?
+            `).get(newEmail, token.user_id);
+            if (owner) return res.status(409).json({ error: "Ten adres e-mail jest już przypisany do innego konta." });
+
+            const now = new Date().toISOString();
+            const complete = db.transaction(() => {
+                const used = db.prepare(`
+                    UPDATE email_change_tokens SET used_at = ?
+                    WHERE id = ? AND used_at IS NULL
+                `).run(now, token.id);
+                if (used.changes !== 1) throw new Error("Token został już wykorzystany.");
+                db.prepare(`
+                    UPDATE users SET email = ?, email_verified = 1
+                    WHERE id = ?
+                `).run(newEmail, token.user_id);
+                db.prepare(`
+                    UPDATE email_change_tokens SET used_at = ?
+                    WHERE user_id = ? AND used_at IS NULL
+                `).run(now, token.user_id);
+            });
+            complete();
+
+            if (req.session?.user?.id === token.user_id) {
+                req.session.user.email = newEmail;
+            }
+
+            return res.json({
+                success: true,
+                message: "Adres e-mail został zmieniony. Możesz wrócić do aplikacji."
+            });
+        } catch (error) {
+            console.error("Błąd kończenia zmiany e-maila:", error);
+            return res.status(500).json({ error: "Nie udało się zmienić adresu e-mail." });
+        }
+    }
+);
+
+app.post(
+    "/api/change-password",
+    async (req, res) => {
+        try {
+            if (!req.session?.user?.id) {
                 return res.status(401).json({
                     error:
                         "Musisz być zalogowany."
@@ -2902,8 +3120,16 @@ app.put(
                 req.body?.email
             );
 
-            const password = String(
-                req.body?.password || ""
+            const oldPassword = String(
+                req.body?.oldPassword || ""
+            );
+
+            const newPassword = String(
+                req.body?.newPassword || ""
+            );
+
+            const confirmPassword = String(
+                req.body?.confirmPassword || ""
             );
 
             if (!isValidEmail(email)) {
@@ -2912,123 +3138,6 @@ app.put(
                         "Wpisz prawidłowy adres e-mail."
                 });
             }
-
-            if (!password) {
-                return res.status(400).json({
-                    error:
-                        "Podaj hasło do konta."
-                });
-            }
-
-            const user = db
-                .prepare(
-                    `
-                    SELECT
-                        id,
-                        email,
-                        password_hash
-                    FROM users
-                    WHERE id = ?
-                    `
-                )
-                .get(req.session.user.id);
-
-            if (!user) {
-                return res.status(404).json({
-                    error:
-                        "Nie znaleziono konta."
-                });
-            }
-
-            const passwordCorrect =
-                await bcrypt.compare(
-                    password,
-                    user.password_hash
-                );
-
-            if (!passwordCorrect) {
-                return res.status(400).json({
-                    error:
-                        "Hasło jest nieprawidłowe."
-                });
-            }
-
-            const emailOwner = db
-                .prepare(
-                    `
-                    SELECT id
-                    FROM users
-                    WHERE LOWER(email) = LOWER(?)
-                    AND id != ?
-                    `
-                )
-                .get(
-                    email,
-                    user.id
-                );
-
-            if (emailOwner) {
-                return res.status(409).json({
-                    error:
-                        "Ten adres e-mail jest już przypisany do innego konta."
-                });
-            }
-
-            db.prepare(
-                `
-                UPDATE users
-                SET
-                    email = ?,
-                    email_verified = 1
-                WHERE id = ?
-                `
-            ).run(
-                email,
-                user.id
-            );
-
-            req.session.user.email =
-                email;
-
-            return res.json({
-                success: true,
-                email,
-                message:
-                    "Adres e-mail został zapisany."
-            });
-
-        } catch (error) {
-            console.error(
-                "Błąd zapisu e-maila:",
-                error
-            );
-
-            return res.status(500).json({
-                error:
-                    "Nie udało się zapisać adresu e-mail."
-            });
-        }
-    }
-);
-
-app.post(
-    "/api/change-password",
-    async (req, res) => {
-        try {
-            if (!req.session.user) {
-                return res.status(401).json({
-                    error:
-                        "Musisz być zalogowany."
-                });
-            }
-
-            const oldPassword = String(
-                req.body?.oldPassword || ""
-            );
-
-            const newPassword = String(
-                req.body?.newPassword || ""
-            );
 
             if (!oldPassword) {
                 return res.status(400).json({
@@ -3051,20 +3160,50 @@ app.post(
                 });
             }
 
+            if (
+                newPassword !==
+                confirmPassword
+            ) {
+                return res.status(400).json({
+                    error:
+                        "Nowe hasła nie są identyczne."
+                });
+            }
+
+            /*
+             * Najpierw pobieramy użytkownika.
+             * Dopiero potem sprawdzamy jego e-mail
+             * i obecne hasło.
+             */
             const user = db
                 .prepare(
                     `
-                    SELECT id, password_hash
+                    SELECT
+                        id,
+                        email,
+                        password_hash
                     FROM users
                     WHERE id = ?
                     `
                 )
-                .get(req.session.user.id);
+                .get(
+                    req.session.user.id
+                );
 
             if (!user) {
                 return res.status(404).json({
                     error:
                         "Nie znaleziono konta."
+                });
+            }
+
+            if (
+                normalizeEmail(user.email) !==
+                email
+            ) {
+                return res.status(400).json({
+                    error:
+                        "Podany adres e-mail nie odpowiada temu kontu."
                 });
             }
 
@@ -3100,15 +3239,28 @@ app.post(
                     10
                 );
 
-            db.prepare(
-                `
-                UPDATE users
-                SET password_hash = ?
-                WHERE id = ?
-                `
-            ).run(
-                newPasswordHash,
-                user.id
+            const result = db
+                .prepare(
+                    `
+                    UPDATE users
+                    SET password_hash = ?
+                    WHERE id = ?
+                    `
+                )
+                .run(
+                    newPasswordHash,
+                    user.id
+                );
+
+            if (result.changes !== 1) {
+                throw new Error(
+                    "Nie udało się zapisać nowego hasła."
+                );
+            }
+
+            console.log(
+                "🔐 [ACCOUNT] Użytkownik " +
+                `${user.id} zmienił hasło.`
             );
 
             return res.json({

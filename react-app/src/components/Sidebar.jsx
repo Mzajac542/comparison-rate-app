@@ -13,6 +13,7 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
   const [currentUser, setCurrentUser] = useState(null);
   const [discordLoading, setDiscordLoading] = useState(false);
   const [showPremiumMessage, setShowPremiumMessage] = useState(false);
+  const [showAboutModal, setShowAboutModal] = useState(false);
   const [discordError, setDiscordError] = useState("");
 
   useEffect(() => {
@@ -295,6 +296,43 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
         })}
       </ul>
 
+      {currentUser && !currentUser.hasPremiumAccess && (
+        <aside className="premium-upgrade-card">
+          <div className="premium-upgrade-glow" />
+
+          <div className="premium-upgrade-header">
+            <span className="premium-upgrade-icon">✨</span>
+            <span className="premium-upgrade-label">PREMIUM</span>
+          </div>
+
+          <h3>Odblokuj pełną wersję</h3>
+
+          <p>
+            Zobacz wszystkie mecze, najlepsze okazje oraz uzyskaj dostęp do Discorda.
+          </p>
+
+          <div className="premium-upgrade-price">
+            <strong>50 zł</strong>
+            <span>za 30 dni</span>
+          </div>
+
+          <button
+            type="button"
+            className="premium-upgrade-button"
+            onClick={handleBuyPremium}
+            disabled={discordLoading}
+          >
+            {discordLoading
+              ? "Przygotowywanie..."
+              : "Przejdź na Premium"}
+          </button>
+
+          {discordError && (
+            <p className="premium-upgrade-error">{discordError}</p>
+          )}
+        </aside>
+      )}
+
       <div className="sidebar-discord-area">
         <button
           type="button"
@@ -329,10 +367,143 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
           )}
         </button>
 
+        <button
+          type="button"
+          className="sidebar-about-button"
+          onClick={() => setShowAboutModal(true)}
+          aria-label="Dowiedz się więcej o aplikacji"
+          title="Dowiedz się więcej"
+        >
+          <span className="sidebar-about-icon" aria-hidden="true">i</span>
+          <span>Dowiedz się więcej</span>
+        </button>
+
         {discordError && (
           <p className="sidebar-discord-error">{discordError}</p>
         )}
       </div>
+      {showAboutModal && (
+        <div
+          className="about-app-overlay"
+          onClick={() => setShowAboutModal(false)}
+        >
+          <section
+            className="about-app-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="about-app-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="about-app-close"
+              onClick={() => setShowAboutModal(false)}
+              aria-label="Zamknij"
+            >
+              ×
+            </button>
+
+            <header className="about-app-header">
+              <span className="about-app-header-icon" aria-hidden="true">📊</span>
+              <div>
+                <span className="about-app-eyebrow">COMPARING RATES</span>
+                <h2 id="about-app-title">Jak działa aplikacja?</h2>
+                <p>
+                  Aplikacja porównuje kursy bukmacherskie i pomaga szybko znaleźć
+                  interesujące różnice pomiędzy ofertami.
+                </p>
+              </div>
+            </header>
+
+            <div className="about-app-grid">
+              <article className="about-app-card">
+                <span className="about-app-card-number">01</span>
+                <div>
+                  <h3>Pobieranie kursów</h3>
+                  <p>
+                    System pobiera aktualne kursy na 2 kolejne dni (jutro i poutrze) od polskich i zagranicznych
+                    bukmacherów dla obslugiwanych dyscyplin
+                  </p>
+                </div>
+              </article>
+
+              <article className="about-app-card">
+                <span className="about-app-card-number">02</span>
+                <div>
+                  <h3>Porównywanie ofert</h3>
+                  <p>
+                    Kursy są łączone według meczu, rynku i wyboru. Aplikacja
+                    porównuje oferty Polska kontra zagranica oraz Polska kontra Polska.
+                  </p>
+                </div>
+              </article>
+
+              <article className="about-app-card">
+                <span className="about-app-card-number">03</span>
+                <div>
+                  <h3>Wykrywanie okazji</h3>
+                  <p>
+                    Okazja pojawia się, gdy w polskim bukmacherze kurs jest wiekszy niż w zagranicznym o 15% lub więcej oraz
+                    porównuje także polskich z polskimi i także znajduję w nich róznice gdy kurs jest większy lub równy o 15%
+                  </p>
+                </div>
+              </article>
+
+              <article className="about-app-card">
+                <span className="about-app-card-number">04</span>
+                <div>
+                  <h3>Demo i Premium</h3>
+                  <p>
+                    Konto Demo otrzymuje ograniczony podgląd. Premium odblokowuje
+                    wszystkie dostępne mecze, pełne porównania oraz dostęp do
+                    społeczności Discord.
+                  </p>
+                </div>
+              </article>
+
+              <article className="about-app-card">
+                <span className="about-app-card-number">05</span>
+                <div>
+                  <h3>Alerty Discord</h3>
+                  <p>
+                    Bot publikuje wykryte okazje na serwerze Discord. Dostęp do
+                    zaproszenia mają użytkownicy z aktywnym Premium i administratorzy.
+                  </p>
+                </div>
+              </article>
+
+              <article className="about-app-card">
+                <span className="about-app-card-number">06</span>
+                <div>
+                  <h3>Aktualność i weryfikacja</h3>
+                  <p>
+                    Dane przechodzą walidację przed publikacją. Gdy pobieranie nie
+                    powiedzie się, aplikacja zachowuje poprzedni poprawny zestaw danych.
+                  </p>
+                </div>
+              </article>
+            </div>
+
+            <div className="about-app-notice">
+              <span aria-hidden="true">ℹ️</span>
+              <p>
+                Aplikacja służy do prezentowania i porównywania danych. Nie przyjmuje
+                zakładów i nie gwarantuje wyniku wydarzenia. Kursy mogą zmieniać się
+                pomiędzy kolejnymi aktualizacjami.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="about-app-finish"
+              onClick={() => setShowAboutModal(false)}
+            >
+              Rozumiem
+            </button>
+          </section>
+        </div>
+      )}
+
       {showPremiumMessage && (
         <div
           className="premium-gate-overlay"

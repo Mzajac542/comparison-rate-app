@@ -29,11 +29,12 @@
     right: 0;
     background-color: #1e1e1e;
     border: 1px solid #333;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     width: 220px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.5);
     color: white;
     overflow: hidden;
+    z-index: 10000;
 }
 
 .dropdown-header {

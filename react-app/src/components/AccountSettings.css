@@ -240,3 +240,211 @@
     color: #475569;
     font-size: 13px;
 }
+
+.settings-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 12px 20px;
+    border-bottom: 1px solid #333;
+    background: #191919;
+}
+
+.settings-tab {
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #9ca3af;
+    background: transparent;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        color 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.settings-tab:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.settings-tab--active {
+    color: #ffffff;
+    border-color: rgba(88, 101, 242, 0.5);
+    background: rgba(88, 101, 242, 0.16);
+}
+
+.account-overview {
+    display: grid;
+    gap: 12px;
+}
+
+.account-overview-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 15px 16px;
+    border: 1px solid #353535;
+    border-radius: 10px;
+    background: #252525;
+}
+
+.account-overview-label {
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.account-overview-card strong {
+    color: #ffffff;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.masked-password {
+    letter-spacing: 3px;
+}
+
+.security-sections {
+    display: grid;
+    gap: 16px;
+}
+
+.security-card {
+    padding: 18px;
+    border: 1px solid #353535;
+    border-radius: 12px;
+    background: #252525;
+}
+
+.security-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.security-card-header h3 {
+    margin: 0 0 7px;
+    color: #ffffff;
+}
+
+.security-card-header p {
+    margin: 0 0 5px;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.security-card-header strong {
+    display: block;
+    color: #ffffff;
+    overflow-wrap: anywhere;
+}
+
+.security-action-button {
+    flex-shrink: 0;
+    padding: 9px 12px;
+    border: 1px solid rgba(88, 101, 242, 0.45);
+    border-radius: 8px;
+    color: #c7d2fe;
+    background: rgba(88, 101, 242, 0.12);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.security-action-button:hover {
+    color: #ffffff;
+    background: rgba(88, 101, 242, 0.22);
+}
+
+.security-form {
+    display: grid;
+    gap: 13px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #3a3a3a;
+}
+
+.security-form .form-group {
+    margin: 0;
+}
+
+@media (max-width: 560px) {
+    .settings-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .security-card-header {
+        flex-direction: column;
+    }
+
+    .security-action-button {
+        width: 100%;
+    }
+
+    .account-overview-card {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .account-overview-card strong {
+        text-align: left;
+    }
+}
+
+.email-change-hint {
+    margin: 14px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid #3a3a3a;
+    color: #9ca3af;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+
+.account-email-card {
+    align-items: center;
+}
+
+.account-email-value {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.account-email-value strong {
+    overflow-wrap: anywhere;
+}
+
+.email-visibility-button {
+    flex-shrink: 0;
+    padding: 6px 9px;
+    border: 1px solid rgba(88, 101, 242, 0.45);
+    border-radius: 7px;
+    color: #c7d2fe;
+    background: rgba(88, 101, 242, 0.12);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        color 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.email-visibility-button:hover {
+    color: #ffffff;
+    border-color: rgba(114, 137, 218, 0.75);
+    background: rgba(88, 101, 242, 0.24);
+}
+
+@media (max-width: 560px) {
+    .account-email-value {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

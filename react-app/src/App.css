@@ -230,6 +230,7 @@
   min-height: calc(100vh - 95px);
   padding-right: 10px;
   box-sizing: border-box;
+  padding-bottom: 90px;
 }
 
 .sidebar-discord-area {
@@ -274,10 +275,17 @@
 }
 
 .sidebar-discord-area {
+  position: fixed;
+  left: 20px;
+  bottom: 24px;
+  z-index: 9000;
+
   display: flex;
+  align-items: flex-end;
   justify-content: flex-start;
-  margin-top: auto;
-  padding: 20px 0 14px;
+
+  margin: 0;
+  padding: 0;
 }
 
 .sidebar-discord-button--icon {
@@ -655,4 +663,604 @@
     height: 62px;
     font-size: 33px;
   }
+}
+
+@media (max-width: 900px) {
+  .sidebar-discord-area {
+    left: 12px;
+    bottom: 12px;
+  }
+}
+
+/* ==========================================
+   PŁYWAJĄCA KARTA PREMIUM
+   ========================================== */
+
+.premium-upgrade-card {
+  position: fixed;
+  top: 76px;
+  right: 20px;
+  z-index: 9000;
+
+  width: 220px;
+
+  transition:
+    top 0.22s ease,
+    border-radius 0.22s ease,
+    box-shadow 0.22s ease,
+    opacity 0.22s ease;
+
+  width: 250px;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  border: 1px solid rgba(88, 101, 242, 0.5);
+  border-radius: 16px;
+
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(88, 101, 242, 0.28),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      #202431,
+      #151820
+    );
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(88, 101, 242, 0.12);
+}
+
+.premium-upgrade-glow {
+  position: absolute;
+  top: -55px;
+  right: -45px;
+
+  width: 130px;
+  height: 130px;
+
+  border-radius: 50%;
+  background: rgba(88, 101, 242, 0.22);
+  filter: blur(30px);
+
+  pointer-events: none;
+}
+
+.premium-upgrade-header {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+}
+
+.premium-upgrade-icon {
+  width: 38px;
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+
+  background: rgba(88, 101, 242, 0.22);
+
+  font-size: 20px;
+}
+
+.premium-upgrade-label {
+  padding: 5px 9px;
+
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  border-radius: 999px;
+
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.7px;
+}
+
+.premium-upgrade-card h3 {
+  position: relative;
+
+  margin: 0 0 9px;
+
+  color: #ffffff;
+
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.premium-upgrade-card > p {
+  position: relative;
+
+  margin: 0;
+
+  color: #aeb7c7;
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.premium-upgrade-price {
+  position: relative;
+
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+
+  margin-top: 16px;
+}
+
+.premium-upgrade-price strong {
+  color: #ffffff;
+
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.premium-upgrade-price span {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.premium-upgrade-button {
+  position: relative;
+
+  width: 100%;
+  margin-top: 15px;
+  padding: 11px 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+
+  color: #ffffff;
+  background: linear-gradient(
+    90deg,
+    #5865f2,
+    #7289da
+  );
+
+  box-shadow:
+    0 8px 20px rgba(88, 101, 242, 0.25);
+
+  font-size: 12px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.premium-upgrade-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 11px 25px rgba(88, 101, 242, 0.35);
+}
+
+.premium-upgrade-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.premium-upgrade-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.premium-upgrade-error {
+  margin: 12px 0 0 !important;
+  padding: 9px;
+
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 8px;
+
+  color: #fca5a5 !important;
+  background: rgba(127, 29, 29, 0.18);
+
+  font-size: 11px !important;
+  line-height: 1.4;
+}
+
+@keyframes premiumUpgradeShow {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 1450px) {
+  .premium-upgrade-card {
+    right: 12px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .premium-upgrade-card {
+    display: none;
+  }
+}
+
+/* ==========================================
+   KARTA PREMIUM POD MENU UŻYTKOWNIKA
+   ========================================== */
+
+/*
+ * Menu użytkownika zaczyna się około 70 px
+ * od góry i ma około 142 px wysokości.
+ * Karta zaczyna się bezpośrednio pod nim.
+ */
+body:has(.user-menu-container .dropdown-menu)
+  .premium-upgrade-card {
+  top: 214px;
+
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  border-top-color:
+    rgba(88, 101, 242, 0.24);
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(88, 101, 242, 0.14);
+}
+
+/*
+ * Przy zamkniętym menu karta znajduje się
+ * bezpośrednio pod przyciskiem użytkownika.
+ */
+body:not(:has(.user-menu-container .dropdown-menu))
+  .premium-upgrade-card {
+  top: 76px;
+
+  border-radius: 16px;
+}
+
+body:has(.user-menu-container .dropdown-menu)
+  .premium-upgrade-card::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 12px;
+  right: 12px;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(114, 137, 218, 0.55),
+    transparent
+  );
+}
+
+
+
+/* ==========================================
+   PRZYCISK I OKNO "DOWIEDZ SIE WIECEJ"
+   ========================================== */
+
+.sidebar-discord-area {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sidebar-about-button {
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  border-radius: 13px;
+  color: #dbe4f0;
+  background: rgba(24, 28, 38, 0.92);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.sidebar-about-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(96, 165, 250, 0.7);
+  background: rgba(37, 45, 62, 0.96);
+}
+
+.sidebar-about-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(96, 165, 250, 0.55);
+  border-radius: 50%;
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.13);
+  font-family: Georgia, serif;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.about-app-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: rgba(3, 6, 12, 0.82);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  animation: aboutOverlayShow 0.2s ease-out;
+}
+
+.about-app-modal {
+  position: relative;
+  width: min(760px, calc(100vw - 36px));
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+  padding: 30px;
+  border: 1px solid rgba(96, 165, 250, 0.34);
+  border-radius: 20px;
+  color: #f8fafc;
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.18), transparent 36%),
+    linear-gradient(145deg, #1c212c, #12151c);
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.72),
+    0 0 35px rgba(59, 130, 246, 0.12);
+  animation: aboutModalShow 0.23s ease-out;
+}
+
+.about-app-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.about-app-close:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.about-app-header {
+  display: flex;
+  gap: 18px;
+  padding-right: 38px;
+  margin-bottom: 24px;
+}
+
+.about-app-header-icon {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(96, 165, 250, 0.34);
+  border-radius: 17px;
+  background: rgba(59, 130, 246, 0.13);
+  font-size: 29px;
+}
+
+.about-app-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #60a5fa;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+}
+
+.about-app-header h2 {
+  margin: 0 0 8px;
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+.about-app-header p {
+  margin: 0;
+  color: #aeb8c7;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.about-app-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.about-app-card {
+  display: flex;
+  gap: 13px;
+  padding: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.about-app-card-number {
+  flex: 0 0 auto;
+  color: #60a5fa;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.7px;
+}
+
+.about-app-card h3 {
+  margin: 0 0 6px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.about-app-card p {
+  margin: 0;
+  color: #9ca9ba;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.about-app-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 13px 14px;
+  border: 1px solid rgba(251, 191, 36, 0.22);
+  border-radius: 11px;
+  background: rgba(251, 191, 36, 0.07);
+}
+
+.about-app-notice p {
+  margin: 0;
+  color: #c7cbd3;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.about-app-finish {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #ffffff;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.about-app-finish:hover {
+  filter: brightness(1.08);
+}
+
+@keyframes aboutOverlayShow {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes aboutModalShow {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 680px) {
+  .sidebar-about-button span:last-child {
+    display: none;
+  }
+
+  .sidebar-about-button {
+    width: 46px;
+    padding: 0;
+  }
+
+  .about-app-modal {
+    padding: 24px 18px;
+  }
+
+  .about-app-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-app-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .about-app-header-icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    font-size: 24px;
+  }
+
+  .about-app-header h2 {
+    font-size: 21px;
+  }
+}
+
+
+/* Szerszy lewy panel */
+.sidebar {
+  width: 275px;
+  min-width: 275px;
+  flex-basis: 275px;
+}
+
+.sidebar-discord-area {
+  max-width: 235px;
+}
+
+.sidebar-container {
+  width: 100%;
+  padding-right: 14px;
+}
+
+/* Dolne przyciski mieszczą się w nowej szerokości */
+
+.sidebar-discord-area {
+  left: 20px;
+  max-width: 220px;
+  flex-wrap: nowrap;
+}
+
+.sidebar-about-button {
+  white-space: nowrap;
+}
+
+.layout {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
 }
