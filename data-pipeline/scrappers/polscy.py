@@ -1113,6 +1113,41 @@ def znajdz_wartosc_linii(element):
     return None
 
 
+
+
+def czy_boks_ma_rynek_1x2(page_obj):
+    """Zwraca True, gdy widoczna glowna tabela boksu ma kolumny 1, X i 2."""
+    try:
+        tabele = page_obj.locator("table")
+        liczba_tabel = tabele.count()
+    except Exception as blad:
+        print(f"      [BOXING MARKET CHECK ERROR] {blad}")
+        return False
+
+    for indeks in range(liczba_tabel):
+        tabela = tabele.nth(indeks)
+        try:
+            if not tabela.is_visible():
+                continue
+            naglowek = tabela.locator("thead").inner_text(timeout=1500)
+            naglowek = re.sub(r"\s+", " ", naglowek).strip().lower()
+        except Exception:
+            continue
+
+        if "over" in naglowek or "under" in naglowek or "handicap" in naglowek:
+            continue
+
+        ma_bukmacherow = "bookmakers" in naglowek or "bukmacherzy" in naglowek
+        ma_1 = bool(re.search(r"(^|\s)1(?:\s|$)", naglowek))
+        ma_x = bool(re.search(r"(^|\s)x(?:\s|$)", naglowek))
+        ma_2 = bool(re.search(r"(^|\s)2(?:\s|$)", naglowek))
+
+        if ma_bukmacherow and ma_1 and ma_x and ma_2:
+            print(f"      [BOXING EXPECTED SKIP 1X2] Wykryto rynek: {naglowek!r}")
+            return True
+
+    return False
+
 def pobierz_widoczna_tabele_glowna(
     page_obj,
     nazwa_sportu
@@ -1413,6 +1448,272 @@ def pobierz_kursy_z_locatorow_playwright(
             )
 
     return kursy
+
+
+def sprawdz_bukmacherow_w_widocznych_tabelach(page_obj):
+    """
+    Sprawdza wszystkie widoczne tabele kursowe niezależnie od sportu
+    i układu kolumn.
+
+    Zwraca słownik:
+
+    status="found"
+        Znaleziono co najmniej jednego obsługiwanego bukmachera.
+
+    status="unsupported"
+        Tabele zawierają bukmacherów, ale żadnego obsługiwanego.
+
+    status="empty"
+        Tabela kursowa istnieje, ale nie zawiera wierszy bukmacherów.
+
+    status="no_table"
+        Nie znaleziono żadnej widocznej tabeli kursowej.
+
+    status="error"
+        Wystąpił rzeczywisty błąd podczas odczytu DOM.
+    """
+
+    try:
+        tabele = page_obj.locator("table")
+        liczba_tabel = tabele.count()
+    except Exception as blad:
+        print(
+            "      [BOOKMAKER SCAN ERROR] "
+            f"Nie udało się pobrać tabel: {blad}"
+        )
+
+        return {
+            "status": "error",
+            "dozwoleni": set(),
+            "wszyscy": set(),
+            "liczba_tabel": 0,
+            "liczba_wierszy": 0
+        }
+
+    liczba_tabel_kursowych = 0
+    liczba_wierszy_bukmacherow = 0
+
+    dozwoleni = set()
+    wszyscy = set()
+
+    for indeks_tabeli in range(liczba_tabel):
+        tabela = tabele.nth(indeks_tabeli)
+
+        try:
+            if not tabela.is_visible():
+                continue
+        except Exception:
+            continue
+
+        try:
+            naglowek = tabela.locator(
+                "thead"
+            ).inner_text(
+                timeout=1500
+            )
+
+            naglowek = re.sub(
+                r"\s+",
+                " ",
+                naglowek
+            ).strip().lower()
+        except Exception:
+            naglowek = ""
+
+        ma_naglowek_bukmacherow = (
+            "bookmakers" in naglowek
+            or "bookmaker" in naglowek
+            or "bukmacherzy" in naglowek
+        )
+
+        if not ma_naglowek_bukmacherow:
+            continue
+
+        liczba_tabel_kursowych += 1
+
+        try:
+            rzedy = tabela.locator("tbody tr")
+            liczba_rzedow = rzedy.count()
+        except Exception as blad:
+            print(
+                "      [BOOKMAKER SCAN TABLE ERROR] "
+                f"Tabela {indeks_tabeli + 1}: {blad}"
+            )
+
+            continue
+
+        for indeks_rzedu in range(liczba_rzedow):
+            rzad = rzedy.nth(indeks_rzedu)
+
+            try:
+                dane = rzad.evaluate(
+                    """
+                    rzad => {
+                        const pierwszaKomorka =
+                            rzad.querySelector("td:first-child");
+
+                        const link =
+                            pierwszaKomorka
+                                ? pierwszaKomorka.querySelector("a")
+                                : null;
+
+                        const obrazek =
+                            pierwszaKomorka
+                                ? pierwszaKomorka.querySelector("img")
+                                : null;
+
+                        return {
+                            tekst:
+                                pierwszaKomorka
+                                    ? (
+                                        pierwszaKomorka.innerText
+                                        || ""
+                                    )
+                                    : "",
+
+                            href:
+                                link
+                                    ? (
+                                        link.getAttribute("href")
+                                        || ""
+                                    )
+                                    : "",
+
+                            alt:
+                                obrazek
+                                    ? (
+                                        obrazek.getAttribute("alt")
+                                        || ""
+                                    )
+                                    : "",
+
+                            title:
+                                obrazek
+                                    ? (
+                                        obrazek.getAttribute("title")
+                                        || ""
+                                    )
+                                    : ""
+                        };
+                    }
+                    """
+                )
+            except Exception as blad:
+                print(
+                    "      [BOOKMAKER SCAN ROW ERROR] "
+                    f"Tabela {indeks_tabeli + 1}, "
+                    f"wiersz {indeks_rzedu + 1}: {blad}"
+                )
+
+                continue
+
+            tekst = re.sub(
+                r"\s+",
+                " ",
+                str(dane.get("tekst", ""))
+            ).strip()
+
+            href = str(
+                dane.get("href", "")
+            ).strip()
+
+            alt = str(
+                dane.get("alt", "")
+            ).strip()
+
+            title = str(
+                dane.get("title", "")
+            ).strip()
+
+            polaczony_tekst = " ".join(
+                wartosc
+                for wartosc in [
+                    tekst,
+                    href,
+                    alt,
+                    title
+                ]
+                if wartosc
+            )
+
+            if not polaczony_tekst:
+                continue
+
+            # Pomijamy sztuczne wiersze, np. kupon lub prognozy.
+            tekst_maly = polaczony_tekst.lower()
+
+            if (
+                "my coupon" in tekst_maly
+                or "user predictions" in tekst_maly
+            ):
+                continue
+
+            liczba_wierszy_bukmacherow += 1
+
+            # Zachowujemy surową nazwę do diagnostyki.
+            nazwa_diagnostyczna = tekst
+
+            if not nazwa_diagnostyczna:
+                nazwa_diagnostyczna = href
+
+            wszyscy.add(
+                nazwa_diagnostyczna[:100]
+            )
+
+            bukmacher = rozpoznaj_bukmachera_z_tekstu(
+                polaczony_tekst
+            )
+
+            if (
+                bukmacher
+                and bukmacher in DOZWOLENI_BUKMACHERZY
+            ):
+                dozwoleni.add(
+                    bukmacher
+                )
+
+    print(
+        "      [BOOKMAKER SCAN] "
+        f"tabele={liczba_tabel_kursowych} | "
+        f"wiersze={liczba_wierszy_bukmacherow} | "
+        f"wszyscy={sorted(wszyscy)} | "
+        f"dozwoleni={sorted(dozwoleni)}"
+    )
+
+    if dozwoleni:
+        return {
+            "status": "found",
+            "dozwoleni": dozwoleni,
+            "wszyscy": wszyscy,
+            "liczba_tabel": liczba_tabel_kursowych,
+            "liczba_wierszy": liczba_wierszy_bukmacherow
+        }
+
+    if liczba_tabel_kursowych > 0:
+        if liczba_wierszy_bukmacherow == 0:
+            return {
+                "status": "empty",
+                "dozwoleni": set(),
+                "wszyscy": wszyscy,
+                "liczba_tabel": liczba_tabel_kursowych,
+                "liczba_wierszy": 0
+            }
+
+        return {
+            "status": "unsupported",
+            "dozwoleni": set(),
+            "wszyscy": wszyscy,
+            "liczba_tabel": liczba_tabel_kursowych,
+            "liczba_wierszy": liczba_wierszy_bukmacherow
+        }
+
+    return {
+        "status": "no_table",
+        "dozwoleni": set(),
+        "wszyscy": set(),
+        "liczba_tabel": 0,
+        "liczba_wierszy": 0
+    }
 
 def znajdz_dozwolonych_bukmacherow_w_glownej_tabeli(
     page_obj,
@@ -4143,6 +4444,10 @@ def pobierz_polskich_z_oddsportal():
                                     nazwa_sportu
                                 )
 
+                                report.add_skipped_no_supported_bookmakers(
+                                    nazwa_sportu
+                                )
+
                                 continue
 
                             if powod == "blad_ajax":
@@ -4366,19 +4671,111 @@ def pobierz_polskich_z_oddsportal():
                         # --- 1. POBIERANIE RYNKU GŁÓWNEGO ---
                         # Koszykówka i tenis: Home/Away
                         # Piłka nożna: 1X2
-                        dozwoleni_w_glownej_tabeli = (
-                            znajdz_dozwolonych_bukmacherow_w_glownej_tabeli(
-                                page,
-                                nazwa_sportu
+                        wynik_skanowania_bukmacherow = (
+                            sprawdz_bukmacherow_w_widocznych_tabelach(
+                                page
                             )
                         )
 
-                        if dozwoleni_w_glownej_tabeli is None:
+                        status_bukmacherow = (
+                            wynik_skanowania_bukmacherow.get(
+                                "status"
+                            )
+                        )
+
+                        dozwoleni_w_tabelach = (
+                            wynik_skanowania_bukmacherow.get(
+                                "dozwoleni",
+                                set()
+                            )
+                        )
+
+                        wszyscy_w_tabelach = (
+                            wynik_skanowania_bukmacherow.get(
+                                "wszyscy",
+                                set()
+                            )
+                        )
+
+                        if status_bukmacherow == "empty":
+                            print(
+                                "      [EXPECTED SKIP EMPTY TABLE] "
+                                "Tabela kursowa została poprawnie "
+                                "załadowana, ale nie zawiera żadnego "
+                                "rzeczywistego wiersza bukmachera. "
+                                "Mecz pominięty bez błędu."
+                            )
+
+                            report.add_skipped_no_supported_bookmakers(
+                                nazwa_sportu
+                            )
+
+                            with open(
+                                output,
+                                "w",
+                                encoding="utf-8"
+                            ) as f:
+                                json.dump(
+                                    wszystkie_mecze,
+                                    f,
+                                    indent=4,
+                                    ensure_ascii=False
+                                )
+
+                            continue
+
+                        if status_bukmacherow == "unsupported":
+                            print(
+                                "      [EXPECTED SKIP UNSUPPORTED] "
+                                "Tabela została poprawnie załadowana, "
+                                "ale nie zawiera żadnego bukmachera "
+                                "obsługiwanego przez aplikację."
+                            )
+
+                            print(
+                                "      [UNSUPPORTED BOOKMAKERS] "
+                                f"Wykryte w tabelach: "
+                                f"{sorted(wszyscy_w_tabelach)}"
+                            )
+
+                            report.add_skipped_no_supported_bookmakers(
+                                nazwa_sportu
+                            )
+
+                            with open(
+                                output,
+                                "w",
+                                encoding="utf-8"
+                            ) as f:
+                                json.dump(
+                                    wszystkie_mecze,
+                                    f,
+                                    indent=4,
+                                    ensure_ascii=False
+                                )
+
+                            continue
+
+                        if status_bukmacherow == "error":
+                            print(
+                                "      [TABLE READ ERROR] "
+                                "Wystąpił rzeczywisty błąd podczas "
+                                "odczytu tabel bukmacherów."
+                            )
+
+                            report.add_error(
+                                nazwa_sportu,
+                                "table_read_error",
+                                link
+                            )
+
+                            continue
+
+                        if status_bukmacherow == "no_table":
                             print(
                                 "      [TABLE ERROR] "
-                                "Nie udało się odczytać głównej tabeli. "
-                                "Mecz nie zostanie uznany za oczekiwane "
-                                "pominięcie."
+                                "Po zakończeniu oczekiwania nie znaleziono "
+                                "żadnej widocznej tabeli kursowej."
                             )
 
                             report.add_error(
@@ -4389,21 +4786,27 @@ def pobierz_polskich_z_oddsportal():
 
                             continue
 
-                        if not dozwoleni_w_glownej_tabeli:
+                        print(
+                            "      [SUPPORTED BOOKMAKERS FOUND] "
+                            f"{sorted(dozwoleni_w_tabelach)}"
+                        )
+
+
+                        if (
+                            nazwa_sportu == "Boks"
+                            and czy_boks_ma_rynek_1x2(page)
+                        ):
                             print(
-                                "      [EXPECTED SKIP] "
-                                "Tabela została poprawnie załadowana, "
-                                "ale nie zawiera żadnego bukmachera "
-                                "obsługiwanego przez aplikację. "
-                                "Mecz pominięty bez błędu."
+                                "      [EXPECTED SKIP BOXING 1X2] "
+                                "Boks ma rynek trzydrogowy 1X2 zamiast "
+                                "obslugiwanego Home/Away. "
+                                "Wydarzenie pominiete bez bledu."
                             )
 
                             report.add_skipped_no_supported_bookmakers(
                                 nazwa_sportu
                             )
 
-                            # Zapisujemy checkpoint bez zmian,
-                            # aby zachować dotychczasowe poprawne dane.
                             with open(
                                 output,
                                 "w",
@@ -4462,6 +4865,21 @@ def pobierz_polskich_z_oddsportal():
                                 f"glowny_rynek_empty_"
                                 f"{sciezka_sportu}_{idx}"
                             )
+
+                            report.add_error(
+                                nazwa_sportu,
+                                "main_market_parse_error",
+                                (
+                                    f"{link} | "
+                                    f"obsługiwani bukmacherzy: "
+                                    f"{sorted(dozwoleni_w_tabelach)} | "
+                                    f"brak kompletnego rynku "
+                                    f"{nazwa_glownego_rynku}"
+                                )
+                            )
+
+                            continue
+                            
 
                         for buk, kursy_list in wyniki_glowne.items():
                             dane = get_match_data(

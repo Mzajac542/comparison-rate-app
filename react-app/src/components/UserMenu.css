@@ -29,7 +29,7 @@
     right: 0;
     background-color: #1e1e1e;
     border: 1px solid #333;
-    border-radius: 8px 8px 0 0;
+    border-radius: 8px;
     width: 220px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.5);
     color: white;
@@ -168,4 +168,297 @@
 .header-user-arrow {
     color: #cbd5e1;
     font-size: 10px;
+}
+
+/* REDESIGN ETAP 1 */
+.user-menu-container {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    z-index: 10000;
+    transform: translateY(-50%);
+}
+
+.user-menu-btn,
+.user-login-button {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: 1px solid #2d394c;
+    border-radius: 12px;
+    color: #f8fafc;
+    background: rgba(23, 30, 42, 0.94);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+}
+
+.user-menu-btn:hover,
+.user-login-button:hover {
+    border-color: rgba(96, 165, 250, 0.5);
+    background: #1d2634;
+}
+
+.user-login-button {
+    padding: 0 16px;
+    color: #dbeafe;
+    font-weight: 800;
+}
+
+.header-avatar,
+.dropdown-avatar {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    border-radius: 9px;
+    color: #dbeafe;
+    background: rgba(59, 130, 246, 0.13);
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.header-user-arrow {
+    transition: transform 0.18s ease;
+}
+
+.header-user-arrow--open {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    top: calc(100% + 10px);
+    right: 0;
+    width: 238px;
+    overflow: hidden;
+    border: 1px solid #2d394c;
+    border-radius: 14px;
+    background: #121925;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.55);
+}
+
+.dropdown-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 11px;
+    padding: 14px;
+    border-bottom: 1px solid #273244;
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.11), rgba(17, 23, 34, 0.9));
+}
+
+.dropdown-header p {
+    margin: 0 0 3px;
+    color: #7f8ca0;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.55px;
+}
+
+.dropdown-header strong {
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.dropdown-menu li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.dropdown-menu li:hover {
+    color: #ffffff;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+@media (max-width: 760px) {
+    .user-menu-container {
+        right: 12px;
+    }
+
+    .header-plan-badge,
+    .header-user-name,
+    .header-user-arrow {
+        display: none;
+    }
+}
+
+
+/* Premium w menu konta Demo */
+.dropdown-premium-cta {
+    width: calc(100% - 20px);
+    display: grid;
+    grid-template-columns: 34px 1fr 18px;
+    align-items: center;
+    gap: 9px;
+    margin: 10px;
+    padding: 11px;
+    border: 1px solid rgba(251, 191, 36, 0.28);
+    border-radius: 11px;
+    color: #f8fafc;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.16), rgba(245, 158, 11, 0.09));
+    text-align: left;
+    cursor: pointer;
+}
+.dropdown-premium-cta:hover { border-color: rgba(251, 191, 36, 0.55); background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(245, 158, 11, 0.14)); }
+.dropdown-premium-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; background: rgba(124, 58, 237, 0.2); }
+.dropdown-premium-cta > span:nth-child(2) { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.dropdown-premium-cta strong { color: #fde68a; font-size: 11px; }
+.dropdown-premium-cta small { overflow: hidden; color: #94a3b8; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.dropdown-premium-cta > b { color: #fbbf24; }
+.user-premium-overlay { position: fixed; inset: 0; z-index: 30000; display: grid; place-items: center; padding: 20px; background: rgba(3, 6, 12, 0.84); backdrop-filter: blur(8px); }
+.user-premium-modal { position: relative; width: min(440px, calc(100vw - 32px)); padding: 30px; box-sizing: border-box; border: 1px solid rgba(139, 92, 246, 0.42); border-radius: 20px; color: #f8fafc; background: radial-gradient(circle at top, rgba(124, 58, 237, 0.22), transparent 42%), linear-gradient(145deg, #1d2432, #111620); box-shadow: 0 30px 90px rgba(0, 0, 0, 0.68); text-align: center; }
+.user-premium-close { position: absolute; top: 12px; right: 14px; width: 34px; height: 34px; border: 0; border-radius: 50%; color: #94a3b8; background: rgba(255,255,255,.05); font-size: 23px; cursor: pointer; }
+.user-premium-hero-icon { width: 62px; height: 62px; display: grid; place-items: center; margin: 0 auto 12px; border: 1px solid rgba(167, 139, 250, .42); border-radius: 18px; background: rgba(124, 58, 237, .18); font-size: 30px; }
+.user-premium-label { color: #fbbf24; font-size: 9px; font-weight: 900; letter-spacing: 1.2px; }
+.user-premium-modal h2 { margin: 8px 0; font-size: 23px; }
+.user-premium-modal > p { margin: 0 auto 17px; color: #9ca9ba; font-size: 12px; line-height: 1.55; }
+.user-premium-benefits { display: grid; gap: 8px; padding: 14px; border: 1px solid rgba(148, 163, 184, .14); border-radius: 12px; background: rgba(4, 9, 18, .35); text-align: left; }
+.user-premium-benefits span { color: #cbd5e1; font-size: 11px; }
+.user-premium-price { display: flex; align-items: baseline; justify-content: center; gap: 7px; margin: 17px 0 13px; }
+.user-premium-price strong { font-size: 27px; }
+.user-premium-price span { color: #94a3b8; font-size: 10px; }
+.user-premium-buy { width: 100%; padding: 12px; border: 0; border-radius: 10px; color: white; background: linear-gradient(90deg, #7c3aed, #5865f2); font-weight: 900; cursor: pointer; }
+.user-premium-buy:disabled { opacity: .6; cursor: wait; }
+.user-premium-later { margin-top: 8px; border: 0; color: #8491a5; background: transparent; font-size: 11px; cursor: pointer; }
+.user-premium-error { margin: 10px 0 0 !important; padding: 9px; border: 1px solid rgba(239,68,68,.3); border-radius: 8px; color: #fca5a5 !important; background: rgba(127,29,29,.16); font-size: 10px !important; }
+
+
+/* ==========================================
+   POPRAWKA: MODAL PREMIUM ZAWSZE NA SRODKU
+   ========================================== */
+.user-menu-container {
+  top: 17px !important;
+  right: 20px !important;
+  transform: none !important;
+}
+
+.user-premium-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding: 18px !important;
+}
+
+.user-premium-modal {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  width: min(440px, calc(100vw - 36px)) !important;
+  max-width: 440px !important;
+  max-height: calc(100dvh - 36px) !important;
+  margin: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  transform: none !important;
+}
+
+@media (max-width: 520px) {
+  .user-menu-container {
+    top: 12px !important;
+    right: 12px !important;
+  }
+
+  .user-premium-overlay {
+    padding: 12px !important;
+  }
+
+  .user-premium-modal {
+    width: calc(100vw - 24px) !important;
+    max-height: calc(100dvh - 24px) !important;
+    padding: 24px 18px !important;
+  }
+}
+
+
+/* Wizualnie taki sam odstęp jak przy koncie Demo */
+.user-menu-container--premium {
+  right: 20px !important;
+}
+
+.app-header:has(.user-menu-container--premium) {
+  padding-right: 213px !important;
+}
+
+@media (max-width: 1380px) {
+  .app-header:has(.user-menu-container--premium) {
+    padding-right: 213px !important;
+  }
+}
+
+/*
+ * Poprawka odstępu dla konta administratora.
+ * Zaimportuj ten plik PO UserMenu.css albo wklej jego zawartość
+ * na samym końcu UserMenu.css.
+ */
+
+/* Prawa krawędź konta pozostaje taka sama jak dla Demo i Premium. */
+.user-menu-container:has(.header-plan-badge--admin) {
+  right: 20px !important;
+}
+
+/* Dodatkowa rezerwa daje taki sam wizualny odstęp od Ulubionych. */
+.app-header:has(.user-menu-container .header-plan-badge--admin) {
+  padding-right: 207px !important;
+}
+
+@media (max-width: 1380px) {
+  .app-header:has(.user-menu-container .header-plan-badge--admin) {
+    padding-right: 207px !important;
+  }
+}
+
+
+/* Przycisk logowania dla użytkownika bez aktywnej sesji */
+.user-menu-container--logged-out {
+  right: 20px !important;
+}
+
+.user-menu-container--logged-out .user-login-button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  white-space: nowrap;
+}
+
+.user-login-icon {
+  color: #60a5fa;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.app-header:has(.user-menu-container--logged-out) {
+  padding-right: 160px !important;
+}
+
+@media (max-width: 760px) {
+  .user-menu-container--logged-out {
+    right: 12px !important;
+  }
+
+  .user-menu-container--logged-out .user-login-button {
+    padding: 0 12px;
+  }
 }

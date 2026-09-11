@@ -7,6 +7,8 @@ import OddsPanel from "./components/OddsPanel";
 import OddsCalculator from "./components/OddsCalculator";
 import Top5 from "./components/Top5";
 import UserMenu from "./components/UserMenu";
+import LoadingSkeleton from "./components/LoadingSkeleton";
+import ToastContainer from "./components/ToastContainer";
 
 import { calculateTop5 } from "./utils/top5";
 import { mapRawMatch } from "./utils/mapper";
@@ -188,6 +190,8 @@ function App() {
 
   const [matches, setMatches] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [favoriteOpportunities, setFavoriteOpportunities] = useState([]);
+  const [favoritesView, setFavoritesView] = useState("matches");
   const [selectedMatch, setSelectedMatch] =
     useState(null);
 
@@ -200,6 +204,37 @@ function App() {
 
   const [showBookmakers, setShowBookmakers] =
     useState(false);
+
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [toasts, setToasts] = useState([]);
+
+  const dismissToast = (id) => {
+    setToasts((previous) => previous.filter((toast) => toast.id !== id));
+  };
+
+  const showToast = (title, message, type = "success") => {
+    const id = `${Date.now()}-${Math.random()}`;
+    setToasts((previous) => [...previous, { id, title, message, type }]);
+    window.setTimeout(() => dismissToast(id), 3600);
+  };
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key !== "Escape") return;
+      setShowBookmakers(false);
+      setMobileSidebarOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle(
+      "modal-open",
+      showBookmakers || mobileSidebarOpen
+    );
+    return () => document.body.classList.remove("modal-open");
+  }, [showBookmakers, mobileSidebarOpen]);
 
   /*
    * TIMER
@@ -445,8 +480,17 @@ function App() {
       }
     };
 
+    const loadFavoriteOpportunities = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/api/favorite-opportunities", { credentials: "include" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (Array.isArray(data)) setFavoriteOpportunities(data);
+      } catch (error) { console.error("Błąd pobierania ulubionych okazji:", error); }
+    };
     loadMatches();
     loadFavorites();
+    loadFavoriteOpportunities();
   }, []);
 
   /*
@@ -488,22 +532,37 @@ function App() {
 
       if (isFavorite) {
         setFavorites((previous) =>
-          previous.filter(
-            (name) => name !== matchName
-          )
+          previous.filter((name) => name !== matchName)
         );
+        showToast("Usunięto z ulubionych", matchName, "info");
       } else {
-        setFavorites((previous) => [
-          ...previous,
-          matchName
-        ]);
+        setFavorites((previous) => [...previous, matchName]);
+        showToast("Dodano do ulubionych", matchName);
       }
     } catch (error) {
-      console.error(
-        "Błąd zapisu ulubionych:",
-        error
-      );
+      console.error("Błąd zapisu ulubionych:", error);
+      showToast("Nie udało się zapisać", "Sprawdź połączenie z serwerem.", "error");
     }
+  };
+
+  const handleToggleFavoriteOpportunity = async (item) => {
+    const id = item?.id || item?.key;
+    if (!id) return;
+    const exists = favoriteOpportunities.some((x) => (x.id || x.key) === id);
+    try {
+      const response = await fetch(exists ? `http://localhost:3001/api/favorite-opportunities/${encodeURIComponent(id)}` : "http://localhost:3001/api/favorite-opportunities", {
+        method: exists ? "DELETE" : "POST", headers: { "Content-Type": "application/json" }, credentials: "include",
+        body: exists ? undefined : JSON.stringify({ opportunity_id: id, snapshot: item })
+      });
+      if (!response.ok) { const data = await response.json().catch(() => ({})); throw new Error(data.error || `HTTP ${response.status}`); }
+      if (exists) {
+        setFavoriteOpportunities((prev) => prev.filter((x) => (x.id || x.key) !== id));
+        showToast("Usunięto okazję z ulubionych", item?.mecz || "Okazja", "info");
+      } else {
+        setFavoriteOpportunities((prev) => [item, ...prev]);
+        showToast("Dodano okazję do ulubionych", item?.mecz || "Okazja");
+      }
+    } catch (error) { showToast("Nie udało się zapisać okazji", error.message, "error"); }
   };
 
   /*
@@ -880,159 +939,74 @@ function App() {
   );
 
   if (loading) {
-    return (
-      <p
-        style={{
-          padding: "20px",
-          color: "#fff"
-        }}
-      >
-        Ładowanie danych...
-      </p>
-    );
+    return <LoadingSkeleton />;
   }
 
   return (
     <div className="app">
-      <header
-        className="header"
-        style={{
-          position: "relative"
-        }}
-      >
-        <h1
-          onClick={
-            handleResetToDefault
-          }
-          style={{
-            cursor: "pointer",
-            userSelect: "none"
-          }}
+      <header className="header app-header">
+        <button
+          type="button"
+          className="app-brand"
+          onClick={handleResetToDefault}
           title="Powrót do strony głównej"
         >
-          Comparing <span>Rates</span>
-        </h1>
+          <span className="app-brand-mark" aria-hidden="true">↗</span>
+          <span className="app-brand-copy">
+            <strong>Comparing <em>Rates</em></strong>
+            <small>Panel porównywania kursów</small>
+          </span>
+        </button>
 
-        <div
-          style={{
-            position: "absolute",
-            right: "230px",
-            top: "50%",
-            transform:
-              "translateY(-50%)",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            zIndex: 100
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              color: "#a0aec0",
-              fontSize: "14px",
-              fontWeight: "500",
-              backgroundColor:
-                "rgba(255, 255, 255, 0.05)",
-              padding: "8px 12px",
-              borderRadius: "6px",
-              border:
-                "1px solid #444"
-            }}
-          >
+        <div className="header-dashboard">
+          <div className="header-stat">
+            <span className="header-stat-icon" aria-hidden="true">●</span>
             <span>
-              Aktywne mecze:{" "}
-              <strong>
-                {
-                  filteredMatches.length
-                }
-              </strong>
-            </span>
-
-            <span
-              style={{
-                color: "#4a5568"
-              }}
-            >
-              |
-            </span>
-
-            <span>
-              Nowe za:{" "}
-              <strong
-                style={{
-                  color: "#fff"
-                }}
-              >
-                {timeLeft}
-              </strong>
+              <small>Aktywne mecze</small>
+              <strong>{filteredMatches.length}</strong>
             </span>
           </div>
 
+          <div className="header-stat">
+            <span className="header-stat-icon header-stat-icon--clock" aria-hidden="true">◷</span>
+            <span>
+              <small>Nowe dane za</small>
+              <strong>{timeLeft}</strong>
+            </span>
+          </div>
+        </div>
+
+        <div className="header-actions app-header-actions">
           <button
-            onClick={() =>
-              setShowBookmakers(true)
+            type="button"
+            className={
+              showBookmakers
+                ? "header-action-button header-action-button--active"
+                : "header-action-button"
             }
-            style={{
-              backgroundColor:
-                showBookmakers
-                  ? "#2a2a2a"
-                  : "transparent",
-              color: showBookmakers
-                ? "#10b981"
-                : "#aaa",
-              border: showBookmakers
-                ? "1px solid #10b981"
-                : "1px solid #444",
-              padding: "8px 15px",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              transition:
-                "all 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px"
-            }}
+            onClick={() => setShowBookmakers(true)}
           >
-            📊 Dostępni bukmacherzy
+            <span aria-hidden="true">▥</span>
+            <span>Dostępni bukmacherzy</span>
           </button>
 
           <button
+            type="button"
+            className={
+              activeTab === "favorites"
+                ? "header-action-button header-action-button--favorite header-action-button--active"
+                : "header-action-button header-action-button--favorite"
+            }
             onClick={() => {
               setActiveTab("favorites");
               setSelectedMatch(null);
               setSelectedSport(null);
               setSelectedLeague(null);
             }}
-            style={{
-              backgroundColor:
-                activeTab === "favorites"
-                  ? "#2a2a2a"
-                  : "transparent",
-              color:
-                activeTab === "favorites"
-                  ? "#fbbf24"
-                  : "#aaa",
-              border:
-                activeTab === "favorites"
-                  ? "1px solid #fbbf24"
-                  : "1px solid #444",
-              padding: "8px 15px",
-              borderRadius: "6px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              transition:
-                "all 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "6px"
-            }}
           >
-            ⭐ Polubione mecze (
-            {favorites.length})
+            <span aria-hidden="true">★</span>
+            <span>Ulubione</span>
+            <b>{favorites.length + favoriteOpportunities.length}</b>
           </button>
         </div>
 
@@ -1040,6 +1014,14 @@ function App() {
       </header>
 
       <div className="layout">
+        {mobileSidebarOpen && (
+          <button
+            type="button"
+            className="mobile-sidebar-backdrop"
+            onClick={() => setMobileSidebarOpen(false)}
+            aria-label="Zamknij menu"
+          />
+        )}
         <aside className="sidebar">
           <Sidebar
             sports={sports}
@@ -1053,6 +1035,7 @@ function App() {
             onSelectSport={(sport) => {
               setSelectedSport(sport);
               setSelectedMatch(null);
+              setMobileSidebarOpen(false);
             }}
             onSelectLeague={(
               league
@@ -1061,6 +1044,7 @@ function App() {
                 league
               );
               setSelectedMatch(null);
+              setMobileSidebarOpen(false);
             }}
             showOnlyCommon={
               showOnlyCommon
@@ -1312,31 +1296,22 @@ function App() {
                   />
                 )}
 
-                {activeTab ===
-                  "favorites" && (
-                  <MatchesList
-                    matches={
-                      favoriteMatches
-                    }
-                    selectedMatch={
-                      selectedMatch
-                    }
-                    onSelect={
-                      handleSelectMatch
-                    }
-                    favorites={
-                      favorites
-                    }
-                    onToggleFavorite={
-                      handleToggleFavorite
-                    }
-                    groupBySport
-                  />
+                {activeTab === "favorites" && (
+                  <section className="favorites-hub">
+                    <div className="favorites-subtabs">
+                      <button type="button" className={favoritesView === "matches" ? "active" : ""} onClick={() => setFavoritesView("matches")}>Mecze <span>{favorites.length}</span></button>
+                      <button type="button" className={favoritesView === "opportunities" ? "active" : ""} onClick={() => setFavoritesView("opportunities")}>Najlepsze okazje <span>{favoriteOpportunities.length}</span></button>
+                    </div>
+                    {favoritesView === "matches" ? <MatchesList matches={favoriteMatches} onSelect={handleSelectMatch} favorites={favorites} onToggleFavorite={handleToggleFavorite} /> :
+                      <Top5 items={favoriteOpportunities} favoriteOpportunityIds={favoriteOpportunities.map((x) => x.id || x.key)} onToggleFavoriteOpportunity={handleToggleFavoriteOpportunity} onSelect={(match) => { setActiveTab("matches"); handleSelectMatch(match); }} />}
+                  </section>
                 )}
 
                 {activeTab === "top" && (
                   <Top5
                     items={top5}
+                    favoriteOpportunityIds={favoriteOpportunities.map((x) => x.id || x.key)}
+                    onToggleFavoriteOpportunity={handleToggleFavoriteOpportunity}
                     onSelect={(match) => {
                       setActiveTab("matches");
                       handleSelectMatch(match);
@@ -1570,6 +1545,8 @@ function App() {
           </div>
         </div>
       )}
+
+      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
 }

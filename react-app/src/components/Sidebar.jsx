@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const SPORT_ICONS = {
   "Piłka nożna": "⚽",
@@ -296,43 +297,6 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
         })}
       </ul>
 
-      {currentUser && !currentUser.hasPremiumAccess && (
-        <aside className="premium-upgrade-card">
-          <div className="premium-upgrade-glow" />
-
-          <div className="premium-upgrade-header">
-            <span className="premium-upgrade-icon">✨</span>
-            <span className="premium-upgrade-label">PREMIUM</span>
-          </div>
-
-          <h3>Odblokuj pełną wersję</h3>
-
-          <p>
-            Zobacz wszystkie mecze, najlepsze okazje oraz uzyskaj dostęp do Discorda.
-          </p>
-
-          <div className="premium-upgrade-price">
-            <strong>50 zł</strong>
-            <span>za 30 dni</span>
-          </div>
-
-          <button
-            type="button"
-            className="premium-upgrade-button"
-            onClick={handleBuyPremium}
-            disabled={discordLoading}
-          >
-            {discordLoading
-              ? "Przygotowywanie..."
-              : "Przejdź na Premium"}
-          </button>
-
-          {discordError && (
-            <p className="premium-upgrade-error">{discordError}</p>
-          )}
-        </aside>
-      )}
-
       <div className="sidebar-discord-area">
         <button
           type="button"
@@ -382,7 +346,7 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
           <p className="sidebar-discord-error">{discordError}</p>
         )}
       </div>
-      {showAboutModal && (
+      {showAboutModal && createPortal(
         <div
           className="about-app-overlay"
           onClick={() => setShowAboutModal(false)}
@@ -501,10 +465,11 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
               Rozumiem
             </button>
           </section>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {showPremiumMessage && (
+      {showPremiumMessage && createPortal(
         <div
           className="premium-gate-overlay"
           onClick={() => setShowPremiumMessage(false)}
@@ -549,7 +514,8 @@ function Sidebar({ sports, matches, selectedSport, selectedLeague, onSelectSport
               <p className="premium-gate-error">{discordError}</p>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

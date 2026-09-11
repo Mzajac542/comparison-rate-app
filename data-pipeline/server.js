@@ -200,6 +200,8 @@ db.exec(`
   )
 `);
 
+db.exec(`CREATE TABLE IF NOT EXISTS favorite_opportunities (user_id INTEGER NOT NULL, opportunity_id TEXT NOT NULL, snapshot_json TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(user_id, opportunity_id))`);
+
 db.exec(`
     CREATE TABLE IF NOT EXISTS password_reset_requests (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -1388,28 +1390,253 @@ const requireLoggedInUser = (
     next();
 };
 
-const cleanDeadFavorites = () => {
-    try {
-        if (!fs.existsSync(DATA_PATH)) return;
-        const matchesData = JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
-        const validMatchNames = matchesData.map(m => m.mecz);
-        const allFavorites = db.prepare('SELECT DISTINCT match_name FROM favorites').all();
-        
-        let deletedCount = 0;
-        const deleteStmt = db.prepare('DELETE FROM favorites WHERE match_name = ?');
+const getCurrentMatchIdentitySets = () => {
+    if (!fs.existsSync(DATA_PATH)) {
+        return null;
+    }
 
-        for (const fav of allFavorites) {
-            if (!validMatchNames.includes(fav.match_name)) {
-                const info = deleteStmt.run(fav.match_name);
-                deletedCount += info.changes; 
+    const rawData = fs.readFileSync(
+        DATA_PATH,
+        "utf8"
+    );
+
+    const matchesData = JSON.parse(rawData);
+
+    if (!Array.isArray(matchesData)) {
+        throw new Error(
+            "Połączony plik JSON nie zawiera tablicy meczów."
+        );
+    }
+
+    const matchNames = new Set();
+    const matchIds = new Set();
+
+    for (const match of matchesData) {
+        const matchName = String(
+            match?.mecz ||
+            match?.match ||
+            match?.name ||
+            ""
+        ).trim();
+
+        const matchId = String(
+            match?.id || ""
+        ).trim();
+
+        if (matchName) {
+            matchNames.add(matchName);
+        }
+
+        if (matchId) {
+            matchIds.add(matchId);
+        }
+    }
+
+    return {
+        matchNames,
+        matchIds
+    };
+};
+
+const getSnapshotMatchIdentity = (snapshot) => {
+    const rawMatch = snapshot?.rawMatch || {};
+
+    const matchName = String(
+        rawMatch?.mecz ||
+        rawMatch?.match ||
+        rawMatch?.name ||
+        snapshot?.mecz ||
+        snapshot?.match ||
+        snapshot?.name ||
+        ""
+    ).trim();
+
+    const matchId = String(
+        rawMatch?.id ||
+        snapshot?.matchId ||
+        ""
+    ).trim();
+
+    return {
+        matchName,
+        matchId
+    };
+};
+
+const cleanDeadFavorites = (userId = null) => {
+    try {
+        const current = getCurrentMatchIdentitySets();
+
+        if (!current) {
+            console.warn(
+                "⚠️ [FAVORITES CLEANUP] Pominięto czyszczenie, " +
+                `bo nie znaleziono pliku: ${DATA_PATH}`
+            );
+
+            return {
+                matchesDeleted: 0,
+                opportunitiesDeleted: 0,
+                skipped: true
+            };
+        }
+
+        const normalizedUserId = Number(userId);
+        const hasUserScope = Number.isInteger(normalizedUserId) && normalizedUserId > 0;
+
+        /*
+         * Poprawny plik [] jednoznacznie oznacza brak aktualnych meczów.
+         * Wtedy usuwamy wszystkie ulubione danego użytkownika jednym
+         * zapytaniem, zamiast porównywać rekord po rekordzie.
+         */
+        if (
+            current.matchNames.size === 0 &&
+            current.matchIds.size === 0
+        ) {
+            const matchesResult = hasUserScope
+                ? db.prepare(
+                    "DELETE FROM favorites WHERE user_id = ?"
+                ).run(normalizedUserId)
+                : db.prepare(
+                    "DELETE FROM favorites"
+                ).run();
+
+            const opportunitiesResult = hasUserScope
+                ? db.prepare(
+                    "DELETE FROM favorite_opportunities WHERE user_id = ?"
+                ).run(normalizedUserId)
+                : db.prepare(
+                    "DELETE FROM favorite_opportunities"
+                ).run();
+
+            console.log(
+                "🧹 [FAVORITES CLEANUP EMPTY DATA] " +
+                `user=${hasUserScope ? normalizedUserId : "all"}, ` +
+                `mecze=${matchesResult.changes}, ` +
+                `okazje=${opportunitiesResult.changes}, ` +
+                `plik=${DATA_PATH}`
+            );
+
+            return {
+                matchesDeleted: matchesResult.changes,
+                opportunitiesDeleted: opportunitiesResult.changes,
+                skipped: false
+            };
+        }
+
+        let matchesDeleted = 0;
+        let opportunitiesDeleted = 0;
+
+        const favoriteMatches = hasUserScope
+            ? db.prepare(
+                `
+                SELECT user_id, match_name
+                FROM favorites
+                WHERE user_id = ?
+                `
+            ).all(normalizedUserId)
+            : db.prepare(
+                "SELECT user_id, match_name FROM favorites"
+            ).all();
+
+        const deleteFavoriteMatch = db.prepare(
+            `
+            DELETE FROM favorites
+            WHERE user_id = ?
+              AND match_name = ?
+            `
+        );
+
+        for (const favorite of favoriteMatches) {
+            if (!current.matchNames.has(favorite.match_name)) {
+                matchesDeleted += deleteFavoriteMatch.run(
+                    favorite.user_id,
+                    favorite.match_name
+                ).changes;
             }
         }
-        if (deletedCount > 0) console.log(`🧹 [CLEANUP] Usunięto ${deletedCount} wpisów z ulubionych.`);
-    } catch (error) {
-        throw new Error(
-            `Nie udało się usunąć starego raportu ` +
-            `${reportPath}: ${error.message}`
+
+        const favoriteOpportunities = hasUserScope
+            ? db.prepare(
+                `
+                SELECT user_id, opportunity_id, snapshot_json
+                FROM favorite_opportunities
+                WHERE user_id = ?
+                `
+            ).all(normalizedUserId)
+            : db.prepare(
+                `
+                SELECT user_id, opportunity_id, snapshot_json
+                FROM favorite_opportunities
+                `
+            ).all();
+
+        const deleteFavoriteOpportunity = db.prepare(
+            `
+            DELETE FROM favorite_opportunities
+            WHERE user_id = ?
+              AND opportunity_id = ?
+            `
         );
+
+        for (const favorite of favoriteOpportunities) {
+            let snapshot;
+
+            try {
+                snapshot = JSON.parse(favorite.snapshot_json);
+            } catch {
+                snapshot = null;
+            }
+
+            if (!snapshot) {
+                opportunitiesDeleted += deleteFavoriteOpportunity.run(
+                    favorite.user_id,
+                    favorite.opportunity_id
+                ).changes;
+                continue;
+            }
+
+            const { matchName, matchId } =
+                getSnapshotMatchIdentity(snapshot);
+
+            const matchStillExists = Boolean(
+                (matchId && current.matchIds.has(matchId)) ||
+                (matchName && current.matchNames.has(matchName))
+            );
+
+            if (!matchStillExists) {
+                opportunitiesDeleted += deleteFavoriteOpportunity.run(
+                    favorite.user_id,
+                    favorite.opportunity_id
+                ).changes;
+            }
+        }
+
+        console.log(
+            "🧹 [FAVORITES CLEANUP] " +
+            `user=${hasUserScope ? normalizedUserId : "all"}, ` +
+            `aktualne_mecze=${current.matchNames.size}, ` +
+            `usuniete_mecze=${matchesDeleted}, ` +
+            `usuniete_okazje=${opportunitiesDeleted}`
+        );
+
+        return {
+            matchesDeleted,
+            opportunitiesDeleted,
+            skipped: false
+        };
+    } catch (error) {
+        console.error(
+            "❌ [FAVORITES CLEANUP] Nie udało się " +
+            "zsynchronizować ulubionych:",
+            error
+        );
+
+        return {
+            matchesDeleted: 0,
+            opportunitiesDeleted: 0,
+            skipped: true,
+            error: error.message
+        };
     }
 };
 
@@ -3579,8 +3806,23 @@ app.delete(
 );
 
 app.get('/api/favorites', (req, res) => {
-    if (!req.session.user) return res.status(401).json({ error: "Brak autoryzacji" });
-    res.json(db.prepare('SELECT match_name FROM favorites WHERE user_id = ?').all(req.session.user.id).map(r => r.match_name));
+    if (!req.session.user) {
+        return res.status(401).json({
+            error: "Brak autoryzacji"
+        });
+    }
+
+    res.set("Cache-Control", "no-store");
+    cleanDeadFavorites(req.session.user.id);
+
+    const favorites = db
+        .prepare(
+            'SELECT match_name FROM favorites WHERE user_id = ?'
+        )
+        .all(req.session.user.id)
+        .map((row) => row.match_name);
+
+    return res.json(favorites);
 });
 
 app.post('/api/favorites', (req, res) => {
@@ -3594,6 +3836,44 @@ app.delete('/api/favorites/:matchName', (req, res) => {
     db.prepare('DELETE FROM favorites WHERE user_id = ? AND match_name = ?').run(req.session.user.id, req.params.matchName);
     res.json({ success: true });
 });
+
+app.get('/api/favorite-opportunities', (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({
+            error: "Brak autoryzacji"
+        });
+    }
+
+    res.set("Cache-Control", "no-store");
+    cleanDeadFavorites(req.session.user.id);
+
+    const rows = db
+        .prepare(
+            `
+            SELECT opportunity_id, snapshot_json
+            FROM favorite_opportunities
+            WHERE user_id = ?
+            ORDER BY created_at DESC
+            `
+        )
+        .all(req.session.user.id);
+
+    const opportunities = rows.flatMap((row) => {
+        try {
+            return [{
+                ...JSON.parse(row.snapshot_json),
+                id: row.opportunity_id,
+                key: row.opportunity_id
+            }];
+        } catch {
+            return [];
+        }
+    });
+
+    return res.json(opportunities);
+});
+app.post('/api/favorite-opportunities',(req,res)=>{if(!req.session.user)return res.status(401).json({error:"Brak autoryzacji"});const id=String(req.body?.opportunity_id||"").trim(),s=req.body?.snapshot;if(!id||!s)return res.status(400).json({error:"Nieprawidłowe dane okazji"});try{db.prepare('INSERT INTO favorite_opportunities(user_id,opportunity_id,snapshot_json) VALUES(?,?,?)').run(req.session.user.id,id,JSON.stringify(s));res.json({success:true})}catch(e){res.status(400).json({error:"Okazja jest już w ulubionych"})}});
+app.delete('/api/favorite-opportunities/:id',(req,res)=>{if(!req.session.user)return res.status(401).json({error:"Brak autoryzacji"});db.prepare('DELETE FROM favorite_opportunities WHERE user_id=? AND opportunity_id=?').run(req.session.user.id,req.params.id);res.json({success:true})});
 
 app.post(
     "/api/payments/1koszyk/callback",

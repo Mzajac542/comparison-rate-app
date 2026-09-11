@@ -1,460 +1,250 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
-
-function MatchesList({ matches, onSelect, favorites, onToggleFavorite, groupBySport }) {
-  
-  const [currentPage, setCurrentPage] = useState(() => {
-    const savedPage = localStorage.getItem('matchesListPage');
-    return savedPage ? parseInt(savedPage, 10) : 1;
-  });
-
-  const matchesPerPage = 20;
-
-  useEffect(() => {
-    localStorage.setItem('matchesListPage', currentPage.toString());
-  }, [currentPage]);
-
-  const getBestOdds = (match) => {
-  let best1 = 0, bestX = 0, best2 = 0;
-  const kursyObject = match.kursy || {};
-  
-  Object.keys(kursyObject).forEach(bookieName => {
-    const b = kursyObject[bookieName];
-    if (b) {
-      // Obsługuje zarówno "1", jak i "home", "X"/"draw", "2"/"away"
-      const val1 = parseFloat(b['1'] || b.home || 0);
-      const valX = parseFloat(b['X'] || b.draw || 0);
-      const val2 = parseFloat(b['2'] || b.away || 0);
-
-      if (val1 > best1) best1 = val1;
-      if (valX > bestX) bestX = valX;
-      if (val2 > best2) best2 = val2;
-    }
-  });
-
-  return {
-    home: best1 > 0 ? best1.toFixed(2) : "-",
-    draw: bestX > 0 ? bestX.toFixed(2) : "-",
-    away: best2 > 0 ? best2.toFixed(2) : "-"
-  };
+const SPORT_META = {
+  "Piłka nożna": { icon: "⚽", slug: "football" },
+  "Koszykówka": { icon: "🏀", slug: "basketball" },
+  "Tenis": { icon: "🎾", slug: "tennis" },
+  "Piłka ręczna": { icon: "🤾", slug: "handball" },
+  "Boks": { icon: "🥊", slug: "boxing" }
 };
 
-  // --- FILTROWANIE ---
-  // Ostateczna blokada po stronie listy.
-  // Wyświetlamy wyłącznie mecze na jutro i pojutrze.
-  const activeMatches = matches
-    ? matches.filter((match) => {
-        const dateStr =
-          match.dzien ||
-          match.date;
+function parseMatchDate(value) {
+  if (!value) return null;
+  const raw = String(value).split(" ")[0].split(",")[0].trim();
+  let match = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (match) return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  match = raw.match(/^(\d{2})[.-](\d{2})[.-](\d{4})$/);
+  if (match) return new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+  const parsed = new Date(raw);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
 
-        if (!dateStr) {
-          return false;
-        }
+function formatDate(value) {
+  const date = parseMatchDate(value);
+  if (!date) return value || "Brak daty";
+  return new Intl.DateTimeFormat("pl-PL", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  }).format(date);
+}
 
-        const datePart = String(dateStr)
-          .split(" ")[0]
-          .split(",")[0]
-          .trim();
+function MatchesList({ matches, onSelect, favorites, onToggleFavorite }) {
+  const [currentPage, setCurrentPage] = useState(() => {
+    const saved = Number.parseInt(localStorage.getItem("matchesListPage") || "1", 10);
+    return Number.isFinite(saved) && saved > 0 ? saved : 1;
+  });
 
-        let matchDate = null;
+  const [viewMode, setViewMode] = useState(() =>
+    localStorage.getItem("matchesViewMode") === "compact" ? "compact" : "cards"
+  );
 
-        if (datePart.includes(".")) {
-          const parts = datePart.split(".");
+  const matchesPerPage = viewMode === "compact" ? 30 : 18;
 
-          if (parts.length === 3) {
-            const [day, month, year] = parts;
-
-            matchDate = new Date(
-              Number(year),
-              Number(month) - 1,
-              Number(day)
-            );
-          }
-        } else if (datePart.includes("-")) {
-          const parts = datePart.split("-");
-
-          if (parts.length === 3) {
-            const [year, month, day] = parts;
-
-            matchDate = new Date(
-              Number(year),
-              Number(month) - 1,
-              Number(day)
-            );
-          }
-        }
-
-        if (
-          !matchDate ||
-          Number.isNaN(
-            matchDate.getTime()
-          )
-        ) {
-          return false;
-        }
-
-        const today = new Date();
-
-        today.setHours(
-          0,
-          0,
-          0,
-          0
-        );
-
-        matchDate.setHours(
-          0,
-          0,
-          0,
-          0
-        );
-
-        const differenceInDays =
-          Math.round(
-            (
-              matchDate.getTime() -
-              today.getTime()
-            ) /
-            (
-              1000 *
-              60 *
-              60 *
-              24
-            )
-          );
-
-        const isTomorrowOrDayAfter =
-          differenceInDays === 1 ||
-          differenceInDays === 2;
-
-        return isTomorrowOrDayAfter;
-      })
-    : [];
-
-  const hasMatches = activeMatches.length > 0;
-  const totalPages = hasMatches ? Math.ceil(activeMatches.length / matchesPerPage) : 0;
-  
   useEffect(() => {
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(totalPages);
-    }
-  }, [totalPages, currentPage]);
+    localStorage.setItem("matchesListPage", String(currentPage));
+  }, [currentPage]);
 
-  const currentMatches = hasMatches ? activeMatches.slice((currentPage - 1) * matchesPerPage, currentPage * matchesPerPage) : [];
+  useEffect(() => {
+    localStorage.setItem("matchesViewMode", viewMode);
+    setCurrentPage(1);
+  }, [viewMode]);
 
-  const getPaginationRange = () => {
-    let start = Math.max(1, currentPage - 2);
-    let end = Math.min(totalPages, start + 4);
-    if (end - start < 4) start = Math.max(1, end - 4);
-    const range = [];
-    for (let i = start; i <= end; i++) range.push(i);
-    return range;
+  const getBestOdds = (match) => {
+    let best1 = 0;
+    let bestX = 0;
+    let best2 = 0;
+    let bookmaker1 = "";
+    let bookmakerX = "";
+    let bookmaker2 = "";
+
+    Object.entries(match.kursy || {}).forEach(([bookmaker, values]) => {
+      if (!values) return;
+      const value1 = Number.parseFloat(values["1"] || values.home || 0);
+      const valueX = Number.parseFloat(values.X || values.draw || 0);
+      const value2 = Number.parseFloat(values["2"] || values.away || 0);
+      if (value1 > best1) { best1 = value1; bookmaker1 = bookmaker; }
+      if (valueX > bestX) { bestX = valueX; bookmakerX = bookmaker; }
+      if (value2 > best2) { best2 = value2; bookmaker2 = bookmaker; }
+    });
+
+    return [
+      { label: "1", value: best1 > 0 ? best1.toFixed(2) : "-", bookmaker: bookmaker1 },
+      ...(bestX > 0 ? [{ label: "X", value: bestX.toFixed(2), bookmaker: bookmakerX }] : []),
+      { label: "2", value: best2 > 0 ? best2.toFixed(2) : "-", bookmaker: bookmaker2 }
+    ];
   };
 
-  const visiblePages =
-    getPaginationRange();
+  const activeMatches = useMemo(() => {
+    return (matches || []).filter((match) => {
+      const matchDate = parseMatchDate(match.dzien || match.date);
+      if (!matchDate) return false;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      matchDate.setHours(0, 0, 0, 0);
+      const difference = Math.round((matchDate - today) / 86400000);
+      return difference === 1 || difference === 2;
+    });
+  }, [matches]);
 
-  const changePage = (pageNumber) => {
-    const safePage = Math.min(
-      Math.max(pageNumber, 1),
-      totalPages
-    );
+  const totalPages = Math.ceil(activeMatches.length / matchesPerPage);
 
-    setCurrentPage(safePage);
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
 
+  const currentMatches = activeMatches.slice(
+    (currentPage - 1) * matchesPerPage,
+    currentPage * matchesPerPage
+  );
+
+  const changePage = (page) => {
+    if (!totalPages) return;
+    setCurrentPage(Math.min(Math.max(page, 1), totalPages));
     window.requestAnimationFrame(() => {
-      const listElement =
-        document.getElementById(
-          "matches-list-start"
-        );
-
-      if (listElement) {
-        const elementPosition =
-          listElement.getBoundingClientRect()
-            .top +
-          window.scrollY -
-          120;
-
+      const element = document.getElementById("matches-list-start");
+      if (element) {
         window.scrollTo({
-          top: Math.max(
-            elementPosition,
-            0
-          ),
+          top: Math.max(element.getBoundingClientRect().top + window.scrollY - 105, 0),
           behavior: "smooth"
         });
       }
     });
   };
 
+  const visiblePages = [];
+  let start = Math.max(1, currentPage - 2);
+  let end = Math.min(totalPages, start + 4);
+  if (end - start < 4) start = Math.max(1, end - 4);
+  for (let number = start; number <= end; number += 1) visiblePages.push(number);
 
   return (
-    <div
-      id="matches-list-start"
-      className="matches-list"
-    >
-      {!hasMatches && (
-        <p style={{ padding: "40px", textAlign: "center", color: "#aaa", fontSize: "1.2em" }}>
-          Brak aktywnych meczów do wyświetlenia.
-        </p>
-      )}
+    <section id="matches-list-start" className={`matches-stage2 matches-stage2--${viewMode}`}>
+      <div className="matches-stage2-toolbar">
+        <div>
+          <span className="matches-stage2-eyebrow">LISTA WYDARZEŃ</span>
+          <h2>Mecze do porównania</h2>
+          <p>{activeMatches.length} aktywnych wydarzeń na jutro i pojutrze</p>
+        </div>
 
-      {hasMatches && currentMatches.map((match, idx) => {
-        const best = getBestOdds(match);
-        const matchTitle = match.mecz || match.match || "Nieznany mecz";
-        const matchSport = match.dyscyplina || match.sport || "Inne";
-        const matchDate = match.date || match.dzien || "-";
-        const matchTime = match.time || match.godzina || "";
-        const isFav = favorites && favorites.includes(matchTitle);
-        const bestText = best.draw !== "-" ? `${best.home} / ${best.draw} / ${best.away}` : `${best.home} / ${best.away}`;
-
-        return (
-          <div key={match.id || idx} onClick={() => onSelect(match)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px", borderBottom: "1px solid #333", backgroundColor: "#1e1e1e", cursor: "pointer", borderRadius: "8px", marginBottom: "10px" }}>
-            <div>
-              <h4 style={{ margin: "0 0 10px 0", color: "#fff", fontSize: "1.1em" }}>{matchTitle}</h4>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "0.9em", color: "#aaa" }}>
-                <span style={{ backgroundColor: "#22c55e", color: "#fff", padding: "3px 8px", borderRadius: "4px", fontWeight: "bold" }}>✅ BEST:</span>
-                <span style={{ fontWeight: "bold", color: "#eab308" }}>{bestText}</span>
-                <span style={{ color: "#666", marginLeft: "15px" }}>{matchSport} | {matchDate} {matchTime !== "00:00" ? matchTime : ""}</span>
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <div onClick={(e) => { e.stopPropagation(); onToggleFavorite(matchTitle); }} style={{ cursor: "pointer", fontSize: "1.5em" }}>{isFav ? "⭐" : "☆"}</div>
-            </div>
-          </div>
-        );
-      })}
-
-      {hasMatches && totalPages > 1 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "8px",
-            flexWrap: "wrap",
-            marginTop: "30px",
-            paddingTop: "20px",
-            borderTop:
-              "1px solid #2a313c"
-          }}
-        >
+        <div className="view-mode-switch" aria-label="Wybierz wygląd listy">
           <button
             type="button"
-            onClick={() =>
-              changePage(
-                currentPage - 1
-              )
-            }
-            disabled={currentPage === 1}
-            aria-label="Poprzednia strona"
-            style={{
-              minWidth: "38px",
-              height: "38px",
-              padding: "0 12px",
-              borderRadius: "6px",
-              border:
-                "1px solid #3b3b3b",
-              backgroundColor:
-                currentPage === 1
-                  ? "#1f2937"
-                  : "#333",
-              color:
-                currentPage === 1
-                  ? "#64748b"
-                  : "#fff",
-              cursor:
-                currentPage === 1
-                  ? "not-allowed"
-                  : "pointer",
-              fontWeight: "bold",
-              opacity:
-                currentPage === 1
-                  ? 0.55
-                  : 1,
-              transition:
-                "all 0.2s ease"
-            }}
+            className={viewMode === "cards" ? "active" : ""}
+            onClick={() => setViewMode("cards")}
+            aria-pressed={viewMode === "cards"}
           >
-            {"<"}
+            <span aria-hidden="true">▦</span> Karty
           </button>
-
-          {visiblePages[0] > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={() =>
-                  changePage(1)
-                }
-                style={{
-                  minWidth: "38px",
-                  height: "38px",
-                  padding: "0 12px",
-                  borderRadius: "6px",
-                  border:
-                    "1px solid #3b3b3b",
-                  backgroundColor: "#333",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                  transition:
-                    "all 0.2s ease"
-                }}
-              >
-                1
-              </button>
-
-              {visiblePages[0] > 2 && (
-                <span
-                  style={{
-                    color: "#64748b",
-                    padding: "0 2px",
-                    userSelect: "none"
-                  }}
-                >
-                  …
-                </span>
-              )}
-            </>
-          )}
-
-          {visiblePages.map(
-            (pageNumber) => {
-              const isActive =
-                currentPage ===
-                pageNumber;
-
-              return (
-                <button
-                  type="button"
-                  key={pageNumber}
-                  onClick={() =>
-                    changePage(
-                      pageNumber
-                    )
-                  }
-                  aria-current={
-                    isActive
-                      ? "page"
-                      : undefined
-                  }
-                  style={{
-                    minWidth: "38px",
-                    height: "38px",
-                    padding: "0 12px",
-                    borderRadius: "6px",
-                    border: isActive
-                      ? "1px solid #10b981"
-                      : "1px solid #3b3b3b",
-                    backgroundColor:
-                      isActive
-                        ? "#10b981"
-                        : "#333",
-                    color: "#fff",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                    boxShadow: isActive
-                      ? "0 0 12px rgba(16, 185, 129, 0.25)"
-                      : "none",
-                    transition:
-                      "all 0.2s ease"
-                  }}
-                >
-                  {pageNumber}
-                </button>
-              );
-            }
-          )}
-
-          {visiblePages[
-            visiblePages.length - 1
-          ] < totalPages && (
-            <>
-              {visiblePages[
-                visiblePages.length - 1
-              ] < totalPages - 1 && (
-                <span
-                  style={{
-                    color: "#64748b",
-                    padding: "0 2px",
-                    userSelect: "none"
-                  }}
-                >
-                  …
-                </span>
-              )}
-
-              <button
-                type="button"
-                onClick={() =>
-                  changePage(
-                    totalPages
-                  )
-                }
-                style={{
-                  minWidth: "38px",
-                  height: "38px",
-                  padding: "0 12px",
-                  borderRadius: "6px",
-                  border:
-                    "1px solid #3b3b3b",
-                  backgroundColor: "#333",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                  transition:
-                    "all 0.2s ease"
-                }}
-              >
-                {totalPages}
-              </button>
-            </>
-          )}
-
           <button
             type="button"
-            onClick={() =>
-              changePage(
-                currentPage + 1
-              )
-            }
-            disabled={
-              currentPage === totalPages
-            }
-            aria-label="Następna strona"
-            style={{
-              minWidth: "38px",
-              height: "38px",
-              padding: "0 12px",
-              borderRadius: "6px",
-              border:
-                "1px solid #3b3b3b",
-              backgroundColor:
-                currentPage === totalPages
-                  ? "#1f2937"
-                  : "#333",
-              color:
-                currentPage === totalPages
-                  ? "#64748b"
-                  : "#fff",
-              cursor:
-                currentPage === totalPages
-                  ? "not-allowed"
-                  : "pointer",
-              fontWeight: "bold",
-              opacity:
-                currentPage === totalPages
-                  ? 0.55
-                  : 1,
-              transition:
-                "all 0.2s ease"
-            }}
+            className={viewMode === "compact" ? "active" : ""}
+            onClick={() => setViewMode("compact")}
+            aria-pressed={viewMode === "compact"}
           >
-            {">"}
+            <span aria-hidden="true">☷</span> Kompaktowy
           </button>
         </div>
+      </div>
+
+      {!activeMatches.length && (
+        <div className="matches-empty-state">
+          <span aria-hidden="true">⌕</span>
+          <h3>Brak aktywnych meczów</h3>
+          <p>Zmień filtry lub wybierz inną dyscyplinę.</p>
+        </div>
       )}
-    </div>
+
+      {!!activeMatches.length && (
+        <div className="matches-stage2-grid">
+          {currentMatches.map((match, index) => {
+            const title = match.mecz || match.match || "Nieznany mecz";
+            const sport = match.dyscyplina || match.sport || "Inne";
+            const date = match.dzien || match.date || "";
+            const time = match.godzina || match.time || "";
+            const favorite = Boolean(favorites?.includes(title));
+            const odds = getBestOdds(match);
+            const meta = SPORT_META[sport] || { icon: "◆", slug: "other" };
+
+            return (
+              <article
+                key={match.id || `${title}-${index}`}
+                className={`match-stage2-card sport-${meta.slug} ${favorite ? "is-favorite" : ""}`}
+                onClick={() => onSelect(match)}
+              >
+                <div className="match-stage2-accent" />
+                <header className="match-stage2-header">
+                  <span className="match-stage2-sport">
+                    <span aria-hidden="true">{meta.icon}</span> {sport}
+                  </span>
+                  <div className="match-stage2-time">
+                    <strong>{time && time !== "00:00" ? time : "Termin wkrótce"}</strong>
+                    <span>{formatDate(date)}</span>
+                  </div>
+                </header>
+
+                <h3>{title}</h3>
+
+                <div className="match-stage2-odds-label">
+                  <span>Najlepsze kursy</span>
+                  <span className="match-stage2-best-badge">BEST</span>
+                </div>
+
+                <div className={`match-stage2-odds match-stage2-odds--${odds.length}`}>
+                  {odds.map((odd) => (
+                    <div className="match-stage2-odd" key={odd.label}>
+                      <span>{odd.label}</span>
+                      <strong>{odd.value}</strong>
+                      <small title={odd.bookmaker}>{odd.bookmaker || "Brak kursu"}</small>
+                    </div>
+                  ))}
+                </div>
+
+                <footer className="match-stage2-footer">
+                  <span className="match-stage2-open">Zobacz porównanie <b>→</b></span>
+                  <button
+                    type="button"
+                    className={favorite ? "match-favorite-button active" : "match-favorite-button"}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onToggleFavorite(title);
+                    }}
+                    aria-label={favorite ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+                    title={favorite ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+                  >
+                    {favorite ? "★" : "☆"}
+                  </button>
+                </footer>
+              </article>
+            );
+          })}
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <nav className="matches-stage2-pagination" aria-label="Strony listy meczów">
+          <button type="button" onClick={() => changePage(currentPage - 1)} disabled={currentPage === 1}>←</button>
+          {visiblePages[0] > 1 && (
+            <><button type="button" onClick={() => changePage(1)}>1</button>{visiblePages[0] > 2 && <span>…</span>}</>
+          )}
+          {visiblePages.map((page) => (
+            <button
+              type="button"
+              key={page}
+              onClick={() => changePage(page)}
+              className={page === currentPage ? "active" : ""}
+              aria-current={page === currentPage ? "page" : undefined}
+            >
+              {page}
+            </button>
+          ))}
+          {visiblePages[visiblePages.length - 1] < totalPages && (
+            <>{visiblePages[visiblePages.length - 1] < totalPages - 1 && <span>…</span>}<button type="button" onClick={() => changePage(totalPages)}>{totalPages}</button></>
+          )}
+          <button type="button" onClick={() => changePage(currentPage + 1)} disabled={currentPage === totalPages}>→</button>
+        </nav>
+      )}
+    </section>
   );
 }
 
