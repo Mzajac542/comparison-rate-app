@@ -384,8 +384,30 @@ function App() {
             })
           : [];
 
+        // Backend powinien zwracać unikalne ID. To zabezpieczenie
+        // usuwa ewentualne powtórzenia przed renderowaniem listy.
+        // Zachowujemy pierwsze wystąpienie danego wydarzenia.
+        const uniqueMapped = Array.from(
+          mapped.reduce((uniqueMatches, match) => {
+            const uniqueKey = String(
+              match.id || [
+                match.sport,
+                match.dzien,
+                match.home,
+                match.away
+              ].join("::")
+            );
+
+            if (!uniqueMatches.has(uniqueKey)) {
+              uniqueMatches.set(uniqueKey, match);
+            }
+
+            return uniqueMatches;
+          }, new Map()).values()
+        );
+
         const onlyTomorrowAndDayAfter =
-          mapped.filter((match) => {
+          uniqueMapped.filter((match) => {
             const matchDateObject =
               parseMatchDate(
                 match.dzien ||

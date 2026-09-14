@@ -30,8 +30,8 @@ WYMAGANE_POLA = {
     "kurs_2", "btts", "podwojna_szansa", "over_under", "handicap",
 }
 
-SPORTY_TRZYDROGOWE = {"Piłka nożna", "Piłka ręczna"}
-SPORTY_DWUDROGOWE = {"Koszykówka", "Tenis", "Boks"}
+SPORTY_TRZYDROGOWE = {"Piłka nożna", "Piłka ręczna", "Hokej"}
+SPORTY_DWUDROGOWE = {"Koszykówka", "Tenis", "Boks", "Siatkówka"}
 
 PROG_JAKOSCI_OSTRZEZENIE = 90.0
 PROG_JAKOSCI_KRYTYCZNY = 85.0

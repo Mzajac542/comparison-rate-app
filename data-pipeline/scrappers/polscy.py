@@ -19,7 +19,33 @@ SPORTY = {
     "Koszykówka": "basketball",
     "Tenis": "tennis",
     "Piłka ręczna": "handball",
-    "Boks": "boxing"
+    "Boks": "boxing",
+    "Hokej": "hockey",
+    "Siatkówka": "volleyball"
+}
+
+SPORTY_1X2 = {
+    "Piłka nożna",
+    "Piłka ręczna",
+    "Hokej"
+}
+
+SPORTY_HOME_AWAY = {
+    "Koszykówka",
+    "Tenis",
+    "Boks",
+    "Siatkówka"
+}
+
+SPORTY_OVER_UNDER = set(SPORTY)
+
+SPORTY_HANDICAP = {
+    "Koszykówka",
+    "Tenis",
+    "Piłka ręczna",
+    "Boks",
+    "Hokej",
+    "Siatkówka"
 }
 
 DOZWOLENI_BUKMACHERZY = {
@@ -32,7 +58,7 @@ DOZWOLENI_BUKMACHERZY = {
 }
 
 #Testowanie
-TRYB_TESTOWY = True
+TRYB_TESTOWY = False
 SPORT_TESTOWY = None
 LIMIT_MECZOW_TESTOWYCH = 10
 
@@ -1193,10 +1219,7 @@ def pobierz_widoczna_tabele_glowna(
         ):
             continue
 
-        if nazwa_sportu in {
-            "Piłka nożna",
-            "Piłka ręczna"
-        }:
+        if nazwa_sportu in SPORTY_1X2:
             ma_1 = bool(
                 re.search(
                     r"(^|\s)1(?:\s|$)",
@@ -1221,11 +1244,7 @@ def pobierz_widoczna_tabele_glowna(
             if ma_1 and ma_x and ma_2:
                 return tabela
 
-        elif nazwa_sportu in {
-            "Koszykówka",
-            "Tenis",
-            "Boks"
-        }:
+        elif nazwa_sportu in SPORTY_HOME_AWAY:
             # Home/Away powinien mieć:
             # Bookmakers | 1 | 2 | Payout
             # Nie może zawierać kolumny X.
@@ -1890,18 +1909,73 @@ def pobierz_kursy_glowne_playwright(
     return wyniki
 
 
+
+
+def polacz_zduplikowane_rekordy(pierwszy, drugi):
+    """Scala dwa rekordy o tym samym ID, zachowując pełniejsze dane."""
+    wynik = dict(pierwszy)
+
+    for klucz, wartosc in drugi.items():
+        if klucz in {"btts", "podwojna_szansa", "over_under", "handicap"}:
+            poprzednia = wynik.get(klucz)
+            if not isinstance(poprzednia, dict):
+                poprzednia = {}
+
+            if isinstance(wartosc, dict):
+                scalone = dict(poprzednia)
+                for podklucz, podwartosc in wartosc.items():
+                    if (
+                        isinstance(scalone.get(podklucz), dict)
+                        and isinstance(podwartosc, dict)
+                    ):
+                        scalone[podklucz] = {
+                            **scalone[podklucz],
+                            **podwartosc
+                        }
+                    else:
+                        scalone[podklucz] = podwartosc
+                wynik[klucz] = scalone
+
+        elif wynik.get(klucz) in {None, "", "-"} and wartosc not in {None, "", "-"}:
+            wynik[klucz] = wartosc
+
+    return wynik
+
+
+def deduplikuj_rekordy_po_id(rekordy):
+    """Usuwa powtórzone ID i scala ich rynki zamiast tracić dane."""
+    kolejnosc = []
+    po_id = {}
+    bez_id = []
+    liczba_duplikatow = 0
+
+    for rekord in rekordy:
+        rekord_id = str(rekord.get("id", "")).strip()
+
+        if not rekord_id:
+            bez_id.append(rekord)
+            continue
+
+        if rekord_id not in po_id:
+            po_id[rekord_id] = rekord
+            kolejnosc.append(rekord_id)
+        else:
+            liczba_duplikatow += 1
+            po_id[rekord_id] = polacz_zduplikowane_rekordy(
+                po_id[rekord_id],
+                rekord
+            )
+
+    wynik = [po_id[rekord_id] for rekord_id in kolejnosc]
+    wynik.extend(bez_id)
+    return wynik, liczba_duplikatow
+
+
 def liczba_kursow_glownych(nazwa_sportu):
-    if nazwa_sportu in {
-        "Piłka nożna",
-        "Piłka ręczna"
-    }:
+    if nazwa_sportu in SPORTY_1X2:
         return 3
 
-    if nazwa_sportu in {
-        "Koszykówka",
-        "Tenis",
-        "Boks"
-    }:
+    if nazwa_sportu in SPORTY_HOME_AWAY:
         return 2
 
     return 0
@@ -2195,10 +2269,7 @@ def parse_main_market_odds(
             f"Nagłówek: {naglowek!r}"
         )
 
-        if nazwa_sportu in {
-            "Piłka nożna",
-            "Piłka ręczna"
-        }:
+        if nazwa_sportu in SPORTY_1X2:
 
             # Oczekiwany układ:
             # Bookmakers | 1 | X | 2 | Payout
@@ -2234,11 +2305,7 @@ def parse_main_market_odds(
                 wybrana_tabela = tabela
                 break
 
-        elif nazwa_sportu in {
-            "Koszykówka",
-            "Tenis",
-            "Boks"
-        }:
+        elif nazwa_sportu in SPORTY_HOME_AWAY:
             # Home/Away zawiera dwie kolumny wynikowe.
             # Odrzucamy O/U i handicap.
             if (
@@ -2630,18 +2697,11 @@ def pobierz_glowny_rynek(
     nazwa_sportu
 ):
     try:
-        if nazwa_sportu in {
-            "Koszykówka",
-            "Tenis",
-            "Boks"
-        }:
+        if nazwa_sportu in SPORTY_HOME_AWAY:
             nazwa_rynku = "Home/Away"
             wymagane_kursy = 2
 
-        elif nazwa_sportu in {
-            "Piłka nożna",
-            "Piłka ręczna"
-        }:
+        elif nazwa_sportu in SPORTY_1X2:
             nazwa_rynku = "1X2"
             wymagane_kursy = 3
 
@@ -4646,10 +4706,15 @@ def pobierz_polskich_z_oddsportal():
                                 return None
                             if buk_name not in match_data:
                                 match_data[buk_name] = {
-                                    "id": (
-                                        f"{bezpieczny_id(buk_name)}_"
-                                        f"{bezpieczny_id(home)}_"
-                                        f"{bezpieczny_id(away)}"
+                                    "id": bezpieczny_id(
+                                        "_".join([
+                                            str(nazwa_sportu),
+                                            str(dzien),
+                                            str(godzina),
+                                            str(buk_name),
+                                            str(home),
+                                            str(away)
+                                        ])
                                     ),
                                     "mecz": f"{home.strip()} - {away.strip()}",
                                     "dyscyplina": nazwa_sportu,
@@ -4846,10 +4911,7 @@ def pobierz_polskich_z_oddsportal():
                         if not wyniki_glowne:
                             nazwa_glownego_rynku = (
                                 "1X2"
-                                if nazwa_sportu in {
-                                    "Piłka nożna",
-                                    "Piłka ręczna"
-                                }
+                                if nazwa_sportu in SPORTY_1X2
                                 else "Home/Away"
                             )
 
@@ -4886,11 +4948,7 @@ def pobierz_polskich_z_oddsportal():
                                 buk
                             )
 
-                            if nazwa_sportu in {
-                                "Koszykówka",
-                                "Tenis",
-                                "Boks"
-                            }:
+                            if nazwa_sportu in SPORTY_HOME_AWAY:
                                 if len(kursy_list) < 2:
                                     continue
 
@@ -4914,10 +4972,7 @@ def pobierz_polskich_z_oddsportal():
                                     f"away={kurs_away}"
                                 )
 
-                            elif nazwa_sportu in {
-                                "Piłka nożna",
-                                "Piłka ręczna"
-                            }:
+                            elif nazwa_sportu in SPORTY_1X2:
                                 if len(kursy_list) < 3:
                                     continue
 
@@ -5094,11 +5149,7 @@ def pobierz_polskich_z_oddsportal():
 
                         # --- 4. POBIERANIE OVER / UNDER ---
                         # Piłka nożna, koszykówka i tenis
-                        if nazwa_sportu in [
-                            "Piłka nożna",
-                            "Koszykówka",
-                            "Tenis"
-                        ]:
+                        if nazwa_sportu in SPORTY_OVER_UNDER:
 
                             try:
                                 if wejdz_w_zakladke(
@@ -5173,10 +5224,7 @@ def pobierz_polskich_z_oddsportal():
 
 
                         # --- 5. POBIERANIE ASIAN HANDICAP ---
-                        if nazwa_sportu in {
-                            "Koszykówka",
-                            "Tenis"
-                        }:
+                        if nazwa_sportu in SPORTY_HANDICAP:
                             try:
                                 if wejdz_w_zakladke(
                                     page,
@@ -5272,10 +5320,7 @@ def pobierz_polskich_z_oddsportal():
                                     and d["kurs_2"] > 0
                                 )
 
-                                if nazwa_sportu in {
-                                    "Piłka nożna",
-                                    "Piłka ręczna"
-                                }:
+                                if nazwa_sportu in SPORTY_1X2:
                                     ma_kursy_glowne = (
                                         ma_kursy_glowne
                                         and isinstance(
@@ -5402,6 +5447,16 @@ def pobierz_polskich_z_oddsportal():
             print("\n-> Zamykanie przeglądarki...")
             try: browser.close()
             except: pass
+
+    wszystkie_mecze, liczba_duplikatow = (
+        deduplikuj_rekordy_po_id(wszystkie_mecze)
+    )
+
+    if liczba_duplikatow:
+        print(
+            "\n[FINAL DEDUPLICATION] "
+            f"Scalono duplikaty ID: {liczba_duplikatow}"
+        )
 
     with open(
         output,

@@ -21,10 +21,36 @@ SPORTY = {
     "Tenis": "tennis",
     "Piłka ręczna": "handball",
     "Boks": "boxing",
+    "Hokej": "hockey",
+    "Siatkówka": "volleyball",
+}
+
+SPORTY_1X2 = {
+    "Piłka nożna",
+    "Piłka ręczna",
+    "Hokej"
+}
+
+SPORTY_HOME_AWAY = {
+    "Koszykówka",
+    "Tenis",
+    "Boks",
+    "Siatkówka"
+}
+
+SPORTY_OVER_UNDER = set(SPORTY)
+
+SPORTY_HANDICAP = {
+    "Koszykówka",
+    "Tenis",
+    "Piłka ręczna",
+    "Boks",
+    "Hokej",
+    "Siatkówka"
 }
 
 # Tryb testowy
-TRYB_TESTOWY = True
+TRYB_TESTOWY = False
 SPORT_TESTOWY = None
 LIMIT_MECZOW_TESTOWYCH = 10
 
@@ -416,10 +442,72 @@ def bezpieczny_id(tekst):
     return tekst.strip("_")
 
 
+
+
+def polacz_zduplikowane_rekordy(pierwszy, drugi):
+    """Scala dwa rekordy o tym samym ID, zachowując pełniejsze dane."""
+    wynik = dict(pierwszy)
+
+    for klucz, wartosc in drugi.items():
+        if klucz in {"btts", "podwojna_szansa", "over_under", "handicap"}:
+            poprzednia = wynik.get(klucz)
+            if not isinstance(poprzednia, dict):
+                poprzednia = {}
+
+            if isinstance(wartosc, dict):
+                scalone = dict(poprzednia)
+                for podklucz, podwartosc in wartosc.items():
+                    if (
+                        isinstance(scalone.get(podklucz), dict)
+                        and isinstance(podwartosc, dict)
+                    ):
+                        scalone[podklucz] = {
+                            **scalone[podklucz],
+                            **podwartosc
+                        }
+                    else:
+                        scalone[podklucz] = podwartosc
+                wynik[klucz] = scalone
+
+        elif wynik.get(klucz) in {None, "", "-"} and wartosc not in {None, "", "-"}:
+            wynik[klucz] = wartosc
+
+    return wynik
+
+
+def deduplikuj_rekordy_po_id(rekordy):
+    """Usuwa powtórzone ID i scala ich rynki zamiast tracić dane."""
+    kolejnosc = []
+    po_id = {}
+    bez_id = []
+    liczba_duplikatow = 0
+
+    for rekord in rekordy:
+        rekord_id = str(rekord.get("id", "")).strip()
+
+        if not rekord_id:
+            bez_id.append(rekord)
+            continue
+
+        if rekord_id not in po_id:
+            po_id[rekord_id] = rekord
+            kolejnosc.append(rekord_id)
+        else:
+            liczba_duplikatow += 1
+            po_id[rekord_id] = polacz_zduplikowane_rekordy(
+                po_id[rekord_id],
+                rekord
+            )
+
+    wynik = [po_id[rekord_id] for rekord_id in kolejnosc]
+    wynik.extend(bez_id)
+    return wynik, liczba_duplikatow
+
+
 def liczba_kursow_glownych(nazwa_sportu):
-    if nazwa_sportu in {"Piłka nożna", "Piłka ręczna"}:
+    if nazwa_sportu in SPORTY_1X2:
         return 3
-    if nazwa_sportu in {"Koszykówka", "Tenis", "Boks"}:
+    if nazwa_sportu in SPORTY_HOME_AWAY:
         return 2
     return 0
 
@@ -1222,7 +1310,7 @@ def pobierz_widoczna_tabele_glowna(page_obj, nazwa_sportu):
         ma_x = bool(re.search(r"(^|\s)x(?:\s|$)", naglowek))
         ma_2 = bool(re.search(r"(^|\s)2(?:\s|$)", naglowek))
 
-        if nazwa_sportu in {"Piłka nożna", "Piłka ręczna"}:
+        if nazwa_sportu in SPORTY_1X2:
             if ma_1 and ma_x and ma_2:
                 return tabela
         else:
@@ -1728,18 +1816,11 @@ def pobierz_glowny_rynek(
     page_obj,
     nazwa_sportu
 ):
-    if nazwa_sportu in {
-        "Koszykówka",
-        "Tenis",
-        "Boks"
-    }:
+    if nazwa_sportu in SPORTY_HOME_AWAY:
         nazwa_rynku = "Home/Away"
         wymagane = 2
 
-    elif nazwa_sportu in {
-        "Piłka nożna",
-        "Piłka ręczna"
-    }:
+    elif nazwa_sportu in SPORTY_1X2:
         nazwa_rynku = "1X2"
         wymagane = 3
 
@@ -3349,10 +3430,15 @@ def pobierz_zagranicznych_z_oddsportal():
 
                             if bukmacher not in match_data:
                                 match_data[bukmacher] = {
-                                    "id": (
-                                        f"{bezpieczny_id(bukmacher)}_"
-                                        f"{bezpieczny_id(home)}_"
-                                        f"{bezpieczny_id(away)}"
+                                    "id": bezpieczny_id(
+                                        "_".join([
+                                            str(nazwa_sportu),
+                                            str(dzien),
+                                            str(godzina),
+                                            str(bukmacher),
+                                            str(home),
+                                            str(away)
+                                        ])
                                     ),
                                     "mecz": (
                                         f"{home.strip()} - "
@@ -3383,10 +3469,7 @@ def pobierz_zagranicznych_z_oddsportal():
                                 continue
 
                             if (
-                                nazwa_sportu in {
-                                    "Piłka nożna",
-                                    "Piłka ręczna"
-                                }
+                                nazwa_sportu in SPORTY_1X2
                                 and len(kursy) >= 3
                             ):
                                 d["kurs_1"] = kursy[0]
@@ -3394,11 +3477,7 @@ def pobierz_zagranicznych_z_oddsportal():
                                 d["kurs_2"] = kursy[2]
 
                             elif (
-                                nazwa_sportu in {
-                                    "Koszykówka",
-                                    "Tenis",
-                                    "Boks"
-                                }
+                                nazwa_sportu in SPORTY_HOME_AWAY
                                 and len(kursy) >= 2
                             ):
                                 d["kurs_1"] = kursy[0]
@@ -3472,14 +3551,11 @@ def pobierz_zagranicznych_z_oddsportal():
                                             "X2": str(kursy[2])
                                         }
 
-                        if nazwa_sportu in {"Piłka nożna", "Koszykówka", "Tenis"}:
+                        if nazwa_sportu in SPORTY_OVER_UNDER:
                             if wejdz_w_zakladke(page, "Over/Under"):
                                 pobierz_over_under(page, get_match_data)
 
-                        if nazwa_sportu in {
-                            "Koszykówka",
-                            "Tenis"
-                        }:
+                        if nazwa_sportu in SPORTY_HANDICAP:
                             if wejdz_w_zakladke(
                                 page,
                                 "Asian Handicap"
@@ -3547,10 +3623,7 @@ def pobierz_zagranicznych_z_oddsportal():
 
                             # W piłce nożnej i piłce ręcznej wymagamy
                             # pełnego rynku 1X2, łącznie z remisem.
-                            if nazwa_sportu in {
-                                "Piłka nożna",
-                                "Piłka ręczna"
-                            }:
+                            if nazwa_sportu in SPORTY_1X2:
                                 ma_glowne = (
                                     ma_glowne
                                     and isinstance(
@@ -3637,6 +3710,16 @@ def pobierz_zagranicznych_z_oddsportal():
                         page = utworz_strone()
 
                         time.sleep(5)
+
+            wszystkie_mecze, liczba_duplikatow = (
+                deduplikuj_rekordy_po_id(wszystkie_mecze)
+            )
+
+            if liczba_duplikatow:
+                print(
+                    "\n[FINAL DEDUPLICATION] "
+                    f"Scalono duplikaty ID: {liczba_duplikatow}"
+                )
 
             with open(output, "w", encoding="utf-8") as plik:
                 json.dump(wszystkie_mecze, plik, indent=4, ensure_ascii=False)

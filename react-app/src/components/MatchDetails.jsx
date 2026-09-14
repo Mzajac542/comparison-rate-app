@@ -11,8 +11,11 @@ const SPORT_DURATIONS = {
   "siatkówka": 120,
   "🏐 siatkówka": 120,
   "piłka ręczna": 120,
-  "🏐 piłka ręczna": 120,
-  "hokej": 150
+  "🤾 piłka ręczna": 120,
+  "boks": 120,
+  "🥊 boks": 120,
+  "hokej": 150,
+  "🏒 hokej": 150
 };
 
 // Pancerna funkcja wyliczająca status na podstawie czasu systemowego

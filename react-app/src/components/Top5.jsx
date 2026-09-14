@@ -8,6 +8,8 @@ const SPORT_META = {
   "Tenis": { icon: "🎾", slug: "tennis" },
   "Piłka ręczna": { icon: "🤾", slug: "handball" },
   "Boks": { icon: "🥊", slug: "boxing" },
+  "Hokej": { icon: "🏒", slug: "hockey" },
+  "Siatkówka": { icon: "🏐", slug: "volleyball" },
 };
 
 const normalize = (v) =>

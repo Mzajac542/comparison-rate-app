@@ -1428,6 +1428,18 @@ def normalize_sport(value):
         return "🏐 Piłka ręczna"
 
     if (
+        "hokej" in normalized
+        or "hockey" in normalized
+    ):
+        return "Hokej"
+
+    if (
+        "siatkowka" in normalized
+        or "volleyball" in normalized
+    ):
+        return "Siatkówka"
+
+    if (
         "boks" in normalized
         or "boxing" in normalized
     ):

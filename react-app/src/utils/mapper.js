@@ -23,7 +23,13 @@ const SPORT_NAMES_MAP = {
   "🎾 tenis": "Tenis",
 
   "boks": "Boks",
-  "🥊 boks": "Boks"
+  "🥊 boks": "Boks",
+  "hokej": "Hokej",
+  "🏒 hokej": "Hokej",
+  "siatkowka": "Siatkówka",
+  "siatkówka": "Siatkówka",
+  "🏐 siatkowka": "Siatkówka",
+  "🏐 siatkówka": "Siatkówka"
 };
 
 const normalizeSport = (value) => {

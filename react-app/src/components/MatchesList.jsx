@@ -168,7 +168,15 @@ function MatchesList({ matches, onSelect, favorites, onToggleFavorite }) {
 
             return (
               <article
-                key={match.id || `${title}-${index}`}
+                key={[
+                  match.id || title,
+                  sport,
+                  date,
+                  time,
+                  match.home || "",
+                  match.away || "",
+                  index
+                ].join("::")}
                 className={`match-stage2-card sport-${meta.slug} ${favorite ? "is-favorite" : ""}`}
                 onClick={() => onSelect(match)}
               >

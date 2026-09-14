@@ -6,7 +6,9 @@ const SPORT_ICONS = {
   "Koszykówka": "🏀",
   "Tenis": "🎾",
   "Piłka ręczna": "🤾",
-  "Boks": "🥊"
+  "Boks": "🥊",
+  "Hokej": "🏒",
+  "Siatkówka": "🏐"
 };
 
 

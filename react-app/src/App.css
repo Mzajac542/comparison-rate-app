@@ -2233,3 +2233,25 @@ body {
 .opportunity-card.sport-other .opportunity-card-accent {
   background: #64748b !important;
 }
+
+/* ==========================================
+   NOWE DYSCYPLINY: HOKEJ I SIATKÓWKA
+   ========================================== */
+
+/* Zwykłe karty meczów */
+.sport-hockey .match-stage2-accent {
+  background: #06b6d4;
+}
+
+.sport-volleyball .match-stage2-accent {
+  background: #ec4899;
+}
+
+/* Karty najlepszych okazji */
+.opportunity-card.sport-hockey .opportunity-card-accent {
+  background: #06b6d4 !important;
+}
+
+.opportunity-card.sport-volleyball .opportunity-card-accent {
+  background: #ec4899 !important;
+}
